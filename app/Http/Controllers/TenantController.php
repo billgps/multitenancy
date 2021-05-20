@@ -39,8 +39,8 @@ class TenantController extends Controller
         $tenant = new Tenant();
         $tenant->name = $request->name;
         $tenant->address = $request->address;
-        $tenant->domain = $request->domain;
-        $tenant->database = $request->database.'.localhost';
+        $tenant->database = $request->database;
+        $tenant->domain = $request->domain.'.localhost';
         $tenant->save();
 
         return redirect()->route('tenant.show', ['tenant' => $tenant]);
