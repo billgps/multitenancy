@@ -29,6 +29,15 @@
                             </label>
                         </div>
                         <div class="flex flex-col px-2 mb-4">
+                            <label for="address" class="input-label text-base mb-2">Address</label>
+                            <label class="input-field inline-flex items-baseline border-none shadow-md bg-gray-100 py-2 px-6 ml-2">
+                                <div class="flex-1 leading-none">
+                                    <textarea id="address" type="text" class="bg-gray-100 w-full px-2 py-1 outline-none border-none focus:ring-0 text-sm" name="address" placeholder="Address"></textarea>
+                                </div>
+                                {{-- <span class="flex-none text-dusty-blue-darker select-none leading-none mx-2">.localhost</span> --}}
+                            </label>
+                        </div>
+                        <div class="flex flex-col px-2 mb-4">
                             <label for="database" class="input-label text-base mb-2">Database</label>
                             <label class="input-field inline-flex items-baseline border-none shadow-md bg-gray-100 py-2 px-6 ml-2">
                                 <div class="flex-1 leading-none">

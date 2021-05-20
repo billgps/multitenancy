@@ -38,6 +38,7 @@ class TenantController extends Controller
     {
         $tenant = new Tenant();
         $tenant->name = $request->name;
+        $tenant->address = $request->address;
         $tenant->domain = $request->domain;
         $tenant->database = $request->database.'.localhost';
         $tenant->save();
