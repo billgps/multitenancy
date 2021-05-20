@@ -17,7 +17,7 @@ use Spatie\Multitenancy\Models\Tenant;
 */
 
 if (Tenant::current()) {
-    Route::domain(app('currentTenant')->name.'.inv.globalpromedika.co.id')->middleware('tenant')->group(function() {
+    Route::domain(app('currentTenant')->domain.'.gps-inventory.com')->middleware('tenant')->group(function() {
         Route::multiauth('User', 'user');
         Route::get('/', function () {
             return redirect()->route('user.dashboard');
