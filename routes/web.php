@@ -17,8 +17,7 @@ use Spatie\Multitenancy\Models\Tenant;
 */
 
 if (Tenant::current()) {
-    dd(app('currentTenant'));
-    Route::domain(app('currentTenant')->domain.'.gps-inventory.com')->middleware('tenant')->group(function() {
+    Route::domain(app('currentTenant')->domain)->middleware('tenant')->group(function() {
         Route::multiauth('User', 'user');
         Route::get('/', function () {
             return redirect()->route('user.dashboard');
@@ -33,7 +32,7 @@ if (Tenant::current()) {
         });
     });
 } else {
-    Route::get('/', function () {
+    Route::get('/', function (Request $request) {
         return redirect()->route('administrator.dashboard');
     });
     Route::multiauth('Administrator', 'administrator');
