@@ -32,7 +32,7 @@
                                     {{ $tenant->name }}
                                 </td>
                                 <td class="py-3 px-6">
-                                    <a href="http://{{ $tenant->domain }}:8000" target="blank_">
+                                    <a href="http://{{ $tenant->domain }}" target="blank_">
                                         {{ $tenant->domain }}
                                     </a>
                                 </td>
@@ -48,7 +48,7 @@
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex item-center justify-center">
                                         <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <a href="http://{{ $tenant->domain }}.gps-inventory.com" target="blank_">
+                                            <a href="http://{{ $tenant->domain }}" target="blank_">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         </div>
