@@ -40,12 +40,12 @@
                 {{ session('status') }}
             </div>
         @endif
-        <section class="flex flex-col break-words bg-white sm:border-1">
+        <section class="flex flex-col break-words bg-gray-200 sm:border-1">
             <div class="col-span-6 h-12 flex items-center py-2 px-4 bg-gray-200">
-                <a href="{{ route('room.edit', ['room' => $room->id]) }}" class="mx-2 text-yellow-600 hover:text-gray-400 modal-open image-toggle">
+                <a href="{{ route('room.edit', ['room' => $room->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
                     <i class="fas fa-edit"></i>
                 </a>   
-                <a href="{{ route('room.delete', ['room' => $room->id]) }}" class="mx-2 text-red-600 hover:text-gray-400 modal-open image-toggle">
+                <a href="{{ route('room.delete', ['room' => $room->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
                     <i class="fas fa-trash-alt"></i>
                 </a>     
                 {{-- <div class="ml-auto my-auto flex text-xs">
@@ -55,58 +55,47 @@
                     </button>
                 </div> --}}
             </div>
-            <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
-                {{ $room->room_name }}
-            </header>
-
-            <form class="mr-auto my-auto space-y-6 sm:px-12 sm:pb-6"  method="POST"
-                action="">
-                @csrf
-                <div class="block sm:px-16">
-                    <div class="flex flex-wrap mb-3">
-                        <label class="block mb-2 text-sm text-gray-00" for="standard_name">Nama Ruangan</label>
-                        <div class="relative flex items-center h-10 w-full input-component">
-                            <input value="{{ $room->room_name }}" class="border-none outline-none w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="standard_name" name="standard_name" type="text" disabled>
+            <div class="bg-white">
+                <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
+                    {{ $room->room_name }}
+                </header>
+    
+                <div class="w-full flex mr-auto pb-6 px-6 my-6">
+                    <div class="block sm:px-6">
+                        <div class="flex flex-wrap mb-3">
+                            <label class="block text-sm text-gray-00" for="standard_name">Unit</label>
+                            <div class="py-2 text-left w-full">
+                                <input disabled value="{{ $room->unit }}" id="standard_name" class="text-sm bg-gray-200 border-none focus:outline-none block w-min py-2 px-4" type="text">
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex flex-wrap mb-3">
-                        <label class="block mb-2 text-sm text-gray-00" for="alias_name">Unit</label>
-                        <div class="relative flex items-center h-10 w-full input-component">
-                            <input value="{{ $room->unit }}" class="border-none outline-none w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="alias_name" name="alias_name" type="text" disabled>
+                        <div class="flex flex-wrap mb-3">
+                            <label class="block text-sm text-gray-00" for="alias_name">Gedung</label>
+                            <div class="py-2 text-left w-full">
+                                <input disabled value="{{ $room->building }}" id="alias_name" class="text-sm bg-gray-200 border-none focus:outline-none block w-min py-2 px-4" type="text">
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex flex-wrap mb-3">
-                        <label class="block mb-2 text-sm text-gray-00" for="risk_level">Gedung</label>
-                        <div class="relative flex items-center h-10 w-full input-component">
-                            <input value="{{ $room->building }}" class="border-none outline-none w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="risk_level" name="risk_level" type="text" disabled>
+                        <div class="flex flex-wrap mb-3">
+                            <label class="block text-sm text-gray-00" for="alias_name">Nama Ruangan</label>
+                            <div class="py-2 text-left w-full">
+                                <input disabled value="{{ $room->room_name }}" id="standard_name" class="text-sm bg-gray-200 border-none focus:outline-none block w-min py-2 px-4" type="text">
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex flex-wrap row-start-3 mb-3">
-                        <label class="block mb-2 text-sm text-gray-00" for="ipm_frequency">PIC Ruangan</label>
-                        <div class="relative flex items-center h-10 w-full input-component">
-                            <input value="{{ $room->room_pic }}" class="border-none outline-none w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="ipm_frequency" name="ipm_frequency" type="text" disabled>
+                        <div class="flex flex-wrap mb-3">
+                            <label class="block text-sm text-gray-00" for="alias_name">PIC Ruangan</label>
+                            <div class="py-2 text-left w-full">
+                                <input disabled value="{{ $room->room_pic }}" id="standard_name" class="text-sm bg-gray-200 border-none focus:outline-none block w-min py-2 px-4" type="text">
+                            </div>
                         </div>
+                    </div>    
+                    <div class="ml-auto w-96 h-36 opacity-75">
+                        <img src="{{ asset('illust_4.png') }}" alt="">
                     </div>
+                    {{-- <div class="flex flex-wrap justify-end">
+                        <button disabled id="cancelBtn" onclick="toggleEdit(true)" type="button" class="block text-center text-white bg-red-600 mx-2 p-3 duration-300 rounded-sm hover:bg-red-500 disabled:opacity-75 w-24">Cancel</button>
+                        <input disabled type="submit" value="{{ __('Update') }}" class="block text-center mx-2 text-white bg-gray-800 p-3 duration-300 rounded-sm hover:bg-black disabled:opacity-75 w-24">
+                    </div>         --}}
                 </div>
-
-                {{-- <div class="flex flex-wrap justify-end">
-                    <button disabled id="cancelBtn" onclick="toggleEdit(true)" type="button" class="block text-center text-white bg-red-600 mx-2 p-3 duration-300 rounded-sm hover:bg-red-500 disabled:opacity-75 w-24">Cancel</button>
-                    <input disabled type="submit" value="{{ __('Update') }}" class="block text-center mx-2 text-white bg-gray-800 p-3 duration-300 rounded-sm hover:bg-black disabled:opacity-75 w-24">
-                </div>         --}}
-            </form>
-            <script>
-                let inputs = document.getElementsByTagName('input')
-                let editBtn = document.getElementById('editBtn')
-                let cancelBtn = document.getElementById('cancelBtn');
-
-                function toggleEdit (edit) {
-                    for (let i = 0; i < inputs.length; i++) {
-                        inputs[i].disabled = edit
-                        cancelBtn.disabled = edit
-                    }
-                }
-            </script>
-
+            </div>
         </section>
 
         <section class="flex flex-col mt-3 break-words bg-white sm:border-1">

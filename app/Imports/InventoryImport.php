@@ -15,7 +15,7 @@ class InventoryImport implements ToModel
     public function model(array $row)
     {
         return new Inventory([
-            // 'id'     => $row['id'],
+            'id'     => $row['id'],
             'barcode'     => $row['barcode'],
             'device_id'    => $row['nama'], 
             'identity_id'     => $row['tipe'],

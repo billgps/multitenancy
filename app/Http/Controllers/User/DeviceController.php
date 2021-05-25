@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Imports\DeviceImport;
 use App\Models\Device;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DeviceController extends Controller
 {
@@ -53,7 +55,11 @@ class DeviceController extends Controller
             $device->ipm_frequency = $request->ipm_frequency;
             $device->save();
 
-            return redirect()->route('device.show', ['id' => $device->id])->with('success', 'New Entry Added');
+            if ($request->modal) {
+                return back();
+            } else {
+                return redirect()->route('device.show', ['id' => $device->id])->with('success', 'New Entry Added');
+            }
         }
     }
 
@@ -119,5 +125,12 @@ class DeviceController extends Controller
         $device->delete();
 
         return redirect()->route('device.index');
+    }
+
+    public function import(Request $request)
+    {
+        Excel::import(new DeviceImport, request()->file('file'));
+
+        return redirect()->route('device.index')->with('success', 'Data Imported');
     }
 }

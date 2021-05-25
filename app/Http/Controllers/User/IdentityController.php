@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Imports\IdentityImport;
 use App\Models\Brand;
 use App\Models\Device;
 use App\Models\Identity;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class IdentityController extends Controller
 {
@@ -46,7 +48,40 @@ class IdentityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'device_id' => 'required|integer',
+            'brand_id' => 'required|integer',
+            'model' => 'required|string|max:255',
+        ]);
+
+        if ($validated) {
+            $manual = $request->file('manual');
+            $procedure = $request->file('procedure');
+
+            if ($manual != null) {
+                $manualName = $manual->getClientOriginalName();
+                $manual->move(public_path().'/module/', $manualName);
+            }
+
+            if ($procedure != null) {
+                $procedureName = $procedure->getClientOriginalName();
+                $procedure->move(public_path().'/procedure/', $procedureName);
+            }
+
+            $identity = new Identity();
+            $identity->device_id = $request->device_id;
+            $identity->brand_id = $request->brand_id;
+            $identity->model = $request->model;
+            $identity->manual = ($manual != null) ? $manualName : null;
+            $identity->procedure = ($procedure != null) ? $procedureName : null;
+            $identity->save();
+
+            if ($request->redirect != null) {
+                return redirect()->route('identity')->with('success', 'New Entry Added');
+            } else {
+                return back()->with('success', 'New Entry Added');
+            }
+        }
     }
 
     /**
@@ -92,5 +127,12 @@ class IdentityController extends Controller
     public function destroy(Identity $identity)
     {
         //
+    }
+
+    public function import()
+    {
+        Excel::import(new IdentityImport, request()->file('file'));
+
+        return redirect()-> route('identity.index')->with('success', 'Data Imported');
     }
 }

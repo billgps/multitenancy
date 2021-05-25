@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Imports\BrandImport;
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BrandController extends Controller
 {
@@ -49,7 +51,11 @@ class BrandController extends Controller
             $brand->origin = $request->origin;
             $brand->save();
 
-            return redirect()->route('brand.index')->with('success', 'New Entry Added');
+            if ($request->modal) {
+                return back();
+            } else {
+                return redirect()->route('brand.index')->with('success', 'New Entry Added');
+            }
         }
     }
 
@@ -111,5 +117,12 @@ class BrandController extends Controller
         $brand->delete();
 
         return redirect()->route('brand.index');
+    }
+
+    public function import()
+    {
+        Excel::import(new BrandImport, request()->file('file'));
+
+        return redirect()->route('brand.index')->with('success', 'Data Imported');
     }
 }

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Imports\RoomImport;
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RoomController extends Controller
 {
@@ -119,5 +121,12 @@ class RoomController extends Controller
         $room->delete();
 
         return redirect()->route('room.index');
+    }
+
+    public function import()
+    {
+        Excel::import(new RoomImport, request()->file('file'));
+
+        return redirect()->route('room.index')->with('success', 'Data Imported');
     }
 }

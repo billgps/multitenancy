@@ -33,7 +33,7 @@
 </style>
 
 <main class="flex sm:container sm:mx-auto sm:mt-10">
-    <div class="mx-auto w-3/4 sm:px-6">
+    <div class="mx-auto w-4/5 sm:px-6">
 
         @if (session('status'))
             <div class="px-3 py-4 mb-4 text-sm text-green-700 bg-green-100 border border-t-8 border-green-600 rounded" role="alert">
@@ -47,26 +47,26 @@
                 {{ __('Create New Brand') }}
             </header>
 
-            <form class="w-3/4 mx-auto my-auto space-y-8 sm:p-6" method="POST"
+            <form class="w-3/5 mx-auto pb-6 my-6" method="POST"
                 action="{{ route('brand.store') }}">
                 @csrf
                 <div class="sm:grid sm:grid-cols-2 sm:gap-2 sm:px-6">
-                    <div class="flex flex-wrap">
+                    <div class="">
                         <label class="block mb-2 text-sm text-gray-00" for="brand">Nama Merk</label>
-                        <div class="relative flex items-center h-10 w-full input-component">
-                            <input class="border-none outline-none w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="brand" name="brand" type="text" required>
+                        <div class="py-2 text-left">
+                            <input class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4" id="brand" name="brand" type="text" required>
                         </div>
                     </div>
-                    <div class="flex flex-wrap">
-                        <label class="block mb-2 text-sm text-gray-00" for="origin">Asal Merk</label>
-                        <div class="relative flex items-center h-10 w-full input-component">
-                            <input class="border-none outline-none w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="origin" name="origin" type="text">
+                    <div class="row-start-2">
+                        <label class="block mb-2 text-sm text-gray-00" for="origin">Asal</label>
+                        <div class="py-2 text-left">
+                            <input class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4" id="origin" name="origin" type="text" required>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex flex-wrap justify-center">
-                    <input type="submit" value="{{ __('Submit') }}" class="block text-center text-white bg-gray-800 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-80">
+                <div class="flex flex-wrap justify-center mt-12">
+                    <input type="submit" value="{{ __('Submit') }}" class="block text-center text-white bg-gray-800 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-48">
                 </div>        
             </form>
 
