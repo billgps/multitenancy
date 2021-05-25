@@ -17,7 +17,7 @@
         @endif
 
         <section class="sm:grid sm:grid-cols-6 sm:gap-2 break-words">
-            <div class="col-span-2 flex h-24 w-full p-4 bg-gray-100">
+            <div class="col-span-2 flex h-24 w-full p-4 bg-white">
                 <div class="w-full justify-center">
                     <div class="text-md text-gray-600">
                         Wajib Kalibrasi
@@ -27,7 +27,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-span-2 flex h-24 w-full p-4 bg-gray-100">
+            <div class="col-span-2 flex h-24 w-full p-4 bg-white">
                 <div class="w-full justify-center">
                     <div class="text-md text-gray-600">
                         Laik
@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-span-2 flex h-24 w-full p-4 bg-gray-100">
+            <div class="col-span-2 flex h-24 w-full p-4 bg-white">
                 <div class="w-full justify-center">
                     <div class="text-md text-gray-600">
                         Baik
@@ -48,7 +48,7 @@
                 </div>
             </div>
             
-            <div class="col-span-2 bg-gray-100 p-3">
+            <div class="col-span-2 bg-white p-3">
                 <div class="flex flex-col">
                     <div class="w-full">
                         <canvas id="wajib_chart" class="mx-auto my-auto p-3 text-sm text-gray-700"></canvas>
@@ -78,7 +78,7 @@
                     </script>  
                 </div>
             </div>
-            <div class="col-span-2 bg-gray-100 p-3">
+            <div class="col-span-2 bg-white p-3">
                 <div class="flex flex-col">
                     <div class="w-full">
                         <canvas id="rusak_chart" class="mx-auto my-auto p-3 text-sm text-gray-700"></canvas>
@@ -108,7 +108,7 @@
                     </script>  
                 </div>
             </div>
-            <div class="col-span-2 bg-gray-100 p-3">
+            <div class="col-span-2 bg-white p-3">
                 <div class="flex flex-col">
                     <div class="w-full">
                         <canvas id="laik_chart" class="mx-auto my-auto p-3 text-sm text-gray-700"></canvas>
@@ -139,7 +139,7 @@
                 </div>
             </div>
 
-            <div class="col-span-4 flex w-full p-4 bg-gray-100">
+            <div class="col-span-4 flex w-full p-4 bg-white">
                 <div class="text-md text-gray-600">
                     Statistik Kerusakan Alat
                 </div>
@@ -172,14 +172,14 @@
                     </script>  
                 </div> --}}
             </div>
-            <div class="col-span-2 flex overflow-y-auto w-full p-4 bg-gray-100">
+            <div class="col-span-2 flex overflow-y-auto w-full p-4 bg-white">
                 <div class="w-full justify-center text-gray-600">
                     <div class="text-md">
                         Kalibrasi Terbaru
                     </div>
                     <table id="records" class="min-w-max mt-3 w-full table-auto text-center">
                         <thead>
-                            <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal border-b border-gray-600">
+                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal border-b border-gray-600">
                                 <th class="py-3 px-6">Nama Alat</th>
                                 <th class="py-3 px-6">Tanggal Kalibrasi</th>
                             </tr>
@@ -200,14 +200,14 @@
                 </div>
             </div>
 
-            <div class="col-span-3 flex overflow-y-auto w-full p-4 bg-gray-100">
+            <div class="col-span-3 flex overflow-y-auto w-full p-4 bg-white">
                 <div class="w-full justify-center text-gray-600">
                     <div class="text-md">
                         Alat Kesehatan Baru
                     </div>
                     <table id="records" class="min-w-max mt-3 w-full table-auto text-center">
                         <thead>
-                            <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal border-b border-gray-600">
+                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal border-b border-gray-600">
                                 <th class="py-3 px-6">Nama</th>
                                 <th class="py-3 px-6">Ruangan</th>
                                 <th class="py-3 px-6">Merk</th>
@@ -229,14 +229,14 @@
                     </table>
                 </div>
             </div>
-            <div class="col-span-3 flex overflow-y-auto w-full p-4 bg-gray-100">
+            <div class="col-span-3 flex overflow-y-auto w-full p-4 bg-white">
                 <div class="w-full justify-center text-gray-600">
                     <div class="text-md">
                         Wajib Kalibrasi
                     </div>
                     <table id="records" class="min-w-max mt-3 w-full table-auto text-center">
                         <thead>
-                            <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal border-b border-gray-600">
+                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal border-b border-gray-600">
                                 <th class="py-3 px-6">Nama</th>
                                 <th class="py-3 px-6">Tanggal Kalibrasi</th>
                                 <th class="py-3 px-6">Tenggang</th>

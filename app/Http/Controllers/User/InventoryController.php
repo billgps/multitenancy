@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Imports\InventoryImport;
 use App\Models\Condition;
+use App\Models\Device;
 use App\Models\Inventory;
+use App\Models\Record;
 use Illuminate\Http\Request;
 
 use App\Rules\ImageUpload as RulesImageUpload;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InventoryController extends Controller
 {
@@ -30,7 +34,11 @@ class InventoryController extends Controller
      */
     public function create()
     {
-        return view('inventory.create');
+        $devices = Device::all();
+
+        return view('inventory.create', [
+            'devices' => $devices,
+        ]);
     }
 
     /**
@@ -139,5 +147,39 @@ class InventoryController extends Controller
     public function destroy(Inventory $inventory)
     {
         //
+    }
+
+    public function import(Request $request)
+    {
+        Excel::import(new InventoryImport, request()->file('file'));
+
+        return redirect()->route('inventory.index')->with(['success', 'Entries Imported!']);
+    }
+
+    public function image(Request $request)
+    {
+        $records = Record::with('inventory');
+
+        $validated = $request->validate([
+            'file' => new RulesImageUpload
+        ]);
+
+        if ($validated) {
+            foreach($request->file('file') as $image)
+            {
+                $name = $image->getClientOriginalName();
+                $image->move(public_path().'/images/', $name);  
+    
+                foreach ($records as $record) {
+                    if ($record->label == pathinfo($name, PATHINFO_FILENAME)) {
+                        $inventory = Inventory::find($record->inventory_id);
+                        $inventory->picture = $name;
+                        $inventory->update();
+                    }
+                }
+            }
+
+            return back()->with(['success', 'Image Uploaded']);
+        }
     }
 }

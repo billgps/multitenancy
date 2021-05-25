@@ -53,8 +53,24 @@
             -moz-appearance: textfield;
         }
     </style>
+
+    <style>
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+        body.modal-active {
+            overflow-x: hidden;
+            overflow-y: visible !important;
+        }
+        table.dataTable.no-footer {
+            border-bottom: 0 !important;
+        }
+        #example_wrapper {
+            display: none !important;
+        }
+    </style>
 </head>
-<body class="h-screen font-sans antialiased leading-none bg-gray-200 sm:overflow-hidden" x-data="{isClose: false}">
+<body class="h-screen font-sans antialiased leading-none bg-gray-200 sm:overflow-auto" x-data="{isClose: false}">
     <header class="bg-gray-100 text-gray-600 shadow-lg w-full h-14">
         <div class="flex mx-auto items-center py-3 px-6 sm:px-3">
             <div class="flex">
@@ -72,77 +88,107 @@
         </div>
     </header>
     <div id="app" class="flex w-full h-full overflow-auto">
-        <div class="h-full">
-            <div id="sideBar" class="flex flex-col w-64 h-full bg-gray-800" :class="{'is-close': isClose, 'hidden': isClose, 'w-60': !isClose}">
-                <nav class="pt-12 text-sm">
-                    <div>
-                        <a href="{{ route('user.dashboard') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
-                            <span class="flex items-center">
-                                <i class="fas fa-home"></i>
-                                <span class="mx-4">Dashboard</span>
-                            </span>
+        <aside id="sideBar" class="flex flex-col sticky top-0 w-64 h-screen bg-gray-800" :class="{'is-close': isClose, 'hidden': isClose, 'w-60': !isClose}">
+            <nav class="pt-12 text-sm">
+                <div>
+                    <a href="{{ route('user.dashboard') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
+                        <span class="flex items-center">
+                            <i class="fas fa-home"></i>
+                            <span class="mx-4">Dashboard</span>
+                        </span>
+                    </a>
+                </div>
+                <div x-data="{ open: false }">
+                    <button @click="open = !open" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
+                        <span class="flex items-center">
+                            <i class="fas fa-list fa-fw"></i>
+                            <span class="mx-4">Inventori</span>
+                        </span>
+
+                        <span>
+                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path x-show="! open" d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"></path>
+                                <path x-show="open" d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </span>
+                    </button>
+
+                    <div x-show="open" class="bg-gray-900">
+                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('inventory.index') }}">
+                            Data Inventaris
+                        </a>
+                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="#">
+                            Data Aset
+                        </a>
+                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="#">
+                            Data Consumable
+                        </a>
+                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="#">
+                            Riwayat Kalibrasi
+                        </a>
+                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="#">
+                            Riwayat Kondisi
+                        </a>
+                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="#">
+                            Riwayat Maintenance
                         </a>
                     </div>
-                    <div x-data="{ open: false }">
-                        <button @click="open = !open" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
-                            <span class="flex items-center">
-                                <i class="fas fa-list fa-fw"></i>
-                                <span class="mx-4">Inventori</span>
-                            </span>
-    
-                            <span>
-                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path x-show="! open" d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"></path>
-                                    <path x-show="open" d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
-                            </span>
-                        </button>
-    
-                        <div x-show="open" class="bg-gray-900">
-                            <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('inventory.index') }}">
-                                Data Inventaris
-                            </a>
-                            <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="#">
-                                Data Aset
-                            </a>
-                            <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="#">
-                                Data Consumable
-                            </a>
-                            <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="#">
-                                Riwayat Kalibrasi
-                            </a>
-                            <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="#">
-                                Riwayat Kondisi
-                            </a>
-                            <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="#">
-                                Riwayat Maintenance
-                            </a>
-                        </div>
-                    </div>
-                    <div>
-                        <form method="post" action="{{ route('user.logout') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
-                            @csrf
-                            <span id="logoutBtn" class="flex items-center">
-                                <i class="fas fa-power-off"></i>
-                                <span class="mx-4">Logout</span>
-                            </span>
-                            <script>
-                                $('#logoutBtn').on('click', function(e) {
-                                    e.preventDefault();
-                                    $(this).closest('form').submit();
-                                });
-                            </script>
-                        </form>
-                    </div>
-                </nav>
-    
-                <div class="flex justify-center mt-auto mb-20 text-xs text-gray-100">
-                    <span class="mx-auto">
-                        Provided by Global Promedika Services
-                    </span>
                 </div>
+                <div x-data="{ open: false }">
+                    <button @click="open = !open" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
+                        <span class="flex items-center">
+                            <i class="fas fa-pencil-alt"></i>
+                            <span class="mx-4">Administrasi</span>
+                        </span>
+
+                        <span>
+                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path x-show="! open" d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"></path>
+                                <path x-show="open" d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </span>
+                    </button>
+
+                    <div x-show="open" class="bg-gray-900">
+                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('device.index') }}">
+                            Nama Alat
+                        </a>
+                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('room.index') }}">
+                            Ruangan
+                        </a>
+                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('brand.index') }}">
+                            Merk
+                        </a>
+                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('identity.index') }}">
+                            Tipe Alat
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <form method="post" action="{{ route('user.logout') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
+                        @csrf
+                        <span id="logoutBtn" class="flex items-center">
+                            <i class="fas fa-power-off"></i>
+                            <span class="mx-4">Logout</span>
+                        </span>
+                        <script>
+                            $('#logoutBtn').on('click', function(e) {
+                                e.preventDefault();
+                                $(this).closest('form').submit();
+                            });
+                        </script>
+                    </form>
+                </div>
+            </nav>
+
+            <div class="flex justify-center mt-auto mb-6 text-xs text-gray-100">
+                <span class="mx-aut text-center">
+                    Provided by 
+                    <br>
+                    Global Promedika Services
+                </span>
             </div>
-        </div>
+        </aside>
         @yield('content')
     </div>
 </body>

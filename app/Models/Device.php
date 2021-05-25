@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Device extends Model
 {
-    use HasFactory;
+    use HasFactory, UsesTenantConnection;
 
     protected $fillable = ['id', 'standard_name', 'alias_name', 'risk_level', 'ipm_frequency'];
 
