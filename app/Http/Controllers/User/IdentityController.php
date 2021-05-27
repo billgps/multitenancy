@@ -77,9 +77,9 @@ class IdentityController extends Controller
             $identity->save();
 
             if ($request->redirect != null) {
-                return redirect()->route('identity')->with('success', 'New Entry Added');
-            } else {
                 return back()->with('success', 'New Entry Added');
+            } else {
+                return redirect()->route('identity.index')->with('success', 'New Entry Added');
             }
         }
     }
@@ -103,7 +103,14 @@ class IdentityController extends Controller
      */
     public function edit(Identity $identity)
     {
-        //
+        $brands = Brand::all();
+        $devices = Device::all();
+
+        return view('identity.edit', [
+            'identity' => $identity,
+            'brands' => $brands, 
+            'devices' => $devices
+        ]);
     }
 
     /**
@@ -115,7 +122,35 @@ class IdentityController extends Controller
      */
     public function update(Request $request, Identity $identity)
     {
-        //
+        $validated = $request->validate([
+            'device_id' => 'required|integer',
+            'brand_id' => 'required|integer',
+            'model' => 'required|string|max:255',
+        ]);
+
+        if ($validated) {
+            $manual = $request->file('manual');
+            $procedure = $request->file('procedure');
+
+            if ($manual != null) {
+                $manualName = $manual->getClientOriginalName();
+                $manual->move(public_path().'/module/', $manualName);
+            }
+
+            if ($procedure != null) {
+                $procedureName = $procedure->getClientOriginalName();
+                $procedure->move(public_path().'/procedure/', $procedureName);
+            }
+
+            $identity->device_id = $request->device_id;
+            $identity->brand_id = $request->brand_id;
+            $identity->model = $request->model;
+            $identity->manual = ($manual != null) ? $manualName : null;
+            $identity->procedure = ($procedure != null) ? $procedureName : null;
+            $identity->update();
+
+            return redirect()->route('identity.index')->with('success', 'New Entry Added');
+        }
     }
 
     /**
@@ -134,5 +169,16 @@ class IdentityController extends Controller
         Excel::import(new IdentityImport, request()->file('file'));
 
         return redirect()-> route('identity.index')->with('success', 'Data Imported');
+    }
+
+    public function ajax(Request $request)
+    {
+        $id = $request->id;
+
+        if ($id) {
+            $identities = Identity::where('brand_id', $id)->get();
+        }
+
+        return response()->json(['data' => $identities], 200);
     }
 }

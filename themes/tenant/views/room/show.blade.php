@@ -1,37 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    .select2-results__option, .select2-search__field {
-        color: black;
-        font-size: 0.75rem !important;
-        line-height: 1rem !important;
-    }
-
-    .select2-container--default .select2-selection--single {
-        --tw-text-opacity: 1 !important;
-        color: rgba(55, 65, 81, var(--tw-text-opacity)) !important;
-        padding-left: 1.25rem !important;
-        padding-right: 1.25rem !important;
-        padding-top: 0.25rem !important;
-        padding-bottom: 0.25rem !important;
-        outline: 2px solid transparent !important;
-        outline-offset: 2px !important;
-        border-style: none !important;
-        border-radius: 0.25rem !important;
-        --tw-bg-opacity: 1 !important;
-        background-color: rgba(229, 231, 235, var(--tw-bg-opacity)) !important;
-    }
-
-    .select2-selection__rendered {
-        text-align: left !important;
-    }
-
-    /* select {
-        width: 50%;
-    } */
-</style>
-
 <main class="flex sm:container sm:mx-auto sm:mt-10">
     <div class="w-full sm:px-6">
 
@@ -65,25 +34,25 @@
                         <div class="flex flex-wrap mb-3">
                             <label class="block text-sm text-gray-00" for="standard_name">Unit</label>
                             <div class="py-2 text-left w-full">
-                                <input disabled value="{{ $room->unit }}" id="standard_name" class="text-sm bg-gray-200 border-none focus:outline-none block w-min py-2 px-4" type="text">
+                                <input disabled value="{{ $room->unit }}" id="standard_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
                             </div>
                         </div>
                         <div class="flex flex-wrap mb-3">
                             <label class="block text-sm text-gray-00" for="alias_name">Gedung</label>
                             <div class="py-2 text-left w-full">
-                                <input disabled value="{{ $room->building }}" id="alias_name" class="text-sm bg-gray-200 border-none focus:outline-none block w-min py-2 px-4" type="text">
+                                <input disabled value="{{ $room->building }}" id="alias_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
                             </div>
                         </div>
                         <div class="flex flex-wrap mb-3">
                             <label class="block text-sm text-gray-00" for="alias_name">Nama Ruangan</label>
                             <div class="py-2 text-left w-full">
-                                <input disabled value="{{ $room->room_name }}" id="standard_name" class="text-sm bg-gray-200 border-none focus:outline-none block w-min py-2 px-4" type="text">
+                                <input disabled value="{{ $room->room_name }}" id="standard_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
                             </div>
                         </div>
                         <div class="flex flex-wrap mb-3">
                             <label class="block text-sm text-gray-00" for="alias_name">PIC Ruangan</label>
                             <div class="py-2 text-left w-full">
-                                <input disabled value="{{ $room->room_pic }}" id="standard_name" class="text-sm bg-gray-200 border-none focus:outline-none block w-min py-2 px-4" type="text">
+                                <input disabled value="{{ $room->room_pic }}" id="standard_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
                             </div>
                         </div>
                     </div>    
@@ -106,7 +75,7 @@
             <div class="w-full px-6 py-3">
                 <table id="device" class="min-w-max mt-3 w-full table-auto text-center">
                     <thead>
-                        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal border-b border-gray-600">
+                        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                             <th class="py-3 px-6">Tanggal Entry</th>
                             <th class="py-3 px-6">Nomor Barcode</th>
                             <th class="py-3 px-6">Nomor Label</th>

@@ -4,10 +4,12 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Imports\InventoryImport;
+use App\Models\Brand;
 use App\Models\Condition;
 use App\Models\Device;
 use App\Models\Inventory;
 use App\Models\Record;
+use App\Models\Room;
 use Illuminate\Http\Request;
 
 use App\Rules\ImageUpload as RulesImageUpload;
@@ -35,9 +37,13 @@ class InventoryController extends Controller
     public function create()
     {
         $devices = Device::all();
+        $brands = Brand::all();
+        $rooms = Room::all();
 
         return view('inventory.create', [
             'devices' => $devices,
+            'brands' => $brands,
+            'rooms' => $rooms
         ]);
     }
 

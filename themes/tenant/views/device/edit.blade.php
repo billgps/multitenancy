@@ -54,25 +54,25 @@
                     <div class="">
                         <label class="block mb-2 text-sm text-gray-00" for="standard_name">Nama Standar</label>
                         <div class="py-2 text-left">
-                            <input value="{{ $device->standard_name }}" class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4" id="standard_name" name="standard_name" type="text" required>
+                            <input value="{{ $device->standard_name }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="standard_name" name="standard_name" type="text" required>
                         </div>
                     </div>
                     <div class="">
                         <label class="block mb-2 text-sm text-gray-00" for="alias_name">Nama Alias</label>
                         <div class="py-2 text-left">
-                            <input value="{{ $device->alias_name }}" class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4" id="alias_name" name="alias_name" type="text" required>
+                            <input value="{{ $device->alias_name }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="alias_name" name="alias_name" type="text" required>
                         </div>
                     </div>
                     <div class="">
                         <label class="block mb-2 text-sm text-gray-00" for="risk_level">Risk Level</label>
                         <div class="py-2 text-left">
-                            <input value="{{ $device->risk_level }}" class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4" id="risk_level" name="risk_level" type="text" required>
+                            <input value="{{ $device->risk_level }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="risk_level" name="risk_level" type="text" required>
                         </div>
                     </div>
                     <div class="row-start-3">
                         <label class="block mb-2 text-sm text-gray-00" for="ipm_frequency">IPM Frequency</label>
                         <div class="py-2 text-left">
-                            <input value="{{ $device->ipm_frequency }}" class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4" id="ipm_frequency" name="ipm_frequency" type="text" required>
+                            <input value="{{ $device->ipm_frequency }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="ipm_frequency" name="ipm_frequency" type="text" required>
                         </div>
                     </div>
                 </div>

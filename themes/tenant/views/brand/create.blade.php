@@ -54,13 +54,13 @@
                     <div class="">
                         <label class="block mb-2 text-sm text-gray-00" for="brand">Nama Merk</label>
                         <div class="py-2 text-left">
-                            <input class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4" id="brand" name="brand" type="text" required>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="brand" name="brand" type="text" required>
                         </div>
                     </div>
                     <div class="row-start-2">
                         <label class="block mb-2 text-sm text-gray-00" for="origin">Asal</label>
                         <div class="py-2 text-left">
-                            <input class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4" id="origin" name="origin" type="text" required>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="origin" name="origin" type="text" required>
                         </div>
                     </div>
                 </div>

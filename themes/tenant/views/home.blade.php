@@ -179,7 +179,7 @@
                     </div>
                     <table id="records" class="min-w-max mt-3 w-full table-auto text-center">
                         <thead>
-                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal border-b border-gray-600">
+                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <th class="py-3 px-6">Nama Alat</th>
                                 <th class="py-3 px-6">Tanggal Kalibrasi</th>
                             </tr>
@@ -207,7 +207,7 @@
                     </div>
                     <table id="records" class="min-w-max mt-3 w-full table-auto text-center">
                         <thead>
-                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal border-b border-gray-600">
+                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <th class="py-3 px-6">Nama</th>
                                 <th class="py-3 px-6">Ruangan</th>
                                 <th class="py-3 px-6">Merk</th>
@@ -236,7 +236,7 @@
                     </div>
                     <table id="records" class="min-w-max mt-3 w-full table-auto text-center">
                         <thead>
-                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal border-b border-gray-600">
+                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <th class="py-3 px-6">Nama</th>
                                 <th class="py-3 px-6">Tanggal Kalibrasi</th>
                                 <th class="py-3 px-6">Tenggang</th>

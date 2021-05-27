@@ -18,6 +18,10 @@
 </style>
 
 <main class="flex sm:container sm:mx-auto sm:mt-10">
+    <script>
+        let identity = {!! json_encode($identity) !!}
+    </script>
+
     <div class="mx-auto w-4/5 sm:px-6">
 
         @if (session('status'))
@@ -33,7 +37,7 @@
             </header>
 
             <form class="w-3/5 mx-auto pb-6 my-6" method="POST"
-                action="{{ route('identity.store') }}">
+                action="{{ route('identity.update', ['identity' => $identity->id]) }}">
                 @csrf
                 <div class="sm:grid sm:grid-cols-2 sm:gap-2 sm:px-6">
                     <div class="">
@@ -51,11 +55,11 @@
                                     $('#device_id').select2({
                                         placeholder: 'Select Device'
                                     });
+
+                                    $('#device_id').val(identity.device_id)
+                                    $('#device_id').trigger('change')
                                 });
                             </script>
-                            <button onclick="toggleModal(this, 'device-toggle', 'device-modal')" type="button" class="modal-open device-toggle mx-2 text-green-600 hover:text-purple-500">
-                                <i class="fas fa-plus"></i>
-                            </button>
                         </div>
                     </div>
                     <div class="">
@@ -73,17 +77,17 @@
                                     $('#brand_id').select2({
                                         placeholder: 'Select Brand'
                                     });
+                                    
+                                    $('#brand_id').val(identity.brand_id)
+                                    $('#brand_id').trigger('change')
                                 });
                             </script>
-                            <button onclick="toggleModal(this, 'brand-toggle', 'brand-modal')" type="button" class="modal-open brand-toggle mx-2 text-green-600 hover:text-purple-500">
-                                <i class="fas fa-plus"></i>
-                            </button>
                         </div>
                     </div>
                     <div class="">
                         <label class="block mb-2 text-sm text-gray-00" for="model">Tipe Alat</label>
                         <div class="py-2 text-left">
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="model" name="model" type="text" required>
+                            <input value="{{ $identity->model }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="model" name="model" type="text" required>
                         </div>
                     </div>
                     <div class="row-start-3">

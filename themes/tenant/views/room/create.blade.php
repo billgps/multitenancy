@@ -54,25 +54,25 @@
                     <div class="">
                         <label class="block mb-2 text-sm text-gray-00" for="unit">Unit</label>
                         <div class="py-2 text-left">
-                            <input class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4" id="unit" name="unit" type="text" required>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="unit" name="unit" type="text" required>
                         </div>
                     </div>
                     <div class="">
                         <label class="block mb-2 text-sm text-gray-00" for="building">Gedung</label>
                         <div class="py-2 text-left">
-                            <input class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4" id="building" name="building" type="text" required>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="building" name="building" type="text" required>
                         </div>
                     </div>
                     <div class="">
                         <label class="block mb-2 text-sm text-gray-00" for="room_name">Nama Ruangan</label>
                         <div class="py-2 text-left">
-                            <input class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4" id="room_name" name="room_name" type="text" required>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="room_name" name="room_name" type="text" required>
                         </div>
                     </div>
                     <div class="row-start-3">
                         <label class="block mb-2 text-sm text-gray-00" for="room_pic">PIC Ruangan</label>
                         <div class="py-2 text-left">
-                            <input class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4" id="room_pic" name="room_pic" type="text" required>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="room_pic" name="room_pic" type="text" required>
                         </div>
                     </div>
                 </div>

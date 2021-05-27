@@ -65,13 +65,13 @@
                         <div class="flex flex-wrap mb-3">
                             <label class="block text-sm text-gray-00" for="standard_name">Nama merk</label>
                             <div class="py-2 text-left w-full">
-                                <input disabled value="{{ $brand->brand }}" id="standard_name" class="text-sm bg-gray-200 border-none focus:outline-none block w-min py-2 px-4" type="text">
+                                <input disabled value="{{ $brand->brand }}" id="standard_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
                             </div>
                         </div>
                         <div class="flex flex-wrap mb-3">
                             <label class="block text-sm text-gray-00" for="alias_name">Asal</label>
                             <div class="py-2 text-left w-full">
-                                <input disabled value="{{ $brand->origin }}" id="alias_name" class="text-sm bg-gray-200 border-none focus:outline-none block w-min py-2 px-4" type="text">
+                                <input disabled value="{{ $brand->origin }}" id="alias_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
                             </div>
                         </div>
                     </div>    

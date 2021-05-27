@@ -2,35 +2,33 @@
 
 @section('content')
 <style>
-    .select2-results__option, .select2-search__field {
+    .select2-results__option, .select2-search__field, .select2-selection__rendered {
         color: black;
-        font-size: 0.75rem !important;
-        line-height: 1rem !important;
-    }
-
-    .select2-container--default .select2-selection--single {
-        --tw-text-opacity: 1 !important;
-        color: rgba(55, 65, 81, var(--tw-text-opacity)) !important;
-        padding-left: 1.25rem !important;
-        padding-right: 1.25rem !important;
-        padding-top: 0.25rem !important;
-        padding-bottom: 0.25rem !important;
-        outline: 2px solid transparent !important;
-        outline-offset: 2px !important;
-        border-style: none !important;
-        border-radius: 0px !important;
-        --tw-bg-opacity: 1 !important;
-        background-color: rgba(229, 231, 235, var(--tw-bg-opacity)) !important;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
     }
 
     .select2-selection__rendered {
         text-align: left !important;
     }
 
-    /* select {
-        width: 50%;
-    } */
+    .select2-selection, .select2-selection--single {
+        height: 32px !important;
+    }
 </style>
+
+<script>
+    function populate(data, select) {
+        document.getElementById(select).innerHTML = ''
+
+        let option = 
+        
+        for (let i = 0; i < data.length; i++) {
+            option = new Option(data[i].model, data[i].id, false, false);
+            $('#' + select).append(option).trigger('change');            
+        }
+    }
+</script>
 
 <main class="flex sm:container sm:mx-auto sm:mt-10">
     <div class="mx-auto w-4/5 sm:px-6">
@@ -54,8 +52,8 @@
                     <div class="flex flex-col col-span-2">
                         <label class="block text-sm text-gray-00" for="device_id">Nama Alat</label>
                         <div class="py-2 text-left">
-                            <select style="width: 90%;" id="device_id" name="device_id" class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4">
-                                <option value=""></option>
+                            <select style="width: 90%;" id="device_id" name="device_id" class="text-sm bg-gray-20 focus:outline-none block w-full px-3">
+                                <option></option>
                                 @foreach ($devices as $device)
                                     <option value="{{ $device->id }}">{{ $device->standard_name }}</option>
                                 @endforeach
@@ -63,10 +61,12 @@
                             
                             <script>
                                 $(document).ready(function() {
-                                    $('#device_id').select2();
+                                    $('#device_id').select2({
+                                        placeholder: 'Select Device'
+                                    });
                                 });
                             </script>
-                            <button id="deviceToggle" class="mx-2 text-green-600 hover:text-purple-500" href="{{ route('inventory.create') }}">
+                            <button id="device-toggle" class="mx-2 text-green-600 hover:text-purple-500" href="{{ route('inventory.create') }}">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
@@ -74,31 +74,33 @@
                     <div class="flex flex-wrap">
                         <label class="block mb-2 text-sm text-gray-00" for="barcode">Barcode</label>
                         <div class="py-2 text-left">
-                            <input class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4" id="barcode" name="barcode" type="text" required>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="barcode" name="barcode" type="text" required>
                         </div>
                     </div>
                     <div class="flex flex-wrap">
                         <label class="block mb-2 text-sm text-gray-00" for="serial">Serial Number</label>
                         <div class="py-2 text-left">
-                            <input class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4" id="serial" name="serial" type="text" required>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="serial" name="serial" type="text" required>
                         </div>
                     </div>
                     <div class="flex flex-col col-span-2">
                         <label class="block text-sm text-gray-00" for="brand_id">Merk</label>
                         <div class="py-2 text-left">
-                            <select style="width: 90%;" id="brand_id" name="brand_id" class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4">
-                                <option value=""></option>
-                                @foreach ($devices as $device)
-                                    <option value="{{ $device->id }}">{{ $device->standard_name }}</option>
+                            <select style="width: 90%;" id="brand_id" name="brand_id" class="text-sm bg-gray-20 focus:outline-none block w-full px-3">
+                                <option></option>
+                                @foreach ($brands as $brand)
+                                    <option value="{{ $brand->id }}">{{ $brand->brand }}</option>
                                 @endforeach
                             </select>
                             
                             <script>
                                 $(document).ready(function() {
-                                    $('#brand_id').select2();
+                                    $('#brand_id').select2({
+                                        placeholder: 'Select Brand'
+                                    });
                                 });
                             </script>
-                            <button id="deviceToggle" class="mx-2 text-green-600 hover:text-purple-500" href="{{ route('inventory.create') }}">
+                            <button id="brand-toggle" class="mx-2 text-green-600 hover:text-purple-500" href="{{ route('inventory.create') }}">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
@@ -107,18 +109,34 @@
                         <label class="block text-sm text-gray-00" for="identity_id">Tipe Alat</label>
                         <div class="py-2 text-left">
                             <select style="width: 90%;" id="identity_id" name="identity_id" class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4">
-                                <option value=""></option>
-                                @foreach ($devices as $device)
-                                    <option value="{{ $device->id }}">{{ $device->standard_name }}</option>
-                                @endforeach
+                                <option></option>
                             </select>
                             
                             <script>
                                 $(document).ready(function() {
-                                    $('#identity_id').select2();
+                                    $('#identity_id').select2({
+                                        placeholder: 'Select Model'
+                                    });
+
+                                    let brandSelect = $('#brand_id')
+                                    brandSelect.on('change', function () {
+                                        $.ajax({
+                                            type: "GET",
+                                            url: "{{ route('identity.ajax') }}",
+                                            data: {
+                                                id: $('#brand_id').select2('data')[0].id
+                                            },
+                                            success: function (data) {
+                                                populate(data.data, 'identity_id')
+                                            },
+                                            error: function (error) {
+                                                console.log(error)
+                                            }
+                                        })
+                                    })
                                 });
                             </script>
-                            <button id="deviceToggle" class="mx-2 text-green-600 hover:text-purple-500" href="{{ route('inventory.create') }}">
+                            <button id="identity-toggle" class="mx-2 text-green-600 hover:text-purple-500" href="{{ route('inventory.create') }}">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
@@ -127,18 +145,20 @@
                         <label class="block text-sm text-gray-00" for="room_id">Ruangan</label>
                         <div class="py-2 text-left">
                             <select style="width: 90%;" id="room_id" name="room_id" class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4">
-                                <option value=""></option>
-                                @foreach ($devices as $device)
-                                    <option value="{{ $device->id }}">{{ $device->standard_name }}</option>
+                                <option></option>
+                                @foreach ($rooms as $room)
+                                    <option value="{{ $room->id }}">{{ $room->room_name }}</option>
                                 @endforeach
                             </select>
                             
                             <script>
                                 $(document).ready(function() {
-                                    $('#room_id').select2();
+                                    $('#room_id').select2({
+                                        placeholder: 'Select Room'
+                                    });
                                 });
                             </script>
-                            <button id="deviceToggle" class="mx-2 text-green-600 hover:text-purple-500" href="{{ route('inventory.create') }}">
+                            <button id="room-toggle" class="mx-2 text-green-600 hover:text-purple-500" href="{{ route('inventory.create') }}">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
@@ -149,7 +169,7 @@
                             <div class="absolute">
                                 <div class="flex flex-col items-center "> 
                                     <i class="fa fa-cloud-upload fa-3x text-gray-300"></i> 
-                                    <span class="block text-blue-400 font-normal">Browse files</span> 
+                                    <span class="block text-blue-400 text-sm">Browse files</span> 
                                 </div>
                             </div> 
                             <input type="file" class="h-full w-full opacity-0 cursor-pointer" name="picture" id="picture" accept="image/*">

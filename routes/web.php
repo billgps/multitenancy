@@ -74,10 +74,14 @@ if (Tenant::current()) {
                 Route::get('/create', [IdentityController::class, 'create'])->name('identity.create');
                 Route::post('/store', [IdentityController::class, 'store'])->name('identity.store');
                 Route::post('/import', [IdentityController::class, 'import'])->name('identity.import');
-                Route::get('/{id}', [IdentityController::class, 'show'])->name('identity.show');
+                // Route::get('/{id}', [IdentityController::class, 'show'])->name('identity.show');
                 Route::get('/edit/{identity}', [IdentityController::class, 'edit'])->name('identity.edit');
                 Route::post('/update/{identity}', [IdentityController::class, 'update'])->name('identity.update');
                 Route::get('/delete/{identity}', [IdentityController::class, 'destroy'])->name('identity.delete');
+            });
+
+            Route::prefix('ajax')->group(function () {
+                Route::get('/identities', [IdentityController::class, 'ajax'])->name('identity.ajax');
             });
         });
     });

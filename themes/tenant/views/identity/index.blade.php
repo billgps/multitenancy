@@ -69,11 +69,6 @@
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">
                                             <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <a href="{{ route('identity.show', ['id' => $identity->id]) }}">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            </div>
-                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                 <a href="{{ route('identity.edit', ['identity' => $identity->id]) }}">
                                                     <i class="fas fa-edit"></i>
                                                 </a>

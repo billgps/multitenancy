@@ -55,6 +55,20 @@
     </style>
 
     <style>
+        table.dataTable thead th {
+            border-bottom: 0px !important;
+        }
+        
+        table.dataTable tfoot th {
+            border-top: 0px !important;
+        }
+
+        table.dataTable.no-footer {
+            border-bottom: 0px !important;
+        }
+    </style>
+
+    <style>
         .modal {
             transition: opacity 0.25s ease;
         }

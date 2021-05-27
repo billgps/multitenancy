@@ -1,12 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    canvas {
-        width: 100%;
-        height: 100%;
-    }
-</style>
 <main class="sm:container sm:mx-auto sm:mt-6 overflow-y-auto">
     <div class="w-full sm:px-6">
 
@@ -39,7 +33,7 @@
                 <div class="w-full px-6 py-3">
                     <table id="device" class="min-w-max mt-3 w-full table-auto text-center">
                         <thead>
-                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal border-b border-gray-600">
+                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <th class="py-3 px-6">Nama Alat</th>
                                 <th class="py-3 px-6">Alias</th>
                                 <th class="py-3 px-6">Risk Level</th>
@@ -50,7 +44,7 @@
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
                             @foreach ($devices as $device)
-                                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                <tr class="hover:bg-gray-100">
                                     <td class="py-3 px-6">
                                         {{ $device->standard_name }}
                                     </td>

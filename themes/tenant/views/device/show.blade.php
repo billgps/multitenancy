@@ -57,7 +57,7 @@
             </div>
             <div class="bg-white">
                 <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
-                    {{ $device->standard_name }}
+                    Detail Alat
                 </header>
     
                 <div class="w-full flex mr-auto pb-6 px-6 my-6">
@@ -65,25 +65,25 @@
                         <div class="flex flex-wrap mb-3">
                             <label class="block text-sm text-gray-00" for="standard_name">Nama Standar</label>
                             <div class="py-2 text-left w-full">
-                                <input disabled value="{{ $device->standard_name }}" id="standard_name" class="text-sm bg-gray-200 border-none focus:outline-none block w-min py-2 px-4" type="text">
+                                <input disabled value="{{ $device->standard_name }}" id="standard_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
                             </div>
                         </div>
                         <div class="flex flex-wrap mb-3">
                             <label class="block text-sm text-gray-00" for="alias_name">Nama Alias</label>
                             <div class="py-2 text-left w-full">
-                                <input disabled value="{{ $device->alias_name }}" id="alias_name" class="text-sm bg-gray-200 border-none focus:outline-none block w-min py-2 px-4" type="text">
+                                <input disabled value="{{ $device->alias_name }}" id="alias_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
                             </div>
                         </div>
                         <div class="flex flex-wrap mb-3">
                             <label class="block text-sm text-gray-00" for="alias_name">Nama Alias</label>
                             <div class="py-2 text-left w-full">
-                                <input disabled value="{{ $device->risk_level }}" id="standard_name" class="text-sm bg-gray-200 border-none focus:outline-none block w-min py-2 px-4" type="text">
+                                <input disabled value="{{ $device->risk_level }}" id="standard_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
                             </div>
                         </div>
                         <div class="flex flex-wrap mb-3">
                             <label class="block text-sm text-gray-00" for="alias_name">Nama Alias</label>
                             <div class="py-2 text-left w-full">
-                                <input disabled value="{{ $device->ipm_frequency }}" id="standard_name" class="text-sm bg-gray-200 border-none focus:outline-none block w-min py-2 px-4" type="text">
+                                <input disabled value="{{ $device->ipm_frequency }}" id="standard_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
                             </div>
                         </div>
                     </div>    
@@ -106,7 +106,7 @@
             <div class="w-full px-6 py-3">
                 <table id="device" class="min-w-max mt-3 w-full table-auto text-center">
                     <thead>
-                        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal border-b border-gray-600">
+                        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                             <th class="py-3 px-6">Tanggal Entry</th>
                             <th class="py-3 px-6">Nomor Barcode</th>
                             <th class="py-3 px-6">Nomor Label</th>
