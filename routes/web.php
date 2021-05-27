@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TenantController;
+use App\Http\Controllers\User\AssetController;
 use App\Http\Controllers\User\BrandController;
 use App\Http\Controllers\User\DeviceController;
 use App\Http\Controllers\User\IdentityController;
@@ -78,6 +79,17 @@ if (Tenant::current()) {
                 Route::get('/edit/{identity}', [IdentityController::class, 'edit'])->name('identity.edit');
                 Route::post('/update/{identity}', [IdentityController::class, 'update'])->name('identity.update');
                 Route::get('/delete/{identity}', [IdentityController::class, 'destroy'])->name('identity.delete');
+            });
+
+            Route::prefix('asset')->group(function () {
+                Route::get('/', [AssetController::class, 'index'])->name('asset.index');
+                Route::get('/create/{inventory?}', [AssetController::class, 'create'])->name('asset.create');
+                Route::post('/store', [AssetController::class, 'store'])->name('asset.store');
+                Route::post('/import', [AssetController::class, 'import'])->name('asset.import');
+                // Route::get('/{id}', [AssetController::class, 'show'])->name('asset.show');
+                Route::get('/edit/{asset}', [AssetController::class, 'edit'])->name('asset.edit');
+                Route::post('/update/{asset}', [AssetController::class, 'update'])->name('asset.update');
+                Route::get('/delete/{asset}', [AssetController::class, 'destroy'])->name('asset.delete');
             });
 
             Route::prefix('ajax')->group(function () {

@@ -29,73 +29,48 @@
         <section class="flex flex-col break-words bg-white sm:border-1">
 
             <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
-                {{ __('Create New Identiy') }}
+                {{ __('Create New Asset') }}
             </header>
 
             <form class="w-3/5 mx-auto pb-6 my-6" method="POST"
-                action="{{ route('identity.store') }}">
+                action="{{ route('asset.store') }}">
                 @csrf
                 <div class="sm:grid sm:grid-cols-2 sm:gap-2 sm:px-6">
-                    <div class="">
-                        <label class="block text-sm text-gray-00" for="device_id">Nama Alat</label>
+                    @isset($inventory)
+                        <input type="hidden" name="inventory_id" value="{{ $inventory->id }}">
+                    @endisset
+                    @empty($inventory)
+                    <div class="col-span-2">
+                        <label class="block text-sm text-gray-00" for="device_id">ID Inventory</label>
                         <div class="py-2 text-left flex">
-                            <select style="width: 90%;" id="device_id" name="device_id" class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4">
+                            <select style="width: 100%;" id="inventory_id" name="inventory_id" class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4">
                                 <option></option>
-                                @foreach ($devices as $device)
-                                    <option value="{{ $device->id }}">{{ $device->standard_name }}</option>
+                                @foreach ($inventories as $inventory)
+                                    <option value="{{ $inventory->id }}">{{ $inventory->barcode.': '.$inventory->device->standard_name }}</option>
                                 @endforeach
                             </select>
                             
                             <script>
                                 $(document).ready(function() {
-                                    $('#device_id').select2({
-                                        placeholder: 'Select Device'
+                                    $('#inventory_id').select2({
+                                        placeholder: 'Select Inventory ID'
                                     });
                                 });
                             </script>
-                            <button onclick="toggleModal(this, 'device-toggle', 'device-modal')" type="button" class="modal-open device-toggle mx-2 text-green-600 hover:text-purple-500">
-                                <i class="fas fa-plus"></i>
-                            </button>
                         </div>
                     </div>
+                    @endempty
                     <div class="">
-                        <label class="block text-sm text-gray-00" for="brand_id">Merk</label>
-                        <div class="py-2 text-left flex">
-                            <select style="width: 90%;" id="brand_id" name="brand_id" class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4">
-                                <option value=""></option>
-                                @foreach ($brands as $brand)
-                                    <option value="{{ $brand->id }}">{{ $brand->brand }}</option>
-                                @endforeach
-                            </select>
-                            
-                            <script>
-                                $(document).ready(function() {
-                                    $('#brand_id').select2({
-                                        placeholder: 'Select Brand'
-                                    });
-                                });
-                            </script>
-                            <button onclick="toggleModal(this, 'brand-toggle', 'brand-modal')" type="button" class="modal-open brand-toggle mx-2 text-green-600 hover:text-purple-500">
-                                <i class="fas fa-plus"></i>
-                            </button>
+                        <label class="block mb-2 text-sm text-gray-00" for="year_purchased">Tahun Pembelian</label>
+                        <div class="py-2 text-left">
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="year_purchased" name="year_purchased" type="number" required>
                         </div>
                     </div>
+                    <div></div>
                     <div class="">
-                        <label class="block mb-2 text-sm text-gray-00" for="model">Tipe Alat</label>
+                        <label class="block mb-2 text-sm text-gray-00" for="price">Harga</label>
                         <div class="py-2 text-left">
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="model" name="model" type="text" required>
-                        </div>
-                    </div>
-                    <div class="row-start-3">
-                        <label class="block mb-2 text-sm text-gray-00" for="manual">Manual Book</label>
-                        <div class="py-2 text-left">
-                            <input class="" id="manual" name="manual" type="file">
-                        </div>
-                    </div>
-                    <div class="row-start-3">
-                        <label class="block mb-2 text-sm text-gray-00" for="procedure">Prosedur</label>
-                        <div class="py-2 text-left">
-                            <input class="" id="procedure" name="procedure" type="file">
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" name="price" type="number" required>
                         </div>
                     </div>
                 </div>

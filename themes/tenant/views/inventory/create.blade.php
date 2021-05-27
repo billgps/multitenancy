@@ -136,9 +136,6 @@
                                     })
                                 });
                             </script>
-                            <button id="identity-toggle" class="mx-2 text-green-600 hover:text-purple-500" href="{{ route('inventory.create') }}">
-                                <i class="fas fa-plus"></i>
-                            </button>
                         </div>
                     </div>
                     <div class="flex flex-col col-span-2">

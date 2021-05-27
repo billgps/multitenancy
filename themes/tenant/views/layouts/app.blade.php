@@ -131,7 +131,7 @@
                         <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('inventory.index') }}">
                             Data Inventaris
                         </a>
-                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="#">
+                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('asset.index') }}">
                             Data Aset
                         </a>
                         <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="#">
