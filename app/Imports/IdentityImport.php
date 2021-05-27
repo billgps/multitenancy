@@ -16,7 +16,10 @@ class IdentityImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         return new Identity([
-            //
+            'id' => $row['id'],
+            'device_id' => $row['id_nama_alat'],
+            'brand_id' => $row['id_merk'],
+            'model' => $row['model']
         ]);
     }
 }
