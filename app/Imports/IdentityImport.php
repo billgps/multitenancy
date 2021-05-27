@@ -2,10 +2,11 @@
 
 namespace App\Imports;
 
-use App\Identity;
+use App\Models\Identity;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class IdentityImport implements ToModel
+class IdentityImport implements ToModel, WithHeadingRow
 {
     /**
     * @param array $row

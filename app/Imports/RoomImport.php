@@ -4,8 +4,9 @@ namespace App\Imports;
 
 use App\Models\Room;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class RoomImport implements ToModel
+class RoomImport implements ToModel, WithHeadingRow
 {
     /**
     * @param array $row
