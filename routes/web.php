@@ -3,10 +3,12 @@
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\User\AssetController;
 use App\Http\Controllers\User\BrandController;
+use App\Http\Controllers\User\ConditionController;
 use App\Http\Controllers\User\DeviceController;
 use App\Http\Controllers\User\IdentityController;
 use App\Http\Controllers\User\RoomController;
 use App\Http\Controllers\User\InventoryController;
+use App\Http\Controllers\User\RecordController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Multitenancy\Models\Tenant;
 
@@ -90,6 +92,34 @@ if (Tenant::current()) {
                 Route::get('/edit/{asset}', [AssetController::class, 'edit'])->name('asset.edit');
                 Route::post('/update/{asset}', [AssetController::class, 'update'])->name('asset.update');
                 Route::get('/delete/{asset}', [AssetController::class, 'destroy'])->name('asset.delete');
+            });
+
+            Route::prefix('record')->group(function () {
+                Route::get('/', [RecordController::class, 'index'])->name('record.index');
+                Route::get('/create/{inventory?}', [RecordController::class, 'create'])->name('record.create');
+                Route::post('/store', [RecordController::class, 'store'])->name('record.store');
+                Route::post('/import', [RecordController::class, 'import'])->name('record.import');
+                Route::post('/upload/report', [RecordController::class, 'reportUpload'])->name('record.upload.report');
+                Route::post('/upload/certificate', [RecordController::class, 'certificateUpload'])->name('record.upload.certificate');
+                Route::get('/download/report', [RecordController::class, 'reportDownload'])->name('record.download.report');
+                Route::get('/download/certificate', [RecordController::class, 'certificateDownload'])->name('record.download.certificate');
+                // Route::get('/{id}', [RecordController::class, 'show'])->name('record.show');
+                Route::get('/edit/{record}', [RecordController::class, 'edit'])->name('record.edit');
+                Route::post('/update/{record}', [RecordController::class, 'update'])->name('record.update');
+                Route::get('/delete/{record}', [RecordController::class, 'destroy'])->name('record.delete');
+            });
+
+            Route::prefix('condition')->group(function () {
+                Route::get('/', [ConditionController::class, 'index'])->name('condition.index');
+                Route::get('/create/{inventory?}', [ConditionController::class, 'create'])->name('condition.create');
+                Route::post('/store', [ConditionController::class, 'store'])->name('condition.store');
+                Route::post('/import', [ConditionController::class, 'import'])->name('condition.import');
+                Route::post('/upload/worksheet', [ConditionController::class, 'worksheetUpload'])->name('condition.upload.worksheet');
+                Route::get('/download/worksheet', [ConditionController::class, 'worksheetDownload'])->name('condition.download.worksheet');
+                Route::get('/{condition}', [ConditionController::class, 'show'])->name('condition.show');
+                Route::get('/edit/{condition}', [ConditionController::class, 'edit'])->name('condition.edit');
+                Route::post('/update/{condition}', [ConditionController::class, 'update'])->name('condition.update');
+                Route::get('/delete/{condition}', [ConditionController::class, 'destroy'])->name('condition.delete');
             });
 
             Route::prefix('ajax')->group(function () {

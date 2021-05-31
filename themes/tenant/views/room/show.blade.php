@@ -56,8 +56,9 @@
                             </div>
                         </div>
                     </div>    
-                    <div class="ml-auto w-96 h-36 opacity-75">
-                        <img src="{{ asset('illust_4.png') }}" alt="">
+                    <div class="ml-auto text-xs">
+                        {{ __('Created at : '.$room->created_at) }}
+                        {{-- <img class="w-96 h-56 opacity-75" src="{{ asset('illust_4.png') }}" alt=""> --}}
                     </div>
                     {{-- <div class="flex flex-wrap justify-end">
                         <button disabled id="cancelBtn" onclick="toggleEdit(true)" type="button" class="block text-center text-white bg-red-600 mx-2 p-3 duration-300 rounded-sm hover:bg-red-500 disabled:opacity-75 w-24">Cancel</button>

@@ -132,21 +132,25 @@ class IdentityController extends Controller
             $manual = $request->file('manual');
             $procedure = $request->file('procedure');
 
-            if ($manual != null) {
-                $manualName = $manual->getClientOriginalName();
-                $manual->move(public_path().'/module/', $manualName);
-            }
+            // if ($manual != null) {
+            //     $manualName = $manual->getClientOriginalName();
+            //     $manual->move(public_path().'/module/', $manualName);
+            // }
 
-            if ($procedure != null) {
-                $procedureName = $procedure->getClientOriginalName();
-                $procedure->move(public_path().'/procedure/', $procedureName);
-            }
+            // if ($procedure != null) {
+            //     $procedureName = $procedure->getClientOriginalName();
+            //     $procedure->move(public_path().'/procedure/', $procedureName);
+            // }
 
             $identity->device_id = $request->device_id;
             $identity->brand_id = $request->brand_id;
             $identity->model = $request->model;
-            $identity->manual = ($manual != null) ? $manualName : null;
-            $identity->procedure = ($procedure != null) ? $procedureName : null;
+            if ($manual) {
+                $manual->move(public_path().'/module/', $manual->getClientOriginalName());
+            }
+            if ($procedure) {
+                $procedure->move(public_path().'/procedure/', $procedure->getClientOriginalName());
+            }
             $identity->update();
 
             return redirect()->route('identity.index')->with('success', 'New Entry Added');

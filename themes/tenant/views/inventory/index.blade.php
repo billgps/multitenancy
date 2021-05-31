@@ -120,10 +120,10 @@
                                             </a>
                                         </div>
                                     </td>
-                                    @if ($inventory->latest_record)
+                                    @isset($inventory->latest_record)
                                         <td>
                                             <div class="flex justify-end text-right">
-                                                @if ($inventory->latest_record->calibration_status != 'Wajib Kalibrasi')
+                                                @if ($inventory->latest_record->calibration_status == 'Terkalibrasi')
                                                     <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
                                                         Terkalibrasi
                                                     </div>
@@ -133,16 +133,8 @@
                                                     </div>
                                                 @endif
                                             </div>
-                                        </td>
-                                    @else
-                                        <td>
-                                            <div class="flex justify-end text-right">
-                                                <div class="rounded bg-yellow-300 text-gray-800 py-1 px-3 text-xs font-bold">
-                                                    Wajib Kalibrasi
-                                                </div>
-                                            </div>
-                                        </td>
-                                    @endif
+                                        </td>   
+                                    @endisset
                                     <td>
                                         <div class="w-ful h-48 text-sm">
                                             <img class="object-cover" src="{{ asset('images/'.$inventory->picture) }}" alt="{{ $inventory->barcode }}">

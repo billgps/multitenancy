@@ -40,7 +40,7 @@ class TenantController extends Controller
         $tenant->name = $request->name;
         $tenant->address = $request->address;
         $tenant->database = $request->database;
-        $tenant->domain = $request->domain.'.localhost';
+        $tenant->domain = $request->domain.'.gps-inventory.com';
         $tenant->save();
 
         return redirect()->route('tenant.show', ['tenant' => $tenant]);

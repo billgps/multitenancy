@@ -137,10 +137,10 @@
                         <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="#">
                             Data Consumable
                         </a>
-                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="#">
+                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('record.index') }}">
                             Riwayat Kalibrasi
                         </a>
-                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="#">
+                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('condition.index') }}">
                             Riwayat Kondisi
                         </a>
                         <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="#">

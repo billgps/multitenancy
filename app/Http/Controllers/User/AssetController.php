@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Imports\AssetImport;
 use App\Models\Asset;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AssetController extends Controller
 {
@@ -80,7 +82,7 @@ class AssetController extends Controller
     public function edit(Asset $asset)
     {
         return view('asset.edit', [
-            'asset' => $asset->inventory, 
+            'asset' => $asset, 
             'inventories' => Inventory::all()
         ]);
     }
@@ -121,5 +123,12 @@ class AssetController extends Controller
         $asset->delete();
 
         return redirect()->route('asset.index');
+    }
+
+    public function import()
+    {
+        Excel::import(new AssetImport, request()->file('file'));
+
+        return redirect()->route('asset.index')->with('success', 'Data Imported');
     }
 }

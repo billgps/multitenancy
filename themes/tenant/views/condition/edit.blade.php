@@ -29,11 +29,11 @@
         <section class="flex flex-col break-words bg-white sm:border-1">
 
             <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
-                {{ __('Edit Asset') }}
+                {{ __('Edit Condition') }}
             </header>
 
             <form class="w-3/5 mx-auto pb-6 my-6" method="POST"
-                action="{{ route('asset.update', ['asset' => $asset->id]) }}">
+                action="{{ route('condition.update', ['condition' => $condition->id]) }}">
                 @csrf
                 <div class="sm:grid sm:grid-cols-2 sm:gap-2 sm:px-6">
                     <div class="col-span-2">
@@ -53,28 +53,52 @@
                                     });
                                 });
 
-                                $('#inventory_id').val({!! json_encode($asset->inventory_id) !!})
+                                $('#inventory_id').val({!! json_encode($condition->inventory_id) !!})
                                 $('#inventory_id').trigger('change')
                             </script>
                         </div>
                     </div>
                     <div class="">
-                        <label class="block mb-2 text-sm text-gray-00" for="year_purchased">Tahun Pembelian</label>
+                        <label class="block mb-2 text-sm text-gray-00" for="event">Detail Kejadian</label>
                         <div class="py-2 text-left">
-                            <input value="{{ $asset->year_purchased }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="year_purchased" name="year_purchased" type="number" required>
+                            <textarea rows="4" cols="16" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="event" name="event" required>{{ $condition->event }}</textarea>
                         </div>
+                    </div>
+                    <div class="">
+                        <label class="block mb-2 text-sm text-gray-00" for="event_date">Tanggal Kejadian</label>
+                        <div class="py-2 text-left">
+                            <input value="{{ $condition->event_date }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="event_date" name="event_date" type="date" required>
+                        </div>
+                    </div>
+                    <div class="">
+                        <label class="block mb-2 text-sm text-gray-00" for="status">Status Alat</label>
+                        <div class="py-2 text-left">
+                            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="status" id="status" required>
+                                <option value="Baik">Baik</option>
+                                <option value="Rusak">Rusak</option>
+                            </select>
+                        </div>
+
+                        <script>
+                            let status = document.getElementById('status')
+                            for (let i = 0; i < status.options.length; i++) {
+                                if ({!! json_encode($condition->status) !!} == status.options[i].value) {
+                                    status.options[i].selected = true
+                                }                                
+                            }
+                        </script>
                     </div>
                     <div></div>
                     <div class="">
-                        <label class="block mb-2 text-sm text-gray-00" for="price">Harga</label>
+                        <label class="block mb-2 text-sm text-gray-00" for="worksheet">Lembar Kerja</label>
                         <div class="py-2 text-left">
-                            <input value="{{ $asset->price }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" name="price" type="number" required>
+                            <input class="" id="worksheet" name="worksheet" type="file">
                         </div>
                     </div>
                 </div>
 
                 <div class="flex flex-wrap justify-center mt-12">
-                    <input type="submit" value="{{ __('Submit') }}" class="block text-center text-white bg-gray-800 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-48">
+                    <input type="submit" value="{{ __('Update') }}" class="block text-center text-white bg-gray-800 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-48">
                 </div>        
             </form>
 

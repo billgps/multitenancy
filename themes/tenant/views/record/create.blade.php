@@ -29,13 +29,17 @@
         <section class="flex flex-col break-words bg-white sm:border-1">
 
             <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
-                {{ __('Edit Asset') }}
+                {{ __('Create New Record') }}
             </header>
 
             <form class="w-3/5 mx-auto pb-6 my-6" method="POST"
-                action="{{ route('asset.update', ['asset' => $asset->id]) }}">
+                action="{{ route('record.store') }}">
                 @csrf
                 <div class="sm:grid sm:grid-cols-2 sm:gap-2 sm:px-6">
+                    @isset($inventory)
+                        <input type="hidden" name="inventory_id" value="{{ $inventory->id }}">
+                    @endisset
+                    @empty($inventory)
                     <div class="col-span-2">
                         <label class="block text-sm text-gray-00" for="device_id">ID Inventory</label>
                         <div class="py-2 text-left flex">
@@ -52,23 +56,54 @@
                                         placeholder: 'Select Inventory ID'
                                     });
                                 });
-
-                                $('#inventory_id').val({!! json_encode($asset->inventory_id) !!})
-                                $('#inventory_id').trigger('change')
                             </script>
                         </div>
                     </div>
+                    @endempty
                     <div class="">
-                        <label class="block mb-2 text-sm text-gray-00" for="year_purchased">Tahun Pembelian</label>
+                        <label class="block mb-2 text-sm text-gray-00" for="cal_date">Tanggal Kalibrasi</label>
                         <div class="py-2 text-left">
-                            <input value="{{ $asset->year_purchased }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="year_purchased" name="year_purchased" type="number" required>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="cal_date" name="cal_date" type="date" required>
                         </div>
                     </div>
                     <div></div>
                     <div class="">
-                        <label class="block mb-2 text-sm text-gray-00" for="price">Harga</label>
+                        <label class="block mb-2 text-sm text-gray-00" for="label">Label</label>
                         <div class="py-2 text-left">
-                            <input value="{{ $asset->price }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" name="price" type="number" required>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="label" name="label" type="number" required>
+                        </div>
+                    </div>
+                    <div class="">
+                        <label class="block mb-2 text-sm text-gray-00" for="calibration_status">Status Kalibrasi</label>
+                        <div class="py-2 text-left">
+                            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="calibration_status" id="calibration_status" required>
+                                <option value="Terkalibrasi">Terkalibrasi</option>
+                                <option value="Segera Dikalibrasi">Segera Kalibrasi</option>
+                                <option value="Belum Update">Belum Update</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="">
+                        <label class="block mb-2 text-sm text-gray-00" for="result">Hasil Kalibrasi</label>
+                        <div class="py-2 text-left">
+                            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="result" id="result" required>
+                                <option value="Laik">Laik</option>
+                                <option value="Tidak Laik">Tidak Laik</option>
+                                <option value="Belum Update">Belum Update</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div></div>
+                    <div class="">
+                        <label class="block mb-2 text-sm text-gray-00" for="report">Laporan</label>
+                        <div class="py-2 text-left">
+                            <input class="" id="report" name="report" type="file">
+                        </div>
+                    </div>
+                    <div class="">
+                        <label class="block mb-2 text-sm text-gray-00" for="certificate">Sertifikat</label>
+                        <div class="py-2 text-left">
+                            <input class="" id="certificate" name="certificate" type="file">
                         </div>
                     </div>
                 </div>

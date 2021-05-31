@@ -29,11 +29,11 @@
         <section class="flex flex-col break-words bg-white sm:border-1">
 
             <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
-                {{ __('Edit Asset') }}
+                {{ __('Edit Record') }}
             </header>
 
             <form class="w-3/5 mx-auto pb-6 my-6" method="POST"
-                action="{{ route('asset.update', ['asset' => $asset->id]) }}">
+                action="{{ route('record.update', ['record' => $record->id]) }}">
                 @csrf
                 <div class="sm:grid sm:grid-cols-2 sm:gap-2 sm:px-6">
                     <div class="col-span-2">
@@ -53,28 +53,79 @@
                                     });
                                 });
 
-                                $('#inventory_id').val({!! json_encode($asset->inventory_id) !!})
+                                $('#inventory_id').val({!! json_encode($record->inventory_id) !!})
                                 $('#inventory_id').trigger('change')
                             </script>
                         </div>
                     </div>
                     <div class="">
-                        <label class="block mb-2 text-sm text-gray-00" for="year_purchased">Tahun Pembelian</label>
+                        <label class="block mb-2 text-sm text-gray-00" for="cal_date">Tanggal Kalibrasi</label>
                         <div class="py-2 text-left">
-                            <input value="{{ $asset->year_purchased }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="year_purchased" name="year_purchased" type="number" required>
+                            <input value="{{ $record->cal_date }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="cal_date" name="cal_date" type="date" required>
                         </div>
                     </div>
                     <div></div>
                     <div class="">
-                        <label class="block mb-2 text-sm text-gray-00" for="price">Harga</label>
+                        <label class="block mb-2 text-sm text-gray-00" for="label">Label</label>
                         <div class="py-2 text-left">
-                            <input value="{{ $asset->price }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" name="price" type="number" required>
+                            <input value="{{ $record->label }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="label" name="label" type="number" required>
+                        </div>
+                    </div>
+                    <div class="">
+                        <label class="block mb-2 text-sm text-gray-00" for="calibration_status">Status Kalibrasi</label>
+                        <div class="py-2 text-left">
+                            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="calibration_status" id="calibration_status" required>
+                                <option value="Terkalibrasi">Terkalibrasi</option>
+                                <option value="Segera Dikalibrasi">Segera Kalibrasi</option>
+                                <option value="Belum Update">Belum Update</option>
+                            </select>
+                        </div>
+
+                        <script>
+                            let calibration_status = document.getElementById('calibration_status')
+                            for (let i = 0; i < calibration_status.options.length; i++) {
+                                if ({!! json_encode($record->calibration_status) !!} == calibration_status.options[i].value) {
+                                    calibration_status.options[i].selected = true
+                                }                                
+                            }
+                        </script>
+                    </div>
+                    <div class="">
+                        <label class="block mb-2 text-sm text-gray-00" for="result">Hasil Kalibrasi</label>
+                        <div class="py-2 text-left">
+                            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="result" id="result" required>
+                                <option value="Laik">Laik</option>
+                                <option value="Tidak Laik">Tidak Laik</option>
+                                <option value="Belum Update">Belum Update</option>
+                            </select>
+                        </div>
+
+                        <script>
+                            let result = document.getElementById('result')
+                            for (let i = 0; i < result.options.length; i++) {
+                                if ({!! json_encode($record->result) !!} == result.options[i].value) {
+                                    result.options[i].selected = true
+                                }                                
+                            }
+                        </script>
+                    </div>
+                    <div></div>
+                    <div class="">
+                        <label class="block mb-2 text-sm text-gray-00" for="report">Laporan</label>
+                        <div class="py-2 text-left">
+                            <input class="" id="report" name="report" type="file">
+                        </div>
+                    </div>
+                    <div class="">
+                        <label class="block mb-2 text-sm text-gray-00" for="certificate">Sertifikat</label>
+                        <div class="py-2 text-left">
+                            <input class="" id="certificate" name="certificate" type="file">
                         </div>
                     </div>
                 </div>
 
                 <div class="flex flex-wrap justify-center mt-12">
-                    <input type="submit" value="{{ __('Submit') }}" class="block text-center text-white bg-gray-800 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-48">
+                    <input type="submit" value="{{ __('Update') }}" class="block text-center text-white bg-gray-800 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-48">
                 </div>        
             </form>
 

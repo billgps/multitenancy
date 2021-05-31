@@ -29,13 +29,18 @@
         <section class="flex flex-col break-words bg-white sm:border-1">
 
             <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
-                {{ __('Edit Asset') }}
+                {{ __('Create New Condition') }}
             </header>
 
             <form class="w-3/5 mx-auto pb-6 my-6" method="POST"
-                action="{{ route('asset.update', ['asset' => $asset->id]) }}">
+                action="{{ route('condition.store') }}">
                 @csrf
+                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                 <div class="sm:grid sm:grid-cols-2 sm:gap-2 sm:px-6">
+                    @isset($inventory)
+                        <input type="hidden" name="inventory_id" value="{{ $inventory->id }}">
+                    @endisset
+                    @empty($inventory)
                     <div class="col-span-2">
                         <label class="block text-sm text-gray-00" for="device_id">ID Inventory</label>
                         <div class="py-2 text-left flex">
@@ -52,23 +57,36 @@
                                         placeholder: 'Select Inventory ID'
                                     });
                                 });
-
-                                $('#inventory_id').val({!! json_encode($asset->inventory_id) !!})
-                                $('#inventory_id').trigger('change')
                             </script>
                         </div>
                     </div>
+                    @endempty
                     <div class="">
-                        <label class="block mb-2 text-sm text-gray-00" for="year_purchased">Tahun Pembelian</label>
+                        <label class="block mb-2 text-sm text-gray-00" for="event">Detail Kejadian</label>
                         <div class="py-2 text-left">
-                            <input value="{{ $asset->year_purchased }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="year_purchased" name="year_purchased" type="number" required>
+                            <textarea rows="4" cols="16" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="event" name="event" type="number" required></textarea>
+                        </div>
+                    </div>
+                    <div class="">
+                        <label class="block mb-2 text-sm text-gray-00" for="event_date">Tanggal Kejadian</label>
+                        <div class="py-2 text-left">
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="event_date" name="event_date" type="date" required>
+                        </div>
+                    </div>
+                    <div class="">
+                        <label class="block mb-2 text-sm text-gray-00" for="status">Status Alat</label>
+                        <div class="py-2 text-left">
+                            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="status" id="status" required>
+                                <option value="Baik">Baik</option>
+                                <option value="Rusak">Rusak</option>
+                            </select>
                         </div>
                     </div>
                     <div></div>
                     <div class="">
-                        <label class="block mb-2 text-sm text-gray-00" for="price">Harga</label>
+                        <label class="block mb-2 text-sm text-gray-00" for="worksheet">Lembar Kerja</label>
                         <div class="py-2 text-left">
-                            <input value="{{ $asset->price }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" name="price" type="number" required>
+                            <input class="" id="worksheet" name="worksheet" type="file">
                         </div>
                     </div>
                 </div>
