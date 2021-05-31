@@ -8,6 +8,15 @@
     }
 </style>
 <main class="sm:container sm:mx-auto sm:mt-10">
+    <script>
+        let scheduled = {!! json_encode($scheduled) !!}
+        let calibrated = {!! json_encode($calibrated) !!}
+        let good = {!! json_encode($good) !!}
+        let broken = {!! json_encode($broken) !!}
+        let usable = {!! json_encode($usable) !!}
+        let non_usable = {!! json_encode($non_usable) !!}
+        let total = {!! json_encode(count($inventories)) !!}
+    </script>
     <div class="w-full sm:px-6">
 
         @if (session('status'))
@@ -23,7 +32,7 @@
                         Wajib Kalibrasi
                     </div>
                     <div class="mt-4 text-2xl text-center text-yellow-500">
-                        1
+                        {{ $scheduled }}
                     </div>
                 </div>
             </div>
@@ -33,7 +42,7 @@
                         Laik
                     </div>
                     <div class="mt-4 text-2xl text-center text-green-500">
-                        1
+                        {{ $usable }}
                     </div>
                 </div>
             </div>
@@ -42,8 +51,8 @@
                     <div class="text-md text-gray-600">
                         Baik
                     </div>
-                    <div class="mt-4 text-2xl text-center text-purple-500">
-                        1
+                    <div class="mt-4 text-2xl text-center text-green-500">
+                        {{ $good }}
                     </div>
                 </div>
             </div>
@@ -58,11 +67,12 @@
                         let myChart = new Chart(wajib, {
                             type: 'doughnut',
                             data: {
-                                labels: ['Terkalibrasi', 'Segera Kalibrasi'],
+                                labels: ['Terkalibrasi', 'Segera Kalibrasi', 'Belum Update'],
                                 datasets: [{
-                                    data: [100, 50],
+                                    data: [calibrated, scheduled, total - (scheduled + calibrated)],
                                     backgroundColor: [
                                         'rgba(52, 211, 153, 1)',
+                                        'rgba(251, 191, 135, 1)',
                                         'rgba(209, 213, 219, 0.3)',
                                     ],
                                 }]
@@ -88,11 +98,12 @@
                         myChart = new Chart(rusak, {
                             type: 'doughnut',
                             data: {
-                                labels: ['Terkalibrasi', 'Segera Kalibrasi'],
+                                labels: ['Laik', 'Tidak Laik', 'Belum Update'],
                                 datasets: [{
-                                    data: [100, 50],
+                                    data: [usable, non_usable, total - (usable + non_usable)],
                                     backgroundColor: [
                                         'rgba(52, 211, 153, 1)',
+                                        'rgba(239, 68, 68, 1)',
                                         'rgba(209, 213, 219, 0.3)',
                                     ],
                                 }]
@@ -118,11 +129,12 @@
                         myChart = new Chart(laik, {
                             type: 'doughnut',
                             data: {
-                                labels: ['Terkalibrasi', 'Segera Kalibrasi'],
+                                labels: ['Baik', 'Rusak', 'Belum Update'],
                                 datasets: [{
-                                    data: [100, 50],
+                                    data: [good, broken, total - (good + broken)],
                                     backgroundColor: [
                                         'rgba(52, 211, 153, 1)',
+                                        'rgba(239, 68, 68, 1)',
                                         'rgba(209, 213, 219, 0.3)',
                                     ],
                                 }]
@@ -188,7 +200,7 @@
                             @foreach ($records as $record)
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">
                                     <td class="py-3 px-6">
-                                        {{ $record->inventory->device->name }}
+                                        {{ $record->inventory->device->standard_name }}
                                     </td>
                                     <td class="py-3 px-6">
                                         {{ $record->created_at }}
@@ -203,7 +215,7 @@
             <div class="col-span-3 flex overflow-y-auto w-full p-4 bg-white">
                 <div class="w-full justify-center text-gray-600">
                     <div class="text-md">
-                        Alat Kesehatan Baru
+                        Inventori Baru
                     </div>
                     <table id="records" class="min-w-max mt-3 w-full table-auto text-center">
                         <thead>
@@ -215,13 +227,27 @@
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
-                            @foreach ($records as $record)
+                            @foreach ($displayInventories as $displayInventory)
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">
                                     <td class="py-3 px-6">
-                                        {{ $record->inventory->device->name }}
+                                        {{ $displayInventory->device->standard_name }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $record->created_at }}
+                                        {{ $displayInventory->room->room_name }}
+                                    </td>
+                                    <td class="py-3 px-6">
+                                        {{ $displayInventory->brand->brand }}
+                                    </td>
+                                    <td class="py-3 px-6">
+                                        @if ($displayInventory->latest_record->calibration_status == 'Terkalibrasi')
+                                            <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                {{ $displayInventory->latest_record->calibration_status }}
+                                            </div>
+                                        @else
+                                            <div class="rounded bg-yellow-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                {{ $displayInventory->latest_record->calibration_status }}
+                                            </div>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -244,13 +270,27 @@
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
-                            @foreach ($records as $record)
+                            @foreach ($need_calibrations as $need_calibration)
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">
                                     <td class="py-3 px-6">
-                                        {{ $record->inventory->device->name }}
+                                        {{ $need_calibration->device->standard_name }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $record->created_at }}
+                                        {{ $need_calibration->latest_rcord->cal_date }}
+                                    </td>
+                                    <td class="py-3 px-6">
+                                        {{ $need_calibration->latest_record->updated_at }}
+                                    </td>
+                                    <td class="py-3 px-6">
+                                        @if ($need_calibration->latest_record->calibration_status == 'Terkalibrasi')
+                                            <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                {{ $need_calibration->latest_record->calibration_status }}
+                                            </div>
+                                        @else
+                                            <div class="rounded bg-yellow-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                {{ $need_calibration->latest_record->calibration_status }}
+                                            </div>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
