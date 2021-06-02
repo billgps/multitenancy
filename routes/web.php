@@ -9,6 +9,7 @@ use App\Http\Controllers\User\DeviceController;
 use App\Http\Controllers\User\IdentityController;
 use App\Http\Controllers\User\RoomController;
 use App\Http\Controllers\User\InventoryController;
+use App\Http\Controllers\User\MaintenanceController;
 use App\Http\Controllers\User\RecordController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Multitenancy\Models\Tenant;
@@ -132,6 +133,17 @@ if (Tenant::current()) {
                 Route::get('/edit/{consumable}', [ConsumableController::class, 'edit'])->name('consumable.edit');
                 Route::post('/update/{consumable}', [ConsumableController::class, 'update'])->name('consumable.update');
                 Route::get('/delete/{consumable}', [ConsumableController::class, 'destroy'])->name('consumable.delete');
+            });
+
+            Route::prefix('maintenance')->group(function () {
+                Route::get('/', [MaintenanceController::class, 'index'])->name('maintenance.index');
+                Route::get('/create/{inventory?}', [MaintenanceController::class, 'create'])->name('maintenance.create');
+                Route::post('/store', [MaintenanceController::class, 'store'])->name('maintenance.store');
+                Route::post('/import', [MaintenanceController::class, 'import'])->name('maintenance.import');
+                // Route::get('/{id}', [MaintenanceController::class, 'show'])->name('maintenance.show');
+                Route::get('/edit/{maintenance}', [MaintenanceController::class, 'edit'])->name('maintenance.edit');
+                Route::post('/update/{maintenance}', [MaintenanceController::class, 'update'])->name('maintenance.update');
+                Route::get('/delete/{maintenance}', [MaintenanceController::class, 'destroy'])->name('maintenance.delete');
             });
 
             Route::prefix('ajax')->group(function () {
