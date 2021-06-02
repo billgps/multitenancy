@@ -13,8 +13,8 @@
         let calibrated = {!! json_encode($calibrated) !!}
         let good = {!! json_encode($good) !!}
         let broken = {!! json_encode($broken) !!}
-        let usable = {!! json_encode($usable) !!}
-        let non_usable = {!! json_encode($non_usable) !!}
+        let passed = {!! json_encode($passed) !!}
+        let failed = {!! json_encode($failed) !!}
         let total = {!! json_encode(count($inventories)) !!}
     </script>
     <div class="w-full sm:px-6">
@@ -42,7 +42,7 @@
                         Laik
                     </div>
                     <div class="mt-4 text-2xl text-center text-green-500">
-                        {{ $usable }}
+                        {{ $passed }}
                     </div>
                 </div>
             </div>
@@ -100,7 +100,7 @@
                             data: {
                                 labels: ['Laik', 'Tidak Laik', 'Belum Update'],
                                 datasets: [{
-                                    data: [usable, non_usable, total - (usable + non_usable)],
+                                    data: [passed, failed, total - (passed + failed)],
                                     backgroundColor: [
                                         'rgba(52, 211, 153, 1)',
                                         'rgba(239, 68, 68, 1)',
@@ -227,25 +227,25 @@
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
-                            @foreach ($displayInventories as $displayInventory)
+                            @foreach ($inventories as $inventory)
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">
                                     <td class="py-3 px-6">
-                                        {{ $displayInventory->device->standard_name }}
+                                        {{ $inventory->device->standard_name }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $displayInventory->room->room_name }}
+                                        {{ $inventory->room->room_name }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $displayInventory->brand->brand }}
+                                        {{ $inventory->brand->brand }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        @if ($displayInventory->latest_record->calibration_status == 'Terkalibrasi')
+                                        @if ($inventory->latest_record->calibration_status == 'Terkalibrasi')
                                             <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
-                                                {{ $displayInventory->latest_record->calibration_status }}
+                                                {{ $inventory->latest_record->calibration_status }}
                                             </div>
                                         @else
                                             <div class="rounded bg-yellow-400 text-gray-800 py-1 px-3 text-xs font-bold">
-                                                {{ $displayInventory->latest_record->calibration_status }}
+                                                {{ $inventory->latest_record->calibration_status }}
                                             </div>
                                         @endif
                                     </td>
@@ -270,28 +270,28 @@
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
-                            @foreach ($need_calibrations as $need_calibration)
+                            @foreach ($pending as $item)
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">
                                     <td class="py-3 px-6">
-                                        {{ $need_calibration->device->standard_name }}
+                                        {{ $item->device->standard_name }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $need_calibration->latest_rcord->cal_date }}
+                                        {{ $item->latest_record->cal_date }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $need_calibration->latest_record->updated_at }}
+                                        {{ $item->latest_record->updated_at }}
                                     </td>
-                                    <td class="py-3 px-6">
-                                        @if ($need_calibration->latest_record->calibration_status == 'Terkalibrasi')
+                                    {{-- <td class="py-3 px-6">
+                                        @if ($item->latest_record->calibration_status == 'Terkalibrasi')
                                             <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
-                                                {{ $need_calibration->latest_record->calibration_status }}
+                                                {{ $item->latest_record->calibration_status }}
                                             </div>
                                         @else
                                             <div class="rounded bg-yellow-400 text-gray-800 py-1 px-3 text-xs font-bold">
-                                                {{ $need_calibration->latest_record->calibration_status }}
+                                                {{ $item->latest_record->calibration_status }}
                                             </div>
                                         @endif
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             @endforeach
                         </tbody>

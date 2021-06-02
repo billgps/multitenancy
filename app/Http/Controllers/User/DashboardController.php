@@ -17,22 +17,36 @@ class DashboardController extends Controller
         //$this->middleware('verified:user.verification.notice');
     }
 
-
     public function index(){
-        $scheduled = 0;
-        $calibrated = 0;
-        $usable = 0;
-        $non_usable = 0;
-        $good = 0;
-        $broken = 0;
+        $total = Inventory::all()->count();
+        $scheduled = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
+            $query->where('calibration_status', 'Segera Dikalibrasi');
+        })->count();
+        $calibrated = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
+            $query->where('calibration_status', 'Terkalibrasi');
+        })->count();
 
-        $inventories = Inventory::with('device', 'room', 'brand', 'latest_condition', 'latest_record')->orderBy('created_at', 'desc')->get();
-        $displayInventories = Inventory::with('device', 'room', 'brand', 'latest_record')->orderBy('created_at', 'desc')->take(5)->get();
-        $need_calibrations = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
+        $passed = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
+            $query->where('result', 'Laik');
+        })->count();
+        $failed = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
+            $query->where('result', 'Tidak Laik');
+        })->count();
+
+        $good = Inventory::with('latest_condition')->whereHas('latest_condition', function($query) {
+            $query->where('status', 'Baik');
+        })->count();
+        $broken = Inventory::with('latest_condition')->whereHas('latest_condition', function($query) {
+            $query->where('status', 'Rusak');
+        })->count();
+
+        $inventories = Inventory::with('device', 'room', 'brand', 'latest_record')->orderBy('created_at', 'desc')->take(5)->get();
+        $pending = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
             $query->where('calibration_status', 'Segera Dikalibrasi');
         })->take(5)->get();
         $records = Record::with('inventory.device')->orderBy('created_at', 'desc')->take(5)->get();
 
+        /*
         foreach ($inventories as $inventory) {
             if ($inventory->latest_record->calibration_status == 'Terkalibrasi') {
                 $calibrated++;
@@ -58,19 +72,19 @@ class DashboardController extends Controller
                 $broken++;
             }
         }
+        */
         
         return view('home', [
             'inventories' => $inventories,
-            'displayInventories' => $displayInventories,
-            'need_calibrations' => $need_calibrations,
+            'pending' => $pending,
             'records' => $records,
-            'need_calibrations' => $scheduled,
+            'total' => $total,
             'scheduled' => $scheduled,
             'calibrated' => $calibrated,
             'good' => $good,
             'broken' => $broken,
-            'usable' => $usable,
-            'non_usable' => $non_usable
+            'passed' => $passed,
+            'failed' => $failed
         ]);
     }
 }
