@@ -15,7 +15,7 @@
         let broken = {!! json_encode($broken) !!}
         let passed = {!! json_encode($passed) !!}
         let failed = {!! json_encode($failed) !!}
-        let total = {!! json_encode(count($inventories)) !!}
+        let total = {!! json_encode($total) !!}
     </script>
     <div class="w-full sm:px-6">
 
@@ -64,6 +64,7 @@
                     </div>        
                     <script>
                         let wajib = document.getElementById('wajib_chart')
+                        console.log(total);
                         let myChart = new Chart(wajib, {
                             type: 'doughnut',
                             data: {

@@ -139,7 +139,7 @@ class ConditionController extends Controller
             }
             $condition->update();
 
-            return redirect()->route('condition.index')->with('success', 'New Entry Added');
+            return redirect()->route('condition.show', ['condition' => $condition->id])->with('success', 'Entry Updated');
         }
     }
 

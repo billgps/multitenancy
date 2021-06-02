@@ -4,6 +4,7 @@ use App\Http\Controllers\TenantController;
 use App\Http\Controllers\User\AssetController;
 use App\Http\Controllers\User\BrandController;
 use App\Http\Controllers\User\ConditionController;
+use App\Http\Controllers\User\ConsumableController;
 use App\Http\Controllers\User\DeviceController;
 use App\Http\Controllers\User\IdentityController;
 use App\Http\Controllers\User\RoomController;
@@ -120,6 +121,17 @@ if (Tenant::current()) {
                 Route::get('/edit/{condition}', [ConditionController::class, 'edit'])->name('condition.edit');
                 Route::post('/update/{condition}', [ConditionController::class, 'update'])->name('condition.update');
                 Route::get('/delete/{condition}', [ConditionController::class, 'destroy'])->name('condition.delete');
+            });
+
+            Route::prefix('consumable')->group(function () {
+                Route::get('/', [ConsumableController::class, 'index'])->name('consumable.index');
+                Route::get('/create/{inventory?}', [ConsumableController::class, 'create'])->name('consumable.create');
+                Route::post('/store', [ConsumableController::class, 'store'])->name('consumable.store');
+                Route::post('/import', [ConsumableController::class, 'import'])->name('consumable.import');
+                Route::get('/{consumable}', [ConsumableController::class, 'show'])->name('consumable.show');
+                Route::get('/edit/{consumable}', [ConsumableController::class, 'edit'])->name('consumable.edit');
+                Route::post('/update/{consumable}', [ConsumableController::class, 'update'])->name('consumable.update');
+                Route::get('/delete/{consumable}', [ConsumableController::class, 'destroy'])->name('consumable.delete');
             });
 
             Route::prefix('ajax')->group(function () {
