@@ -152,38 +152,69 @@
                 </div>
             </div>
 
-            <div class="col-span-4 flex w-full p-4 bg-white">
-                <div class="text-md text-gray-600">
+            <div class="col-span-4 w-full p-4 bg-white">
+                <div class="text-md flex text-left text-gray-600">
                     Statistik Kerusakan Alat
                 </div>
-                {{-- <div class="flex flex-col mt-6">
-                    <div class="w-full">
-                        <canvas id="line_chart" class="mx-auto my-auto p-3 text-sm text-gray-700"></canvas>
+                <div class="flex flex-col mt-6">
+                    <div class="w-full h-full">
+                        <canvas id="line-chart" class="text-sm text-gray-700"></canvas>
                     </div>        
                     <script>
-                        let line = document.getElementById('line_chart')
-                        myChart = new Chart(line, {
-                            type: 'doughnut',
+                        var array1 = {!! json_encode($statistic)  !!};
+                        var months = []
+                        let data = []
+                        for (var property in array1) {
+                            months.unshift(property)
+                        }
+
+                        for (let i = 0; i < months.length; i++) {
+                            data.push(array1[months[i]].length)
+                        }
+
+                        var chart = new Chart(document.getElementById("line-chart"), {
+                            type: 'line',
                             data: {
-                                labels: ['Terkalibrasi', 'Segera Kalibrasi'],
-                                datasets: [{
-                                    data: [100, 50],
-                                    backgroundColor: [
-                                        'rgba(52, 211, 153, 1)',
-                                        'rgba(209, 213, 219, 0.3)',
-                                    ],
+                                    labels: months,
+                                    datasets: [{
+                                    backgroundColor: 'rgba(239, 68, 68, 1)',
+                                    borderColor: 'rgba(239, 68, 68, 1)',
+                                    data: data,
+                                    fill: false
                                 }]
                             },
                             options: {
-                                responsive: false,
-                                maintainAspectRatio: false,
+                                responsive: true,
+                                // scales: {
+                                //     xAxes: [{
+                                //         type: 'time',
+                                //         time: {
+                                //             unit: 'month'
+                                //         }
+                                //     }]
+                                // },
                                 legend: {
                                     display: false,
                                 }
                             }
-                        })
+                        });            
+                        // console.log(months);
+                        // new Chart(document.getElementById("line-chart"), {
+                        //     type: 'line',
+                        //     data: {
+                        //         labels: months,
+                        //         // datasets: [
+                        //         //     { 
+                        //         //         data: [86,114,106,106,107,111,133,221,783,2478],
+                        //         //         label: "Africa",
+                        //         //         borderColor: "#3e95cd",
+                        //         //         fill: false
+                        //         //     }, 
+                        //         // ],
+                        //     },
+                        // });
                     </script>  
-                </div> --}}
+                </div>
             </div>
             <div class="col-span-2 flex overflow-y-auto w-full p-4 bg-white">
                 <div class="w-full justify-center text-gray-600">

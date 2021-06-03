@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Condition;
 use App\Models\Inventory;
 use App\Models\Record;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -18,6 +19,7 @@ class DashboardController extends Controller
     }
 
     public function index(){
+        $temp = array();
         $total = Inventory::all()->count();
         $scheduled = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
             $query->where('calibration_status', 'Segera Dikalibrasi');
@@ -44,8 +46,24 @@ class DashboardController extends Controller
         $pending = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
             $query->where('calibration_status', 'Segera Dikalibrasi');
         })->take(5)->get();
-        $records = Record::with('inventory.device')->orderBy('created_at', 'desc')->take(5)->get();
 
+        $records = Record::with('inventory.device')->orderBy('created_at', 'desc')->take(5)->get();
+        $current = date('Y-m-d h:i:s a', time());
+        $before = date('Y-m-d h:i:s a', strtotime("-5months", strtotime($current)));
+
+        $months = Inventory::with('latest_condition')->whereHas('latest_condition', function($query) use ($current, $before) {
+            $query->where('status', 'Rusak')
+                ->whereBetween('event_date', [$before, $current])
+                ->orderBy('event_date', 'asc');
+        })->get()
+            ->groupBy(function ($val) {
+                return Carbon::parse($val->latest_condition->event_date)->format('M');
+        });
+
+        foreach ($months as $month) {
+            array_push($temp, $month->count());
+        }
+        
         /*
         foreach ($inventories as $inventory) {
             if ($inventory->latest_record->calibration_status == 'Terkalibrasi') {
@@ -84,7 +102,8 @@ class DashboardController extends Controller
             'good' => $good,
             'broken' => $broken,
             'passed' => $passed,
-            'failed' => $failed
+            'failed' => $failed,
+            'statistic' => $months
         ]);
     }
 }
