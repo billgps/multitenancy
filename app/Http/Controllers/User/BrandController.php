@@ -132,7 +132,7 @@ class BrandController extends Controller
         $id = $request->id;
 
         if ($id) {
-            $identities = Identity::with('brand')->where('device_id', $id)->get();
+            $identities = Identity::with('brand')->where('device_id', $id)->groupBy('brand_id')->get();
         }
 
         return response()->json(['data' => $identities], 200);

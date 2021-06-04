@@ -11,6 +11,7 @@ use App\Http\Controllers\User\RoomController;
 use App\Http\Controllers\User\InventoryController;
 use App\Http\Controllers\User\MaintenanceController;
 use App\Http\Controllers\User\RecordController;
+use App\Models\Inventory;
 use Illuminate\Support\Facades\Route;
 use Spatie\Multitenancy\Models\Tenant;
 
@@ -39,6 +40,9 @@ if (Tenant::current()) {
                 Route::post('/import', [InventoryController::class, 'import'])->name('inventory.import');
                 Route::post('/image', [InventoryController::class, 'image'])->name('inventory.image');
                 Route::get('/{id}', [InventoryController::class, 'show'])->name('inventory.show');
+                Route::get('/edit/{inventory}', [InventoryController::class, 'edit'])->name('inventory.edit');
+                Route::post('/update/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
+                Route::get('/delete/{inventory}', [InventoryController::class, 'destroy'])->name('inventory.delete');
             });
 
             Route::prefix('device')->group(function () {

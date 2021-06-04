@@ -83,7 +83,9 @@
                                         @endif
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $condition->worksheet }}
+                                        <a href="{{ route('condition.download.worksheet', ['condition' => $condition->id]) }}">
+                                            {{ $condition->worksheet }}
+                                        </a>
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">

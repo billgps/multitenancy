@@ -75,13 +75,13 @@
                             </div>
                         </div>
                         <div class="flex flex-wrap mb-3">
-                            <label class="block text-sm text-gray-00" for="alias_name">Nama Alias</label>
+                            <label class="block text-sm text-gray-00" for="alias_name">Risk Level</label>
                             <div class="py-2 text-left w-full">
                                 <input disabled value="{{ $device->risk_level }}" id="standard_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
                             </div>
                         </div>
                         <div class="flex flex-wrap mb-3">
-                            <label class="block text-sm text-gray-00" for="alias_name">Nama Alias</label>
+                            <label class="block text-sm text-gray-00" for="alias_name">IPM Frequency</label>
                             <div class="py-2 text-left w-full">
                                 <input disabled value="{{ $device->ipm_frequency }}" id="standard_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
                             </div>

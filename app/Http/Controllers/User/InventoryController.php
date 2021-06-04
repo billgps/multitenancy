@@ -118,6 +118,9 @@ class InventoryController extends Controller
 
         return view('inventory.show', [
             'inventory' => $inventory, 
+            'records' => $inventory->records,
+            'conditions' => $inventory->conditions,
+            'maintenances' => $inventory->maintenance
         ]);
     }
 
@@ -129,7 +132,11 @@ class InventoryController extends Controller
      */
     public function edit(Inventory $inventory)
     {
-        //
+        return view('inventory.edit', [
+            'inventory' => $inventory, 
+            'devices' => Device::all(),
+            'rooms' => Room::all()
+        ]);
     }
 
     /**
@@ -141,7 +148,36 @@ class InventoryController extends Controller
      */
     public function update(Request $request, Inventory $inventory)
     {
-        //
+        $validated = $request->validate([
+            'barcode' => 'required|max:255',
+            'serial' => 'required|max:255',
+            'device_id' => 'required|integer',
+            'brand_id' => 'required|integer',
+            'identity_id' => 'required|integer',
+            'room_id' => 'required|integer',
+        ]);
+
+        if ($validated) {
+            $picture = $request->file('picture');
+
+            // if ($picture != null) {
+            //     $name = $picture->getClientOriginalName();
+            //     $picture->move(public_path().'/images/', $name);
+            // }
+
+            $inventory->barcode = $request->barcode;
+            $inventory->serial = $request->serial;
+            $inventory->device_id = $request->device_id;
+            $inventory->brand_id = $request->brand_id;
+            $inventory->identity_id = $request->identity_id;
+            $inventory->room_id = $request->room_id;
+            if ($picture) {
+                $picture->move(public_path().'/images/', $picture->getClientOriginalName());
+            }
+            $inventory->update();
+
+            return redirect()->route('inventory.show', ['id' => $inventory->id])->with('success', 'Entry Updated');
+        }
     }
 
     /**
@@ -152,7 +188,12 @@ class InventoryController extends Controller
      */
     public function destroy(Inventory $inventory)
     {
-        //
+        $inventory->records()->delete();
+        $inventory->conditions()->delete();
+
+        $inventory->delete();
+
+        return redirect()->route('inventory.index')->with('success', 'Entry Deleted!');
     }
 
     public function import(Request $request)

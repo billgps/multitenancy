@@ -68,7 +68,8 @@ class Inventory extends Model
     public function asset()
     {
         return $this->hasOne('App\Models\Asset', 'inventory_id', 'id')->withDefault([
-            'price' => 0
+            'year_purchased' => '-',
+            'price' => '-'
         ]);
     }
 

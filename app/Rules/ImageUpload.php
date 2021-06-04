@@ -25,27 +25,31 @@ class ImageUpload implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (is_array($value)) {
-            $name = array();
-
-            foreach ($value as $val) {
-                array_push($name, $val->getClientOriginalName());
-            }
-
-            for ($i = 0; $i < count($name); $i++) { 
-                if (!is_numeric(pathinfo($name[$i], PATHINFO_FILENAME))) {
-                    return false;
+        if ($value) {
+            if (is_array($value)) {
+                $name = array();
+    
+                foreach ($value as $val) {
+                    array_push($name, $val->getClientOriginalName());
                 }
-
-                if (!strlen(pathinfo($name[$i], PATHINFO_FILENAME)) == 6) {
-                    return false;
+    
+                for ($i = 0; $i < count($name); $i++) { 
+                    if (!is_numeric(pathinfo($name[$i], PATHINFO_FILENAME))) {
+                        return false;
+                    }
+    
+                    if (!strlen(pathinfo($name[$i], PATHINFO_FILENAME)) == 6) {
+                        return false;
+                    }
                 }
+    
+                return true;
+            } else {
+                $name = $value->getClientOriginalName();
+    
+                return true;
             }
-
-            return true;
         } else {
-            $name = $value->getClientOriginalName();
-
             return true;
         }
     }
