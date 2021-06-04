@@ -56,7 +56,7 @@ class DeviceController extends Controller
             $device->save();
 
             if ($request->modal) {
-                return back();
+                return back()->with('success', 'New Entry Added');
             } else {
                 return redirect()->route('device.show', ['id' => $device->id])->with('success', 'New Entry Added');
             }

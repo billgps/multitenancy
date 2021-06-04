@@ -18,13 +18,16 @@
 </style>
 
 <script>
-    function populate(data, select) {
+    function populate(data, select, param) {
         document.getElementById(select).innerHTML = ''
-
-        let option = 
         
         for (let i = 0; i < data.length; i++) {
-            option = new Option(data[i].model, data[i].id, false, false);
+            let option
+            if (param == 'model') {
+                option = new Option(data[i].model, data[i].id, false, false);
+            } else {
+                option = new Option(data[i].brand.brand, data[i].id, false, false); 
+            }
             $('#' + select).append(option).trigger('change');            
         }
     }
@@ -66,7 +69,7 @@
                                     });
                                 });
                             </script>
-                            <button id="device-toggle" class="mx-2 text-green-600 hover:text-purple-500" href="{{ route('inventory.create') }}">
+                            <button onclick="toggleModal(this, 'device-toggle', 'device-modal')" type="button" class="modal-open device-toggle mx-2 text-green-600 hover:text-purple-500">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
@@ -88,9 +91,9 @@
                         <div class="py-2 text-left">
                             <select style="width: 90%;" id="brand_id" name="brand_id" class="text-sm bg-gray-20 focus:outline-none block w-full px-3">
                                 <option></option>
-                                @foreach ($brands as $brand)
+                                {{-- @foreach ($brands as $brand)
                                     <option value="{{ $brand->id }}">{{ $brand->brand }}</option>
-                                @endforeach
+                                @endforeach --}}
                             </select>
                             
                             <script>
@@ -100,7 +103,29 @@
                                     });
                                 });
                             </script>
-                            <button id="brand-toggle" class="mx-2 text-green-600 hover:text-purple-500" href="{{ route('inventory.create') }}">
+
+                            <script>
+                                $(document).ready(function() {
+                                    let brandSelect = $('#device_id')
+                                    brandSelect.on('change', function () {
+                                        $.ajax({
+                                            type: "GET",
+                                            url: "{{ route('brand.ajax') }}",
+                                            data: {
+                                                id: $('#device_id').select2('data')[0].id
+                                            },
+                                            success: function (data) {
+                                                console.log(data.data);
+                                                populate(data.data, 'brand_id', 'brand')
+                                            },
+                                            error: function (error) {
+                                                console.log(error)
+                                            }
+                                        })
+                                    })
+                                });
+                            </script>
+                            <button onclick="toggleModal(this, 'brand-toggle', 'brand-modal')" type="button" class="modal-open brand-toggle mx-2 text-green-600 hover:text-purple-500" href="{{ route('inventory.create') }}">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
@@ -127,7 +152,8 @@
                                                 id: $('#brand_id').select2('data')[0].id
                                             },
                                             success: function (data) {
-                                                populate(data.data, 'identity_id')
+                                                console.log(data.data);
+                                                populate(data.data, 'identity_id', 'model')
                                             },
                                             error: function (error) {
                                                 console.log(error)
@@ -155,21 +181,15 @@
                                     });
                                 });
                             </script>
-                            <button id="room-toggle" class="mx-2 text-green-600 hover:text-purple-500" href="{{ route('inventory.create') }}">
+                            <button onclick="toggleModal(this, 'room-toggle', 'room-modal')" type="button" class="modal-open room-toggle mx-2 text-green-600 hover:text-purple-500" href="{{ route('inventory.create') }}">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
                     </div>
-                    <div class="flex flex-col justify-center col-span-2">
-                        <label class="block text-sm text-gray-00 mb-8" for="picture">Foto Alat</label>
-                        <div class="relative h-4 border-gray-200 bg-white flex justify-center items-center hover:cursor-pointer">
-                            <div class="absolute">
-                                <div class="flex flex-col items-center "> 
-                                    <i class="fa fa-cloud-upload fa-3x text-gray-300"></i> 
-                                    <span class="block text-blue-400 text-sm">Browse files</span> 
-                                </div>
-                            </div> 
-                            <input type="file" class="h-full w-full opacity-0 cursor-pointer" name="picture" id="picture" accept="image/*">
+                    <div class="flex flex-col col-span-2">
+                        <label class="block mb-2 text-sm text-gray-00" for="picture">Foto Alat</label>
+                        <div class="py-2 text-left">
+                            <input class="" id="picture" name="picture" type="file" accept="image/*">
                         </div>
                     </div>
                 </div>
@@ -223,4 +243,157 @@
         </section>
     </div>
 </main>
+
+<div id="device-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+    <div class="modal-container bg-gray-800 text-gray-300 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        <div class="modal-content py-4 text-left px-6">
+            <div class="flex justify-between items-center pb-3 text-lg">
+                Create New Device
+            </div>
+            <form action="{{ route('device.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="modal" value="1">
+                <div class="text-xs">
+                    <div class="sm:grid sm:grid-cols-2 sm:gap-2 sm:px-6">
+                        <div class="">
+                            <label class="block mb-2 text-sm text-gray-00" for="standard_name">Nama Standar</label>
+                            <div class="py-2 text-left">
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline4" id="standard_name" name="standard_name" type="text" required>
+                            </div>
+                        </div>
+                        <div class="">
+                            <label class="block mb-2 text-sm text-gray-00" for="alias_name">Nama Alias</label>
+                            <div class="py-2 text-left">
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline4" id="alias_name" name="alias_name" type="text" required>
+                            </div>
+                        </div>
+                        <div class="">
+                            <label class="block mb-2 text-sm text-gray-00" for="risk_level">Risk Level</label>
+                            <div class="py-2 text-left">
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="risk_level" name="risk_level" type="text" required>
+                            </div>
+                        </div>
+                        <div class="row-start-3">
+                            <label class="block mb-2 text-sm text-gray-00" for="ipm_frequency">IPM Frequency</label>
+                            <div class="py-2 text-left">
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="ipm_frequency" name="ipm_frequency" type="text" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex w-full justify-end pt-6">
+                        <input type="submit" value="{{ __('Upload') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
+                        <button onclick="toggleModal(this, 'device-toggle', 'device-modal')" type="button" class="modal-close device-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="brand-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+    <div class="modal-container bg-gray-800 text-gray-300 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        <div class="modal-content py-4 text-left px-6">
+            <div class="flex justify-between items-center pb-3 text-lg">
+                Create New Device
+            </div>
+            <form action="{{ route('device.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="modal" value="1">
+                <div class="text-xs">
+                    <div class="sm:grid sm:grid-cols-2 sm:gap-2 sm:px-6">
+                        <div class="">
+                            <label class="block mb-2 text-sm text-gray-00" for="brand">Nama Merk</label>
+                            <div class="py-2 text-left">
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="brand" name="brand" type="text" required>
+                            </div>
+                        </div>
+                        <div class="row-start-2">
+                            <label class="block mb-2 text-sm text-gray-00" for="origin">Asal</label>
+                            <div class="py-2 text-left">
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="origin" name="origin" type="text" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex w-full justify-end pt-6">
+                        <input type="submit" value="{{ __('Upload') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
+                        <button onclick="toggleModal(this, 'brand-toggle', 'brand-modal')" type="button" class="modal-close brand-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="room-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+    <div class="modal-container bg-gray-800 text-gray-300 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        <div class="modal-content py-4 text-left px-6">
+            <div class="flex justify-between items-center pb-3 text-lg">
+                Create New Room
+            </div>
+            <form action="{{ route('room.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="modal" value="1">
+                <div class="text-xs">
+                    <div class="sm:grid sm:grid-cols-2 sm:gap-2 sm:px-6">
+                        <div class="">
+                            <label class="block mb-2 text-sm text-gray-00" for="unit">Unit</label>
+                            <div class="py-2 text-left">
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="unit" name="unit" type="text" required>
+                            </div>
+                        </div>
+                        <div class="">
+                            <label class="block mb-2 text-sm text-gray-00" for="building">Gedung</label>
+                            <div class="py-2 text-left">
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="building" name="building" type="text" required>
+                            </div>
+                        </div>
+                        <div class="">
+                            <label class="block mb-2 text-sm text-gray-00" for="room_name">Nama Ruangan</label>
+                            <div class="py-2 text-left">
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="room_name" name="room_name" type="text" required>
+                            </div>
+                        </div>
+                        <div class="row-start-3">
+                            <label class="block mb-2 text-sm text-gray-00" for="room_pic">PIC Ruangan</label>
+                            <div class="py-2 text-left">
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="room_pic" name="room_pic" type="text" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex w-full justify-end pt-6">
+                        <input type="submit" value="{{ __('Upload') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
+                        <button onclick="toggleModal(this, 'room-toggle', 'room-modal')" type="button" class="modal-close room-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>    
+    const overlay = document.querySelector('.modal-overlay')
+    overlay.addEventListener('click', toggleModal)
+    
+    var closemodal = document.querySelectorAll('.modal-close')
+    for (var i = 0; i < closemodal.length; i++) {
+        closemodal[i].addEventListener('click', function(event){
+            event.preventDefault()
+            toggleModal(this)
+        })
+    }
+    
+    function toggleModal (button, toggle, modal) {
+        const body = document.querySelector('body')
+        if (button.classList.contains(toggle)) {
+            modal = document.getElementById(modal)
+        } 
+        
+        modal.classList.toggle('opacity-0')
+        modal.classList.toggle('pointer-events-none')
+        body.classList.toggle('modal-active')
+    }
+</script>
 @endsection

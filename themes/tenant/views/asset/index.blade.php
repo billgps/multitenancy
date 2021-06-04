@@ -132,24 +132,19 @@
     <div class="modal-container bg-gray-800 text-gray-300 w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
         <div class="modal-content py-4 text-left px-6">
             <div class="flex justify-between items-center pb-3 text-lg">
-                Import Excel to Device
+                Import Excel to Asset
             </div>
-            <form action="{{ route('device.import') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('asset.import') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="text-xs">
-                    <div class="flex flex-col my-10 justify-center col-span-2">
-                        <div class="relative h-4 flex justify-center items-center hover:cursor-pointer">
-                            <div class="absolute">
-                                <div class="flex flex-col items-center "> 
-                                    <i class="fa fa-cloud-upload fa-3x text-gray-300"></i> 
-                                    <span class="block text-blue-400 font-normal mt-2">Browse files</span> 
-                                </div>
-                            </div> 
-                            <input type="file" class="h-full w-full opacity-0 cursor-pointer" name="file" id="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                    <div>
+                        <label class="block mb-2 text-sm text-gray-00" for="file">Assets</label>
+                        <div class="py-2 text-left">
+                            <input id="file" name="file[]" type="file" multiple="multiple">
                         </div>
                     </div>
                     <div class="flex w-full justify-end pt-2">
-                        <input type="submit" value="{{ __('Import') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
+                        <input type="submit" value="{{ __('Upload') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
                         <button onclick="toggleModal(this, 'import-toggle', 'import-modal')" type="button" class="modal-close import-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
                     </div>
                 </div>

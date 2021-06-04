@@ -148,6 +148,7 @@ if (Tenant::current()) {
 
             Route::prefix('ajax')->group(function () {
                 Route::get('/identities', [IdentityController::class, 'ajax'])->name('identity.ajax');
+                Route::get('/brands', [BrandController::class, 'ajax'])->name('brand.ajax');
             });
         });
     });

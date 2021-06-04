@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Imports\BrandImport;
 use App\Models\Brand;
+use App\Models\Identity;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -52,7 +53,7 @@ class BrandController extends Controller
             $brand->save();
 
             if ($request->modal) {
-                return back();
+                return back()->with('success', 'New Entry Added');
             } else {
                 return redirect()->route('brand.index')->with('success', 'New Entry Added');
             }
@@ -124,5 +125,16 @@ class BrandController extends Controller
         Excel::import(new BrandImport, request()->file('file'));
 
         return redirect()->route('brand.index')->with('success', 'Data Imported');
+    }
+
+    public function ajax(Request $request)
+    {
+        $id = $request->id;
+
+        if ($id) {
+            $identities = Identity::with('brand')->where('device_id', $id)->get();
+        }
+
+        return response()->json(['data' => $identities], 200);
     }
 }

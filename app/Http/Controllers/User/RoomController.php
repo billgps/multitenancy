@@ -55,7 +55,11 @@ class RoomController extends Controller
             $room->room_pic = $request->room_pic;
             $room->save();
 
-            return redirect()->route('room.index')->with('success', 'New Entry Added');
+            if ($request->modal) {
+                return back()->with('success', 'New Entry Added');
+            } else {
+                return redirect()->route('room.index')->with('success', 'New Entry Added');
+            }
         }
     }
 
