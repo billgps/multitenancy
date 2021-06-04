@@ -164,8 +164,7 @@ class InventoryController extends Controller
 
     public function image(Request $request)
     {
-        $records = Record::with('inventory');
-
+        $failCount = array();
         $validated = $request->validate([
             'file' => new RulesImageUpload
         ]);
@@ -175,17 +174,26 @@ class InventoryController extends Controller
             {
                 $name = $image->getClientOriginalName();
                 $image->move(public_path().'/images/', $name);  
-    
-                foreach ($records as $record) {
+
+
+                $record = Record::where('label', $name);
+
+                if ($record) {
                     if ($record->label == pathinfo($name, PATHINFO_FILENAME)) {
                         $inventory = Inventory::find($record->inventory_id);
                         $inventory->picture = $name;
                         $inventory->update();
-                    }
-                }
-            }
 
-            return back()->with(['success', 'Image Uploaded']);
+                        return back()->with(['success', 'Images Uploaded']);
+                    } else {
+                        array_push($failCount, $name);
+                    }
+                } else {
+                    array_push($failCount, $name);
+                }
+
+                return back()->with(['success', 'There are errors in file '.implode(', ', $failCount)]);
+            }
         }
     }
 }
