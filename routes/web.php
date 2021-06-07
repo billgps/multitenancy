@@ -35,6 +35,7 @@ if (Tenant::current()) {
         Route::middleware(['auth:user'])->group(function () {
             Route::prefix('inventory')->group(function () {
                 Route::get('/', [InventoryController::class, 'index'])->name('inventory.index');
+                Route::get('/{param}', [InventoryController::class, 'paramIndex'])->name('inventory.param');
                 Route::get('/create', [InventoryController::class, 'create'])->name('inventory.create');
                 Route::post('/store', [InventoryController::class, 'store'])->name('inventory.store');
                 Route::post('/import', [InventoryController::class, 'import'])->name('inventory.import');
@@ -102,6 +103,7 @@ if (Tenant::current()) {
 
             Route::prefix('record')->group(function () {
                 Route::get('/', [RecordController::class, 'index'])->name('record.index');
+                Route::get('/{param}', [RecordController::class, 'paramIndex'])->name('record.param');
                 Route::get('/create/{inventory?}', [RecordController::class, 'create'])->name('record.create');
                 Route::post('/store', [RecordController::class, 'store'])->name('record.store');
                 Route::post('/import', [RecordController::class, 'import'])->name('record.import');
@@ -117,6 +119,7 @@ if (Tenant::current()) {
 
             Route::prefix('condition')->group(function () {
                 Route::get('/', [ConditionController::class, 'index'])->name('condition.index');
+                Route::get('/{param}', [ConditionController::class, 'parameterIndex'])->name('condition.param');
                 Route::get('/create/{inventory?}', [ConditionController::class, 'create'])->name('condition.create');
                 Route::post('/store', [ConditionController::class, 'store'])->name('condition.store');
                 Route::post('/import', [ConditionController::class, 'import'])->name('condition.import');

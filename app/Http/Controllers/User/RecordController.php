@@ -272,4 +272,11 @@ class RecordController extends Controller
             return back()->with(['success', 'There are errors in file '.implode(', ', $failCount)]);
         }
     }
+
+    public function paramIndex ($param)
+    {
+        $records = Record::with('inventory', 'inventory.device')->where('result', str_replace('_', ' ', $param))->get();
+
+        return view('record.index', ['records' => $records]);  
+    }
 }

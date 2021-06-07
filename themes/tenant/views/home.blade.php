@@ -64,8 +64,7 @@
                     </div>        
                     <script>
                         let wajib = document.getElementById('wajib_chart')
-                        console.log(total);
-                        let myChart = new Chart(wajib, {
+                        let wajibChart = new Chart(wajib, {
                             type: 'doughnut',
                             data: {
                                 labels: ['Terkalibrasi', 'Segera Kalibrasi', 'Belum Update'],
@@ -86,6 +85,21 @@
                                 }
                             }
                         })
+
+                        $('#wajib_chart').click(function(event){
+                            activePoints = wajibChart.getElementsAtEvent(event)
+
+                            if (activePoints[0]) {
+                                let chartData = activePoints[0]['_chart'].config.data;
+                                let idx = activePoints[0]['_index'];
+
+                                let label = chartData.labels[idx];
+
+                                if (label == 'Segera Kalibrasi') {
+                                    window.location.href = "{{ route('inventory.param', ['param' => 'Segera_Kalibrasi']) }}"
+                                }
+                            }
+                        })
                     </script>  
                 </div>
             </div>
@@ -96,7 +110,7 @@
                     </div>        
                     <script>
                         let rusak = document.getElementById('rusak_chart')
-                        myChart = new Chart(rusak, {
+                        let laik_chart = new Chart(rusak, {
                             type: 'doughnut',
                             data: {
                                 labels: ['Laik', 'Tidak Laik', 'Belum Update'],
@@ -117,6 +131,25 @@
                                 }
                             }
                         })
+
+                        $('#rusak_chart').click(function(event){
+                            activePoints = laik_chart.getElementsAtEvent(event)
+
+                            if (activePoints[0]) {
+                                let chartData = activePoints[0]['_chart'].config.data;
+                                let idx = activePoints[0]['_index'];
+
+                                let label = chartData.labels[idx];
+
+                                if (label == 'Tidak Laik') {
+                                    window.location.href = "{{ route('record.param', ['param' => 'Tidak_Laik']) }}"
+                                }
+
+                                else if (label == 'Laik') {
+                                    window.location.href = "{{ route('record.param', ['param' => 'Laik']) }}"
+                                }
+                            }
+                        })
                     </script>  
                 </div>
             </div>
@@ -127,7 +160,7 @@
                     </div>        
                     <script>
                         let laik = document.getElementById('laik_chart')
-                        myChart = new Chart(laik, {
+                        let baik_chart = new Chart(laik, {
                             type: 'doughnut',
                             data: {
                                 labels: ['Baik', 'Rusak', 'Belum Update'],
@@ -145,6 +178,25 @@
                                 maintainAspectRatio: false,
                                 legend: {
                                     display: false,
+                                }
+                            }
+                        })
+
+                        $('#laik_chart').click(function(event){
+                            activePoints = baik_chart.getElementsAtEvent(event)
+
+                            if (activePoints[0]) {
+                                let chartData = activePoints[0]['_chart'].config.data;
+                                let idx = activePoints[0]['_index'];
+
+                                let label = chartData.labels[idx];
+
+                                if (label == 'Rusak') {
+                                    window.location.href = "{{ route('condition.param', ['param' => 'Rusak']) }}"
+                                }
+
+                                else if (label == 'Baik') {
+                                    window.location.href = "{{ route('condition.param', ['param' => 'Baik']) }}"
                                 }
                             }
                         })

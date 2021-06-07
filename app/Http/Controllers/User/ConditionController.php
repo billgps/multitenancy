@@ -206,4 +206,11 @@ class ConditionController extends Controller
             return back()->with(['success', 'There are errors in file '.implode(', ', $failCount)]);
         }
     }
+
+    public function parameterIndex ($param)
+    {
+        $conditions = Condition::with('inventory', 'inventory.device')->where('status', $param)->get();
+
+        return view('condition.index', ['conditions' => $conditions]);
+    }
 }
