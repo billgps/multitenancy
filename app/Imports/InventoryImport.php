@@ -20,7 +20,7 @@ class InventoryImport implements ToModel, WithHeadingRow
             'barcode'     => $row['barcode'],
             'device_id'    => $row['nama'], 
             'identity_id'     => $row['tipe'],
-            'brand_id'    => $row['merk'],
+            // 'brand_id'    => $row['merk'],
             'room_id'     => $row['ruangan'],
             'serial'    => $row['serial_number'], 
             // 'picture'     => 'null',
