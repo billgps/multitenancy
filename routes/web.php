@@ -3,6 +3,7 @@
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\User\AssetController;
 use App\Http\Controllers\User\BrandController;
+use App\Http\Controllers\User\ComplainController;
 use App\Http\Controllers\User\ConditionController;
 use App\Http\Controllers\User\ConsumableController;
 use App\Http\Controllers\User\DeviceController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\User\RoomController;
 use App\Http\Controllers\User\InventoryController;
 use App\Http\Controllers\User\MaintenanceController;
 use App\Http\Controllers\User\RecordController;
+use App\Http\Controllers\User\ResponseController;
 use App\Models\Inventory;
 use Illuminate\Support\Facades\Route;
 use Spatie\Multitenancy\Models\Tenant;
@@ -151,6 +153,25 @@ if (Tenant::current()) {
                 Route::get('/edit/{maintenance}', [MaintenanceController::class, 'edit'])->name('maintenance.edit');
                 Route::post('/update/{maintenance}', [MaintenanceController::class, 'update'])->name('maintenance.update');
                 Route::get('/delete/{maintenance}', [MaintenanceController::class, 'destroy'])->name('maintenance.delete');
+            });
+
+            Route::prefix('complain')->group(function () {
+                Route::get('/', [ComplainController::class, 'index'])->name('complain.index');
+                Route::get('/create', [ComplainController::class, 'create'])->name('complain.create');
+                Route::post('/store', [ComplainController::class, 'store'])->name('complain.store');
+                Route::get('/{id}', [ComplainController::class, 'show'])->name('complain.show');
+                Route::get('/edit/{complain}', [ComplainController::class, 'edit'])->name('complain.edit');
+                Route::get('/delete/{complain}', [ComplainController::class, 'destroy'])->name('complain.delete');
+            });
+
+            Route::prefix('response')->group(function () {
+                // Route::get('/', [ResponseController::class, 'index'])->name('response.index');
+                Route::get('/create/{complain}', [ResponseController::class, 'create'])->name('response.create');
+                Route::post('/store', [ResponseController::class, 'store'])->name('response.store');
+                Route::get('/{response}', [ResponseController::class, 'show'])->name('response.show');
+                Route::get('/edit/{response}', [ResponseController::class, 'edit'])->name('response.edit');
+                Route::post('/update/{response}', [ResponseController::class, 'update'])->name('response.update');
+                // Route::get('/delete/{response}', [ResponseController::class, 'destroy'])->name('response.delete');
             });
 
             Route::prefix('ajax')->group(function () {
