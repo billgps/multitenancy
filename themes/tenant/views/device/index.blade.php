@@ -149,7 +149,7 @@
                     <div>
                         <label class="block mb-2 text-sm text-gray-00" for="file">Devices</label>
                         <div class="py-2 text-left">
-                            <input id="file" name="file[]" type="file" multiple="multiple">
+                            <input id="file" name="file" type="file">
                         </div>
                     </div>
                     <div class="flex w-full justify-end pt-2">
