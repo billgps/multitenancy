@@ -180,7 +180,7 @@ class IdentityController extends Controller
         $id = $request->id;
 
         if ($id) {
-            $identities = Identity::where('brand_id', $id)->get();
+            $identities = Identity::with('brand')->where('device_id', $id)->get();
         }
 
         return response()->json(['data' => $identities], 200);

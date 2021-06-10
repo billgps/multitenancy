@@ -24,7 +24,7 @@
         for (let i = 0; i < data.length; i++) {
             let option
             if (param == 'model') {
-                option = new Option(data[i].model, data[i].id, false, false);
+                option = new Option(data[i].brand.brand + ' : ' + data[i].model, data[i].id, false, false);
             } else {
                 option = new Option(data[i].brand.brand, data[i].id, false, false); 
             }
@@ -78,12 +78,12 @@
                                     let brandSelect = $('#device_id')
                                     $.ajax({
                                         type: "GET",
-                                        url: "{{ route('brand.ajax') }}",
+                                        url: "{{ route('identity.ajax') }}",
                                         data: {
                                             id: $('#device_id').select2('data')[0].id
                                         },
                                         success: function (data) {
-                                            populate(data.data, 'brand_id', 'brand')
+                                            populate(data.data, 'identity_id', 'identity')
                                         },
                                         error: function (error) {
                                             console.log(error)
@@ -105,7 +105,7 @@
                             <input value="{{ $inventory->serial }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="serial" name="serial" type="text" required>
                         </div>
                     </div>
-                    <div class="col-span-2">
+                    {{-- <div class="col-span-2">
                         <label class="block text-sm text-gray-00" for="brand_id">Merk</label>
                         <div class="py-2 text-left flex">
                             <select style="width: 100%;" id="brand_id" name="brand_id" class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4">
@@ -146,7 +146,7 @@
                                 });
                             </script>
 
-                            {{-- <script>
+                            <script>
                                 $(document).ready(function() {
                                     let shit = document.getElementById('brand_id')
                                     console.log(shit.selectedIndex);
@@ -165,9 +165,9 @@
                                         }
                                     })
                                 });
-                            </script> --}}
+                            </script>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-span-2">
                         <label class="block text-sm text-gray-00" for="identity_id">Tipe Alat</label>
                         <div class="py-2 text-left flex">
@@ -188,16 +188,16 @@
 
                             <script>
                                 $(document).ready(function() {
-                                    typeSelect = $('#brand_id')
+                                    typeSelect = $('#device_id')
                                     typeSelect.on('change', function () {
                                         $.ajax({
                                             type: "GET",
                                             url: "{{ route('identity.ajax') }}",
                                             data: {
-                                                id: $('#brand_id').select2('data')[0].id
+                                                id: $('#device_id').select2('data')[0].id
                                             },
                                             success: function (data) {
-                                                console.log(data.data);
+                                                // console.log(data.data);
                                                 populate(data.data, 'identity_id', 'model')
                                             },
                                             error: function (error) {
@@ -222,7 +222,7 @@
                             <script>
                                 $(document).ready(function() {
                                     $('#room_id').select2({
-                                        placeholder: 'Select Device ID'
+                                        placeholder: 'Select Room ID'
                                     });
                                 });
 

@@ -24,7 +24,7 @@
         for (let i = 0; i < data.length; i++) {
             let option
             if (param == 'model') {
-                option = new Option(data[i].model, data[i].id, false, false);
+                option = new Option(data[i].brand.brand + ' : ' + data[i].model, data[i].id, false, false);
             } else {
                 option = new Option(data[i].brand.brand, data[i].id, false, false); 
             }
@@ -86,14 +86,14 @@
                             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="serial" name="serial" type="text" required>
                         </div>
                     </div>
-                    <div class="flex flex-col col-span-2">
+                    {{-- <div class="flex flex-col col-span-2">
                         <label class="block text-sm text-gray-00" for="brand_id">Merk</label>
                         <div class="py-2 text-left">
                             <select style="width: 90%;" id="brand_id" name="brand_id" class="text-sm bg-gray-20 focus:outline-none block w-full px-3">
                                 <option></option>
-                                {{-- @foreach ($brands as $brand)
+                                @foreach ($brands as $brand)
                                     <option value="{{ $brand->id }}">{{ $brand->brand }}</option>
-                                @endforeach --}}
+                                @endforeach
                             </select>
                             
                             <script>
@@ -129,7 +129,7 @@
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="flex flex-col col-span-2">
                         <label class="block text-sm text-gray-00" for="identity_id">Tipe Alat</label>
                         <div class="py-2 text-left">
@@ -143,16 +143,16 @@
                                         placeholder: 'Select Model'
                                     });
 
-                                    let brandSelect = $('#brand_id')
+                                    let brandSelect = $('#device_id')
                                     brandSelect.on('change', function () {
                                         $.ajax({
                                             type: "GET",
                                             url: "{{ route('identity.ajax') }}",
                                             data: {
-                                                id: $('#brand_id').select2('data')[0].id
+                                                id: $('#device_id').select2('data')[0].id
                                             },
                                             success: function (data) {
-                                                console.log(data.data);
+                                                // console.log(data.data);
                                                 populate(data.data, 'identity_id', 'model')
                                             },
                                             error: function (error) {
