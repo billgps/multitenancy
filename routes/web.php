@@ -35,7 +35,6 @@ if (Tenant::current()) {
         Route::middleware(['auth:user'])->group(function () {
             Route::prefix('inventory')->group(function () {
                 Route::get('/', [InventoryController::class, 'index'])->name('inventory.index');
-                Route::get('/{param}', [InventoryController::class, 'paramIndex'])->name('inventory.param');
                 Route::get('/create', [InventoryController::class, 'create'])->name('inventory.create');
                 Route::post('/store', [InventoryController::class, 'store'])->name('inventory.store');
                 Route::post('/import', [InventoryController::class, 'import'])->name('inventory.import');
@@ -44,6 +43,7 @@ if (Tenant::current()) {
                 Route::get('/edit/{inventory}', [InventoryController::class, 'edit'])->name('inventory.edit');
                 Route::post('/update/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
                 Route::get('/delete/{inventory}', [InventoryController::class, 'destroy'])->name('inventory.delete');
+                Route::get('/sort/{param}', [InventoryController::class, 'paramIndex'])->name('inventory.param');
             });
 
             Route::prefix('device')->group(function () {

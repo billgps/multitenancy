@@ -99,7 +99,7 @@
                                     <td>
                                         <div class="flex justify-end hover:text-purple-500 text-right">
                                             <a href="#">
-                                                {{ $inventory->brand->brand }}
+                                                {{ $inventory->identity->brand->brand }}
                                             </a>
                                         </div>
                                     </td>
@@ -297,7 +297,7 @@
                     <div>
                         <label class="block mb-2 text-sm text-gray-00" for="file">Inventories</label>
                         <div class="py-2 text-left">
-                            <input id="file" name="file" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                            <input id="fuck" name="fuck" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                         </div>
                     </div>
                     <div class="flex w-full justify-end pt-2">

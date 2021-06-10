@@ -75,7 +75,7 @@
                             <div class="flex flex-wrap mb-3">
                                 <label class="block text-sm text-gray-00" for="standard_name">Merk</label>
                                 <div class="py-2 text-left w-full">
-                                    <input disabled value="{{ $inventory->brand->brand }}" id="standard_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
+                                    <input disabled value="{{ $inventory->identity->brand->brand }}" id="standard_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
                                 </div>
                             </div>
                             <div class="flex flex-wrap mb-3">

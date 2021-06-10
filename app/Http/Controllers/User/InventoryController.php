@@ -24,7 +24,7 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        $inventory = Inventory::with('device', 'brand', 'identity', 'room', 'latest_condition', 'latest_record')->orderBy('created_at', 'desc')->get();
+        $inventory = Inventory::with('device', 'brand', 'identity', 'identity.brand', 'room', 'latest_condition', 'latest_record')->orderBy('created_at', 'desc')->get();
 
         return view('inventory.index', ['inventories' => $inventory]);
     }
@@ -37,12 +37,12 @@ class InventoryController extends Controller
     public function create()
     {
         $devices = Device::all();
-        $brands = Brand::all();
+        // $brands = Brand::all();
         $rooms = Room::all();
 
         return view('inventory.create', [
             'devices' => $devices,
-            'brands' => $brands,
+            // 'brands' => $brands,
             'rooms' => $rooms
         ]);
     }
@@ -59,7 +59,7 @@ class InventoryController extends Controller
             'barcode' => 'required|unique:inventories|max:255',
             'serial' => 'required|unique:inventories|max:255',
             'device_id' => 'required|integer',
-            'brand_id' => 'required|integer',
+            // 'brand_id' => 'required|integer',
             'identity_id' => 'required|integer',
             'room_id' => 'required|integer',
             'picture' => new RulesImageUpload
@@ -77,7 +77,7 @@ class InventoryController extends Controller
             $inventory->barcode = $request->barcode;
             $inventory->serial = $request->serial;
             $inventory->device_id = $request->device_id;
-            $inventory->brand_id = $request->brand_id;
+            // $inventory->brand_id = $request->brand_id;
             $inventory->identity_id = $request->identity_id;
             $inventory->room_id = $request->room_id;
             $inventory->picture = ($picture != null) ? $name : 'no_image.jpg';
@@ -114,7 +114,7 @@ class InventoryController extends Controller
      */
     public function show($id)
     {
-        $inventory = Inventory::with('device', 'records', 'conditions', 'maintenances', 'asset', 'latest_record', 'latest_condition', 'brand', 'identity', 'room')->find($id);
+        $inventory = Inventory::with('device', 'records', 'conditions', 'maintenances', 'asset', 'latest_record', 'latest_condition', 'brand', 'identity', 'identity.brand', 'room')->find($id);
 
         return view('inventory.show', [
             'inventory' => $inventory, 
@@ -152,7 +152,7 @@ class InventoryController extends Controller
             'barcode' => 'required|max:255',
             'serial' => 'required|max:255',
             'device_id' => 'required|integer',
-            'brand_id' => 'required|integer',
+            // 'brand_id' => 'required|integer',
             'identity_id' => 'required|integer',
             'room_id' => 'required|integer',
         ]);
@@ -168,7 +168,7 @@ class InventoryController extends Controller
             $inventory->barcode = $request->barcode;
             $inventory->serial = $request->serial;
             $inventory->device_id = $request->device_id;
-            $inventory->brand_id = $request->brand_id;
+            // $inventory->brand_id = $request->brand_id;
             $inventory->identity_id = $request->identity_id;
             $inventory->room_id = $request->room_id;
             if ($picture) {

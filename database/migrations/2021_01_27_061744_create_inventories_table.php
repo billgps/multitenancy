@@ -18,7 +18,7 @@ class CreateInventoriesTable extends Migration
             $table->string('barcode');
             $table->integer('device_id');
             $table->integer('identity_id');
-            $table->integer('brand_id');
+            // $table->integer('brand_id');
             $table->integer('room_id');
             $table->string('serial')->nullable();
             $table->string('picture')->default('no_image.jpg');
