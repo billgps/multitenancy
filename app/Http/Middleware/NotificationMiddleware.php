@@ -19,9 +19,11 @@ class NotificationMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = User::find(Auth::user()->id);
-        $notifications = $user->unreadNotifications;
-        $request->session()->put('notifications', $notifications);
+        if (Auth::user()) {
+            $user = User::find(Auth::user()->id);
+            $notifications = $user->unreadNotifications;
+            $request->session()->put('notifications', $notifications);
+        }
 
         return $next($request);
     }

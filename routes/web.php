@@ -31,7 +31,7 @@ use Spatie\Multitenancy\Models\Tenant;
 */
 
 if (Tenant::current()) {
-    Route::domain(app('currentTenant')->domain)->middleware('tenant')->group(function() {
+    Route::domain(app('currentTenant')->domain)->middleware('tenant', 'notifications')->group(function() {
         Route::multiauth('User', 'user');
         Route::get('/', function () {
             return redirect()->route('user.dashboard');

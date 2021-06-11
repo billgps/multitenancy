@@ -201,7 +201,7 @@
                     type: "GET",
                     url: "{{ route('notification.ajax') }}",
                     success: function (data) {
-                        document.getElementById('badge').innerHTML = data
+                        // document.getElementById('badge').innerHTML = data
                         console.log(data);
                     },
                     error: function (error) {
