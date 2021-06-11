@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Condition;
 use App\Models\Inventory;
 use App\Models\Record;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
 class DashboardController extends Controller
 {

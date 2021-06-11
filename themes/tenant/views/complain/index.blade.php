@@ -252,7 +252,8 @@
                 {data: 'date_time'},
                 {data: 'progress_status'},
                 {
-                    data: 'id'
+                    data: 'id',
+                    orderAble: false
                 },
                 // {
                 //     // orderable: true,
@@ -279,7 +280,7 @@
                         viewIcon.classList.add('fas', 'fa-eye')
                         viewLink.appendChild(viewIcon)
 
-                        if (user == 0) {
+                        if (user == 1) {
                             let editContainer = document.createElement('div')
                             editContainer.classList.add('w-4', 'mr-2', 'transform', 'hover:text-purple-500', 'hover:scale-110')
                             container.appendChild(editContainer)
@@ -289,7 +290,7 @@
                             let editIcon = document.createElement('i')
                             editIcon.classList.add('fas', 'fa-edit')
                             editLink.appendChild(editIcon)
-
+                        } else {
                             let deleteContainer = document.createElement('div')
                             deleteContainer.classList.add('w-4', 'mr-2', 'transform', 'hover:text-purple-500', 'hover:scale-110')
                             container.appendChild(deleteContainer)

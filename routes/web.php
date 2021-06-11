@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Administrator\DashboardController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\User\AssetController;
 use App\Http\Controllers\User\BrandController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\User\IdentityController;
 use App\Http\Controllers\User\RoomController;
 use App\Http\Controllers\User\InventoryController;
 use App\Http\Controllers\User\MaintenanceController;
+use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\RecordController;
 use App\Http\Controllers\User\ResponseController;
 use App\Models\Inventory;
@@ -29,7 +31,7 @@ use Spatie\Multitenancy\Models\Tenant;
 */
 
 if (Tenant::current()) {
-    Route::domain(app('currentTenant')->domain)->middleware('tenant')->group(function() {
+    Route::domain(app('currentTenant')->domain)->middleware('tenant', 'notifications')->group(function() {
         Route::multiauth('User', 'user');
         Route::get('/', function () {
             return redirect()->route('user.dashboard');
@@ -178,6 +180,7 @@ if (Tenant::current()) {
                 Route::get('/identities', [IdentityController::class, 'ajax'])->name('identity.ajax');
                 Route::get('/brands', [BrandController::class, 'ajax'])->name('brand.ajax');
                 Route::get('/complaints', [ComplainController::class, 'ajax'])->name('complain.ajax');
+                Route::get('/notifications', [NotificationController::class, 'ajax'])->name('notification.ajax');
             });
         });
     });

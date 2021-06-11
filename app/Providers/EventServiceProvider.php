@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\SendComplainUpdateNotification;
 use App\Models\Tenant;
 use App\Observers\TenantObserver;
 use Illuminate\Auth\Events\Registered;
@@ -18,7 +19,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         Registered::class => [
-            SendEmailVerificationNotification::class,
+            SendEmailVerificationNotification::class
         ],
     ];
 
