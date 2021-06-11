@@ -31,12 +31,12 @@ use Spatie\Multitenancy\Models\Tenant;
 */
 
 if (Tenant::current()) {
-    Route::domain(app('currentTenant')->domain)->middleware('tenant', 'notifications')->group(function() {
+    Route::domain(app('currentTenant')->domain)->middleware('tenant')->group(function() {
         Route::multiauth('User', 'user');
         Route::get('/', function () {
             return redirect()->route('user.dashboard');
         });
-        Route::middleware(['auth:user'])->group(function () {
+        Route::middleware(['auth:user', 'notifications'])->group(function () {
             Route::prefix('inventory')->group(function () {
                 Route::get('/', [InventoryController::class, 'index'])->name('inventory.index');
                 Route::get('/create', [InventoryController::class, 'create'])->name('inventory.create');
