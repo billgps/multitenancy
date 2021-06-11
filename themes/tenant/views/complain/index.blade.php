@@ -40,7 +40,7 @@
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
-                            @foreach ($complains as $complain)
+                            {{-- @foreach ($complains as $complain)
                                 <tr class="hover:bg-gray-100">
                                     <td class="py-3 px-6">
                                         {{ $complain->id }}
@@ -91,13 +91,13 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @endforeach --}}
                         </tbody>
                     </table> 
-                    <script>
-                        $(document).ready(function() {
-                            var table = $('#device').DataTable({
-                                "pageLength": 15,
+                    {{-- <script>
+
+                            var table = $('#example').DataTable({
+                                "pageLength": 30,
                                 "ordering": true,
                                 "info":     false,
                                 "lengthChange": false,
@@ -106,44 +106,269 @@
                                 columnDefs: [
                                     { orderable: false, targets: -1 }
                                 ],
-                                "dom": 'lrtip'
+                                "dom": 'lrtip',
+                                processing: true,
+                                serverSide: true,
+                                ajax: {
+                                    url: "{{ route('complaints.ajax') }}",
+                                    dataSrc: 'data',
+                                    complete: function() {
+                                        var prev = document.getElementsByClassName('previous')[0]
+                                        prev.classList.add('mr-3', 'cursor-pointer', 'hover:text-purple-500')
+                                        prev.innerHTML = '<i class="fas fa-chevron-left"></i>'
+
+                                        var next = document.getElementsByClassName('next')[0]
+                                        next.classList.add('ml-3', 'cursor-pointer', 'hover:text-purple-500')
+                                        next.innerHTML = '<i class="fas fa-chevron-right"></i>'
+
+                                        var page = document.getElementById('example_paginate').getElementsByTagName('span')[0].getElementsByClassName('paginate_button')
+                                        for (let i = 0; i < page.length; i++) {
+                                            if (page[i].classList.contains('current')) {
+                                                page[i].classList.add('mx-1', 'text-purple-500')                    
+                                            }
+                                            page[i].classList.add('mx-1', 'cursor-pointer', 'hover:text-purple-500')                    
+                                        }
+                                    }
+                                },
+                                columns: [
+                                    {data: 'date_time'},
+                                    {data: 'user_name'},
+                                    {data: 'room'},
+                                    {data: 'response_user'},
+                                    {data: 'response_date'},
+                                    {data: 'response_status'},
+                                    {data: 'created_at'},
+                                ]
                             });
 
-                            drawPaginate()
-            
                             $('#search_').keyup(function(){
                                 table.search($(this).val()).draw()
                             })
-            
-                            $("#page").append($(".dataTables_paginate"));
-            
-                            $('#device').on( 'draw.dt', function () {
-                                drawPaginate()
-                            })
 
-                            function drawPaginate() {
-                                let prev = document.getElementsByClassName('previous')[0]
+                            $("#page").append($(".dataTables_paginate"));
+                            var prev = document.getElementsByClassName('previous')[0]
+                            prev.classList.add('mr-3', 'cursor-pointer', 'hover:text-purple-500')
+                            prev.innerHTML = '<i class="fas fa-chevron-left"></i>'
+
+                            var next = document.getElementsByClassName('next')[0]
+                            next.classList.add('ml-3', 'cursor-pointer', 'hover:text-purple-500')
+                            next.innerHTML = '<i class="fas fa-chevron-right"></i>'
+
+                            var page = document.getElementById('example_paginate').getElementsByTagName('span')[0].getElementsByClassName('paginate_button')
+                            for (let i = 0; i < page.length; i++) {
+                                if (page[i].classList.contains('current')) {
+                                    page[i].classList.add('mx-1', 'text-purple-500')                    
+                                }
+                                page[i].classList.add('mx-1', 'cursor-pointer', 'hover:text-purple-500')                    
+                            }
+
+                            $('#example').on( 'draw.dt', function () {
+                                prev = document.getElementsByClassName('previous')[0]
                                 prev.classList.add('mr-3', 'cursor-pointer', 'hover:text-purple-500')
                                 prev.innerHTML = '<i class="fas fa-chevron-left"></i>'
-                
-                                let next = document.getElementsByClassName('next')[0]
+
+                                next = document.getElementsByClassName('next')[0]
                                 next.classList.add('ml-3', 'cursor-pointer', 'hover:text-purple-500')
                                 next.innerHTML = '<i class="fas fa-chevron-right"></i>'
-                
-                                let page = document.getElementById('device_paginate').getElementsByTagName('span')[0].getElementsByClassName('paginate_button')
+
+                                page = document.getElementById('example_paginate').getElementsByTagName('span')[0].getElementsByClassName('paginate_button')
                                 for (let i = 0; i < page.length; i++) {
                                     if (page[i].classList.contains('current')) {
                                         page[i].classList.add('mx-1', 'text-purple-500')                    
                                     }
                                     page[i].classList.add('mx-1', 'cursor-pointer', 'hover:text-purple-500')                    
                                 }
-                            }
+                            })
                         })
-                    </script>
+                    </script> --}}
                     <div class="mt-3 w-full h-20 flex justify-center text-sm p-2" id="page"></div>
                 </div>
             </div>
         </section>
     </div>
 </main>
+
+<div id="action" class="hidden">
+    <div class="flex item-center justify-center">
+        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+            <a href="">
+                <i class="fas fa-eye"></i>
+            </a>
+        </div>
+        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+            <a href="">
+                <i class="fas fa-edit"></i>
+            </a>
+        </div>
+        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+            <a href="">
+                <i class="fas fa-trash-alt"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        let CSRF_TOKEN = document.getElementsByTagName('meta')[2].getAttribute('content')
+
+        var table = $('#device').DataTable({
+            "pageLength": 15,
+            "ordering": true,
+            "info":     false,
+            "lengthChange": false,
+            "searching": true,
+            "paging":   true,
+            "dom": 'lrtip',
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{{ route('complain.ajax') }}",
+                dataSrc: 'data',
+                complete: function(data) {
+                    $("#page").append($(".dataTables_paginate"));
+
+                    var prev = document.getElementsByClassName('previous')[0]
+                    prev.classList.add('mr-3', 'cursor-pointer', 'hover:text-purple-500')
+                    prev.innerHTML = '<i class="fas fa-chevron-left"></i>'
+    
+                    var next = document.getElementsByClassName('next')[0]
+                    next.classList.add('ml-3', 'cursor-pointer', 'hover:text-purple-500')
+                    next.innerHTML = '<i class="fas fa-chevron-right"></i>'
+    
+                    var page = document.getElementById('device_paginate').getElementsByTagName('span')[0].getElementsByClassName('paginate_button')
+                    for (let i = 0; i < page.length; i++) {
+                        if (page[i].classList.contains('current')) {
+                            page[i].classList.add('mx-1', 'text-purple-500')                    
+                        }
+                        page[i].classList.add('mx-1', 'cursor-pointer', 'hover:text-purple-500')                    
+                    }
+                }
+            },
+            columns: [
+                {data: 'id'},
+                {data: 'user'},
+                {data: 'room'},
+                {data: 'date_time'},
+                {data: 'progress_status'},
+                {
+                    data: 'id'
+                },
+                // {
+                //     // orderable: true,
+                //     // targets: -1,
+                //     data: 'id_',
+                //     // render: createAction(data)
+                // }
+            ],
+            columnDefs: [
+                {
+                    "render": function ( data, type, row ) {
+                        let user = {!! json_encode(Auth::user()->role) !!}
+                        let carrier = document.createElement('div')
+                        let container = document.createElement('div')
+                        container.classList.add('flex', 'item-center', 'justify-center')
+                        
+                        let viewContainer = document.createElement('div')
+                        viewContainer.classList.add('w-4', 'mr-2', 'transform', 'hover:text-purple-500', 'hover:scale-110')
+                        container.appendChild(viewContainer)
+                        let viewLink = document.createElement('a')
+                        viewLink.href = window.location.origin + '/complain/' + data
+                        viewContainer.appendChild(viewLink)
+                        let viewIcon = document.createElement('i')
+                        viewIcon.classList.add('fas', 'fa-eye')
+                        viewLink.appendChild(viewIcon)
+
+                        if (user == 0) {
+                            let editContainer = document.createElement('div')
+                            editContainer.classList.add('w-4', 'mr-2', 'transform', 'hover:text-purple-500', 'hover:scale-110')
+                            container.appendChild(editContainer)
+                            let editLink = document.createElement('a')
+                            editLink.href = window.location.origin + '/response/create/' + data
+                            editContainer.appendChild(editLink)
+                            let editIcon = document.createElement('i')
+                            editIcon.classList.add('fas', 'fa-edit')
+                            editLink.appendChild(editIcon)
+
+                            let deleteContainer = document.createElement('div')
+                            deleteContainer.classList.add('w-4', 'mr-2', 'transform', 'hover:text-purple-500', 'hover:scale-110')
+                            container.appendChild(deleteContainer)
+                            let deleteLink = document.createElement('a')
+                            deleteLink.href = window.location.origin + '/complain/delete/' + data
+                            deleteContainer.appendChild(deleteLink)
+                            let deleteIcon = document.createElement('i')
+                            deleteIcon.classList.add('fas', 'fa-trash-alt')
+                            deleteLink.appendChild(deleteIcon)
+                        }
+
+                        carrier.appendChild(container)
+                        return carrier.innerHTML
+                    },
+                    targets: -1
+                },
+                {
+                    "render": function ( data, type, row ) {
+                        let carrier = document.createElement('div')
+                        let container = document.createElement('div')
+                        container.classList.add('py-2', 'mx-auto', 'w-min')
+                        
+                        let statusContainer = document.createElement('div')
+                        statusContainer.classList.add('rounded', 'text-gray-800', 'py-1', 'px-3', 'text-xs', 'font-bold')
+                        statusContainer.innerHTML = data
+                        if (data == 'Pending') {
+                            statusContainer.classList.add('bg-yellow-400')
+                        }
+
+                        else if (data == 'Finished') {
+                            statusContainer.classList.add('bg-green-400')
+                        }
+
+                        else {
+                            statusContainer.classList.add('bg-blue-400')
+                        }
+
+                        container.appendChild(statusContainer)
+                        carrier.appendChild(container)
+                        return carrier.innerHTML
+                    },
+                    targets: -2
+                }
+            ]
+        });
+
+        setInterval( function () {
+            table.ajax.reload();
+        }, 60000 );
+
+        drawPaginate()
+
+        $('#search_').keyup(function(){
+            table.search($(this).val()).draw()
+        })
+
+        $("#page").append($(".dataTables_paginate"));
+
+        $('#device').on( 'draw.dt', function () {
+            drawPaginate()
+        })
+
+        function drawPaginate() {
+            var prev = document.getElementsByClassName('previous')[0]
+            prev.classList.add('mr-3', 'cursor-pointer', 'hover:text-purple-500')
+            prev.innerHTML = '<i class="fas fa-chevron-left"></i>'
+
+            var next = document.getElementsByClassName('next')[0]
+            next.classList.add('ml-3', 'cursor-pointer', 'hover:text-purple-500')
+            next.innerHTML = '<i class="fas fa-chevron-right"></i>'
+
+            var page = document.getElementById('device_paginate').getElementsByTagName('span')[0].getElementsByClassName('paginate_button')
+            for (let i = 0; i < page.length; i++) {
+                if (page[i].classList.contains('current')) {
+                    page[i].classList.add('mx-1', 'text-purple-500')                    
+                }
+                page[i].classList.add('mx-1', 'cursor-pointer', 'hover:text-purple-500')                    
+            }
+        }
+    })
+</script>
 @endsection

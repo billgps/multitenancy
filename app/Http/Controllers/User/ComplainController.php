@@ -110,4 +110,38 @@ class ComplainController extends Controller
 
         return redirect()->route('complain.index')->with('success', 'Entry Deleted!');
     }
+
+    public function ajax(Request $request)
+    {
+        $data =array();
+        $start = $request->get('start');
+        $length = $request->get('length');
+        $search_term = $request->get('search')['value'];
+        $complain = Complain::with('response', 'response.user',  'user', 'room')->whereHas('user', function($query) use ($search_term) {
+            $query->where('name', 'like', '%'.$search_term.'%');
+        })
+        ->orderBy('updated_at', 'desc')
+        ->skip($start)
+        ->take($length)
+        ->get();
+
+        foreach ($complain as $com) {
+            array_push($data, array(
+                'id' => $com->id,
+                'user' => $com->user->name,
+                'room' => $com->room->room_name,
+                'date_time' => $com->date_time,
+                'progress_status' => $com->response->progress_status,
+            ));
+        }
+
+        $array = array(
+            'data' => $data,
+            'recordsTotal' => Complain::all()->count(),
+            'recordsFiltered' => $complain->count(),
+            'draw' => $request->get('draw')
+        );
+
+        return response()->json($array, 200);
+    }
 }
