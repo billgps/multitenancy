@@ -198,7 +198,7 @@ class InventoryController extends Controller
 
     public function import(Request $request)
     {
-        Excel::import(new InventoryImport, request()->file('file'));
+        Excel::import(new InventoryImport, request()->file('fuck'));
 
         return redirect()->route('inventory.index')->with(['success', 'Entries Imported!']);
     }
