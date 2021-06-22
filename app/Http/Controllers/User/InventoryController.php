@@ -217,7 +217,7 @@ class InventoryController extends Controller
                 $image->move(public_path().'/images/', $name);  
 
 
-                $record = Record::where('label', $name);
+                $record = Record::where('label', $name)->first();
 
                 if ($record) {
                     if ($record->label == pathinfo($name, PATHINFO_FILENAME)) {
@@ -232,8 +232,12 @@ class InventoryController extends Controller
                 } else {
                     array_push($failCount, $name);
                 }
+            }
 
+            if (count($failCount) > 1) {
                 return back()->with(['success', 'There are errors in file '.implode(', ', $failCount)]);
+            } else {
+                return back()->with(['success', 'Images uploaded!']);
             }
         }
     }
