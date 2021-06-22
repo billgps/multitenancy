@@ -136,8 +136,8 @@
                                         </td>   
                                     @endisset
                                     <td>
-                                        <div class="w-ful h-48 text-sm">
-                                            <img class="object-cover" src="{{ asset('images/'.$inventory->picture) }}" alt="{{ $inventory->barcode }}">
+                                        <div class="w-full h-48 text-sm">
+                                            <img class="object-cover h-48 w-full" src="{{ asset('images/'.$inventory->picture) }}" alt="{{ $inventory->barcode }}">
                                         </div>
                                     </td>
                                     <td>
