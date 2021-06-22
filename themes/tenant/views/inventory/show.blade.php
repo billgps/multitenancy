@@ -112,11 +112,15 @@
                             </div>
                         </div>
                     </div>    
-                    <div class="ml-auto my-auto px-3">
+                    <div class="ml-auto my-auto">
                         <div class="text-xs text-right my-2">
                             {{ __('Created at : '.$inventory->created_at) }}
                         </div>
-                        <img class="w-full h-96 mx-auto my-auto" src="{{ asset('images/'.app('currentTenant')->domain.'/'.$inventory->picture) }}" alt="">
+                        @if ($inventory->picture != 'no_image.jpg')
+                            <img class="w-full h-96 mx-auto my-auto" src="{{ asset('images/'.app('currentTenant')->domain.'/'.$inventory->picture) }}" alt="">
+                        @else
+                            <img class="w-96 h-96 mx-auto my-auto" src="{{ asset('images/no_image.jpg') }}" alt="">
+                        @endif
                     </div>
                     {{-- <div class="flex flex-wrap justify-end">
                         <button disabled id="cancelBtn" onclick="toggleEdit(true)" type="button" class="block text-center text-white bg-red-600 mx-2 p-3 duration-300 rounded-sm hover:bg-red-500 disabled:opacity-75 w-24">Cancel</button>

@@ -72,7 +72,7 @@ class InventoryController extends Controller
 
             if ($picture != null) {
                 $name = $picture->getClientOriginalName();
-                $picture->move(public_path().'/images/', $name);
+                $picture->move(public_path().'/images/'.Tenant::current()->domain.'/', $name);
             }
 
             $inventory = new Inventory();
@@ -82,7 +82,7 @@ class InventoryController extends Controller
             // $inventory->brand_id = $request->brand_id;
             $inventory->identity_id = $request->identity_id;
             $inventory->room_id = $request->room_id;
-            $inventory->picture = ($picture != null) ? $name : 'no_image.jpg';
+            $inventory->picture = ($picture != null) ? 'picture_'.$inventory->id.'.'.$picture->guessExtension() : 'no_image.jpg';
             $inventory->save();
 
             if ($request->event_date != null) {

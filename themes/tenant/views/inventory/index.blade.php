@@ -137,7 +137,11 @@
                                     @endisset
                                     <td>
                                         <div class="w-full h-48 text-sm">
-                                            <img class="object-cover h-48 w-full" src="{{ asset('images/'.app('currentTenant')->domain.'/'.$inventory->picture) }}" alt="{{ $inventory->barcode }}">
+                                            @if ($inventory->picture != 'no_image.jpg')
+                                                <img class="object-cover h-48 w-full" src="{{ asset('images/'.app('currentTenant')->domain.'/'.$inventory->picture) }}" alt="{{ $inventory->barcode }}">
+                                            @else
+                                                <img class="object-cover h-48 w-full" src="{{ asset('images/no_image.jpg') }}" alt="{{ $inventory->barcode }}">
+                                            @endif
                                         </div>
                                     </td>
                                     <td>
