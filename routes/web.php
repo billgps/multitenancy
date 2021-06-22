@@ -39,10 +39,10 @@ if (Tenant::current()) {
         Route::middleware(['auth:user', 'notifications'])->group(function () {
             Route::prefix('inventory')->group(function () {
                 Route::get('/', [InventoryController::class, 'index'])->name('inventory.index');
+                Route::post('/image', [InventoryController::class, 'image'])->name('inventory.image');
                 Route::get('/create', [InventoryController::class, 'create'])->name('inventory.create');
                 Route::post('/store', [InventoryController::class, 'store'])->name('inventory.store');
                 Route::post('/import', [InventoryController::class, 'import'])->name('inventory.import');
-                Route::post('/image', [InventoryController::class, 'image'])->name('inventory.image');
                 Route::get('/{id}', [InventoryController::class, 'show'])->name('inventory.show');
                 Route::get('/edit/{inventory}', [InventoryController::class, 'edit'])->name('inventory.edit');
                 Route::post('/update/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
