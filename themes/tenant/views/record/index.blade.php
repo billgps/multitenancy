@@ -12,7 +12,7 @@
 
         <section class="sm:grid sm:grid-cols-6 sm:gap-2 break-words">
             <div class="col-span-6 h-12 flex items-center py-2 px-4 bg-gray-200" x-data="{ dropdownOpen: false }">
-                <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('record.create') }}">
+                <a class="mx-2 text-green-600 hover:text-gray-400" href="/record/create">
                     <i class="fas fa-plus"></i>
                 </a>
                 {{-- <button onclick="toggleModal(this, 'import-toggle', 'import-modal')" class="mx-2 text-blue-600 hover:text-gray-400 modal-open import-toggle">
