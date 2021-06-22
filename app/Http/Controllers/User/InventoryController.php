@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 
 use App\Rules\ImageUpload as RulesImageUpload;
 use Maatwebsite\Excel\Facades\Excel;
+use Spatie\Multitenancy\Models\Tenant;
 
 class InventoryController extends Controller
 {
@@ -24,6 +25,7 @@ class InventoryController extends Controller
      */
     public function index()
     {
+        // dd(app('currentTenant'));
         $inventory = Inventory::with('device', 'brand', 'identity', 'identity.brand', 'room', 'latest_condition', 'latest_record')->orderBy('created_at', 'desc')->get();
 
         return view('inventory.index', ['inventories' => $inventory]);
@@ -221,7 +223,7 @@ class InventoryController extends Controller
                     if ($record->label == pathinfo($name, PATHINFO_FILENAME)) {
                         $inventory = Inventory::find($record->inventory_id);
                         $inventory->picture = 'picture_'.$inventory->id.'.'.$image->guessExtension();
-                        $image->move(public_path().'/images/', 'picture_'.$inventory->id.'.'.$image->guessExtension());  
+                        $image->move(public_path().'/images/'.Tenant::current()->domain, 'picture_'.$inventory->id.'.'.$image->guessExtension());  
                         $inventory->update();
 
                         // return back()->with(['success', 'Images Uploaded!']);
