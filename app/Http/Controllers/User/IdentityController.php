@@ -9,6 +9,7 @@ use App\Models\Device;
 use App\Models\Identity;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Spatie\Multitenancy\Models\Tenant;
 
 class IdentityController extends Controller
 {
@@ -146,10 +147,12 @@ class IdentityController extends Controller
             $identity->brand_id = $request->brand_id;
             $identity->model = $request->model;
             if ($manual) {
-                $manual->move(public_path().'/module/', $manual->getClientOriginalName());
+                $identity->manual = $identity->id.'.'.$manual->guessExtension();
+                $manual->move(public_path().'/module/'.Tenant::current()->domain, $identity->id.'.'.$manual->guessExtension());
             }
             if ($procedure) {
-                $procedure->move(public_path().'/procedure/', $procedure->getClientOriginalName());
+                $identity->procedure = $identity->id.'.'.$procedure->guessExtension();
+                $procedure->move(public_path().'/procedure/'.Tenant::current()->domain, $identity->id.'.'.$procedure->guessExtension());
             }
             $identity->update();
 
