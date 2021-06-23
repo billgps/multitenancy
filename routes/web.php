@@ -42,6 +42,7 @@ if (Tenant::current()) {
                 Route::post('/image', [InventoryController::class, 'image'])->name('inventory.image');
                 Route::get('/create', [InventoryController::class, 'create'])->name('inventory.create');
                 Route::post('/store', [InventoryController::class, 'store'])->name('inventory.store');
+                Route::get('/export', [InventoryController::class, 'export'])->name('inventory.export');
                 Route::post('/import', [InventoryController::class, 'import'])->name('inventory.import');
                 Route::get('/{id}', [InventoryController::class, 'show'])->name('inventory.show');
                 Route::get('/edit/{inventory}', [InventoryController::class, 'edit'])->name('inventory.edit');
@@ -113,8 +114,8 @@ if (Tenant::current()) {
                 Route::post('/import', [RecordController::class, 'import'])->name('record.import');
                 Route::post('/upload/report', [RecordController::class, 'reportUpload'])->name('record.upload.report');
                 Route::post('/upload/certificate', [RecordController::class, 'certificateUpload'])->name('record.upload.certificate');
-                Route::get('/download/report', [RecordController::class, 'reportDownload'])->name('record.download.report');
-                Route::get('/download/certificate', [RecordController::class, 'certificateDownload'])->name('record.download.certificate');
+                Route::get('/download/report/{record}', [RecordController::class, 'reportDownload'])->name('record.download.report');
+                Route::get('/download/certificate/{record}', [RecordController::class, 'certificateDownload'])->name('record.download.certificate');
                 // Route::get('/{id}', [RecordController::class, 'show'])->name('record.show');
                 Route::get('/edit/{record}', [RecordController::class, 'edit'])->name('record.edit');
                 Route::post('/update/{record}', [RecordController::class, 'update'])->name('record.update');

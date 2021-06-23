@@ -17,7 +17,9 @@ class Record extends Model
         'calibration_status',
         'result',
         'inventory_id',
-        'vendor'
+        'vendor',
+        'report',
+        'certificate'
     ];
 
     public function inventory()

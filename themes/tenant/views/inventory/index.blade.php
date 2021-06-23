@@ -27,6 +27,9 @@
                 <button onclick="toggleModal(this, 'import-toggle', 'import-modal')" class="mx-2 text-blue-600 hover:text-gray-400 import-toggle">
                     <i class="fas fa-file-upload"></i>
                 </button>        
+                <a class="mx-2 text-blue-600 hover:text-gray-400" href="{{ route('inventory.export') }}">
+                    <i class="fas fa-download"></i>
+                </a>
                 <div class="ml-auto my-auto flex text-xs">
                     <input class="h-8 rounded-r-none text-xs text-gray-800 w-full px-2 rounded-md focus:ring-0 border-none" id="search_" type="text" placeholder="Search..." name="search" />
                     <button type="button" class="h-8 rounded-l-none w-20 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-gray-100 uppercase tracking-widest hover:text-gray-800 hover:bg-gray-400 active:bg-gray-900 focus:outline-none disabled:opacity-25 transition ease-in-out duration-150">
@@ -48,6 +51,7 @@
                             <th>model</th>
                             <th>serial</th>
                             <th>room</th>
+                            {{-- <th>label</th> --}}
                             <th>calibration_status</th>
                             <th>image</th>
                             <th>action</th>
@@ -120,6 +124,11 @@
                                             </a>
                                         </div>
                                     </td>
+                                    {{-- <td>
+                                        <div class="flex justify-end text-right">
+                                            {{ $inventory->latest_record->label }}
+                                        </div>
+                                    </td> --}}
                                     @isset($inventory->latest_record)
                                         <td>
                                             <div class="flex justify-end text-right">

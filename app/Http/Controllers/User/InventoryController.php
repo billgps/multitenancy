@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Exports\InventoryExport;
 use App\Http\Controllers\Controller;
 use App\Imports\InventoryImport;
 use App\Models\Brand;
@@ -203,6 +204,13 @@ class InventoryController extends Controller
         Excel::import(new InventoryImport, request()->file('fuck'));
 
         return redirect()->route('inventory.index')->with(['success', 'Entries Imported!']);
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new InventoryExport, 'inventory.xlsx');
+
+        // return redirect()->route('inventory.index')->with(['success', 'Entries Imported!']);
     }
 
     public function image(Request $request)

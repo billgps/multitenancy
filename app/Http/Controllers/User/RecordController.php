@@ -123,7 +123,7 @@ class RecordController extends Controller
     {
         $validated = $request->validate([
             'cal_date' => 'required|date',
-            'label' => 'required|unique:records|max:255',
+            'label' => 'required|max:255|unique:records,label,'.$record->id,
             'calibration_status' => 'required',
             'result' => 'required',
             'inventory_id' => 'required|integer',
@@ -154,14 +154,16 @@ class RecordController extends Controller
             $record->vendor = 'PT Global Promedika Services';
             $record->inventory_id = $request->inventory_id;
             if ($report) {
-                $report->move(public_path().'/report/', $report->getClientOriginalName());
+                $record->report = $request->label.'L.'.$report->guessExtension();
+                $report->move(public_path().'/report/', $request->label.'L.'.$report->guessExtension());
             }
             if ($certificate) {
-                $certificate->move(public_path().'/certificate/', $certificate->getClientOriginalName());
+                $record->certificate = $request->label.'L.'.$certificate->guessExtension();
+                $certificate->move(public_path().'/certificate/', $request->label.'L.'.$certificate->guessExtension());
             }
             $record->update();
 
-            return redirect()->route('record.index')->with('success', 'New Entry Added');
+            return redirect()->route('record.index')->with('success', 'Entry Updated');
         }
     }
 
@@ -187,13 +189,13 @@ class RecordController extends Controller
 
     public function reportDownload (Record $record)
     {
-        $path = public_path().'/report/'.$record->label.'.pdf';
+        $path = public_path().'/report/'.$record->report;
         if (file_exists($path)) {
-            return response()->download($path, $record->label.'L.pdf');
+            return response()->download($path, $record->report);
         } else {
             $path = public_path().'/report/'.$record->report;
             if (file_exists($path)) {
-                return response()->download($path, $record->label.'L.pdf');
+                return response()->download($path, $record->report);
             } else {
                 return back()->with(['error', 'File does not exist']);
             }
