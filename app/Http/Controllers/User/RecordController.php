@@ -159,7 +159,7 @@ class RecordController extends Controller
             }
             if ($certificate) {
                 $record->certificate = $request->label.'L.'.$certificate->guessExtension();
-                $certificate->move(public_path().'/certificate/', $request->label.'L.'.$certificate->guessExtension());
+                $certificate->move(public_path().'/certificate/', $request->label.'C.'.$certificate->guessExtension());
             }
             $record->update();
 
@@ -233,13 +233,13 @@ class RecordController extends Controller
 
     public function certificateDownload (Record $record)
     {
-        $path = public_path().'/certificate/'.$record->label.'.pdf';
+        $path = public_path().'/certificate/'.$record->certificate;
         if (file_exists($path)) {
-            return response()->download($path, $record->label.'C.pdf');
+            return response()->download($path, $record->certificate);
         } else {
             $path = public_path().'/certificate/'.$record->certificate;
             if (file_exists($path)) {
-                return response()->download($path, $record->label.'C.pdf');
+                return response()->download($path, $record->certificate);
             } else {
                 return back()->with(['error', 'File does not exist']);
             }
