@@ -158,7 +158,7 @@ class RecordController extends Controller
                 $report->move(public_path().'/report/', $request->label.'L.'.$report->guessExtension());
             }
             if ($certificate) {
-                $record->certificate = $request->label.'L.'.$certificate->guessExtension();
+                $record->certificate = $request->label.'C.'.$certificate->guessExtension();
                 $certificate->move(public_path().'/certificate/', $request->label.'C.'.$certificate->guessExtension());
             }
             $record->update();

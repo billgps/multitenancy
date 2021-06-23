@@ -113,8 +113,8 @@ if (Tenant::current()) {
                 Route::post('/store', [RecordController::class, 'store'])->name('record.store');
                 Route::post('/import', [RecordController::class, 'import'])->name('record.import');
                 Route::post('/upload/report', [RecordController::class, 'reportUpload'])->name('record.upload.report');
-                Route::post('/upload/certificate', [RecordController::class, 'certificateUpload'])->name('record.upload.certificate');
                 Route::get('/download/report/{record}', [RecordController::class, 'reportDownload'])->name('record.download.report');
+                Route::post('/upload/certificate', [RecordController::class, 'certificateUpload'])->name('record.upload.certificate');
                 Route::get('/download/certificate/{record}', [RecordController::class, 'certificateDownload'])->name('record.download.certificate');
                 // Route::get('/{id}', [RecordController::class, 'show'])->name('record.show');
                 Route::get('/edit/{record}', [RecordController::class, 'edit'])->name('record.edit');
