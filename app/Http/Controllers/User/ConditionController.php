@@ -9,6 +9,7 @@ use App\Models\Inventory;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Rules\ImageUpload as RulesImageUpload;
+use Spatie\Multitenancy\Models\Tenant;
 
 class ConditionController extends Controller
 {
@@ -56,19 +57,22 @@ class ConditionController extends Controller
 
         if ($validated) {
             $worksheet = $request->file('worksheet');
-            $worksheetName = 'Belum Diupload';
+            // $worksheetName = 'Belum Diupload';
 
-            if ($worksheet != null) {
-                $worksheetName = $worksheet->getClientOriginalName();
-                $worksheet->move(public_path().'/worksheet/', $worksheetName);
-            }
+            // if ($worksheet != null) {
+            //     $worksheetName = $worksheet->getClientOriginalName();
+            //     $worksheet->move(public_path().'/worksheet/', $worksheetName);
+            // }
 
             $condition = new Condition();
             $condition->event_date = $request->event_date;
             $condition->event = $request->event;
             $condition->status = $request->status;
             $condition->user_id = $request->user_id;
-            $condition->worksheet = $worksheetName;
+            if ($worksheet) {
+                $condition->worksheet = ($worksheet != null) ? $condition->id.'LK.'.$worksheet->guessExtension() : 'Belum Update';
+                $worksheet->move(public_path().'/worksheets/'.Tenant::current()->domain.'/', $condition->id.'LK.'.$worksheet->guessExtension());
+            }
             $condition->inventory_id = $request->inventory_id;
             $condition->save();
 
@@ -135,7 +139,10 @@ class ConditionController extends Controller
             $condition->status = $request->status;
             $condition->inventory_id = $request->inventory_id;
             if ($worksheet) {
-                $condition->worksheet = $worksheet->move(public_path().'/worksheet/', $worksheet->getClientOriginalName());
+                $condition->worksheet = $condition->id.'LK.'.$worksheet->guessExtension();
+                $worksheet->move(public_path().'/worksheets/'.Tenant::current()->domain.'/', $condition->id.'LK.'.$worksheet->guessExtension());
+            } else {
+                $condition->worksheet = 'Belum Update';
             }
             $condition->update();
 
@@ -165,13 +172,13 @@ class ConditionController extends Controller
 
     public function worksheetDownload (Condition $condition)
     {
-        $path = public_path().'/worksheet/'.$condition->id.'.pdf';
+        $path = public_path().'/worksheets/'.Tenant::current()->domain.'/'.$condition->worksheet;
         if (file_exists($path)) {
-            return response()->download($path, $condition->inventory->barcode.' Condition.pdf');
+            return response()->download($path, $condition->worksheet);
         } else {
-            $path = public_path().'/worksheet/'.$condition->worksheet;
+            $path = public_path().'/worksheets/'.Tenant::current()->domain.'/'.$condition->worksheet;
             if (file_exists($path)) {
-                return response()->download($path, $condition->inventory->barcode.' Condition.pdf');
+                return response()->download($path, $condition->worksheet);
             } else {
                 return back()->with(['error', 'File does not exist']);
             }

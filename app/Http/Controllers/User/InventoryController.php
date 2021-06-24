@@ -78,9 +78,9 @@ class InventoryController extends Controller
             // $inventory->brand_id = $request->brand_id;
             $inventory->identity_id = $request->identity_id;
             $inventory->room_id = $request->room_id;
-            $inventory->picture = ($picture != null) ? 'picture_'.$inventory->id.'.'.$picture->guessExtension() : 'no_image.jpg';
-            if ($picture != null) {
+            if ($picture) {
                 $inventory->picture = ($picture != null) ? 'picture_'.$inventory->id.'.'.$picture->guessExtension() : 'no_image.jpg';
+                $picture->move(public_path().'/images/'.Tenant::current()->domain.'/', 'picture_'.$inventory->id.'.'.$picture->guessExtension());
             }
             $inventory->save();
 

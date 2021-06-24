@@ -125,14 +125,14 @@ if (Tenant::current()) {
             Route::prefix('condition')->group(function () {
                 Route::get('/', [ConditionController::class, 'index'])->name('condition.index');
                 Route::get('/create/{inventory?}', [ConditionController::class, 'create'])->name('condition.create');
+                Route::get('/{condition}', [ConditionController::class, 'show'])->name('condition.show');
+                Route::post('/update/{condition}', [ConditionController::class, 'update'])->name('condition.update');
                 Route::get('/{param}', [ConditionController::class, 'parameterIndex'])->name('condition.param');
                 Route::post('/store', [ConditionController::class, 'store'])->name('condition.store');
                 Route::post('/import', [ConditionController::class, 'import'])->name('condition.import');
                 Route::post('/upload/worksheet', [ConditionController::class, 'worksheetUpload'])->name('condition.upload.worksheet');
-                Route::get('/download/worksheet', [ConditionController::class, 'worksheetDownload'])->name('condition.download.worksheet');
-                Route::get('/{condition}', [ConditionController::class, 'show'])->name('condition.show');
+                Route::get('/download/worksheet/{condition}', [ConditionController::class, 'worksheetDownload'])->name('condition.download.worksheet');
                 Route::get('/edit/{condition}', [ConditionController::class, 'edit'])->name('condition.edit');
-                Route::post('/update/{condition}', [ConditionController::class, 'update'])->name('condition.update');
                 Route::get('/delete/{condition}', [ConditionController::class, 'destroy'])->name('condition.delete');
             });
 

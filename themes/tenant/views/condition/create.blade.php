@@ -33,7 +33,7 @@
             </header>
 
             <form class="w-3/5 mx-auto pb-6 my-6" method="POST"
-                action="{{ route('condition.store') }}">
+                action="{{ route('condition.store') }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                 <div class="sm:grid sm:grid-cols-2 sm:gap-2 sm:px-6">
