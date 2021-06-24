@@ -161,10 +161,10 @@ class InventoryController extends Controller
         if ($validated) {
             $picture = $request->file('picture');
 
-            if ($picture != null) {
-                $name = $picture->getClientOriginalName();
-                $picture->move(public_path().'/images/', $name);
-            }
+            // if ($picture != null) {
+            //     $name = $picture->getClientOriginalName();
+            //     $picture->move(public_path().'/images/', $name);
+            // }
 
             $inventory->barcode = $request->barcode;
             $inventory->serial = $request->serial;

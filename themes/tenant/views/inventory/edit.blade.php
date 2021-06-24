@@ -49,7 +49,7 @@
             </header>
             
             <form class="w-3/5 mx-auto pb-6 my-6" method="POST"
-                action="{{ route('inventory.update', ['inventory' => $inventory->id]) }}">
+                action="{{ route('inventory.update', ['inventory' => $inventory->id]) }}" enctype="multipart/form-data">
                 @csrf
                 <div class="sm:grid sm:grid-cols-2 sm:gap-2 sm:px-6">
                     <div class="col-span-2">
