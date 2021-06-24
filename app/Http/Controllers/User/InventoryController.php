@@ -71,11 +71,6 @@ class InventoryController extends Controller
         if ($validated) {
             $picture = $request->file('picture');
 
-            if ($picture != null) {
-                $name = $picture->getClientOriginalName();
-                $picture->move(public_path().'/images/'.Tenant::current()->domain.'/', $name);
-            }
-
             $inventory = new Inventory();
             $inventory->barcode = $request->barcode;
             $inventory->serial = $request->serial;
@@ -84,6 +79,9 @@ class InventoryController extends Controller
             $inventory->identity_id = $request->identity_id;
             $inventory->room_id = $request->room_id;
             $inventory->picture = ($picture != null) ? 'picture_'.$inventory->id.'.'.$picture->guessExtension() : 'no_image.jpg';
+            if ($picture != null) {
+                $inventory->picture = ($picture != null) ? 'picture_'.$inventory->id.'.'.$picture->guessExtension() : 'no_image.jpg';
+            }
             $inventory->save();
 
             if ($request->event_date != null) {
@@ -163,10 +161,10 @@ class InventoryController extends Controller
         if ($validated) {
             $picture = $request->file('picture');
 
-            // if ($picture != null) {
-            //     $name = $picture->getClientOriginalName();
-            //     $picture->move(public_path().'/images/', $name);
-            // }
+            if ($picture != null) {
+                $name = $picture->getClientOriginalName();
+                $picture->move(public_path().'/images/', $name);
+            }
 
             $inventory->barcode = $request->barcode;
             $inventory->serial = $request->serial;
@@ -175,7 +173,8 @@ class InventoryController extends Controller
             $inventory->identity_id = $request->identity_id;
             $inventory->room_id = $request->room_id;
             if ($picture) {
-                $picture->move(public_path().'/images/', $picture->getClientOriginalName());
+                $inventory->picture = ($picture != null) ? 'picture_'.$inventory->id.'.'.$picture->guessExtension() : 'no_image.jpg';
+                $picture->move(public_path().'/images/'.Tenant::current()->domain.'/', 'picture_'.$inventory->id.'.'.$picture->guessExtension());
             }
             $inventory->update();
 
