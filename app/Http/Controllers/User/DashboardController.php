@@ -50,7 +50,7 @@ class DashboardController extends Controller
             $query->where('calibration_status', 'Segera Dikalibrasi');
         })->take(5)->get();
 
-        $records = Record::with('inventory.device')->orderBy('created_at', 'desc')->take(5)->get();
+        $records = Record::with('inventory.device')->orderBy('created_at', 'desc')->take(8)->get();
         $current = date('Y-m-d h:i:s a', time());
         $before = date('Y-m-d h:i:s a', strtotime("-5months", strtotime($current)));
 

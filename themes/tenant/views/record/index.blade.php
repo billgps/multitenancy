@@ -63,10 +63,10 @@
                         <tbody class="text-gray-600 text-sm font-light">
                             @foreach ($records as $record)
                                 <tr class="hover:bg-gray-100">
-                                    <td class="py-3 px-6">
+                                    <td class="py-3 px-3">
                                         {{ $record->inventory_id }}
                                     </td>
-                                    <td class="py-3 px-6">
+                                    <td class="py-3 px-3 lg:w-32">
                                         {{ $record->inventory->device->standard_name }}
                                     </td>
                                     <td class="py-3 px-6">

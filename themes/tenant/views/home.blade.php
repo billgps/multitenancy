@@ -96,7 +96,7 @@
                                 let label = chartData.labels[idx];
 
                                 if (label == 'Segera Kalibrasi') {
-                                    window.location.href = "{{ route('inventory.param', ['param' => 'Segera_Kalibrasi']) }}"
+                                    window.location.href = "{{ route('inventory.param', ['param' => 'Segera_Dikalibrasi']) }}"
                                 }
                             }
                         })
