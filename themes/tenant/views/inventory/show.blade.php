@@ -112,14 +112,14 @@
                             </div>
                         </div>
                     </div>    
-                    <div class="ml-auto my-auto">
+                    <div class="ml-auto my-auto p-6 flex flex-col justify-center">
                         <div class="text-xs text-right my-2">
                             {{ __('Created at : '.$inventory->created_at) }}
                         </div>
                         @if ($inventory->picture != 'no_image.jpg')
-                            <img class="w-full h-96 mx-auto my-auto" src="{{ asset('images/'.app('currentTenant')->domain.'/'.$inventory->picture) }}" alt="">
+                            <img onclick="toggleModal(this, 'image-toggle', 'image-modal')" class="modal-open image-toggle h-96 w-96 object-cover object-center" src="{{ asset('images/'.app('currentTenant')->domain.'/'.$inventory->picture) }}" alt="">
                         @else
-                            <img class="w-96 h-96 mx-auto my-auto" src="{{ asset('images/no_image.jpg') }}" alt="">
+                            <img class="h-96 w-96" src="{{ asset('images/no_image.jpg') }}" alt="">
                         @endif
                     </div>
                     {{-- <div class="flex flex-wrap justify-end">
@@ -133,6 +133,11 @@
         <section class="flex flex-col mt-3 break-words bg-white sm:border-1">
             <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
                 Riwayat Kalibrasi
+                <span class="text-graan-500">
+                    <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('record.create', ['inventory' => $inventory->id]) }}">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </span>
             </header>
 
             <div class="w-full px-6 py-3">
@@ -195,6 +200,11 @@
         <section class="flex flex-col mt-3 break-words bg-white sm:border-1">
             <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
                 Riwayat Kondisi
+                <span>
+                    <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('condition.create', ['inventory' => $inventory->id]) }}">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </span>
             </header>
 
             <div class="w-full px-6 py-3">
@@ -248,4 +258,35 @@
         </section>
     </div>
 </main>
+
+<div id="image-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+    <div onclick="toggleModal(this, 'image-toggle', 'image-modal')" class="modal-close image-toggle modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+    <div class="modal-container bg-gray-800 text-gray-300 w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        <img class="object-cover object-center" src="{{ asset('images/'.app('currentTenant')->domain.'/'.$inventory->picture) }}" alt="">
+    </div>
+</div>
+
+<script>    
+    const overlay = document.querySelector('.modal-overlay')
+    overlay.addEventListener('click', toggleModal)
+    
+    var closemodal = document.querySelectorAll('.modal-close')
+    for (var i = 0; i < closemodal.length; i++) {
+        closemodal[i].addEventListener('click', function(event){
+            event.preventDefault()
+            toggleModal(this)
+        })
+    }
+    
+    function toggleModal (button, toggle, modal) {
+        const body = document.querySelector('body')
+        if (button.classList.contains(toggle)) {
+            modal = document.getElementById(modal)
+        } 
+        
+        modal.classList.toggle('opacity-0')
+        modal.classList.toggle('pointer-events-none')
+        body.classList.toggle('modal-active')
+    }
+</script>
 @endsection

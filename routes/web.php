@@ -124,8 +124,8 @@ if (Tenant::current()) {
 
             Route::prefix('condition')->group(function () {
                 Route::get('/', [ConditionController::class, 'index'])->name('condition.index');
-                Route::get('/{param}', [ConditionController::class, 'parameterIndex'])->name('condition.param');
                 Route::get('/create/{inventory?}', [ConditionController::class, 'create'])->name('condition.create');
+                Route::get('/{param}', [ConditionController::class, 'parameterIndex'])->name('condition.param');
                 Route::get('/{condition}', [ConditionController::class, 'show'])->name('condition.show');
                 Route::post('/update/{condition}', [ConditionController::class, 'update'])->name('condition.update');
                 Route::post('/store', [ConditionController::class, 'store'])->name('condition.store');
