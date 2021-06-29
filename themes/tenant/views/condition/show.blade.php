@@ -11,12 +11,16 @@
         @endif
         <section class="flex flex-col break-words bg-gray-200 sm:border-1">
             <div class="col-span-6 h-12 flex items-center py-2 px-4 bg-gray-200">
-                <a href="{{ route('condition.edit', ['condition' => $condition->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400">
-                    <i class="fas fa-edit"></i>
-                </a>   
-                <a href="{{ route('condition.delete', ['condition' => $condition->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400">
-                    <i class="fas fa-trash-alt"></i>
-                </a>     
+                @if (Auth::user()->role < 2)
+                    <a href="{{ route('condition.edit', ['condition' => $condition->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400">
+                        <i class="fas fa-edit"></i>
+                    </a>   
+                @endif
+                @if (Auth::user()->role < 1)
+                    <a href="{{ route('condition.delete', ['condition' => $condition->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>   
+                @endif  
                 <a href="{{ route('condition.download.worksheet', ['condition' => $condition->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400">
                     <i class="fas fa-file-download"></i>
                 </a>

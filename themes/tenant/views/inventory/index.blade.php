@@ -18,15 +18,19 @@
 
         <section class="sm:grid sm:grid-cols-6 sm:gap-2 break-words">
             <div class="col-span-6 h-12 flex items-center py-2 px-4 bg-gray-200">
-                <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('inventory.create') }}">
-                    <i class="fas fa-plus"></i>
-                </a>
-                <button onclick="toggleModal(this, 'image-toggle', 'image-modal')" class="mx-2 text-yellow-600 hover:text-gray-400 modal-open image-toggle">
-                    <i class="fas fa-images"></i>
-                </button>  
-                <button onclick="toggleModal(this, 'import-toggle', 'import-modal')" class="mx-2 text-blue-600 hover:text-gray-400 import-toggle">
-                    <i class="fas fa-file-upload"></i>
-                </button>        
+                @if (Auth::user()->role < 2)
+                    <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('inventory.create') }}">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                @endif
+                @if (Auth::user()->role < 1)
+                    <button onclick="toggleModal(this, 'image-toggle', 'image-modal')" class="mx-2 text-yellow-600 hover:text-gray-400 modal-open image-toggle">
+                        <i class="fas fa-images"></i>
+                    </button>  
+                    <button onclick="toggleModal(this, 'import-toggle', 'import-modal')" class="mx-2 text-blue-600 hover:text-gray-400 import-toggle">
+                        <i class="fas fa-file-upload"></i>
+                    </button>    
+                @endif    
                 <a class="mx-2 text-blue-600 hover:text-gray-400" href="{{ route('inventory.export') }}">
                     <i class="fas fa-download"></i>
                 </a>
@@ -164,7 +168,7 @@
                                                         </svg>
                                                     </div>
                                                 </a>
-                                                @if (Auth::user()->role == 0)
+                                                @if (Auth::user()->role < 2)
                                                     <a href="{{ route('inventory.edit', ['inventory' => $inventory->id]) }}">
                                                         <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -172,14 +176,16 @@
                                                             </svg>
                                                         </div>
                                                     </a>
+                                                @endif
+                                                @if (Auth::user()->role < 1)
                                                     <a href="{{ route('inventory.delete', ['inventory' => $inventory->id]) }}">
                                                         <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                             </svg>
                                                         </div>
-                                                    </a>
-                                                @endif
+                                                    </a>    
+                                                @endif   
                                             </div>
                                         </div>
                                     </td>

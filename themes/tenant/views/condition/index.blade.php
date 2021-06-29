@@ -12,25 +12,30 @@
 
         <section class="sm:grid sm:grid-cols-6 sm:gap-2 break-words">
             <div class="col-span-6 h-12 flex items-center py-2 px-4 bg-gray-200" x-data="{ dropdownOpen: false }">
-                <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('condition.create') }}">
-                    <i class="fas fa-plus"></i>
-                </a>
+                @if (Auth::user()->role < 2)
+                    <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('condition.create') }}">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                @endif
+                @if (Auth::user()->role < 1)
+                    <button @click="dropdownOpen = !dropdownOpen" class="relative z-10 block mx-2 text-blue-600 hover:text-gray-400">
+                        <i class="fas fa-file-upload"></i>
+                    </button>
+                    <div x-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10"></div>
+
+                    <div x-show="dropdownOpen" class="absolute top-28 left-48 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
+                        <button @click="dropdownOpen = false" onclick="toggleModal(this, 'import-toggle', 'import-modal')" class="modal-open import-toggle w-full text-left block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white">
+                            Conditions
+                        </button>       
+                        <button @click="dropdownOpen = false" onclick="toggleModal(this, 'worksheet-toggle', 'worksheet-modal')" class="modal-open worksheet-toggle w-full text-left block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white">
+                            Worksheets
+                        </button>        
+                    </div>
+                @endif    
+
                 {{-- <button onclick="toggleModal(this, 'import-toggle', 'import-modal')" class="mx-2 text-blue-600 hover:text-gray-400 modal-open import-toggle">
                     <i class="fas fa-file-upload"></i>
                 </button>         --}}
-                <button @click="dropdownOpen = !dropdownOpen" class="relative z-10 block mx-2 text-blue-600 hover:text-gray-400">
-                    <i class="fas fa-file-upload"></i>
-                </button>
-                <div x-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10"></div>
-
-                <div x-show="dropdownOpen" class="absolute top-28 left-48 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
-                    <button @click="dropdownOpen = false" onclick="toggleModal(this, 'import-toggle', 'import-modal')" class="modal-open import-toggle w-full text-left block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white">
-                        Conditions
-                    </button>       
-                    <button @click="dropdownOpen = false" onclick="toggleModal(this, 'worksheet-toggle', 'worksheet-modal')" class="modal-open worksheet-toggle w-full text-left block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white">
-                        Worksheets
-                    </button>        
-                </div>
                 <div class="ml-auto my-auto flex text-xs">
                     <input class="h-8 rounded-r-none text-xs text-gray-800 w-full px-2 rounded-md focus:ring-0 border-none" id="search_" type="text" placeholder="Search..." name="search" />
                     <button type="button" class="h-8 rounded-l-none w-20 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-gray-100 uppercase tracking-widest hover:text-gray-800 hover:bg-gray-400 active:bg-gray-900 focus:outline-none disabled:opacity-25 transition ease-in-out duration-150">
@@ -94,16 +99,20 @@
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                             </div>
-                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <a href="{{ route('condition.edit', ['condition' => $condition->id]) }}">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                            </div>
-                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <a href="{{ route('condition.delete', ['condition' => $condition->id]) }}">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </a>
-                                            </div>
+                                            @if (Auth::user()->role < 2)
+                                                <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                    <a href="{{ route('condition.edit', ['condition' => $condition->id]) }}">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                            @if (Auth::user()->role < 1)
+                                                <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                    <a href="{{ route('condition.delete', ['condition' => $condition->id]) }}">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+                                                </div>
+                                            @endif    
                                         </div>
                                     </td>
                                 </tr>

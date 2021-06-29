@@ -42,12 +42,16 @@
         @endif
         <section class="flex flex-col break-words bg-gray-200 sm:border-1">
             <div class="col-span-6 h-12 flex items-center py-2 px-4 bg-gray-200">
-                <a href="{{ route('inventory.edit', ['inventory' => $inventory->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
-                    <i class="fas fa-edit"></i>
-                </a>   
-                <a href="{{ route('inventory.delete', ['inventory' => $inventory->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
-                    <i class="fas fa-trash-alt"></i>
-                </a>     
+                @if (Auth::user()->role < 2)
+                    <a href="{{ route('inventory.edit', ['inventory' => $inventory->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
+                        <i class="fas fa-edit"></i>
+                    </a>   
+                @endif
+                @if (Auth::user()->role < 1)
+                    <a href="{{ route('inventory.delete', ['inventory' => $inventory->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>     
+                @endif
                 {{-- <div class="ml-auto my-auto flex text-xs">
                     <input class="h-8 rounded-r-none text-xs text-gray-800 w-full px-2 rounded-md focus:ring-0 border-none" id="search_" type="text" placeholder="Search..." name="search" />
                     <button type="button" class="h-8 rounded-l-none w-20 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-gray-100 uppercase tracking-widest hover:text-gray-800 hover:bg-gray-400 active:bg-gray-900 focus:outline-none disabled:opacity-25 transition ease-in-out duration-150">
@@ -133,11 +137,13 @@
         <section class="flex flex-col mt-3 break-words bg-white sm:border-1">
             <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
                 Riwayat Kalibrasi
-                <span class="text-graan-500">
-                    <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('record.create', ['inventory' => $inventory->id]) }}">
-                        <i class="fas fa-plus"></i>
-                    </a>
-                </span>
+                @if (Auth::user()->role < 2)
+                    <span class="text-graan-500">
+                        <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('record.create', ['inventory' => $inventory->id]) }}">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </span>
+                @endif
             </header>
 
             <div class="w-full px-6 py-3">
@@ -168,11 +174,13 @@
                                 </td>
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex item-center justify-center">
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <a href="{{ route('record.edit', ['record' => $record->id]) }}">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </div>
+                                        @if (Auth::user()->role < 2)
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <a href="{{ route('record.edit', ['record' => $record->id]) }}">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </div>
+                                        @endif
                                         <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                             <a href="{{ route('record.download.report', ['record' => $record->id]) }}">
                                                 <i class="fas fa-file-pdf"></i>
@@ -183,11 +191,13 @@
                                                 <i class="fas fa-award"></i>
                                             </a>
                                         </div>
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <a href="{{ route('record.delete', ['record' => $record->id]) }}">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
-                                        </div>
+                                        @if (Auth::user()->role < 1)
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <a href="{{ route('record.delete', ['record' => $record->id]) }}">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -200,11 +210,13 @@
         <section class="flex flex-col mt-3 break-words bg-white sm:border-1">
             <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
                 Riwayat Kondisi
-                <span>
-                    <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('condition.create', ['inventory' => $inventory->id]) }}">
-                        <i class="fas fa-plus"></i>
-                    </a>
-                </span>
+                @if (Auth::user()->role < 2)
+                    <span>
+                        <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('condition.create', ['inventory' => $inventory->id]) }}">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </span>
+                @endif
             </header>
 
             <div class="w-full px-6 py-3">
@@ -238,16 +250,20 @@
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         </div>
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <a href="{{ route('condition.edit', ['condition' => $condition->id]) }}">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </div>
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <a href="{{ route('condition.delete', ['condition' => $condition->id]) }}">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
-                                        </div>
+                                        @if (Auth::user()->role < 2)
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <a href="{{ route('condition.edit', ['condition' => $condition->id]) }}">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </div>
+                                        @endif
+                                        @if (Auth::user()->role < 1)
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <a href="{{ route('condition.delete', ['condition' => $condition->id]) }}">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
