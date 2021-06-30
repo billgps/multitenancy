@@ -158,6 +158,8 @@ class InventoryController extends Controller
             'room_id' => 'required|integer',
         ]);
 
+        dd($request->file());
+
         if ($validated) {
             $picture = $request->file('picture');
 
