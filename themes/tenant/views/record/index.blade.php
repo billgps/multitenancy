@@ -124,7 +124,7 @@
                                                     <i class="fas fa-award"></i>
                                                 </a>
                                             </div>
-                                            @if (Auth::user()->role < 2)
+                                            @if (Auth::user()->role < 1)
                                                 <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                     <a href="{{ route('record.delete', ['record' => $record->id]) }}">
                                                         <i class="fas fa-trash-alt"></i>
