@@ -234,7 +234,7 @@
                     <div class="flex flex-col col-span-2">
                         <label class="block mb-2 text-sm text-gray-00" for="picture">Foto Alat</label>
                         <div class="py-2 text-left">
-                            <input class="" id="picture" name="picture" type="file" accept="image/*" capture="camera">
+                            <input class="" id="picture" name="picture" type="file" accept="image/*">
                         </div>
                     </div>
                 </div>
