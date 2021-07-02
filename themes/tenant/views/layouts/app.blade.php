@@ -210,7 +210,7 @@
                                     target: document.querySelector('#livestream')    // Or '#yourElement' (optional)
                                 },
                                 decoder : {
-                                    readers : ["code_128_reader", "code_39_reader", "code_39_vin_reader"],
+                                    readers : ["code_128_reader"],
                                     debug: {
                                         drawBoundingBox: true,
                                         showFrequency: true,
@@ -227,11 +227,11 @@
 
                                 Quagga.onProcessed(
                                     Quagga.onDetected(function (data) {
-                                        alert(data.codeResult.code)
                                         console.log(data.codeResult.code);
                                     })
                                 )
                             });
+                            */
                         }
                     </script>
                 </span>
@@ -397,8 +397,8 @@
 
 <div id="barcode-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
     <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-    <div class="modal-container bg-gray-800 text-gray-300 w-full md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
-        <div id="livestream" class="w-full h-full"></div>
+    <div id="livestream" class="modal-container bg-gray-800 text-gray-300 w-full md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        {{-- <video id="preview"></video> --}}
         {{-- <div  class="modal-content py-4 text-left px-6">
             <div class="flex justify-between items-center pb-3 text-lg">
                 Import Excel to Inventory
