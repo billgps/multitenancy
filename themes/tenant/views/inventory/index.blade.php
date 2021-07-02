@@ -55,8 +55,8 @@
                             <th>model</th>
                             <th>serial</th>
                             <th>room</th>
-                            {{-- <th>label</th> --}}
                             <th>calibration_status</th>
+                            <th>label</th>
                             <th>image</th>
                             <th>action</th>
                         </thead>
@@ -128,12 +128,12 @@
                                             </a>
                                         </div>
                                     </td>
-                                    {{-- <td>
-                                        <div class="flex justify-end text-right">
-                                            {{ $inventory->latest_record->label }}
-                                        </div>
-                                    </td> --}}
                                     @isset($inventory->latest_record)
+                                        <td>
+                                            <div class="flex justify-end text-right">
+                                                {{ $inventory->latest_record->label }}
+                                            </div>
+                                        </td> 
                                         <td>
                                             <div class="flex justify-end text-right">
                                                 @if ($inventory->latest_record->calibration_status == 'Terkalibrasi')
@@ -146,7 +146,7 @@
                                                     </div>
                                                 @endif
                                             </div>
-                                        </td>   
+                                        </td>  
                                     @endisset
                                     <td>
                                         <div class="w-full h-48 text-sm">
@@ -221,7 +221,7 @@
                                 for (let i = 0; i < rows.length; i++) {                      
                                     var card = document.createElement('div')
                                     card.classList.add('max-w-xs', 'flex', 'flex-col', 'rounded', 'overflow-hidden', 'bg-gray-100', 'my-2')
-                                    card.innerHTML = rows[i][8]
+                                    card.innerHTML = rows[i][9]
                                     card.innerHTML += rows[i][0]
                                     card.innerHTML += rows[i][1]
             
@@ -229,9 +229,9 @@
                                     grid.classList.add('grid', 'grid-cols-2', 'gap-2', 'w-full', 'text-xs', 'px-2')
                                     card.appendChild(grid)
             
-                                    var array = ['Barcode', 'Merk', 'Model', 'Serial Number', 'Ruangan', 'Status Kalibrasi']
+                                    var array = ['Barcode', 'Merk', 'Model', 'Serial Number', 'Ruangan', 'No. Label', 'Status Kalibrasi']
             
-                                    for (let j = 0; j < 6; j++) {
+                                    for (let j = 0; j < 7; j++) {
                                         var label = document.createElement('div')
                                         label.classList.add('flex')
                                         label.innerHTML = array[j] + ' :'
@@ -241,7 +241,7 @@
                                         grid.innerHTML += rows[i][j + 2]
                                     }
             
-                                    card.innerHTML += rows[i][9]
+                                    card.innerHTML += rows[i][10]
             
                                     container.appendChild(card)                
                                 }
