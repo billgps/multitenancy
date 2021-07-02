@@ -17,8 +17,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-    <script src="{{ asset('js/quagga.min.js') }}"></script>
-    {{-- <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script> --}}
+    <script type="text/javascript" src="https://unpkg.com/@zxing/browser@latest"></script>
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css', 'themes/tenant') }}" rel="stylesheet">
@@ -202,35 +201,10 @@
                     <script>
                         function scanBarcode(button) {
                             toggleModal(button, 'barcode-toggle', 'barcode-modal')
-                            
-                            Quagga.init({
-                                inputStream : {
-                                    name : "Live",
-                                    type : "LiveStream",
-                                    target: document.querySelector('#livestream')    // Or '#yourElement' (optional)
-                                },
-                                decoder : {
-                                    readers : ["code_128_reader"],
-                                    debug: {
-                                        drawBoundingBox: true,
-                                        showFrequency: true,
-                                        drawScanline: true,
-                                        showPattern: true
-                                    }
-                                }
-                            }, function(err) {
-                                if (err) {
-                                    console.log(err);
-                                    return
-                                }
-                                Quagga.start();
 
-                                Quagga.onProcessed(
-                                    Quagga.onDetected(function (data) {
-                                        console.log(data.codeResult.code);
-                                    })
-                                )
-                            });
+                            const codeReader = new BrowserMultiFormatCodeReader()
+                            const source = '';
+                            const resultImage = await codeReader.decodeFromImageUrl(source);
                         }
                     </script>
                 </span>
