@@ -17,6 +17,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script src="{{ asset('js/quagga.min.js') }}"></script>
+    {{-- <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script> --}}
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css', 'themes/tenant') }}" rel="stylesheet">
@@ -144,9 +146,11 @@
             <span class="ml-6 hover:text-purple-500">
                 <i @click="isClose = !isClose" class="mr-3 cursor-pointer fas fa-bars"></i>
             </span>
-            Dashboard
-            <div class="ml-auto mr-6">
-                <span class="mx-6">
+            {{-- <span class="hidden lg:block">
+                Dashboard
+            </span> --}}
+            <div class="ml-auto mr-6 flex">
+                <span class="mx-2 lg:mx-6">
                     <button onclick="markAsRead()" @click="notification = !notification" class="relative z-10 hover:text-purple-500 focus:outline-none">
                         @if(Session::get('notifications'))
                             <span id="badge" class="badge pl-1 bg-red-800 rounded-full text-center text-white text-xs mr-1">
@@ -191,7 +195,49 @@
                         </div>
                     </div>
                 </span>
-                {{ Auth::user()->name }}
+                <span class="mx-2 lg:mx-6">
+                    <button  onclick="scanBarcode(this)" class="hover:text-purple-500 focus:outline-none modal-open barcode-toggle">
+                        <i class="fas fa-barcode"></i>
+                    </button>
+                    <script>
+                        function scanBarcode(button) {
+                            toggleModal(button, 'barcode-toggle', 'barcode-modal')
+                            
+                            Quagga.init({
+                                inputStream : {
+                                    name : "Live",
+                                    type : "LiveStream",
+                                    target: document.querySelector('#livestream')    // Or '#yourElement' (optional)
+                                },
+                                decoder : {
+                                    readers : ["code_128_reader", "code_39_reader", "code_39_vin_reader"],
+                                    debug: {
+                                        drawBoundingBox: true,
+                                        showFrequency: true,
+                                        drawScanline: true,
+                                        showPattern: true
+                                    }
+                                }
+                            }, function(err) {
+                                if (err) {
+                                    console.log(err);
+                                    return
+                                }
+                                Quagga.start();
+
+                                Quagga.onProcessed(
+                                    Quagga.onDetected(function (data) {
+                                        alert(data.codeResult.code)
+                                        console.log(data.codeResult.code);
+                                    })
+                                )
+                            });
+                        }
+                    </script>
+                </span>
+                <span class="hidden lg:block">
+                    {{ Auth::user()->name }}
+                </span>
             </div>
         </div>
 
@@ -348,4 +394,55 @@
         @yield('content')
     </div>
 </body>
+
+<div id="barcode-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+    <div class="modal-container bg-gray-800 text-gray-300 w-full md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        <div id="livestream" class="w-full h-full"></div>
+        {{-- <div  class="modal-content py-4 text-left px-6">
+            <div class="flex justify-between items-center pb-3 text-lg">
+                Import Excel to Inventory
+            </div>
+            <form action="{{ route('inventory.import') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="text-xs">
+                    <div>
+                        <label class="block mb-2 text-sm text-gray-00" for="file">Inventories</label>
+                        <div class="py-2 text-left">
+                            <input id="fuck" name="fuck" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                        </div>
+                    </div>
+                    <div class="flex w-full justify-end pt-2">
+                        <input type="submit" value="{{ __('Import') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
+                        <button onclick="toggleModal(this, 'import-toggle', 'import-modal')" type="button" class="modal-close import-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div> --}}
+    </div>
+</div>
+
+<script>    
+    const overlay = document.querySelector('.modal-overlay')
+    overlay.addEventListener('click', toggleModal)
+    
+    var closemodal = document.querySelectorAll('.modal-close')
+    for (var i = 0; i < closemodal.length; i++) {
+        closemodal[i].addEventListener('click', function(event){
+            event.preventDefault()
+            toggleModal(this)
+        })
+    }
+    
+    function toggleModal (button, toggle, modal) {
+        const body = document.querySelector('body')
+        if (button.classList.contains(toggle)) {
+            modal = document.getElementById(modal)
+        } 
+        
+        modal.classList.toggle('opacity-0')
+        modal.classList.toggle('pointer-events-none')
+        body.classList.toggle('modal-active')
+    }
+</script>
 </html>

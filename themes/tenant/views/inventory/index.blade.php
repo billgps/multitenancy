@@ -248,8 +248,6 @@
                             }
 
                             if (rows.length > 0) {
-                                console.log(rows.length);
-
                                 $("#page").append($(".dataTables_paginate"));
                                 let prev = document.getElementsByClassName('previous')[0]
                                 prev.classList.add('mr-3', 'cursor-pointer', 'hover:text-purple-500')
@@ -295,7 +293,7 @@
                         })
                     </script>
             
-                    <div id="display" class="grid lg:grid-cols-4 gap-2 w-full justify-center"></div>
+                    <div id="display" class="flex flex-col lg:grid lg:grid-cols-4 gap-2 w-full justify-center"></div>
                     <div class="mt-3 w-full h-20 flex justify-center text-sm p-2" id="page"></div>
                 </div>
             </div>
@@ -354,30 +352,4 @@
         </div>
     </div>
 </div>
-
-<script>    
-    const overlay = document.querySelector('.modal-overlay')
-    overlay.addEventListener('click', toggleModal)
-    
-    var closemodal = document.querySelectorAll('.modal-close')
-    for (var i = 0; i < closemodal.length; i++) {
-        closemodal[i].addEventListener('click', function(event){
-            event.preventDefault()
-            toggleModal(this)
-        })
-    }
-    
-    function toggleModal (button, toggle, modal) {
-        const body = document.querySelector('body')
-        if (button.classList.contains(toggle)) {
-            modal = document.getElementById(modal)
-        } 
-        
-        modal.classList.toggle('opacity-0')
-        modal.classList.toggle('pointer-events-none')
-        body.classList.toggle('modal-active')
-    }
-    
-     
-</script>
 @endsection
