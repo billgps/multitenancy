@@ -2,18 +2,26 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Inventory;
+use App\Models\Record;
+use App\Models\User;
+use App\Notifications\CalibrationStatusUpdate;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Spatie\Multitenancy\Models\Tenant;
 
 class CalibrationUpdate extends Command
 {
+    use TenantAware;
+
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'calibration:update';
+    protected $signature = 'calibration:update {--tenant=*}';
 
     /**
      * The console command description.
@@ -39,12 +47,27 @@ class CalibrationUpdate extends Command
      */
     public function handle()
     {
-        Tenant::all()->eachCurrent(function(Tenant $tenant) {
-            // the passed tenant has been made current
-            Tenant::current()->is($tenant); // returns true;
-            print($tenant->domain);
-        });
+        $inventories = Inventory::with('latest_record')->has('latest_record')->get();
+        $counter = 0;
 
-        return 'A OK';
+        foreach ($inventories as $inventory) {
+            $cal_date = strtotime($inventory->latest_record->cal_date);
+            // $inventory->latest_record->vendor = 'McDonald Trump';
+            // $inventory->latest_record->update();
+
+            if (isset($inventory->latest_record)) {
+                if (date('Y-m-d') > date('Y-m-d', strtotime('+9 months', $cal_date))) {
+                    $inventory->latest_record->calibration_status = 'Segera Dikalibrasi';
+                    $inventory->latest_record->update();
+                    $counter++;
+                }
+            }
+        }
+
+        $users = User::where('role', 1)->get();
+
+        Notification::send($users, new CalibrationStatusUpdate(' item inventory haru segera dikalibrasi', $counter));
+
+        return 0;
     }
 }
