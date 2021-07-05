@@ -70,7 +70,7 @@
                             data: {
                                 labels: ['Terkalibrasi', 'Segera Kalibrasi', 'Expired', 'Belum Update'],
                                 datasets: [{
-                                    data: [calibrated, scheduled, expired, total - (scheduled + calibrated)],
+                                    data: [calibrated, scheduled, expired, total - (scheduled + calibrated + expired)],
                                     backgroundColor: [
                                         'rgba(52, 211, 153, 1)',
                                         'rgba(251, 191, 135, 1)',
