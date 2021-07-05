@@ -194,7 +194,7 @@
                         </div>
                     </div>
                 </span>
-                <span class="mx-2 lg:mx-6">
+                {{-- <span class="mx-2 lg:mx-6">
                     <button  onclick="scanBarcode(this)" class="hover:text-purple-500 focus:outline-none modal-open barcode-toggle">
                         <i class="fas fa-barcode"></i>
                     </button>
@@ -207,7 +207,7 @@
                             const resultImage = await codeReader.decodeFromImageUrl(source);
                         }
                     </script>
-                </span>
+                </span> --}}
                 <span class="hidden lg:block">
                     {{ Auth::user()->name }}
                 </span>
@@ -368,11 +368,11 @@
     </div>
 </body>
 
-<div id="barcode-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+{{-- <div id="barcode-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
     <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
     <div id="livestream" class="modal-container bg-gray-800 text-gray-300 w-full md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
-        {{-- <video id="preview"></video> --}}
-        {{-- <div  class="modal-content py-4 text-left px-6">
+        <video id="preview"></video>
+        <div  class="modal-content py-4 text-left px-6">
             <div class="flex justify-between items-center pb-3 text-lg">
                 Import Excel to Inventory
             </div>
@@ -391,11 +391,11 @@
                     </div>
                 </div>
             </form>
-        </div> --}}
+        </div>
     </div>
-</div>
+</div> --}}
 
-<script>    
+{{-- <script>    
     const overlay = document.querySelector('.modal-overlay')
     overlay.addEventListener('click', toggleModal)
     
@@ -417,5 +417,5 @@
         modal.classList.toggle('pointer-events-none')
         body.classList.toggle('modal-active')
     }
-</script>
+</script> --}}
 </html>

@@ -9,7 +9,6 @@
 </style>
 <main class="sm:container sm:mx-auto sm:mt-6 overflow-y-auto">
     <div class="w-full sm:px-6">
-
         @if (session('status'))
             <div class="px-3 py-4 mb-4 text-sm text-green-700 bg-green-100 border border-t-8 border-green-600 rounded" role="alert">
                 {{ session('status') }}
