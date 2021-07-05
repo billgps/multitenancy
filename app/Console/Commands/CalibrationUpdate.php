@@ -48,7 +48,8 @@ class CalibrationUpdate extends Command
     public function handle()
     {
         $inventories = Inventory::with('latest_record')->has('latest_record')->get();
-        $counter = 0;
+        $scheduled = 0;
+        $expired = 0;
 
         foreach ($inventories as $inventory) {
             $cal_date = strtotime($inventory->latest_record->cal_date);
@@ -57,16 +58,24 @@ class CalibrationUpdate extends Command
 
             if (isset($inventory->latest_record)) {
                 if (date('Y-m-d') > date('Y-m-d', strtotime('+9 months', $cal_date))) {
-                    $inventory->latest_record->calibration_status = 'Segera Dikalibrasi';
-                    $inventory->latest_record->update();
-                    $counter++;
+                    if (date('Y-m-d') > date('Y-m-d', strtotime('+12 months', $cal_date))) {
+                        $inventory->latest_record->calibration_status = 'Expired';
+                        $inventory->latest_record->update();
+                        $expired++;
+                    } else {
+                        $inventory->latest_record->calibration_status = 'Segera Dikalibrasi';
+                        $inventory->latest_record->update();
+                        $scheduled++;
+                    }
                 }
             }
         }
 
         $users = User::where('role', 1)->get();
 
-        Notification::send($users, new CalibrationStatusUpdate(' item inventory haru segera dikalibrasi', $counter));
+        Notification::send($users, new CalibrationStatusUpdate(' item inventory harus segera dikalibrasi', $scheduled));
+
+        Notification::send($users, new CalibrationStatusUpdate(' item inventory sudah expired', $expired));
 
         return 0;
     }

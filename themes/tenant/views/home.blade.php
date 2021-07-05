@@ -12,6 +12,7 @@
         let scheduled = {!! json_encode($scheduled) !!}
         let calibrated = {!! json_encode($calibrated) !!}
         let good = {!! json_encode($good) !!}
+        let expired = {!! json_encode($expired) !!}
         let broken = {!! json_encode($broken) !!}
         let passed = {!! json_encode($passed) !!}
         let failed = {!! json_encode($failed) !!}
@@ -67,12 +68,13 @@
                         let wajibChart = new Chart(wajib, {
                             type: 'doughnut',
                             data: {
-                                labels: ['Terkalibrasi', 'Segera Kalibrasi', 'Belum Update'],
+                                labels: ['Terkalibrasi', 'Segera Kalibrasi', 'Expired', 'Belum Update'],
                                 datasets: [{
-                                    data: [calibrated, scheduled, total - (scheduled + calibrated)],
+                                    data: [calibrated, scheduled, expired, total - (scheduled + calibrated)],
                                     backgroundColor: [
                                         'rgba(52, 211, 153, 1)',
                                         'rgba(251, 191, 135, 1)',
+                                        'rgba(239, 68, 68, 1)',
                                         'rgba(209, 213, 219, 0.3)',
                                     ],
                                 }]
@@ -97,6 +99,10 @@
 
                                 if (label == 'Segera Kalibrasi') {
                                     window.location.href = "{{ route('inventory.param', ['param' => 'Segera_Dikalibrasi']) }}"
+                                }
+
+                                else if (label == 'Expired') {
+                                    window.location.href = "{{ route('inventory.param', ['param' => 'Expired']) }}"
                                 }
                             }
                         })
@@ -206,7 +212,7 @@
 
             <div class="col-span-4 w-full p-4 bg-white">
                 <div class="text-md flex text-left text-gray-600">
-                    Statistik Kerusakan Alat
+                    Kerusakan Alat
                 </div>
                 <div class="flex flex-col mt-6">
                     <div class="w-full h-full">
@@ -325,6 +331,10 @@
                                     <td class="py-3 px-6">
                                         @if ($inventory->latest_record->calibration_status == 'Terkalibrasi')
                                             <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                {{ $inventory->latest_record->calibration_status }}
+                                            </div>
+                                        @elseif ($inventory->latest_record->calibration_status == 'Expired')
+                                            <div class="rounded bg-red-400 text-gray-800 py-1 px-3 text-xs font-bold">
                                                 {{ $inventory->latest_record->calibration_status }}
                                             </div>
                                         @else

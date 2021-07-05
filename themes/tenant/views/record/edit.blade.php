@@ -78,6 +78,7 @@
                                 <option value="Terkalibrasi">Terkalibrasi</option>
                                 <option value="Segera Dikalibrasi">Segera Kalibrasi</option>
                                 <option value="Belum Update">Belum Update</option>
+                                <option value="Expired">Expired</option>
                             </select>
                         </div>
 

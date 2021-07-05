@@ -139,6 +139,10 @@
                                                     <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
                                                         Terkalibrasi
                                                     </div>
+                                                @elseif ($inventory->latest_record->calibration_status == 'Expired')
+                                                    <div class="rounded bg-red-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                        Expired
+                                                    </div>
                                                 @else
                                                     <div class="rounded bg-yellow-300 text-gray-800 py-1 px-3 text-xs font-bold">
                                                         Wajib Kalibrasi

@@ -123,7 +123,7 @@
                         @if ($inventory->picture != 'no_image.jpg')
                             <img onclick="toggleModal(this, 'image-toggle', 'image-modal')" class="modal-open image-toggle h-96 w-96 object-cover object-center" src="{{ asset('images/'.app('currentTenant')->domain.'/'.$inventory->picture) }}" alt="">
                         @else
-                            <img class="h-96 w-96" src="{{ asset('images/no_image.jpg') }}" alt="">
+                            <img class="object-cover object-center" src="{{ asset('images/no_image.jpg') }}" alt="">
                         @endif
                     </div>
                     {{-- <div class="flex flex-wrap justify-end">

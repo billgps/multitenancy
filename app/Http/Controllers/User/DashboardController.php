@@ -30,6 +30,9 @@ class DashboardController extends Controller
         $calibrated = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
             $query->where('calibration_status', 'Terkalibrasi');
         })->count();
+        $expired = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
+            $query->where('calibration_status', 'Expired');
+        })->count();
 
         $passed = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
             $query->where('result', 'Laik');
@@ -102,6 +105,7 @@ class DashboardController extends Controller
             'total' => $total,
             'scheduled' => $scheduled,
             'calibrated' => $calibrated,
+            'expired' => $expired,
             'good' => $good,
             'broken' => $broken,
             'passed' => $passed,

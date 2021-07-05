@@ -81,6 +81,10 @@
                                             <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
                                                 {{ $record->calibration_status }}
                                             </div>
+                                        @elseif ($record->calibration_status == 'Expired')
+                                            <div class="rounded bg-red-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                {{ $record->calibration_status }}
+                                            </div>
                                         @else
                                             <div class="rounded bg-yellow-400 text-gray-800 py-1 px-3 text-xs font-bold">
                                                 {{ $record->calibration_status }}
@@ -92,7 +96,7 @@
                                             <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
                                                 {{ $record->result }}
                                             </div>
-                                        @elseif($record->result == 'Tidak Laik')
+                                        @elseif ($record->result == 'Tidak Laik')
                                             <div class="rounded bg-red-400 text-gray-800 py-1 px-3 text-xs font-bold">
                                                 {{ $record->result }}
                                             </div>
