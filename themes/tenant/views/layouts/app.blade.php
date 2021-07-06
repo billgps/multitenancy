@@ -139,7 +139,7 @@
         <div class="flex mx-auto items-center py-3 px-6 sm:px-3">
             <div class="flex">
                 <a href="#">
-                    <img class="h-7" src="{{ asset('gps_logo.png') }}">
+                    <img class="h-7" src="{{ asset(app('currentTenant')->vendor_id) }}">
                 </a>
             </div>
             <span class="ml-6 hover:text-purple-500">
@@ -356,13 +356,13 @@
                 </div>
             </nav>
 
-            <div class="flex justify-center mt-auto mb-6 text-xs text-gray-100">
+            {{-- <div class="flex justify-center mt-auto mb-6 text-xs text-gray-100">
                 <span class="mx-aut text-center">
                     Provided by 
                     <br>
                     Global Promedika Services
                 </span>
-            </div>
+            </div> --}}
         </aside>
         @yield('content')
     </div>
