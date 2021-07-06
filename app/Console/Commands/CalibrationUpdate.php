@@ -80,7 +80,7 @@ class CalibrationUpdate extends Command
                 }
             }
     
-            $users = User::where('role', 0)->get();
+            $users = User::all();
     
             if ($scheduled > 0) {
                 foreach ($users as $user) {
