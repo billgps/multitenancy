@@ -355,4 +355,28 @@
         </div>
     </div>
 </div>
+
+<script>    
+    const overlay = document.querySelector('.modal-overlay')
+    overlay.addEventListener('click', toggleModal)
+    
+    var closemodal = document.querySelectorAll('.modal-close')
+    for (var i = 0; i < closemodal.length; i++) {
+        closemodal[i].addEventListener('click', function(event){
+            event.preventDefault()
+            toggleModal(this)
+        })
+    }
+    
+    function toggleModal (button, toggle, modal) {
+        const body = document.querySelector('body')
+        if (button.classList.contains(toggle)) {
+            modal = document.getElementById(modal)
+        } 
+        
+        modal.classList.toggle('opacity-0')
+        modal.classList.toggle('pointer-events-none')
+        body.classList.toggle('modal-active')
+    }
+</script>
 @endsection

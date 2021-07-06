@@ -8,7 +8,8 @@ use App\Models\User;
 use App\Notifications\CalibrationStatusUpdate;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Notification;
+// use Illuminate\Support\Facades\Notification;
+use Illuminate\Notifications\Notification;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Spatie\Multitenancy\Models\Tenant;
 
@@ -47,35 +48,54 @@ class CalibrationUpdate extends Command
      */
     public function handle()
     {
-        $inventories = Inventory::with('latest_record')->has('latest_record')->get();
-        $scheduled = 0;
-        $expired = 0;
+        Tenant::all()->eachCurrent(function(Tenant $tenant) {
+            // the passed tenant has been made current
+            Tenant::current()->is($tenant); // returns true;
 
-        foreach ($inventories as $inventory) {
-            $cal_date = strtotime($inventory->latest_record->cal_date);
-            // $inventory->latest_record->vendor = 'McDonald Trump';
-            // $inventory->latest_record->update();
-
-            if (isset($inventory->latest_record)) {
-                if (date('Y-m-d') > date('Y-m-d', strtotime('+9 months', $cal_date))) {
-                    if (date('Y-m-d') > date('Y-m-d', strtotime('+12 months', $cal_date))) {
-                        $inventory->latest_record->calibration_status = 'Expired';
-                        $inventory->latest_record->update();
-                        $expired++;
-                    } else {
-                        $inventory->latest_record->calibration_status = 'Segera Dikalibrasi';
-                        $inventory->latest_record->update();
-                        $scheduled++;
+            $inventories = Inventory::with('latest_record')->has('latest_record')->get();
+            $scheduled = 0;
+            $expired = 0;
+    
+            foreach ($inventories as $inventory) {
+                $cal_date = strtotime($inventory->latest_record->cal_date);
+                // $inventory->latest_record->vendor = 'McDonald Trump';
+                // $inventory->latest_record->update();
+    
+                if (isset($inventory->latest_record)) {
+                    if (date('Y-m-d') >= date('Y-m-d', strtotime('+9 months', $cal_date))) {
+                        if (date('Y-m-d') >= date('Y-m-d', strtotime('+12 months', $cal_date))) {
+                            if ($inventory->latest_record->calibration_status != 'Expired') {
+                                $inventory->latest_record->calibration_status = 'Expired';
+                                $inventory->latest_record->update();
+                                $expired++;
+                            }
+                        } else {
+                            if ($inventory->latest_record->calibration_status != 'Segera Dikalibrasi') {
+                                $inventory->latest_record->calibration_status = 'Segera Dikalibrasi';
+                                $inventory->latest_record->update();
+                                $scheduled++;
+                            }
+                        }
                     }
                 }
             }
-        }
-
-        $users = User::where('role', 1)->get();
-
-        Notification::send($users, new CalibrationStatusUpdate(' item inventory harus segera dikalibrasi', $scheduled));
-
-        Notification::send($users, new CalibrationStatusUpdate(' item inventory sudah expired', $expired));
+    
+            $users = User::where('role', 0)->get();
+    
+            if ($scheduled > 0) {
+                foreach ($users as $user) {
+                    $user->notify(new CalibrationStatusUpdate(' item inventory harus segera dikalibrasi', $scheduled));
+                }
+                // Notification::send($users, new CalibrationStatusUpdate(' item inventory harus segera dikalibrasi', $scheduled));
+            }
+    
+            else if ($expired > 0) {
+                foreach ($users as $user) {
+                    $user->notify(new CalibrationStatusUpdate(' item inventory sudah expired', $expired));
+                }
+                // Notification::send($users, new CalibrationStatusUpdate(' item inventory sudah expired', $expired));
+            }
+        });
 
         return 0;
     }

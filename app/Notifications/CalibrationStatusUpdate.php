@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Spatie\Multitenancy\Models\Tenant;
+use Spatie\Multitenancy\Jobs\TenantAware;
 
 class CalibrationStatusUpdate extends Notification
 {
