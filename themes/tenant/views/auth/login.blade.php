@@ -7,7 +7,7 @@
             <img src="{{ asset('illust_2.png') }}" class="">
         </div>
         <div class="text-center flex-col mb-48">
-            <img src="{{ asset('gps_logo.png') }}" alt="gps_logo" class="w-28 mt-6 h-12 mx-auto">
+            <img src="{{ asset(app('currentTenant')->vendor_id) }}" alt="gps_logo" class="w-28 mt-6 h-12 mx-auto">
             <p class="text-sm text-gray-600">Inventory Website</p>
         </div>
     </div>

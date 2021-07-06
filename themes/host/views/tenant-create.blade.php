@@ -15,7 +15,7 @@
                 Create New Tenant
             </header>
             <div class="w-full sm:p-6">
-                <form class="w-full space-y-6 sm:px-10 sm:space-y-8" method="POST"
+                <form class="w-full space-y-6 sm:px-10 sm:space-y-8" enctype="multipart/form-data" method="POST"
                     action="{{ route('tenant.store') }}">
                     @csrf
                     <div class="w-1/2 sm:px-20 mx-auto">
@@ -56,6 +56,15 @@
                                     <span class="flex-none text-dusty-blue-darker select-none leading-none mx-2">.localhost</span>
                                 </label>
                             </div>
+                        </div>
+                        <div class="flex flex-col px-2 mb-4">
+                            <label for="vendor_id" class="input-label text-base mb-2">Logo</label>
+                            <label class="input-field inline-flex items-baseline border-none shadow-md bg-gray-100 py-2 px-6 ml-2">
+                                <div class="flex-1 leading-none">
+                                    <input id="vendor_id" type="file" accept="image/*" class="bg-gray-100 w-full px-2 py-1 outline-none border-none focus:ring-0 text-sm" name="vendor_id">
+                                </div>
+                                {{-- <span class="flex-none text-dusty-blue-darker select-none leading-none mx-2">.localhost</span> --}}
+                            </label>
                         </div>
                     </div>
 

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tenant;
+use App\Http\Controllers\Controller;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class TenantController extends Controller
+class VendorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class TenantController extends Controller
      */
     public function index()
     {
-        return redirect()->route('adminsitrator.dashboard');
+        return view('vendor-index', ['vendors' => Vendor::with('tenants')->get()]);
     }
 
     /**
@@ -25,7 +25,7 @@ class TenantController extends Controller
      */
     public function create()
     {
-        return view('tenant-create');
+        return view('vendor-create');
     }
 
     /**
@@ -38,47 +38,42 @@ class TenantController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|max:255',
-            'address' => 'required',
-            'database' => 'required',
-            'domain' => 'required',
-            'vendor_id' => 'required'
+            'logo' => 'required',
         ]);
 
         if ($validated) {
-            $picture = $request->file('vendor_id');
+            $picture = $request->file('logo');
             $label = $picture->getClientOriginalName();
             $picture->move(public_path(), $picture->getClientOriginalName());
+            // dd($label);
 
-            $tenant = new Tenant();
-            $tenant->name = $request->name;
-            $tenant->address = $request->address;
-            $tenant->database = $request->database;
-            $tenant->domain = $request->domain.'.gps-inventory.com';
-            $tenant->vendor_id = $label;
-            $tenant->save();
-    
-            return redirect()->route('adminsitrator.dashboard');
+            $vendor = new Vendor();
+            $vendor->name = $request->name;
+            $vendor->logo = $label;
+            $vendor->save();
+
+            return redirect()->route('vendor.show', ['vendor' => $vendor]);
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Tenant  $tenant
+     * @param  \App\Models\Vendor  $vendor
      * @return \Illuminate\Http\Response
      */
-    public function show(Tenant $tenant)
+    public function show(Vendor $vendor)
     {
-        return view('tenant-show', ['tenant' => $tenant]);
+        return view('vendor-show', ['vendor' => $vendor]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Tenant  $tenant
+     * @param  \App\Models\Vendor  $vendor
      * @return \Illuminate\Http\Response
      */
-    public function edit(Tenant $tenant)
+    public function edit(Vendor $vendor)
     {
         //
     }
@@ -87,10 +82,10 @@ class TenantController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Tenant  $tenant
+     * @param  \App\Models\Vendor  $vendor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tenant $tenant)
+    public function update(Request $request, Vendor $vendor)
     {
         //
     }
@@ -98,10 +93,10 @@ class TenantController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Tenant  $tenant
+     * @param  \App\Models\Vendor  $vendor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tenant $tenant)
+    public function destroy(Vendor $vendor)
     {
         //
     }

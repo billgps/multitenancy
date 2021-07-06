@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Administrator\DashboardController;
 use App\Http\Controllers\TenantController;
+use App\Http\Controllers\VendorController;
 use App\Http\Controllers\User\AssetController;
 use App\Http\Controllers\User\BrandController;
 use App\Http\Controllers\User\ComplainController;
@@ -195,6 +196,15 @@ if (Tenant::current()) {
             Route::get('/create', [TenantController::class, 'create'])->name('tenant.create');
             Route::post('/store', [TenantController::class, 'store'])->name('tenant.store');
             Route::get('/{tenant}', [TenantController::class, 'show'])->name('tenant.show');
+            Route::get('/delete/{tenant}', [TenantController::class, 'delete'])->name('tenant.delete');
+        }); 
+        Route::prefix('vendor')->group(function () {
+            Route::get('/', [VendorController::class, 'index'])->name('vendor.index');
+            Route::get('/create', [VendorController::class, 'create'])->name('vendor.create');
+            Route::post('/store', [VendorController::class, 'store'])->name('vendor.store');
+            Route::post('/update/{vendor}', [VendorController::class, 'update'])->name('vendor.update');
+            Route::get('/{vendor}', [VendorController::class, 'show'])->name('vendor.show');
+            Route::get('/edit/{vendor}', [VendorController::class, 'edit'])->name('vendor.edit');
         }); 
     });
 }
