@@ -137,7 +137,7 @@
     @endif
     <header class="bg-gray-100 text-gray-600 shadow-lg w-full h-14">
         <div class="flex mx-auto items-center py-3 px-6 sm:px-3">
-            <div class="flex">
+            <div class="flex items-center">
                 <a href="#">
                     <script>
                         function getScale(img) {
@@ -150,11 +150,11 @@
                             }
         
                             else if (width < (height - threshold)) {
-                                img.classList.add('w-7', 'h-14')
+                                img.classList.add('w-9', 'h-4')
                             }
         
                             else {
-                                img.classList.add('w-12', 'h-12')
+                                img.classList.add('w-9', 'h-9')
                             }
                         }
                     </script>
