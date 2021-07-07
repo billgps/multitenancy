@@ -41,13 +41,16 @@ class TenantController extends Controller
             'address' => 'required',
             'database' => 'required',
             'domain' => 'required',
-            'vendor_id' => 'required'
         ]);
 
         if ($validated) {
             $picture = $request->file('vendor_id');
-            $label = $picture->getClientOriginalName();
-            $picture->move(public_path(), $picture->getClientOriginalName());
+            if ($picture != null) {
+                $label = $picture->getClientOriginalName();
+                $picture->move(public_path(), $picture->getClientOriginalName());
+            } else {
+                $label = 'gps_logo.png';
+            }
 
             $tenant = new Tenant();
             $tenant->name = $request->name;
