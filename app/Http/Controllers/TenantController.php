@@ -57,7 +57,7 @@ class TenantController extends Controller
             $tenant->vendor_id = $label;
             $tenant->save();
     
-            return redirect()->route('adminsitrator.dashboard');
+            return redirect()->route('administrator.dashboard');
         }
     }
 
