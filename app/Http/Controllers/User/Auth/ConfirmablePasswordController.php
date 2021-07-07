@@ -17,7 +17,7 @@ class ConfirmablePasswordController extends Controller
      */
     public function show(Request $request)
     {
-        return view('user.auth.confirm-password');
+        return view('auth.confirm-password');
     }
 
     /**
@@ -39,6 +39,6 @@ class ConfirmablePasswordController extends Controller
 
         $request->session()->put('user.auth.password_confirmed_at', time());
 
-        return redirect()->intended(route('user.dashboard'));
+        return redirect()->intended(route('dashboard'));
     }
 }
