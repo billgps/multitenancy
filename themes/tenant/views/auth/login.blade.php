@@ -7,8 +7,27 @@
             <img src="{{ asset('illust_2.png') }}" class="">
         </div>
         <div class="text-center flex-col mb-48">
-            <img src="{{ asset(app('currentTenant')->vendor_id) }}" alt="logo" class="w-28 mt-6 h-12 mx-auto">
-            <p class="text-sm text-gray-600">Inventory Website</p>
+            <script>
+                function getScale(img) {
+                    let height = img.naturalHeight
+                    let width = img.naturalWidth
+                    let threshold = height * (10 / 100)
+
+                    if (width > (height + threshold)) {
+                        img.classList.add('w-28', 'h-12')
+                    }
+
+                    else if (width < (height - threshold)) {
+                        img.classList.add('w-12', 'h-28')
+                    }
+
+                    else {
+                        img.classList.add('w-24', 'h-24')
+                    }
+                }
+            </script>
+            <img onload="getScale(this)" id="logo_front" src="{{ asset(app('currentTenant')->vendor_id) }}" alt="logo" class="mt-6 mx-auto">
+            <p class="text-xs text-gray-600">Inventory Website</p>
         </div>
     </div>
     <section class="flex flex-col break-words bg-white sm:border-1">

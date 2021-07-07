@@ -139,7 +139,26 @@
         <div class="flex mx-auto items-center py-3 px-6 sm:px-3">
             <div class="flex">
                 <a href="#">
-                    <img class="h-7" src="{{ asset(app('currentTenant')->vendor_id) }}">
+                    <script>
+                        function getScale(img) {
+                            let height = img.naturalHeight
+                            let width = img.naturalWidth
+                            let threshold = height * (10 / 100)
+        
+                            if (width > (height + threshold)) {
+                                img.classList.add('w-14', 'h-7')
+                            }
+        
+                            else if (width < (height - threshold)) {
+                                img.classList.add('w-7', 'h-14')
+                            }
+        
+                            else {
+                                img.classList.add('w-12', 'h-12')
+                            }
+                        }
+                    </script>
+                    <img onload="getScale(this)" src="{{ asset(app('currentTenant')->vendor_id) }}">
                 </a>
             </div>
             <span class="ml-6 hover:text-purple-500">
