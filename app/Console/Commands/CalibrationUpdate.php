@@ -89,7 +89,7 @@ class CalibrationUpdate extends Command
                 // Notification::send($users, new CalibrationStatusUpdate(' item inventory harus segera dikalibrasi', $scheduled));
             }
     
-            else if ($expired > 0) {
+            if ($expired > 0) {
                 foreach ($users as $user) {
                     $user->notify(new CalibrationStatusUpdate(' item inventory sudah expired', $expired));
                 }
