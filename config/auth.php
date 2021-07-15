@@ -46,14 +46,17 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
         'administrator' => [
             'driver' => 'session',
             'provider' => 'administrators',
         ],
+
         'tenant' => [
             'driver' => 'session',
             'provider' => 'tenants',
         ],
+        
         'user' => [
             'driver' => 'session',
             'provider' => 'users',
