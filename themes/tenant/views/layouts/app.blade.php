@@ -330,7 +330,7 @@
                     <button @click="open = !open" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
                         <span class="flex items-center">
                             <i class="fas fa-exclamation"></i>
-                            <span class="mx-4">Komplain</span>
+                            <span class="mx-4">Tehnical Support</span>
                         </span>
 
                         <span>
@@ -343,7 +343,7 @@
 
                     <div x-show="open" class="bg-gray-900">
                         <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('complain.index') }}">
-                            Komplain
+                            Submit a Ticket
                         </a>
                         {{-- <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="">
                             Respon

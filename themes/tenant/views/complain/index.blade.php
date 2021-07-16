@@ -25,7 +25,7 @@
             <div class="flex flex-col sm:col-span-6 break-words bg-white sm:border-1">
 
                 <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
-                    {{ __('Daftar Komplain') }}
+                    {{ __('Daftar Tiket') }}
                 </header>   
                 <div class="w-full px-6 py-3">
                     <table id="device" class="min-w-max mt-3 w-full table-auto text-center">
@@ -34,7 +34,7 @@
                                 <th class="py-3 px-6">ID</th>
                                 <th class="py-3 px-6">User</th>
                                 <th class="py-3 px-6">Ruangan</th>
-                                <th class="py-3 px-6">Tanggal Komplain</th>
+                                <th class="py-3 px-6">Tanggal Tiket</th>
                                 <th class="py-3 px-6">Status Respon</th>
                                 <th class="py-3 px-6">Action</th>
                             </tr>

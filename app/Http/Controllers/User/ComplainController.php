@@ -7,6 +7,7 @@ use App\Models\Complain;
 use App\Models\Response;
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ComplainController extends Controller
 {
@@ -17,7 +18,7 @@ class ComplainController extends Controller
      */
     public function index()
     {
-        $complains = Complain::with('response', 'response.user',  'user', 'room')->orderBy('created_at', 'desc')->get();
+        $complains = Complain::where('user_id', Auth::user()->id)->with('response', 'response.user',  'user', 'room')->orderBy('created_at', 'desc')->get();
 
         return view('complain.index', ['complains' => $complains]);
     }
@@ -117,7 +118,7 @@ class ComplainController extends Controller
         $start = $request->get('start');
         $length = $request->get('length');
         $search_term = $request->get('search')['value'];
-        $complain = Complain::with('response', 'response.user',  'user', 'room')->whereHas('user', function($query) use ($search_term) {
+        $complain = Complain::where('user_id', Auth::user()->id)->with('response', 'response.user',  'user', 'room')->whereHas('user', function($query) use ($search_term) {
             $query->where('name', 'like', '%'.$search_term.'%');
         })
         ->orderBy('updated_at', 'desc')

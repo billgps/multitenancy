@@ -27,7 +27,7 @@
             <div class="bg-white">
                 <header class="grid grid-cols-2 px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
                     <span>
-                        {{ 'Complain ID '.$complain->id }}
+                        {{ 'Ticket ID '.$complain->id }}
                         <div class="text-xs mt-3">
                             {{ __('Created at : '.$complain->created_at) }}
                         </div>
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         <div class="flex flex-wrap mb-3">
-                            <label class="block text-sm text-gray-00" for="alias_name">Tanggal Komplain</label>
+                            <label class="block text-sm text-gray-00" for="alias_name">Tanggal Tiket</label>
                             <div class="py-2 text-left w-full">
                                 <input disabled value="{{ $complain->date_time }}" id="alias_name" class="shadow w-56 appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
                             </div>

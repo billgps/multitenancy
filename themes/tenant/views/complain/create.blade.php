@@ -29,7 +29,7 @@
         <section class="flex flex-col break-words bg-white sm:border-1">
 
             <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
-                {{ __('Create New Complain') }}
+                {{ __('Create New Ticket') }}
             </header>
 
             <form class="w-3/5 mx-auto pb-6 my-6" method="POST"
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                     <div class="row-start-2">
-                        <label class="block mb-2 text-sm text-gray-00" for="date_time">Tanggal Komplain</label>
+                        <label class="block mb-2 text-sm text-gray-00" for="date_time">Tanggal Tiket</label>
                         <div class="py-2 text-left">
                             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="date_time" name="date_time" type="date" required>
                         </div>
