@@ -71,6 +71,8 @@ class Inventory extends Model
             'year_purchased' => '-',
             'price' => '-'
         ]);
+
+        // return $this->hasOne('App\Models\Asset', 'inventory_id', 'id');
     }
 
     public function latest_condition()
