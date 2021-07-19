@@ -34,7 +34,6 @@
 
 <main class="flex sm:container sm:mx-auto sm:mt-10">
     <div class="w-full sm:px-6">
-
         @if (session('status'))
             <div class="px-3 py-4 mb-4 text-sm text-green-700 bg-green-100 border border-t-8 border-green-600 rounded" role="alert">
                 {{ session('status') }}
@@ -134,66 +133,52 @@
             </div>
         </section>
 
-        <section class="flex flex-col mt-3 break-words bg-white sm:border-1">
-            <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
-                Riwayat Kalibrasi
-                @if (Auth::user()->role < 2)
-                    <span class="text-graan-500">
-                        <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('record.create', ['inventory' => $inventory->id]) }}">
-                            <i class="fas fa-plus"></i>
-                        </a>
-                    </span>
-                @endif
-            </header>
+        @isset($asset)
+            <section class="flex flex-col mt-3 break-words bg-white sm:border-1">
+                <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
+                    Data Aset
+                    {{-- @if (Auth::user()->role < 2)
+                        <span>
+                            <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('maintenance.create', ['inventory' => $inventory->id]) }}">
+                                <i class="fas fa-plus"></i>
+                            </a>
+                        </span>
+                    @endif --}}
+                </header>
 
-            <div class="w-full px-6 py-3">
-                <table id="records" class="min-w-max mt-3 w-full table-auto text-center">
-                    <thead>
-                        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                            <th class="py-3 px-6">Tanggal Kalibrasi</th>
-                            <th class="py-3 px-6">Nomor Label</th>
-                            <th class="py-3 px-6">Status Kalibrasi</th>
-                            <th class="py-3 px-6">Hasil</th>
-                            <th class="py-3 px-6">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-gray-600 text-sm font-light">
-                        @foreach ($records as $record)
+                <div class="w-full px-6 py-3">
+                    <table id="conditions" class="min-w-max mt-3 w-full table-auto text-center">
+                        <thead>
+                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                <th class="py-3 px-6">Nama Alat</th>
+                                <th class="py-3 px-6">Harga</th>
+                                <th class="py-3 px-6">Tahun Pembelian</th>
+                                <th class="py-3 px-6">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 text-sm font-light">
                             <tr class="border-b border-gray-200 hover:bg-gray-100">
                                 <td class="py-3 px-6">
-                                    {{ $record->cal_date }}
+                                    {{ $inventory->device->standard_name }}
                                 </td>
                                 <td class="py-3 px-6">
-                                    {{ $record->label }}
+                                    {{ $asset->price }}
                                 </td>
                                 <td class="py-3 px-6">
-                                    {{ $record->calibration_status }}
-                                </td>
-                                <td class="py-3 px-6">
-                                    {{ $record->result }}
+                                    {{ $asset->year_purchased }}
                                 </td>
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex item-center justify-center">
                                         @if (Auth::user()->role < 2)
                                             <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <a href="{{ route('record.edit', ['record' => $record->id]) }}">
+                                                <a href="{{ route('asset.edit', ['asset' => $asset->id]) }}">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                             </div>
                                         @endif
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <a href="{{ route('record.download.report', ['record' => $record->id]) }}">
-                                                <i class="fas fa-file-pdf"></i>
-                                            </a>
-                                        </div>
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <a href="{{ route('record.download.certificate', ['record' => $record->id]) }}">
-                                                <i class="fas fa-award"></i>
-                                            </a>
-                                        </div>
                                         @if (Auth::user()->role < 1)
                                             <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <a href="{{ route('record.delete', ['record' => $record->id]) }}">
+                                                <a href="{{ route('asset.delete', ['asset' => $asset->id]) }}">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </a>
                                             </div>
@@ -201,77 +186,220 @@
                                     </div>
                                 </td>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table> 
-            </div>
-        </section>
+                        </tbody>
+                    </table> 
+                </div>
+            </section>
+        @endisset
 
-        <section class="flex flex-col mt-3 break-words bg-white sm:border-1">
-            <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
-                Riwayat Kondisi
-                @if (Auth::user()->role < 2)
-                    <span>
-                        <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('condition.create', ['inventory' => $inventory->id]) }}">
-                            <i class="fas fa-plus"></i>
-                        </a>
-                    </span>
-                @endif
-            </header>
+        @isset($records)
+            <section class="flex flex-col mt-3 break-words bg-white sm:border-1">
+                <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
+                    Riwayat Kalibrasi
+                    @if (Auth::user()->role < 2)
+                        <span class="text-graan-500">
+                            <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('record.create', ['inventory' => $inventory->id]) }}">
+                                <i class="fas fa-plus"></i>
+                            </a>
+                        </span>
+                    @endif
+                </header>
 
-            <div class="w-full px-6 py-3">
-                <table id="conditions" class="min-w-max mt-3 w-full table-auto text-center">
-                    <thead>
-                        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                            <th class="py-3 px-6">Tanggal Kejadian</th>
-                            <th class="py-3 px-6">Status Alat</th>
-                            <th class="py-3 px-6">Lembar Kerja</th>
-                            <th class="py-3 px-6">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-gray-600 text-sm font-light">
-                        @foreach ($conditions as $condition)
-                            <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                <td class="py-3 px-6">
-                                    {{ $condition->event_date }}
-                                </td>
-                                <td class="py-3 px-6">
-                                    {{ $condition->status }}
-                                </td>
-                                <td class="py-3 px-6">
-                                    <a href="{{ route('condition.download.worksheet', ['condition' => $condition->id]) }}">
-                                        {{ $condition->worksheet }}
-                                    </a>
-                                </td>
-                                <td class="py-3 px-6 text-center">
-                                    <div class="flex item-center justify-center">
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <a href="{{ route('condition.show', ['condition' => $condition->id]) }}">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                        </div>
-                                        @if (Auth::user()->role < 2)
-                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <a href="{{ route('condition.edit', ['condition' => $condition->id]) }}">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                            </div>
-                                        @endif
-                                        @if (Auth::user()->role < 1)
-                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <a href="{{ route('condition.delete', ['condition' => $condition->id]) }}">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </a>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </td>
+                <div class="w-full px-6 py-3">
+                    <table id="records" class="min-w-max mt-3 w-full table-auto text-center">
+                        <thead>
+                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                <th class="py-3 px-6">Tanggal Kalibrasi</th>
+                                <th class="py-3 px-6">Nomor Label</th>
+                                <th class="py-3 px-6">Status Kalibrasi</th>
+                                <th class="py-3 px-6">Hasil</th>
+                                <th class="py-3 px-6">Action</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table> 
-            </div>
-        </section>
+                        </thead>
+                        <tbody class="text-gray-600 text-sm font-light">
+                            @foreach ($records as $record)
+                                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                    <td class="py-3 px-6">
+                                        {{ $record->cal_date }}
+                                    </td>
+                                    <td class="py-3 px-6">
+                                        {{ $record->label }}
+                                    </td>
+                                    <td class="py-3 px-6">
+                                        {{ $record->calibration_status }}
+                                    </td>
+                                    <td class="py-3 px-6">
+                                        {{ $record->result }}
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <div class="flex item-center justify-center">
+                                            @if (Auth::user()->role < 2)
+                                                <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                    <a href="{{ route('record.edit', ['record' => $record->id]) }}">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <a href="{{ route('record.download.report', ['record' => $record->id]) }}">
+                                                    <i class="fas fa-file-pdf"></i>
+                                                </a>
+                                            </div>
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <a href="{{ route('record.download.certificate', ['record' => $record->id]) }}">
+                                                    <i class="fas fa-award"></i>
+                                                </a>
+                                            </div>
+                                            @if (Auth::user()->role < 1)
+                                                <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                    <a href="{{ route('record.delete', ['record' => $record->id]) }}">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table> 
+                </div>
+            </section>
+        @endisset
+
+        @isset($conditions)   
+            <section class="flex flex-col mt-3 break-words bg-white sm:border-1">
+                <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
+                    Riwayat Kondisi
+                    @if (Auth::user()->role < 2)
+                        <span>
+                            <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('condition.create', ['inventory' => $inventory->id]) }}">
+                                <i class="fas fa-plus"></i>
+                            </a>
+                        </span>
+                    @endif
+                </header>
+
+                <div class="w-full px-6 py-3">
+                    <table id="conditions" class="min-w-max mt-3 w-full table-auto text-center">
+                        <thead>
+                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                <th class="py-3 px-6">Tanggal Kejadian</th>
+                                <th class="py-3 px-6">Status Alat</th>
+                                <th class="py-3 px-6">Lembar Kerja</th>
+                                <th class="py-3 px-6">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 text-sm font-light">
+                            @foreach ($conditions as $condition)
+                                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                    <td class="py-3 px-6">
+                                        {{ $condition->event_date }}
+                                    </td>
+                                    <td class="py-3 px-6">
+                                        {{ $condition->status }}
+                                    </td>
+                                    <td class="py-3 px-6">
+                                        <a href="{{ route('condition.download.worksheet', ['condition' => $condition->id]) }}">
+                                            {{ $condition->worksheet }}
+                                        </a>
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <div class="flex item-center justify-center">
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <a href="{{ route('condition.show', ['condition' => $condition->id]) }}">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </div>
+                                            @if (Auth::user()->role < 2)
+                                                <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                    <a href="{{ route('condition.edit', ['condition' => $condition->id]) }}">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                            @if (Auth::user()->role < 1)
+                                                <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                    <a href="{{ route('condition.delete', ['condition' => $condition->id]) }}">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table> 
+                </div>
+            </section>
+        @endisset
+
+        @isset($maintenances)
+            <section class="flex flex-col mt-3 break-words bg-white sm:border-1">
+                <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
+                    Riwayat Maintenance
+                    @if (Auth::user()->role < 2)
+                        <span>
+                            <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('maintenance.create', ['inventory' => $inventory->id]) }}">
+                                <i class="fas fa-plus"></i>
+                            </a>
+                        </span>
+                    @endif
+                </header>
+
+                <div class="w-full px-6 py-3">
+                    <table id="conditions" class="min-w-max mt-3 w-full table-auto text-center">
+                        <thead>
+                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                <th class="py-3 px-6">Tanggal Jadwal</th>
+                                <th class="py-3 px-6">Tanggal Selesai</th>
+                                <th class="py-3 px-6">Personel</th>
+                                <th class="py-3 px-6">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 text-sm font-light">
+                            @foreach ($maintenances as $maintenance)
+                                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                    <td class="py-3 px-6">
+                                        {{ $maintenance->scheduled_date }}
+                                    </td>
+                                    <td class="py-3 px-6">
+                                        {{ $maintenance->done_date }}
+                                    </td>
+                                    <td class="py-3 px-6">
+                                        {{ $maintenance->personnel }}
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <div class="flex item-center justify-center">
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <a href="{{ route('maintenance.show', ['maintenance' => $maintenance->id]) }}">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </div>
+                                            @if (Auth::user()->role < 2)
+                                                <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                    <a href="{{ route('maintenance.edit', ['maintenance' => $maintenance->id]) }}">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                            @if (Auth::user()->role < 1)
+                                                <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                    <a href="{{ route('maintenance.delete', ['maintenance' => $maintenance->id]) }}">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table> 
+                </div>
+            </section>
+        @endisset
     </div>
 </main>
 
