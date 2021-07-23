@@ -243,7 +243,8 @@ class RecordController extends Controller
 
     public function certificateDownload (Record $record)
     {
-        $path = public_path().'/certificate/'.$record->certificate;
+        $path = public_path().'/certificate/'.Tenant::current()->domain.'/'.$record->certificate;
+        // dd($path);
         if (file_exists($path)) {
             return response()->download($path, $record->certificate);
         } else {
@@ -251,7 +252,7 @@ class RecordController extends Controller
             if (file_exists($path)) {
                 return response()->download($path, $record->certificate);
             } else {
-                return back()->with(['error', 'File does not exist']);
+                return back()->with('error', 'File does not exist');
             }
         }
     }
@@ -260,28 +261,36 @@ class RecordController extends Controller
     {
         $failCount = array();
         $validated = $request->validate([
-            'file' => new RulesImageUpload
+            'certificate' => 'required'
         ]);
 
         if ($validated) {
-            foreach($request->file('file') as $certificate)
+            foreach($request->file('certificate') as $certificate)
             {
                 $name = $certificate->getClientOriginalName();
-                $certificate->move(public_path().'/certificate/', $name);  
 
                 $record = Record::where('label', pathinfo($name, PATHINFO_FILENAME))->first();
 
                 if ($record) {
-                    $record->certificate = $name;
-                    $record->update();
+                    if ($record->label == pathinfo($name, PATHINFO_FILENAME)) {
+                        $record->certificate = $record->label.'C.'.$certificate->guessExtension();
+                        $certificate->move(public_path().'/certificate/'.Tenant::current()->domain, $record->label.'L.'.$certificate->guessExtension());  
+                        $record->update();
 
-                    return back()->with(['success', 'Certificates Uploaded']);
+                        // return back()->with(['success', 'Images Uploaded!']);
+                    } else {
+                        array_push($failCount, $name);
+                    }
                 } else {
                     array_push($failCount, $name);
                 }
             }
 
-            return back()->with(['success', 'There are errors in file '.implode(', ', $failCount)]);
+            if (count($failCount) > 0) {
+                return back()->with('error', 'There are errors in file '.implode(', ', $failCount));
+            } else {
+                return back()->with('success', 'Certificates uploaded!');
+            }
         }
     }
 

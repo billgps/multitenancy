@@ -257,9 +257,9 @@
                 @csrf
                 <div class="text-xs">
                     <div>
-                        <label class="block mb-2 text-sm text-gray-00" for="file">Certificates</label>
+                        <label class="block mb-2 text-sm text-gray-00" for="certificate">Certificates</label>
                         <div class="py-2 text-left">
-                            <input id="file" name="file[]" type="file" multiple="multiple">
+                            <input id="certificate" name="certificate[]" type="file" multiple="multiple">
                         </div>
                     </div>
                     <div class="flex w-full justify-end pt-2">
