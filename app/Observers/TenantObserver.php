@@ -24,7 +24,7 @@ class TenantObserver
     public function created(Tenant $tenant)
     {
         DB::statement('CREATE DATABASE '.$tenant->database);
-        Artisan::call('tenants:artisan "migrate --database=tenant --seed"');
+        Artisan::call('tenants:artisan "migrate --database=tenant --seed" --tenant='.$tenant->id);
     }
 
     /**
