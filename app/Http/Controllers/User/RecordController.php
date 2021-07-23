@@ -190,7 +190,8 @@ class RecordController extends Controller
 
     public function reportDownload (Record $record)
     {
-        $path = public_path().'/report/'.$record->report;
+        $path = public_path().'/report/'.Tenant::current()->domain.'/'.$record->report;
+        // dd($path);
         if (file_exists($path)) {
             return response()->download($path, $record->report);
         } else {
@@ -198,7 +199,7 @@ class RecordController extends Controller
             if (file_exists($path)) {
                 return response()->download($path, $record->report);
             } else {
-                return back()->with(['error', 'File does not exist']);
+                return back()->with('error', 'File does not exist');
             }
         }
     }
@@ -207,11 +208,11 @@ class RecordController extends Controller
     {
         $failCount = array();
         $validated = $request->validate([
-            'file' => new RulesImageUpload
+            'report' => 'required'
         ]);
 
         if ($validated) {
-            foreach($request->file('file') as $report)
+            foreach($request->file('report') as $report)
             {
                 $name = $report->getClientOriginalName();
 
@@ -219,8 +220,8 @@ class RecordController extends Controller
 
                 if ($record) {
                     if ($record->label == pathinfo($name, PATHINFO_FILENAME)) {
-                        $record->report = $record->id.'L.'.$report->guessExtension();
-                        $report->move(public_path().'/report/'.Tenant::current()->domain, $record->id.'L.'.$report->guessExtension());  
+                        $record->report = $record->label.'L.'.$report->guessExtension();
+                        $report->move(public_path().'/report/'.Tenant::current()->domain, $record->label.'L.'.$report->guessExtension());  
                         $record->update();
 
                         // return back()->with(['success', 'Images Uploaded!']);
@@ -232,10 +233,10 @@ class RecordController extends Controller
                 }
             }
 
-            if (count($failCount) > 1) {
-                return back()->with(['success', 'There are errors in file '.implode(', ', $failCount)]);
+            if (count($failCount) > 0) {
+                return back()->with('error', 'There are errors in file '.implode(', ', $failCount));
             } else {
-                return back()->with(['success', 'Reports uploaded!']);
+                return back()->with('success', 'Reports uploaded!');
             }
         }
     }
