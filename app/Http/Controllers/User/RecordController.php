@@ -9,6 +9,7 @@ use App\Models\Record;
 use Illuminate\Http\Request;
 use App\Rules\ImageUpload as RulesImageUpload;
 use Maatwebsite\Excel\Facades\Excel;
+use Spatie\Multitenancy\Models\Tenant;
 
 class RecordController extends Controller
 {
@@ -213,21 +214,29 @@ class RecordController extends Controller
             foreach($request->file('file') as $report)
             {
                 $name = $report->getClientOriginalName();
-                $report->move(public_path().'/report/', $name);  
 
                 $record = Record::where('label', pathinfo($name, PATHINFO_FILENAME))->first();
 
                 if ($record) {
-                    $record->report = $name;
-                    $record->update();
+                    if ($record->label == pathinfo($name, PATHINFO_FILENAME)) {
+                        $record->report = $record->id.'L.'.$report->guessExtension();
+                        $report->move(public_path().'/report/'.Tenant::current()->domain, $record->id.'L.'.$report->guessExtension());  
+                        $record->update();
 
-                    return back()->with(['success', 'Reports Uploaded']);
+                        // return back()->with(['success', 'Images Uploaded!']);
+                    } else {
+                        array_push($failCount, $name);
+                    }
                 } else {
                     array_push($failCount, $name);
                 }
             }
 
-            return back()->with(['success', 'There are errors in file '.implode(', ', $failCount)]);
+            if (count($failCount) > 1) {
+                return back()->with(['success', 'There are errors in file '.implode(', ', $failCount)]);
+            } else {
+                return back()->with(['success', 'Reports uploaded!']);
+            }
         }
     }
 
