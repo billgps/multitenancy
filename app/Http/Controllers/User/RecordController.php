@@ -274,7 +274,7 @@ class RecordController extends Controller
                 if ($record) {
                     if ($record->label == pathinfo($name, PATHINFO_FILENAME)) {
                         $record->certificate = $record->label.'C.'.$certificate->guessExtension();
-                        $certificate->move(public_path().'/certificate/'.Tenant::current()->domain, $record->label.'L.'.$certificate->guessExtension());  
+                        $certificate->move(public_path().'/certificate/'.Tenant::current()->domain, $record->label.'C.'.$certificate->guessExtension());  
                         $record->update();
 
                         // return back()->with(['success', 'Images Uploaded!']);
