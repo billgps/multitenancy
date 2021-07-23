@@ -77,7 +77,7 @@
                                 <select name="role" id="role"
                                 class="h-full w-full border-gray-300 px-2 transition-all border-blue rounded-sm text-xs"
                                 >
-                                    <option value="0">Admin</option>
+                                    {{-- <option value="0">Admin</option> --}}
                                     <option value="1">Teknisi</option>
                                     <option value="2">Visitor</option>
                                 </select>
