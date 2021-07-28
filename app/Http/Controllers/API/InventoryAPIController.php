@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
-use App\Http\Resources\Inventory as InventoryResource;
+use App\Http\Resources\InventoryResource;
 
 class InventoryAPIController extends Controller
 {
@@ -16,7 +16,7 @@ class InventoryAPIController extends Controller
      */
     public function index()
     {
-        $inventories = Inventory::all();
+        $inventories = Inventory::with('device', 'identity.brand', 'room', 'latest_condition', 'latest_record')->get();
 
         return response()->json(InventoryResource::collection($inventories), 200);
     }
@@ -50,7 +50,17 @@ class InventoryAPIController extends Controller
      */
     public function show(Inventory $inventory)
     {
-        return response()->json($inventory, 200);
+        return response()->json(new InventoryResource($inventory->loadMissing([
+            'device', 
+            'identity.brand', 
+            'room', 
+            'latest_condition', 
+            'latest_record',
+            'records',
+            'conditions',
+            'maintenances',
+            'asset'
+        ])), 200);
     }
 
     /**
