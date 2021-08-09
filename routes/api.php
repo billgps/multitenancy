@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\InventoryAPIController;
 use App\Http\Controllers\API\AssetAPIController;
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BrandAPIController;
 use App\Http\Controllers\API\ConditionAPIController;
 use App\Http\Controllers\API\DeviceAPIController;
@@ -25,12 +26,14 @@ use Spatie\Multitenancy\Models\Tenant;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 if (Tenant::current()) {
-    Route::domain(Tenant::current()->domain)->group(function() {
+    Route::post('/login', [AuthController::class, 'login'])->name('auth.api.login');
+    Route::domain(Tenant::current()->domain)->middleware(['auth:sanctum'])->group(function() {
+        Route::post('logout', [AuthController::class, 'logout'])->name('auth.api.logout');
         Route::prefix('inventory')->group(function () {
             Route::get('/', [InventoryAPIController::class, 'index'])->name('api.inventory.index'); 
             Route::get('/{inventory}', [InventoryAPIController::class, 'show'])->name('api.inventory.show'); 
