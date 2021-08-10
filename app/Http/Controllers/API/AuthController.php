@@ -27,7 +27,7 @@ class AuthController extends Controller
             return response()->json($respon, 200);
         } else {
             $credentials = request(['email', 'password']);
-            $credentials = Arr::add($credentials, 'status', 'aktif');
+            // $credentials = Arr::add($credentials, 'status', 'aktif');
             if (!Auth::attempt($credentials)) {
                 $respon = [
                     'status' => 'error',
