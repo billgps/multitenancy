@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<main class="mx-auto px-2 sm:container sm:mx-auto mt-6">
+<main class="mx-auto px-2 sm:container sm:mx-auto mt-6 overflow-scroll">
     <div class="w-full sm:px-6">
 
         @if (session('status'))
@@ -10,12 +10,12 @@
             </div>
         @endif
 
-        <section class="flex flex-col break-words bg-white sm:border-1 sm:shadow">
+        <section class="flex flex-col break-words bg-white sm:border-1 sm:shadow overflow-scroll">
             <header class="px-6 py-5 font-semibold text-gray-700 bg-gray-200 sm:py-6 sm:px-8">
                 Create New Tenant
             </header>
             <div class="w-full sm:p-6">
-                <form class="w-full space-y-6 sm:px-10 sm:space-y-8" enctype="multipart/form-data" method="POST"
+                <form class="w-full p-12" enctype="multipart/form-data" method="POST"
                     action="{{ route('tenant.store') }}">
                     @csrf
                     <div class="w-1/2 sm:px-20 mx-auto">

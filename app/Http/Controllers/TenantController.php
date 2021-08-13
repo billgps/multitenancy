@@ -38,7 +38,7 @@ class TenantController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|max:255',
-            'code' => 'required|unique:tenants',
+            'code' => 'required',
             'address' => 'required',
             'database' => 'required',
             'domain' => 'required',
