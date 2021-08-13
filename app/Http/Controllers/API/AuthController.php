@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Multitenancy\Models\Tenant;
 
 class AuthController extends Controller
 {
@@ -47,6 +48,8 @@ class AuthController extends Controller
             $respon = [
                 'status' => 'success',
                 'msg' => 'Login successfully',
+                'user' => $user->id,
+                // 'tenant' => Tenant::current()->code,
                 'errors' => null,
                 'content' => [
                     'status_code' => 200,
@@ -54,6 +57,7 @@ class AuthController extends Controller
                     'token_type' => 'Bearer',
                 ]
             ];
+
             return response()->json($respon, 200);
         }
     }
@@ -67,6 +71,7 @@ class AuthController extends Controller
             'errors' => null,
             'content' => null,
         ];
+
         return response()->json($respon, 200);
     }
 
