@@ -16,6 +16,7 @@ class AlterTenantTable extends Migration
         Schema::table('tenants', function($table)
         {
             $table->string('vendor_id')->after('database')->default('gps_logo.png');
+            $table->string('code')->after('id');
         });
     }
 

@@ -38,6 +38,7 @@ class TenantController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|max:255',
+            'code' => 'required|unique:tenants',
             'address' => 'required',
             'database' => 'required',
             'domain' => 'required',
@@ -54,6 +55,7 @@ class TenantController extends Controller
 
             $tenant = new Tenant();
             $tenant->name = $request->name;
+            $tenant->code = $request->code;
             $tenant->address = $request->address;
             $tenant->database = $request->database;
             $tenant->domain = $request->domain.'.gps-inventory.com';
