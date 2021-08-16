@@ -49,7 +49,7 @@ class AuthController extends Controller
                 'status' => 'success',
                 'msg' => 'Login successfully',
                 'user' => $user->id,
-                // 'tenant' => Tenant::current()->code,
+                'tenant' => Tenant::current()->code,
                 'errors' => null,
                 'content' => [
                     'status_code' => 200,
