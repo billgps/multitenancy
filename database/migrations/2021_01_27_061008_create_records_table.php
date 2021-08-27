@@ -16,7 +16,7 @@ class CreateRecordsTable extends Migration
         Schema::create('records', function (Blueprint $table) {
             $table->id();
             $table->date('cal_date');
-            $table->string('label');
+            $table->string('label')->default('-');
             $table->string('vendor')->default('PT Global Promedika Services');
             $table->string('certificate')->nullable();
             $table->string('report')->nullable();
