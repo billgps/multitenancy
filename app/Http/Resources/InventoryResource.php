@@ -31,6 +31,7 @@ class InventoryResource extends JsonResource
             'identity' => new IdentityResource($identity),
             'room' => new RoomResource($room),
             'serial' => $this->serial,
+            'picture' => $this->picture,
             'latest_record' => new RecordResource($latest_record),
             'records' => RecordResource::collection($records), 
             'latest_condition' => new ConditionResource($latest_condition),
