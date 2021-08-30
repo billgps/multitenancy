@@ -253,12 +253,17 @@ class InventoryController extends Controller
         }
     }
 
-    public function paramIndex($param)
+    public function paramIndex($parameter, $value)
     {
-        $inventory = Inventory::with('device', 'brand', 'identity', 'room', 'latest_condition', 'latest_record')->whereHas('latest_record', function($query) use ($param) {
-            $query->where('calibration_status',  str_replace('_', ' ', $param));
-        })->orderBy('created_at', 'desc')
-        ->get();
+        // $inventory = Inventory::with('device', 'brand', 'identity', 'room', 'latest_condition', 'latest_record')->whereHas('latest_record', function($query) use ($param) {
+        //     $query->where('calibration_status',  str_replace('_', ' ', $param));
+        // })->orderBy('created_at', 'desc')
+        // ->get();
+
+        $inventory = Inventory::with('device', 'brand', 'identity', 'room', 'latest_condition', 'latest_record')
+            ->where($parameter, $value)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view('inventory.index', ['inventories' => $inventory]);  
     }

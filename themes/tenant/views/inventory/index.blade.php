@@ -105,7 +105,7 @@
                                     </td>
                                     <td>
                                         <div class="flex justify-end hover:text-purple-500 text-right">
-                                            <a href="#">
+                                            <a href="{{ route('inventory.param', ['parameter' => 'brand', 'value' => $inventory->identity->brand->brand]) }}">
                                                 {{ $inventory->identity->brand->brand }}
                                             </a>
                                         </div>

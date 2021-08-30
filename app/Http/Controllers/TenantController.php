@@ -58,7 +58,7 @@ class TenantController extends Controller
             $tenant->code = $request->code;
             $tenant->address = $request->address;
             $tenant->database = $request->database;
-            $tenant->domain = $request->domain.'.gps-inventory.com';
+            $tenant->domain = $request->domain.'.'.substr(env('APP_URL'), 7);
             $tenant->vendor_id = $label;
             $tenant->save();
     

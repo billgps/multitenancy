@@ -49,7 +49,7 @@ if (Tenant::current()) {
                 Route::get('/edit/{inventory}', [InventoryController::class, 'edit'])->name('inventory.edit');
                 Route::post('/update/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
                 Route::get('/delete/{inventory}', [InventoryController::class, 'destroy'])->name('inventory.delete');
-                Route::get('/sort/{param}', [InventoryController::class, 'paramIndex'])->name('inventory.param');
+                Route::get('/sort/{parameter}/{value}', [InventoryController::class, 'paramIndex'])->name('inventory.param');
             });
 
             Route::prefix('device')->group(function () {
