@@ -45,6 +45,7 @@
                     <div class="text-md">
                         Data Inventaris
                     </div>
+                    
                     <table class="hidden" id="example" style="display: none;">
                         <thead>
                             <th>name</th>
@@ -64,7 +65,7 @@
                                 <tr>
                                     <td>
                                         <div class="text-md flex hover:text-purple-500 mx-2 my-2">
-                                            <a href="#">
+                                            <a href="{{ route('inventory.param', ['parameter' => 'device', 'value' => $inventory->device_id]) }}">
                                                 {{ $inventory->device->standard_name }}
                                             </a>
                                         </div>
@@ -105,7 +106,7 @@
                                     </td>
                                     <td>
                                         <div class="flex justify-end hover:text-purple-500 text-right">
-                                            <a href="{{ route('inventory.param', ['parameter' => 'brand', 'value' => $inventory->identity->brand->brand]) }}">
+                                            <a href="{{ route('inventory.param', ['parameter' => 'brand', 'value' => $inventory->identity->brand->id]) }}">
                                                 {{ $inventory->identity->brand->brand }}
                                             </a>
                                         </div>
@@ -122,7 +123,7 @@
                                     </td>
                                     <td>
                                         <div class="flex justify-end hover:text-purple-500 text-right">
-                                            <a href="#">
+                                            <a href="{{ route('inventory.param', ['parameter' => 'room', 'value' => $inventory->room_id]) }}">
                                                 {{ $inventory->room->room_name }}
                                             </a>
                                         </div>

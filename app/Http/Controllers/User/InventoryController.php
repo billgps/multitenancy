@@ -255,15 +255,47 @@ class InventoryController extends Controller
 
     public function paramIndex($parameter, $value)
     {
-        // $inventory = Inventory::with('device', 'brand', 'identity', 'room', 'latest_condition', 'latest_record')->whereHas('latest_record', function($query) use ($param) {
-        //     $query->where('calibration_status',  str_replace('_', ' ', $param));
-        // })->orderBy('created_at', 'desc')
-        // ->get();
+        switch ($parameter) {
+            case 'brand':
+                $inventory = Inventory::with('device', 'brand', 'identity', 'room', 'latest_condition', 'latest_record')
+                    ->whereHas('identity.brand', function($query) use ($value) {
+                        $query->where('id', $value);
+                    })
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+                break;
+            
+            case 'calibration_status':
+                $inventory = Inventory::with('device', 'brand', 'identity', 'room', 'latest_condition', 'latest_record')
+                    ->whereHas('latest_record', function($query) use ($value) {
+                        $query->where('calibration_status',  $value);
+                    })
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+                break;
 
-        $inventory = Inventory::with('device', 'brand', 'identity', 'room', 'latest_condition', 'latest_record')
-            ->where($parameter, $value)
-            ->orderBy('created_at', 'desc')
-            ->get();
+            case 'room':
+                $inventory = Inventory::with('device', 'brand', 'identity', 'room', 'latest_condition', 'latest_record')
+                    ->whereHas('room', function($query) use ($value) {
+                        $query->where('id', $value);
+                    })
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+                break;
+
+            case 'device':
+                $inventory = Inventory::with('device', 'brand', 'identity', 'room', 'latest_condition', 'latest_record')
+                    ->whereHas('device', function($query) use ($value) {
+                        $query->where('id', $value);
+                    })
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+                break;
+            
+            default:
+                $inventory = null;
+                break;
+        }
 
         return view('inventory.index', ['inventories' => $inventory]);  
     }

@@ -98,11 +98,11 @@
                                 let label = chartData.labels[idx];
 
                                 if (label == 'Segera Kalibrasi') {
-                                    window.location.href = "{{ route('inventory.param', ['param' => 'Segera_Dikalibrasi']) }}"
+                                    window.location.href = "{{ route('inventory.param', ['parameter' => 'calibration_status', 'value' => 'Segera Dikalibrasi']) }}"
                                 }
 
                                 else if (label == 'Expired') {
-                                    window.location.href = "{{ route('inventory.param', ['param' => 'Expired']) }}"
+                                    window.location.href = "{{ route('inventory.param', ['parameter' => 'calibration_status', 'value' => 'Expired']) }}"
                                 }
                             }
                         })
