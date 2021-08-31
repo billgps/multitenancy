@@ -21,7 +21,7 @@ class CreateInventoriesTable extends Migration
             // $table->integer('brand_id');
             $table->integer('room_id');
             $table->string('serial')->nullable();
-            $table->string('picture')->default('no_image.jpg');
+            $table->string('picture')->default('/images/no_image.jpg');
             $table->string('supplier')->default('PT Global Promedika Service');
             $table->timestamps();
         });

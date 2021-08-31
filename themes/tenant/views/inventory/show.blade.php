@@ -119,11 +119,11 @@
                         <div class="text-xs text-right my-2">
                             {{ __('Created at : '.$inventory->created_at) }}
                         </div>
-                        @if ($inventory->picture != 'no_image.jpg')
+                        {{-- @if ($inventory->picture != 'no_image.jpg')
                             <img onclick="toggleModal(this, 'image-toggle', 'image-modal')" class="modal-open image-toggle h-96 w-96 object-cover object-center" src="{{ asset('images/'.app('currentTenant')->domain.'/'.$inventory->picture) }}" alt="">
-                        @else
-                            <img class="object-cover object-center" src="{{ asset('images/no_image.jpg') }}" alt="">
-                        @endif
+                        @else --}}
+                            <img onclick="toggleModal(this, 'image-toggle', 'image-modal')" class="modal-open image-toggle h-96 w-96 object-cover object-center" src="{{ asset($inventory->picture) }}" alt="">
+                        {{-- @endif --}}
                     </div>
                     {{-- <div class="flex flex-wrap justify-end">
                         <button disabled id="cancelBtn" onclick="toggleEdit(true)" type="button" class="block text-center text-white bg-red-600 mx-2 p-3 duration-300 rounded-sm hover:bg-red-500 disabled:opacity-75 w-24">Cancel</button>
@@ -406,7 +406,7 @@
 <div id="image-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
     <div onclick="toggleModal(this, 'image-toggle', 'image-modal')" class="modal-close image-toggle modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
     <div class="modal-container bg-gray-800 text-gray-300 w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
-        <img class="object-cover object-center" src="{{ asset('images/'.app('currentTenant')->domain.'/'.$inventory->picture) }}" alt="">
+        <img class="object-cover object-center" src="{{ asset($inventory->picture) }}" alt="">
     </div>
 </div>
 

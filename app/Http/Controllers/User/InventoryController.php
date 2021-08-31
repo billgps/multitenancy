@@ -79,7 +79,8 @@ class InventoryController extends Controller
             $inventory->identity_id = $request->identity_id;
             $inventory->room_id = $request->room_id;
             if ($picture) {
-                $inventory->picture = ($picture != null) ? 'picture_'.$inventory->id.'.'.$picture->guessExtension() : 'no_image.jpg';
+                $path = ($picture != null) ? Tenant::current()->domain.'/'.'picture_'.$inventory->id.'.'.$picture->guessExtension() : 'no_image.jpg';
+                $inventory->picture = '/images/'.$path;
                 $picture->move(public_path().'/images/'.Tenant::current()->domain.'/', 'picture_'.$inventory->id.'.'.$picture->guessExtension());
             }
             $inventory->save();
@@ -176,7 +177,8 @@ class InventoryController extends Controller
             $inventory->identity_id = $request->identity_id;
             $inventory->room_id = $request->room_id;
             if ($picture) {
-                $inventory->picture = ($picture != null) ? 'picture_'.$inventory->id.'.'.$picture->guessExtension() : 'no_image.jpg';
+                $path = ($picture != null) ? Tenant::current()->domain.'/'.'picture_'.$inventory->id.'.'.$picture->guessExtension() : 'no_image.jpg';
+                $inventory->picture = '/images/'.$path;
                 $picture->move(public_path().'/images/'.Tenant::current()->domain.'/', 'picture_'.$inventory->id.'.'.$picture->guessExtension());
             }
             $inventory->update();
