@@ -7,7 +7,8 @@ use App\Imports\RecordImport;
 use App\Models\Inventory;
 use App\Models\Record;
 use Illuminate\Http\Request;
-use App\Rules\ImageUpload as RulesImageUpload;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Multitenancy\Models\Tenant;
 
@@ -60,15 +61,17 @@ class RecordController extends Controller
             $certificate = $request->file('certificate');
 
             if ($report != null) {
-                $reportName = $report->getClientOriginalName();
-                $report->move(public_path().'/report/', $reportName);
+                $reportName = $request->label.'L.'.$report->guessExtension();
+                $report->move(public_path().'/report/'.Tenant::current()->domain.'/', $reportName);
+                $reportPath = '/report/'.Tenant::current()->domain.'/'.$reportName;
             } else {
                 $reportName = 'Belum Update';
             }
 
             if ($certificate != null) {
-                $certificateName = $certificate->getClientOriginalName();
-                $certificate->move(public_path().'/certificate/', $certificateName);
+                $certificateName = $request->label.'L.'.$certificate->guessExtension();
+                $certificate->move(public_path().'/certificate/'.Tenant::current()->domain.'/', $certificateName);
+                $certificatePath = '/certificate/'.Tenant::current()->domain.'/'.$reportName;
             } else {
                 $certificateName = 'Belum Update';
             }
@@ -78,8 +81,8 @@ class RecordController extends Controller
             $record->label = $request->label;
             $record->calibration_status = $request->calibration_status;
             $record->result = $request->result;
-            $record->certificate = $certificateName;
-            $record->report = $reportName;
+            $record->certificate = $certificatePath;
+            $record->report = $reportPath;
             $record->vendor = 'PT Global Promedika Services';
             $record->inventory_id = $request->inventory_id;
             $record->save();
@@ -122,13 +125,21 @@ class RecordController extends Controller
      */
     public function update(Request $request, Record $record)
     {
-        $validated = $request->validate([
-            'cal_date' => 'required|date',
-            'label' => 'required|max:255|unique:records,label,'.$record->id,
-            'calibration_status' => 'required',
-            'result' => 'required',
-            'inventory_id' => 'required|integer',
+        $validated = Validator::make($request->all(), [
+            'cal_date' => ['required', 'date'],
+            'label' => ['required', Rule::unique('records', 'label')->ignore($record->id)],
+            'calibration_status' => ['required'],
+            'result' => ['required'],
+            'inventory_id' => ['required', 'integer'],
         ]);
+
+        // $validated = $request->validate([
+        //     'cal_date' => 'required|date',
+        //     'label' => ['required', Rule::unique('records', 'label')->ignore($record->id)],
+        //     'calibration_status' => 'required',
+        //     'result' => 'required',
+        //     'inventory_id' => 'required|integer',
+        // ]);
 
         if ($validated) {
             $report = $request->file('report');
@@ -155,12 +166,16 @@ class RecordController extends Controller
             $record->vendor = 'PT Global Promedika Services';
             $record->inventory_id = $request->inventory_id;
             if ($report) {
-                $record->report = $request->label.'L.'.$report->guessExtension();
-                $report->move(public_path().'/report/', $request->label.'L.'.$report->guessExtension());
+                $reportName = $report->getClientOriginalName();
+                $report->move(public_path().'/report/'.Tenant::current()->domain.'/', $reportName);
+                $reportPath = '/report/'.Tenant::current()->domain.'/'.$reportName;
+                $record->report = $reportPath;
             }
             if ($certificate) {
-                $record->certificate = $request->label.'C.'.$certificate->guessExtension();
-                $certificate->move(public_path().'/certificate/', $request->label.'C.'.$certificate->guessExtension());
+                $certificateName = $certificate->getClientOriginalName();
+                $certificate->move(public_path().'/certificate/'.Tenant::current()->domain.'/', $certificateName);
+                $certificatePath = '/certificate/'.Tenant::current()->domain.'/'.$reportName;
+                $record->certificate = $certificatePath;
             }
             $record->update();
 
@@ -190,17 +205,18 @@ class RecordController extends Controller
 
     public function reportDownload (Record $record)
     {
-        $path = public_path().'/report/'.Tenant::current()->domain.'/'.$record->report;
+        $path = public_path().$record->report;
+        dd($path);
         // dd($path);
         if (file_exists($path)) {
             return response()->download($path, $record->report);
         } else {
-            $path = public_path().'/report/'.$record->report;
-            if (file_exists($path)) {
-                return response()->download($path, $record->report);
-            } else {
+            // $path = public_path().'/report/'.Tenant::current()->domain.'/'.$record->report;
+            // if (file_exists($path)) {
+            //     return response()->download($path, $record->report);
+            // } else {
                 return back()->with('error', 'File does not exist');
-            }
+            // }
         }
     }
 
@@ -220,7 +236,7 @@ class RecordController extends Controller
 
                 if ($record) {
                     if ($record->label == pathinfo($name, PATHINFO_FILENAME)) {
-                        $record->report = $record->label.'L.'.$report->guessExtension();
+                        $record->report = '/report/'.Tenant::current()->domain.$record->label.'L.'.$report->guessExtension();
                         $report->move(public_path().'/report/'.Tenant::current()->domain, $record->label.'L.'.$report->guessExtension());  
                         $record->update();
 
@@ -243,17 +259,17 @@ class RecordController extends Controller
 
     public function certificateDownload (Record $record)
     {
-        $path = public_path().'/certificate/'.Tenant::current()->domain.'/'.$record->certificate;
+        $path = public_path().$record->certificate;
         // dd($path);
         if (file_exists($path)) {
             return response()->download($path, $record->certificate);
         } else {
-            $path = public_path().'/certificate/'.$record->certificate;
-            if (file_exists($path)) {
-                return response()->download($path, $record->certificate);
-            } else {
+            // $path = public_path().'/certificate/'.$record->certificate;
+            // if (file_exists($path)) {
+            //     return response()->download($path, $record->certificate);
+            // } else {
                 return back()->with('error', 'File does not exist');
-            }
+            // }
         }
     }
 
@@ -273,7 +289,7 @@ class RecordController extends Controller
 
                 if ($record) {
                     if ($record->label == pathinfo($name, PATHINFO_FILENAME)) {
-                        $record->certificate = $record->label.'C.'.$certificate->guessExtension();
+                        $record->certificate = '/certificate/'.Tenant::current()->domain.$record->label.'C.'.$certificate->guessExtension();
                         $certificate->move(public_path().'/certificate/'.Tenant::current()->domain, $record->label.'C.'.$certificate->guessExtension());  
                         $record->update();
 

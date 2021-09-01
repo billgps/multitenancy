@@ -18,6 +18,8 @@ class RecordResource extends JsonResource
             'id' => $this->id,
             'cal_date' => $this->cal_date,
             'label' => $this->label,
+            'report' => env('APP_URL').$this->report,
+            'certificate' => env('APP_URL').$this->certificate,
             'result' => $this->result,
             'calibration_status' => $this->calibration_status
         ];
