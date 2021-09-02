@@ -166,7 +166,7 @@ return [
          * Package Service Providers...
          */
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        
+        Painless\BreezeMultiAuth\BreezeMultiAuthServiceProvider::class,
 
         /*
          * Application Service Providers...
