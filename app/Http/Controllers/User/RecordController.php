@@ -206,7 +206,6 @@ class RecordController extends Controller
     public function reportDownload (Record $record)
     {
         $path = public_path().$record->report;
-        dd($path);
         // dd($path);
         if (file_exists($path)) {
             return response()->download($path, $record->report);
