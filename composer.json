@@ -14,8 +14,7 @@
         "laravel/tinker": "^2.5",
         "maatwebsite/excel": "^3.1",
         "qirolab/laravel-themer": "^1.4",
-        "spatie/laravel-multitenancy": "^2.0",
-        "painlesscode/breeze-multiauth": "^1.1"
+        "spatie/laravel-multitenancy": "^2.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -23,6 +22,7 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
+        "painlesscode/breeze-multiauth": "^1.1",
         "phpunit/phpunit": "^9.3.3"
     },
     "autoload": {
