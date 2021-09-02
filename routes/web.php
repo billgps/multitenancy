@@ -91,6 +91,8 @@ if (Tenant::current()) {
                 Route::post('/store', [IdentityController::class, 'store'])->name('identity.store');
                 Route::post('/import', [IdentityController::class, 'import'])->name('identity.import');
                 // Route::get('/{id}', [IdentityController::class, 'show'])->name('identity.show');
+                Route::get('/download/manual/{identity}', [IdentityController::class, 'manualDownload'])->name('identity.download.manual');
+                Route::get('/download/procedure/{identity}', [IdentityController::class, 'procedureDownload'])->name('identity.download.procedure');
                 Route::get('/edit/{identity}', [IdentityController::class, 'edit'])->name('identity.edit');
                 Route::post('/update/{identity}', [IdentityController::class, 'update'])->name('identity.update');
                 Route::get('/delete/{identity}', [IdentityController::class, 'destroy'])->name('identity.delete');
