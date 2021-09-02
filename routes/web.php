@@ -16,6 +16,7 @@ use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\RecordController;
 use App\Http\Controllers\User\ResponseController;
 use Illuminate\Support\Facades\Route;
+use Painless\BreezeMultiAuth\MultiAuthRouteMethods;
 use Spatie\Multitenancy\Models\Tenant;
 
 /*
@@ -28,6 +29,7 @@ use Spatie\Multitenancy\Models\Tenant;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::mixin(new MultiAuthRouteMethods());
 
 if (Tenant::current()) {
     Route::domain(app('currentTenant')->domain)->middleware('tenant', 'notifications')->group(function() {
