@@ -205,9 +205,10 @@ class RecordController extends Controller
 
     public function reportDownload (Record $record)
     {
-        $path = public_path().$record->report;
         // dd($path);
-        if (file_exists($path)) {
+        if ($record->report == 'Belum Update') {
+            $path = public_path().$record->report;
+
             return response()->download($path, $record->report);
         } else {
             // $path = public_path().'/report/'.Tenant::current()->domain.'/'.$record->report;
@@ -258,9 +259,10 @@ class RecordController extends Controller
 
     public function certificateDownload (Record $record)
     {
-        $path = public_path().$record->certificate;
         // dd($path);
-        if (file_exists($path)) {
+        if ($record->certificate == 'Belum Update') {
+            $path = public_path().$record->certificate;
+
             return response()->download($path, $record->certificate);
         } else {
             // $path = public_path().'/certificate/'.$record->certificate;
