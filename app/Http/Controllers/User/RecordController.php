@@ -7,6 +7,7 @@ use App\Imports\RecordImport;
 use App\Models\Inventory;
 use App\Models\Record;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
@@ -207,9 +208,15 @@ class RecordController extends Controller
     {
         // dd($path);
         if ($record->report == 'Belum Update') {
-            $path = public_path().$record->report;
+            try {
+                $path = public_path().$record->report;
 
-            return response()->download($path, $record->report);
+                return response()->download($path, $record->report);
+            } catch (\Throwable $th) {
+                Log::error('Report cannot be downloaded', ['id' => $record->id]);
+
+                return back()->with('error', 'Something went wrong');
+            }
         } else {
             // $path = public_path().'/report/'.Tenant::current()->domain.'/'.$record->report;
             // if (file_exists($path)) {
@@ -261,9 +268,15 @@ class RecordController extends Controller
     {
         // dd($path);
         if ($record->certificate == 'Belum Update') {
-            $path = public_path().$record->certificate;
+            try {
+                $path = public_path().$record->certificate;
 
-            return response()->download($path, $record->certificate);
+                return response()->download($path, $record->certificate);
+            } catch (\Throwable $th) {
+                Log::error('Certificate cannot be downloaded', ['id' => $record->id]);
+
+                return back()->with('error', 'Something went wrong');
+            }
         } else {
             // $path = public_path().'/certificate/'.$record->certificate;
             // if (file_exists($path)) {
