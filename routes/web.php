@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Administrator\DashboardController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\User\AssetController;
@@ -16,7 +15,6 @@ use App\Http\Controllers\User\MaintenanceController;
 use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\RecordController;
 use App\Http\Controllers\User\ResponseController;
-use App\Models\Inventory;
 use Illuminate\Support\Facades\Route;
 use Spatie\Multitenancy\Models\Tenant;
 
@@ -33,7 +31,7 @@ use Spatie\Multitenancy\Models\Tenant;
 
 if (Tenant::current()) {
     Route::domain(app('currentTenant')->domain)->middleware('tenant', 'notifications')->group(function() {
-        Route::multiauth('User', 'user');
+        // Route::multiauth('User', 'user');
         Route::get('/', function () {
             return redirect()->route('user.dashboard');
         });
@@ -190,7 +188,7 @@ if (Tenant::current()) {
     Route::get('/', function () {
         return redirect()->route('administrator.dashboard');
     });
-    Route::multiauth('Administrator', 'administrator');
+    // Route::multiauth('Administrator', 'administrator');
     Route::middleware(['auth:administrator'])->group(function () {
         Route::prefix('tenant')->group(function () {
             Route::get('/create', [TenantController::class, 'create'])->name('tenant.create');
