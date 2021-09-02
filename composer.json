@@ -54,8 +54,8 @@
             "php artisan cache:clear",
             "php artisan view:clear",
             "php artisan cache:clear",
-            "chmod -R 775 public/",
-            "chmod -R 775 bootstrap/"
+            "chmod -R 777 public/",
+            "chmod -R 777 bootstrap/"
         ]
     },
     "extra": {
