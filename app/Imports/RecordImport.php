@@ -17,21 +17,17 @@ class RecordImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
-        try {
-            return new Record([
-                'id'    => $row['id'], 
-                'cal_date'     => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['tanggal']),
-                'label'    => $row['no_label'], 
-                'calibration_status'     => $row['status_kalibrasi'],
-                'vendor'    => 'PT Global Promedika Service',
-                'certificate'     => null,
-                'report'    => null, 
-                'result'     => $row['hasil_kalibrasi'],
-                'inventory_id'    => $row['inventory_id'],
-            ]);
-        } catch (\Throwable $th) {
-            dd($th);
-        }
+        return new Record([
+            'id'    => $row['id'], 
+            'cal_date'     => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['tanggal']),
+            'label'    => $row['no_label'], 
+            'calibration_status'     => $row['status_kalibrasi'],
+            'vendor'    => 'PT Global Promedika Service',
+            'certificate'     => null,
+            'report'    => null, 
+            'result'     => $row['hasil_kalibrasi'],
+            'inventory_id'    => $row['inventory_id'],
+        ]);
     }
 
     // public function rules(): array
