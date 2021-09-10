@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class RecordImport implements ToModel, WithHeadingRow, WithValidation
+class RecordImport implements ToModel, WithHeadingRow
 {
     /**
     * @param array $row
@@ -34,14 +34,14 @@ class RecordImport implements ToModel, WithHeadingRow, WithValidation
         }
     }
 
-    public function rules(): array
-    {
-        return [
-            // '*.tanggal' => ['required'],
-            // '*.no_label' => ['required', 'max:255'],
-            // '*.status_kalibrasi' => ['required', 'max:255'],
-            // '*.hasil_kalibrasi' => ['required', 'max:255'],
-            // '*.inventory_id' => ['required', 'integer']
-        ];
-    }
+    // public function rules(): array
+    // {
+    //     return [
+    //         '*.tanggal' => ['required'],
+    //         '*.no_label' => ['required', 'max:255'],
+    //         '*.status_kalibrasi' => ['required', 'max:255'],
+    //         '*.hasil_kalibrasi' => ['required', 'max:255'],
+    //         '*.inventory_id' => ['required', 'integer']
+    //     ];
+    // }
 }
