@@ -37,11 +37,11 @@ class RecordImport implements ToModel, WithHeadingRow, WithValidation
     public function rules(): array
     {
         return [
-            '*.tanggal' => ['required'],
-            '*.no_label' => ['required', 'max:255'],
-            '*.status_kalibrasi' => ['required', 'max:255'],
-            '*.hasil_kalibrasi' => ['required', 'max:255'],
-            '*.inventory_id' => ['required', 'integer']
+            // '*.tanggal' => ['required'],
+            // '*.no_label' => ['required', 'max:255'],
+            // '*.status_kalibrasi' => ['required', 'max:255'],
+            // '*.hasil_kalibrasi' => ['required', 'max:255'],
+            // '*.inventory_id' => ['required', 'integer']
         ];
     }
 }
