@@ -58,8 +58,9 @@
                                             </a>
                                         </div> --}}
                                         <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <a href="{{ route('tenant.delete', ['tenant' => $tenant->id]) }}">
-                                                <i class="fas fa-trash-alt"></i>
+                                            <a href="{{ route('tenant.delete', ['tenant' => $tenant->id]) }}"
+                                                onclick="return confirm('Are you sure you want to delete this tenant? Deleted data cannot be recovered!')">
+                                                <i class="delete fas fa-trash-alt"></i>
                                             </a>
                                         </div>
                                     </div>
