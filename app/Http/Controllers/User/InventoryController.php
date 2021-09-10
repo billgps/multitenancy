@@ -228,13 +228,13 @@ class InventoryController extends Controller
             foreach($request->file('file') as $image)
             {
                 $name = $image->getClientOriginalName();
-
                 $record = Record::where('label', pathinfo($name, PATHINFO_FILENAME))->first();
 
                 if ($record) {
                     if ($record->label == pathinfo($name, PATHINFO_FILENAME)) {
                         $inventory = Inventory::find($record->inventory_id);
-                        $inventory->picture = 'picture_'.$inventory->id.'.'.$image->guessExtension();
+                        $path = Tenant::current()->domain.'/'.'picture_'.$inventory->id.'.'.$image->guessExtension();
+                        $inventory->picture = '/images/'.$path;
                         $image->move(public_path().'/images/'.Tenant::current()->domain, 'picture_'.$inventory->id.'.'.$image->guessExtension());  
                         $inventory->update();
 
