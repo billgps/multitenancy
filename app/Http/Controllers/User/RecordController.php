@@ -66,7 +66,7 @@ class RecordController extends Controller
                 $report->move(public_path().'/report/'.Tenant::current()->domain.'/', $reportName);
                 $reportPath = '/report/'.Tenant::current()->domain.'/'.$reportName;
             } else {
-                $reportName = 'Belum Update';
+                $reportPath = 'Belum Update';
             }
 
             if ($certificate != null) {
@@ -74,7 +74,7 @@ class RecordController extends Controller
                 $certificate->move(public_path().'/certificate/'.Tenant::current()->domain.'/', $certificateName);
                 $certificatePath = '/certificate/'.Tenant::current()->domain.'/'.$reportName;
             } else {
-                $certificateName = 'Belum Update';
+                $certificatePath = 'Belum Update';
             }
 
             $record = new Record();
