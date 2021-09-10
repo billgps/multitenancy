@@ -196,7 +196,7 @@ if (Tenant::current()) {
             Route::get('/create', [TenantController::class, 'create'])->name('tenant.create');
             Route::post('/store', [TenantController::class, 'store'])->name('tenant.store');
             Route::get('/{tenant}', [TenantController::class, 'show'])->name('tenant.show');
-            Route::get('/delete/{tenant}', [TenantController::class, 'delete'])->name('tenant.delete');
+            Route::get('/delete/{tenant}', [TenantController::class, 'destroy'])->name('tenant.delete');
         }); 
         Route::prefix('vendor')->group(function () {
             Route::get('/', [VendorController::class, 'index'])->name('vendor.index');

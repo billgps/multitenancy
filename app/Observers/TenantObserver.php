@@ -46,7 +46,7 @@ class TenantObserver
      */
     public function deleted(Tenant $tenant)
     {
-        //
+        DB::statement('DROP DATABASE '.$tenant->database);
     }
 
     /**
