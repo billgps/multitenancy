@@ -58,7 +58,7 @@
                                             </a>
                                         </div> --}}
                                         <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <a href="">
+                                            <a href="{{ route('tenant.delete', ['tenant' => $tenant->id]) }}">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
                                         </div>
