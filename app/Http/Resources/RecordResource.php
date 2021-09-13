@@ -15,13 +15,13 @@ class RecordResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'cal_date' => $this->cal_date,
-            'label' => $this->label,
-            'report' => env('APP_URL').$this->report,
-            'certificate' => env('APP_URL').$this->certificate,
-            'result' => $this->result,
-            'calibration_status' => $this->calibration_status
+            'ID' => $this->id,
+            'Tanggal Kalibrasi' => $this->cal_date,
+            'Label' => $this->label,
+            'Report' => env('APP_URL').$this->report,
+            'Certificate' => env('APP_URL').$this->certificate,
+            'Hasil Kalibrasi' => $this->result,
+            'Status Kalirbasi' => $this->calibration_status
         ];
     }
 }
