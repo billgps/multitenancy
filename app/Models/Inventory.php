@@ -77,7 +77,7 @@ class Inventory extends Model
 
     public function latest_condition()
     {
-        return $this->hasOne('App\Models\Condition', 'inventory_id', 'id')->latest()->withDefault([
+        return $this->hasOne('App\Models\Condition', 'inventory_id', 'id')->latest('cal_date')->withDefault([
             'calibration_status' => 'Belum Update'
         ]);
     }
