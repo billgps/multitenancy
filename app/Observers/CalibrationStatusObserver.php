@@ -17,7 +17,17 @@ class CalibrationStatusObserver
      */
     public function created(Record $record)
     {
-        //
+        // if ($record->calibration_status != 'Expired') {
+        //     # code...
+        // }
+        // $existing = Record::where('inventory_id', $record->inventory_id)->get();
+        // if ($existing) {
+        //     foreach ($existing as $rec) {
+        //         // $temp = Record::find($rec->id);
+        //         $rec->calibration_status = 'Expired';
+        //         $rec->update();
+        //     }    
+        // }
     }
 
     /**
@@ -28,9 +38,14 @@ class CalibrationStatusObserver
      */
     public function updated(Record $record)
     {
-        // $users = User::where('role', 1)->get();
-
-        // Notification::send($users, new CalibrationStatusUpdate($record, ' membuat komplain baru'));
+        // $existing = Record::where('inventory_id', $record->inventory_id)->get();
+        // if ($existing) {
+        //     foreach ($existing as $rec) {
+        //         // $temp = Record::find($rec->id);
+        //         $rec->calibration_status = 'Expired';
+        //         $rec->update();
+        //     }    
+        // }
     }
 
     /**
