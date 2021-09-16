@@ -56,6 +56,7 @@ class InventoryAPIController extends Controller
             'room', 
             'latest_condition', 
             'latest_record',
+            'latest_maintenance',
             'records',
             'conditions',
             'maintenances',
