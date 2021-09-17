@@ -15,10 +15,10 @@ class ConditionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'event_date' => $this->event_date,
-            'event' => $this->event,
-            'status' => $this->status,
+            'ID' => $this->id,
+            'Tanggal Kejadian' => $this->event_date,
+            'Detail' => $this->event,
+            'Status Alat' => $this->status,
         ];
     }
 }

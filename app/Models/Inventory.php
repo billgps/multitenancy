@@ -88,4 +88,11 @@ class Inventory extends Model
             'calibration_status' => 'Belum Update'
         ]);
     }
+
+    public function latest_maintenance()
+    {
+        return $this->hasOne('App\Models\Maintenance', 'inventory_id', 'id')->latest()->withDefault([
+            'status' => 'Belum Update'
+        ]);
+    }
 }
