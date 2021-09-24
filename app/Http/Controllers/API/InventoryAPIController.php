@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Http\Resources\InventoryResource;
 
 class InventoryAPIController extends Controller
@@ -16,9 +17,20 @@ class InventoryAPIController extends Controller
      */
     public function index()
     {
-        $inventories = Inventory::with('device', 'identity.brand', 'room', 'latest_condition', 'latest_record')->get();
+        $current = date('Y-m-d h:i:s a', time());
+        $before = date('Y-m-d h:i:s a', strtotime("-5months", strtotime($current)));
+        $months = Inventory::with('latest_condition')->whereHas('latest_condition', function($query) use ($current, $before) {
+            $query->where('status', 'Rusak')
+                ->whereBetween('event_date', [$before, $current])
+                ->orderBy('event_date', 'asc');
+        })->get()
+            ->groupBy(function ($val) {
+                return Carbon::parse($val->latest_condition->event_date)->format('M');
+        });
+        // $inventories = Inventory::with('device', 'identity.brand', 'room', 'latest_condition', 'latest_record')->get();
 
-        return response()->json(InventoryResource::collection($inventories), 200);
+        // return response()->json(InventoryResource::collection($inventories), 200);
+        return response()->json($months, 200);
     }
 
     /**
