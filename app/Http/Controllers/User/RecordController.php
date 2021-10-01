@@ -249,6 +249,7 @@ class RecordController extends Controller
             return response()->download($path, $record->certificate);
         } else {
             $path = public_path().'/certificate/'.$record->certificate;
+            dd($path);
             if (file_exists($path)) {
                 return response()->download($path, $record->certificate);
             } else {
