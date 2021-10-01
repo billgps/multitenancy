@@ -248,13 +248,7 @@ class RecordController extends Controller
         if (file_exists($path)) {
             return response()->download($path, $record->certificate);
         } else {
-            $path = public_path().'/certificate/'.$record->certificate;
-            dd($path);
-            if (file_exists($path)) {
-                return response()->download($path, $record->certificate);
-            } else {
-                return back()->with('error', 'File does not exist');
-            }
+            return back()->with('error', 'File does not exist');
         }
     }
 
