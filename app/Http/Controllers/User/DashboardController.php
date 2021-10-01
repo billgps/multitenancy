@@ -3,13 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\Condition;
 use App\Models\Inventory;
 use App\Models\Record;
-use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
 
 class DashboardController extends Controller
 {
@@ -22,7 +18,7 @@ class DashboardController extends Controller
     }
 
     public function index(){
-        $temp = array();
+        // $temp = array();
         $total = Inventory::all()->count();
         $scheduled = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
             $query->where('calibration_status', 'Segera Dikalibrasi');
@@ -66,9 +62,9 @@ class DashboardController extends Controller
                 return Carbon::parse($val->latest_condition->event_date)->format('M');
         });
 
-        foreach ($months as $month) {
-            array_push($temp, $month->count());
-        }
+        // foreach ($months as $month) {
+        //     array_push($temp, $month->count());
+        // }
         
         /*
         foreach ($inventories as $inventory) {

@@ -15,10 +15,10 @@ class MaintenanceResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'scheduled_date' => $this->scheduled_date,
-            'done_date' => $this->done_date,
-            'personnel' => $this->personnel
+            'ID' => $this->id,
+            'Tanggal Dijadwalkan' => $this->scheduled_date,
+            'Tanggal Selesai' => $this->done_date,
+            'Personel' => $this->personnel
         ];
     }
 }

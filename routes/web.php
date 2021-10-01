@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Administrator\DashboardController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\User\AssetController;
@@ -16,7 +15,6 @@ use App\Http\Controllers\User\MaintenanceController;
 use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\RecordController;
 use App\Http\Controllers\User\ResponseController;
-use App\Models\Inventory;
 use Illuminate\Support\Facades\Route;
 use Spatie\Multitenancy\Models\Tenant;
 
@@ -91,6 +89,8 @@ if (Tenant::current()) {
                 Route::post('/store', [IdentityController::class, 'store'])->name('identity.store');
                 Route::post('/import', [IdentityController::class, 'import'])->name('identity.import');
                 // Route::get('/{id}', [IdentityController::class, 'show'])->name('identity.show');
+                Route::get('/download/manual/{identity}', [IdentityController::class, 'manualDownload'])->name('identity.download.manual');
+                Route::get('/download/procedure/{identity}', [IdentityController::class, 'procedureDownload'])->name('identity.download.procedure');
                 Route::get('/edit/{identity}', [IdentityController::class, 'edit'])->name('identity.edit');
                 Route::post('/update/{identity}', [IdentityController::class, 'update'])->name('identity.update');
                 Route::get('/delete/{identity}', [IdentityController::class, 'destroy'])->name('identity.delete');
@@ -196,7 +196,7 @@ if (Tenant::current()) {
             Route::get('/create', [TenantController::class, 'create'])->name('tenant.create');
             Route::post('/store', [TenantController::class, 'store'])->name('tenant.store');
             Route::get('/{tenant}', [TenantController::class, 'show'])->name('tenant.show');
-            Route::get('/delete/{tenant}', [TenantController::class, 'delete'])->name('tenant.delete');
+            Route::get('/delete/{tenant}', [TenantController::class, 'destroy'])->name('tenant.delete');
         }); 
         Route::prefix('vendor')->group(function () {
             Route::get('/', [VendorController::class, 'index'])->name('vendor.index');

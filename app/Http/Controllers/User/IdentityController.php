@@ -8,6 +8,7 @@ use App\Models\Brand;
 use App\Models\Device;
 use App\Models\Identity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Multitenancy\Models\Tenant;
 
@@ -61,20 +62,22 @@ class IdentityController extends Controller
 
             if ($manual != null) {
                 $manualName = $manual->getClientOriginalName();
-                $manual->move(public_path().'/module/', $manualName);
+                $manual->move(public_path().'/module/'.Tenant::current()->domain.'/', $manualName);
+                $manualPath = '/module/'.Tenant::current()->domain.'/'.$manualName;
             }
 
             if ($procedure != null) {
                 $procedureName = $procedure->getClientOriginalName();
-                $procedure->move(public_path().'/procedure/', $procedureName);
+                $procedure->move(public_path().'/procedure/'.Tenant::current()->domain.'/', $procedureName);
+                $procedurePath = '/procedure/'.Tenant::current()->domain.'/'.$procedureName;
             }
 
             $identity = new Identity();
             $identity->device_id = $request->device_id;
             $identity->brand_id = $request->brand_id;
             $identity->model = $request->model;
-            $identity->manual = ($manual != null) ? $manualName : null;
-            $identity->procedure = ($procedure != null) ? $procedureName : null;
+            $identity->manual = ($manual != null) ? $manualPath : null;
+            $identity->procedure = ($procedure != null) ? $procedurePath : null;
             $identity->save();
 
             if ($request->redirect != null) {
@@ -147,12 +150,16 @@ class IdentityController extends Controller
             $identity->brand_id = $request->brand_id;
             $identity->model = $request->model;
             if ($manual) {
-                $identity->manual = $identity->id.'.'.$manual->guessExtension();
-                $manual->move(public_path().'/module/'.Tenant::current()->domain, $identity->id.'.'.$manual->guessExtension());
+                $manualName = $manual->getClientOriginalName();
+                $manual->move(public_path().'/module/'.Tenant::current()->domain.'/', $manualName);
+                $manualPath = '/module/'.Tenant::current()->domain.'/'.$manualName;
+                $identity->manual = $manualPath;
             }
             if ($procedure) {
-                $identity->procedure = $identity->id.'.'.$procedure->guessExtension();
-                $procedure->move(public_path().'/procedure/'.Tenant::current()->domain, $identity->id.'.'.$procedure->guessExtension());
+                $procedureName = $procedure->getClientOriginalName();
+                $procedure->move(public_path().'/procedure/'.Tenant::current()->domain.'/', $procedureName);
+                $procedurePath = '/procedure/'.Tenant::current()->domain.'/'.$procedureName;
+                $identity->procedure = $procedurePath;
             }
             $identity->update();
 
@@ -176,6 +183,52 @@ class IdentityController extends Controller
         Excel::import(new IdentityImport, request()->file('file'));
 
         return redirect()-> route('identity.index')->with('success', 'Data Imported');
+    }
+
+    public function manualDownload (Identity $identity)
+    {
+        // dd($path);
+        if ($identity->manual != null) {
+            try {
+                $path = public_path().$identity->manual;
+
+                return response()->download($path, $identity->manual);
+            } catch (\Throwable $th) {
+                Log::error('Manual cannot be downloaded', ['id' => $identity->id]);
+
+                return back()->with('error', 'Something went wrong');
+            }
+        } else {
+            // $path = public_path().'/report/'.Tenant::current()->domain.'/'.$record->report;
+            // if (file_exists($path)) {
+            //     return response()->download($path, $record->report);
+            // } else {
+                return back()->with('error', 'File does not exist');
+            // }
+        }
+    }
+
+    public function procedureDownload (Identity $identity)
+    {
+        // dd($path);
+        if ($identity->procedure != null) {
+            try {
+                $path = public_path().$identity->procedure;
+
+                return response()->download($path, $identity->procedure);
+            } catch (\Throwable $th) {
+                Log::error('Procedure cannot be downloaded', ['id' => $identity->id]);
+
+                return back()->with('error', 'Something went wrong');
+            }
+        } else {
+            // $path = public_path().'/report/'.Tenant::current()->domain.'/'.$record->report;
+            // if (file_exists($path)) {
+            //     return response()->download($path, $record->report);
+            // } else {
+                return back()->with('error', 'File does not exist');
+            // }
+        }
     }
 
     public function ajax(Request $request)

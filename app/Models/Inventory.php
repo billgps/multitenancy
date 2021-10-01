@@ -77,15 +77,22 @@ class Inventory extends Model
 
     public function latest_condition()
     {
-        return $this->hasOne('App\Models\Condition', 'inventory_id', 'id')->latest()->withDefault([
+        return $this->hasOne('App\Models\Condition', 'inventory_id', 'id')->latest('event_date')->withDefault([
             'calibration_status' => 'Belum Update'
         ]);
     }
 
     public function latest_record()
     {
-        return $this->hasOne('App\Models\Record', 'inventory_id', 'id')->latest()->withDefault([
+        return $this->hasOne('App\Models\Record', 'inventory_id', 'id')->latest('cal_date')->withDefault([
             'calibration_status' => 'Belum Update'
+        ]);
+    }
+
+    public function latest_maintenance()
+    {
+        return $this->hasOne('App\Models\Maintenance', 'inventory_id', 'id')->latest()->withDefault([
+            'status' => 'Belum Update'
         ]);
     }
 }
