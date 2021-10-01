@@ -191,8 +191,12 @@ class RecordController extends Controller
     public function reportDownload (Record $record)
     {
         $path = public_path().'/report/'.Tenant::current()->domain.'/'.$record->report;
-        if (file_exists($path)) {
-            return response()->download($path, $record->report);
+        if ($record->report != null) {
+            if (file_exists($path)) {
+                return response()->download($path, $record->report);
+            } else {
+                return back()->with('error', 'Something wrong');
+            }
         } else {
             return back()->with('error', 'File does not exist');
         }
@@ -239,8 +243,12 @@ class RecordController extends Controller
     {
         $path = public_path().'/certificate/'.Tenant::current()->domain.'/'.$record->certificate;
         // dd($path);
-        if (file_exists($path)) {
-            return response()->download($path, $record->certificate);
+        if ($record->certicate != null) {
+            if (file_exists($path)) {
+                return response()->download($path, $record->certificate);
+            } else {
+                return back()->with('error', 'Something wrong');
+            }
         } else {
             return back()->with('error', 'File does not exist');
         }
