@@ -207,7 +207,7 @@ class RecordController extends Controller
     public function reportDownload (Record $record)
     {
         // dd($path);
-        if ($record->report != 'Belum Update' || $record->report != null) {
+        if ($record->report != 'Belum Update' && $record->report != null) {
             try {
                 $path = public_path().$record->report;
 
@@ -267,7 +267,7 @@ class RecordController extends Controller
     public function certificateDownload (Record $record)
     {
         // dd($path);
-        if ($record->certificate != 'Belum Update' || $record->certificate != null) {
+        if ($record->certificate != 'Belum Update' && $record->certificate != null) {
             try {
                 $path = public_path().$record->certificate;
 
