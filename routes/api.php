@@ -50,6 +50,7 @@ if (Tenant::current()) {
         });
         Route::prefix('record')->group(function () {
             Route::get('/', [RecordAPIController::class, 'index'])->name('api.record.index');
+            Route::get('/download/certificate/{record}', [RecordAPIController::class, 'certificateDownload']);
         });
         Route::prefix('condition')->group(function () {
             Route::get('/', [ConditionAPIController::class, 'index'])->name('api.condition.index');

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\RecordResource;
 use App\Models\Record;
 use Illuminate\Http\Request;
+use Spatie\Multitenancy\Models\Tenant;
 
 class RecordAPIController extends Controller
 {
@@ -85,5 +86,22 @@ class RecordAPIController extends Controller
     public function destroy(Record $record)
     {
         //
+    }
+
+    public function certificateDownload(Record $record)
+    {
+        $header = array(
+            'Content-Type: application/pdf',
+        );
+        $path = public_path().'/certificate/'.Tenant::current()->domain.'/'.$record->certificate;
+        if ($record->certicate != null) {
+            if (file_exists($path)) {
+                return response()->download($path, $record->certificate, $header);
+            } else {
+                return response('Something went wrong...', 500);
+            }
+        } else {
+            return response('File not found', 404);
+        }
     }
 }
