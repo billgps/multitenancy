@@ -50,7 +50,6 @@ if (Tenant::current()) {
         });
         Route::prefix('record')->group(function () {
             Route::get('/', [RecordAPIController::class, 'index'])->name('api.record.index');
-            Route::get('/download/certificate/{record}', [RecordAPIController::class, 'certificateDownload']);
         });
         Route::prefix('condition')->group(function () {
             Route::get('/', [ConditionAPIController::class, 'index'])->name('api.condition.index');
@@ -70,6 +69,9 @@ if (Tenant::current()) {
         });
         Route::prefix('identity')->group(function () {
             Route::get('/', [IdentityAPIController::class, 'index'])->name('api.identity.index');
+        });
+        Route::prefix('download')->group(function () {
+            Route::get('/certificate/{record}', [RecordAPIController::class, 'certificateDownload']);
         });
         Route::get('/scan/{barcode}', [InventoryAPIController::class, 'scan'])->name('api.barcode');
     });

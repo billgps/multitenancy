@@ -94,7 +94,7 @@ class RecordAPIController extends Controller
             'Content-Type: application/pdf',
         );
         $path = public_path().'/certificate/'.Tenant::current()->domain.'/'.$record->certificate;
-        if ($record->certicate != null) {
+        if ($record->certificate != null) {
             if (file_exists($path)) {
                 return response()->download($path, $record->certificate, $header);
             } else {
