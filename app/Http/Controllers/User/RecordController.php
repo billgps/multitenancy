@@ -243,7 +243,7 @@ class RecordController extends Controller
     {
         $path = public_path().'/certificate/'.Tenant::current()->domain.'/'.$record->certificate;
         // dd($path);
-        if ($record->certicate != null) {
+        if ($record->certificate != null) {
             if (file_exists($path)) {
                 return response()->download($path, $record->certificate);
             } else {
