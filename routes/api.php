@@ -72,6 +72,7 @@ if (Tenant::current()) {
         });
         Route::prefix('download')->group(function () {
             Route::get('/certificate/{record}', [RecordAPIController::class, 'certificateDownload']);
+            Route::get('/report/{record}', [RecordAPIController::class, 'reportDownload']);
         });
         Route::get('/scan/{barcode}', [InventoryAPIController::class, 'scan'])->name('api.barcode');
     });

@@ -104,4 +104,21 @@ class RecordAPIController extends Controller
             return response('File not found', 404);
         }
     }
+
+    public function reportDownload(Record $record)
+    {
+        $header = array(
+            'Content-Type: application/pdf',
+        );
+        $path = public_path().'/report/'.Tenant::current()->domain.'/'.$record->report;
+        if ($record->certificate != null) {
+            if (file_exists($path)) {
+                return response()->download($path, $record->certificate, $header);
+            } else {
+                return response('Something went wrong...', 500);
+            }
+        } else {
+            return response('File not found', 404);
+        }
+    }
 }
