@@ -111,9 +111,9 @@ class RecordAPIController extends Controller
             'Content-Type: application/pdf',
         );
         $path = public_path().'/report/'.Tenant::current()->domain.'/'.$record->report;
-        if ($record->certificate != null) {
+        if ($record->report != null) {
             if (file_exists($path)) {
-                return response()->download($path, $record->certificate, $header);
+                return response()->download($path, $record->report, $header);
             } else {
                 return response('Something went wrong...', 500);
             }
