@@ -46,7 +46,7 @@
                         Data Inventaris
                     </div>
                     
-                    <table class="hidden" id="example" style="display: none;">
+                    {{-- <table class="hidden" id="example" style="display: none;">
                         <thead>
                             <th>name</th>
                             <th>condition</th>
@@ -154,11 +154,7 @@
                                     @endisset
                                     <td>
                                         <div class="w-full h-48 text-sm">
-                                            {{-- @if ($inventory->picture != 'no_image.jpg') --}}
-                                                <img class="object-cover h-48 w-full" src="{{ asset($inventory->picture) }}" alt="{{ $inventory->barcode }}">
-                                            {{-- @else
-                                                <img class="object-cover h-48 w-full" src="{{ asset('images/no_image.jpg') }}" alt="{{ $inventory->barcode }}">
-                                            @endif --}}
+                                            <img class="object-cover h-48 w-full" src="{{ asset($inventory->picture) }}" alt="{{ $inventory->barcode }}">
                                         </div>
                                     </td>
                                     <td>
@@ -295,9 +291,131 @@
                                 })   
                             }
                         })
-                    </script>
+                    </script> --}}
             
-                    <div id="display" class="flex flex-col lg:grid lg:grid-cols-4 gap-2 w-full justify-center"></div>
+                    <div id="display" class="flex flex-col lg:grid lg:grid-cols-4 gap-2 w-full justify-center">
+                        @foreach ($inventories as $inventory)
+                            <div class="max-w-xs flex flex-col rounded overflow-hidden bg-gray-100 my-2">
+                                <div class="w-full h-48 text-sm">
+                                    <img class="object-cover h-48 w-full" src="{{ asset($inventory->picture) }}" alt="{{ $inventory->barcode }}">
+                                </div>
+                                <div class="text-md flex hover:text-purple-500 mx-2 my-2">
+                                    <a href="{{ route('inventory.param', ['parameter' => 'device', 'value' => $inventory->device_id]) }}">
+                                        {{ $inventory->device->standard_name }}
+                                    </a>
+                                </div>
+                                <div class="flex mb-2 mx-2">
+                                    @if ($inventory->latest_condition)
+                                        <div class="flex mb-2 mx-2">
+                                            @if ($inventory->latest_condition->status != 'Rusak')
+                                                @if ($inventory->latest_condition->status == 'Baik')
+                                                    <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                        {{ $inventory->latest_condition->status }}
+                                                    </div>
+                                                @else
+                                                    <div class="rounded bg-yellow-300 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                        Belum Update
+                                                    </div>
+                                                @endif
+                                            @else
+                                                <div class="rounded bg-red-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                    {{ $inventory->latest_condition->status }}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    @else
+                                        <div class="flex mb-2 mx-2">
+                                            <div class="rounded bg-yellow-300 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                Belum Update
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 w-full text-xs px-2">
+                                    <div class="flex">Barcode :</div>
+                                    <div class="flex justify-end text-right">
+                                        {{ $inventory->barcode }}
+                                    </div>
+                                    <div class="flex">Merk :</div>
+                                    <div class="flex justify-end hover:text-purple-500 text-right">
+                                        <div class="flex justify-end hover:text-purple-500 text-right">
+                                            <a href="{{ route('inventory.param', ['parameter' => 'brand', 'value' => $inventory->identity->brand->id]) }}">
+                                                {{ $inventory->identity->brand->brand }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="flex">Model :</div>
+                                    <div class="flex justify-end text-right">
+                                        {{ $inventory->identity->model }}
+                                    </div>
+                                    <div class="flex">Serial Number :</div>
+                                    <div class="flex justify-end text-right">
+                                        {{ $inventory->serial }}
+                                    </div>
+                                    <div class="flex">Ruangan :</div>
+                                    <div class="flex justify-end hover:text-purple-500 text-right">
+                                        <a href="{{ route('inventory.param', ['parameter' => 'room', 'value' => $inventory->room_id]) }}">
+                                            {{ $inventory->room->room_name }}
+                                        </a>
+                                    </div>
+                                    <div class="flex">No. Label :</div>
+                                    @isset($inventory->latest_record)
+                                        <div class="flex justify-end text-right">
+                                            {{ $inventory->latest_record->label }}
+                                        </div>
+                                    @endisset
+                                    <div class="flex">Status Kalibrasi :</div>
+                                    @isset($inventory->latest_record)
+                                        <div class="flex justify-end text-right">
+                                            @if ($inventory->latest_record->calibration_status == 'Terkalibrasi')
+                                                <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                    Terkalibrasi
+                                                </div>
+                                            @elseif ($inventory->latest_record->calibration_status == 'Expired')
+                                                <div class="rounded bg-red-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                    Expired
+                                                </div>
+                                            @else
+                                                <div class="rounded bg-yellow-300 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                    Wajib Kalibrasi
+                                                </div>
+                                            @endif
+                                        </div>
+                                    @endisset
+                                </div>
+                                <div class="px-6 py-4 mt-auto">
+                                    <div class="flex item-end justify-center">
+                                        <a href="{{ route('inventory.show', ['id' => $inventory->id]) }}">
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                </svg>
+                                            </div>
+                                        </a>
+                                        @if (Auth::user()->role < 2)
+                                            <a href="{{ route('inventory.edit', ['inventory' => $inventory->id]) }}">
+                                                <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                    </svg>
+                                                </div>
+                                            </a>
+                                        @endif
+                                        @if (Auth::user()->role < 1)
+                                            <a href="{{ route('inventory.delete', ['inventory' => $inventory->id]) }}">
+                                                <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </div>
+                                            </a>    
+                                        @endif   
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                     <div class="mt-3 w-full h-20 flex justify-center text-sm p-2" id="page"></div>
                 </div>
             </div>
