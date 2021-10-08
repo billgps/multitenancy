@@ -28,7 +28,8 @@ class BrandImport implements ToModel, WithHeadingRow, WithValidation
     {
         return [
             '*.id' => ['required', 'integer', 'unique:brands'],
-            '*.merk' => ['required', 'max:255', Rule::unique('brands', 'brand')],
+            '*.merk' => ['required', 'max:255'],
+            // '*.merk' => ['required', 'max:255', Rule::unique('brands', 'brand')],
         ];
     }
 }
