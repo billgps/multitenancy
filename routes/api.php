@@ -31,7 +31,7 @@ use Spatie\Multitenancy\Models\Tenant;
 // });
 
 if (Tenant::current()) {
-    Route::post('/login', [AuthController::class, 'login'])->name('auth.api.login');
+    Route::post('/login', [AuthController::class, 'login']);
     Route::domain(Tenant::current()->domain)->middleware(['auth:sanctum'])->group(function() {
         Route::post('logout', [AuthController::class, 'logout'])->name('auth.api.logout');
         Route::prefix('inventory')->group(function () {
