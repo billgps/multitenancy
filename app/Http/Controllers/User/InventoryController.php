@@ -264,7 +264,7 @@ class InventoryController extends Controller
                         $query->where('id', $value);
                     })
                     ->orderBy('created_at', 'desc')
-                    ->get();
+                    ->paginate(20);
                 break;
             
             case 'calibration_status':
@@ -273,7 +273,7 @@ class InventoryController extends Controller
                         $query->where('calibration_status',  $value);
                     })
                     ->orderBy('created_at', 'desc')
-                    ->get();
+                    ->paginate(20);
                 break;
 
             case 'room':
@@ -282,7 +282,7 @@ class InventoryController extends Controller
                         $query->where('id', $value);
                     })
                     ->orderBy('created_at', 'desc')
-                    ->get();
+                    ->paginate(20);
                 break;
 
             case 'device':
@@ -291,7 +291,7 @@ class InventoryController extends Controller
                         $query->where('id', $value);
                     })
                     ->orderBy('created_at', 'desc')
-                    ->get();
+                    ->paginate(20);
                 break;
             
             default:
