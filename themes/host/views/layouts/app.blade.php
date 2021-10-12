@@ -72,7 +72,7 @@
     </header>
     <div id="app" class="flex w-full h-full overflow-auto">
         <div class="h-full">
-            <div id="sideBar" class="w-64 h-full bg-gray-800" :class="{'is-close': isClose, 'hidden': isClose, 'w-60': !isClose}">
+            <div id="sideBar" class="w-64 h-full sticky bg-gray-800" :class="{'is-close': isClose, 'hidden': isClose, 'w-60': !isClose}">
                 {{-- <div class="flex items-center justify-center">
                     <img class="h-6" src="https://premium-tailwindcomponents.netlify.app/assets/svg/tailwindcomponent-light.svg">
                 </div> --}}
