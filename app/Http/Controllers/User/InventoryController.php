@@ -306,11 +306,13 @@ class InventoryController extends Controller
     {
         $term = $request->search;
         $inventory = Inventory::with('device', 'brand', 'identity', 'room', 'latest_condition', 'latest_record')
-            ->where('barcode', 'LIKE', $term)
-            ->orWhere('serial', 'LIKE', $term)
-            ->orWhere('latest_record.label', 'LIKE', $term)
+            ->where('barcode', 'LIKE', '%'.$term.'%')
+            ->orWhere('serial', 'LIKE', '%'.$term.'%')
+            ->orWhereHas('latest_record', function($query) use ($term) {
+                $query->where('label', 'LIKE', '%'.$term.'%');
+            })
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(20);
 
         return view('inventory.index', ['inventories' => $inventory]);  
     }
