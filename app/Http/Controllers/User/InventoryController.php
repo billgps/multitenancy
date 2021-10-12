@@ -301,4 +301,17 @@ class InventoryController extends Controller
 
         return view('inventory.index', ['inventories' => $inventory]);  
     }
+
+    public function search(Request $request)
+    {
+        $term = $request->search;
+        $inventory = Inventory::with('device', 'brand', 'identity', 'room', 'latest_condition', 'latest_record')
+            ->where('barcode', 'LIKE', $term)
+            ->orWhere('serial', 'LIKE', $term)
+            ->orWhere('latest_record.label', 'LIKE', $term)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('inventory.index', ['inventories' => $inventory]);  
+    }
 }
