@@ -27,7 +27,7 @@ class InventoryController extends Controller
     public function index()
     {
         // dd(app('currentTenant'));
-        $inventory = Inventory::with('device', 'brand', 'identity', 'identity.brand', 'room', 'latest_condition', 'latest_record')->orderBy('created_at', 'desc')->get();
+        $inventory = Inventory::with('device', 'brand', 'identity', 'identity.brand', 'room', 'latest_condition', 'latest_record')->orderBy('created_at', 'desc')->paginate(20);
 
         return view('inventory.index', ['inventories' => $inventory]);
     }
