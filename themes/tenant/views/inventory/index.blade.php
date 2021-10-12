@@ -416,7 +416,9 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="mt-3 w-full h-20 flex justify-center text-sm p-2" id="page"></div>
+                    <div class="mt-3 w-full h-20 flex justify-center text-sm p-2" id="page">
+                        {{ $inventories->links() }}
+                    </div>
                 </div>
             </div>
         </section>
