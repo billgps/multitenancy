@@ -11,6 +11,9 @@
         @endif
 
         <section class="sm:grid sm:grid-cols-6 sm:gap-2 break-words">
+            <a class="mx-2 text-blue-600 hover:text-gray-400" href="{{ route('record.export') }}">
+                <i class="fas fa-download"></i>
+            </a>
             <div class="col-span-6 h-12 flex items-center py-2 px-4 bg-gray-200" x-data="{ dropdownOpen: false }">
                 @if (Auth::user()->role < 2)
                     <a class="mx-2 text-green-600 hover:text-gray-400" href="/record/create">
@@ -35,9 +38,6 @@
                         </button>     
                     </div>
                 @endif
-                <a class="mx-2 text-blue-600 hover:text-gray-400" href="{{ route('record.export') }}">
-                    <i class="fas fa-download"></i>
-                </a>
                 <div class="ml-auto my-auto flex text-xs">
                     <input class="h-8 rounded-r-none text-xs text-gray-800 w-full px-2 rounded-md focus:ring-0 border-none" id="search_" type="text" placeholder="Search..." name="search" />
                     <button type="button" class="h-8 rounded-l-none w-20 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-gray-100 uppercase tracking-widest hover:text-gray-800 hover:bg-gray-400 active:bg-gray-900 focus:outline-none disabled:opacity-25 transition ease-in-out duration-150">
