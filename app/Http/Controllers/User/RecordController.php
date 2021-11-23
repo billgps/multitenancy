@@ -190,7 +190,8 @@ class RecordController extends Controller
     }
 
     public function export(Request $request)
-    {
+    { 
+        dd(Excel::download(new RecordExport, 'record.xlsx'));
         return Excel::download(new RecordExport, 'record.xlsx');
     }
 
