@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Exports\RecordExport;
 use App\Http\Controllers\Controller;
 use App\Imports\RecordImport;
 use App\Models\Inventory;
@@ -237,6 +238,11 @@ class RecordController extends Controller
                 return back()->with('success', 'Reports uploaded!');
             }
         }
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new RecordExport, 'record.xlsx');
     }
 
     public function certificateDownload (Record $record)

@@ -119,6 +119,7 @@ if (Tenant::current()) {
                 Route::get('/download/report/{record}', [RecordController::class, 'reportDownload'])->name('record.download.report');
                 Route::post('/upload/certificate', [RecordController::class, 'certificateUpload'])->name('record.upload.certificate');
                 Route::get('/download/certificate/{record}', [RecordController::class, 'certificateDownload'])->name('record.download.certificate');
+                Route::get('/export', [RecordController::class, 'export'])->name('record.export');
                 // Route::get('/{id}', [RecordController::class, 'show'])->name('record.show');
                 Route::get('/edit/{record}', [RecordController::class, 'edit'])->name('record.edit');
                 Route::post('/update/{record}', [RecordController::class, 'update'])->name('record.update');
