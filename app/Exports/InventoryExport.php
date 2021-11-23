@@ -60,7 +60,8 @@ class InventoryExport implements FromCollection, WithMapping, WithHeadings
             'Hasil Kalibrasi',
             'Tanggal Kejadian',
             'Kondisi',
-            'Keterangan'
+            'Keterangan',
+            'Created At'
         ];
     }
 }

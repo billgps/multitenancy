@@ -4,8 +4,9 @@ namespace App\Exports;
 
 use App\Models\Inventory;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class InventoryRawExport implements FromCollection
+class InventoryRawExport implements FromCollection, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -13,5 +14,20 @@ class InventoryRawExport implements FromCollection
     public function collection()
     {
         return Inventory::all();
+    }
+
+    public function headings() : array {
+        return [
+            'id',
+            'barcode',
+            'device_id',
+            'identity_id',
+            'room_id',
+            'serial',
+            'picture',
+            'supplier',
+            'created_at',
+            'updated_at'
+        ];
     }
 }
