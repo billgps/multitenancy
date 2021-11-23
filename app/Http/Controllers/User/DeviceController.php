@@ -137,8 +137,6 @@ class DeviceController extends Controller
 
     public function export(Request $request)
     { 
-        
-        dd('dipshit');
-        return Excel::download(new DeviceExport, 'record.xlsx');
+        return Excel::download(new DeviceExport, 'device.xlsx');
     }
 }
