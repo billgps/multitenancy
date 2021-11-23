@@ -16,7 +16,7 @@ class MaintenanceImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         return new Maintenance([
-            'id'     => $row['id'],
+            // 'id'     => $row['id'],
             'scheduled_date'     => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['tanggal_jadwal']),
             'done_date'     => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['tanggal_selesai']),
             'personnel'     => $row['personel'],
