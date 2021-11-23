@@ -22,7 +22,7 @@
                         <i class="fas fa-file-upload"></i>
                     </button>   
                 @endif
-                <a class="mx-2 text-blue-600 hover:text-gray-400" href="{{ route('device.create') }}">
+                <a class="mx-2 text-blue-600 hover:text-gray-400" href="{{ route('device.export') }}">
                     <i class="fas fa-download"></i>
                 </a>
                 <div class="ml-auto my-auto flex text-xs">
