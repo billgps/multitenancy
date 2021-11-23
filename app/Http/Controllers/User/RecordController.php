@@ -191,7 +191,7 @@ class RecordController extends Controller
 
     public function export(Request $request)
     { 
-        dd(Excel::download(new RecordExport, 'record.xlsx'));
+        dd("wnet in");
         return Excel::download(new RecordExport, 'record.xlsx');
     }
 
