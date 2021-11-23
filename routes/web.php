@@ -123,7 +123,7 @@ if (Tenant::current()) {
                 Route::get('/edit/{record}', [RecordController::class, 'edit'])->name('record.edit');
                 Route::post('/update/{record}', [RecordController::class, 'update'])->name('record.update');
                 Route::get('/delete/{record}', [RecordController::class, 'destroy'])->name('record.delete');
-                Route::get('/export', [RecordController::class, 'export'])->name('record.export');
+                Route::get('/download', [RecordController::class, 'export'])->name('record.export');
             });
 
             Route::prefix('condition')->group(function () {
