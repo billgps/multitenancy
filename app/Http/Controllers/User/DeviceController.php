@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Exports\DeviceExport;
 use App\Http\Controllers\Controller;
 use App\Imports\DeviceImport;
 use App\Models\Device;
@@ -132,5 +133,12 @@ class DeviceController extends Controller
         Excel::import(new DeviceImport, request()->file('file'));
 
         return redirect()->route('device.index')->with('success', 'Data Imported');
+    }
+
+    public function export(Request $request)
+    { 
+        
+        dd('dipshit');
+        return Excel::download(new DeviceExport, 'record.xlsx');
     }
 }

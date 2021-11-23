@@ -57,6 +57,7 @@ if (Tenant::current()) {
                 Route::get('/create', [DeviceController::class, 'create'])->name('device.create');
                 Route::post('/store', [DeviceController::class, 'store'])->name('device.store');
                 Route::post('/import', [DeviceController::class, 'import'])->name('device.import');
+                Route::get('/export', [DeviceController::class, 'export'])->name('device.export');
                 Route::get('/{id}', [DeviceController::class, 'show'])->name('device.show');
                 Route::get('/edit/{device}', [DeviceController::class, 'edit'])->name('device.edit');
                 Route::post('/update/{device}', [DeviceController::class, 'update'])->name('device.update');
@@ -123,7 +124,6 @@ if (Tenant::current()) {
                 Route::get('/edit/{record}', [RecordController::class, 'edit'])->name('record.edit');
                 Route::post('/update/{record}', [RecordController::class, 'update'])->name('record.update');
                 Route::get('/delete/{record}', [RecordController::class, 'destroy'])->name('record.delete');
-                Route::get('/download', [RecordController::class, 'export'])->name('record.export');
             });
 
             Route::prefix('condition')->group(function () {

@@ -2,10 +2,11 @@
 
 namespace App\Exports;
 
-use App\Device;
+use App\Models\Device;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class DeviceExport implements FromCollection
+class DeviceExport implements FromCollection, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -13,5 +14,10 @@ class DeviceExport implements FromCollection
     public function collection()
     {
         return Device::all();
+    }
+
+    public function headings() : array 
+    {
+        return array_keys($this->collection()->first()->toArray());
     }
 }
