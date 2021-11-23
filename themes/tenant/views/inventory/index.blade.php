@@ -29,10 +29,20 @@
                     <button onclick="toggleModal(this, 'import-toggle', 'import-modal')" class="mx-2 text-blue-600 hover:text-gray-400 import-toggle">
                         <i class="fas fa-file-upload"></i>
                     </button>    
-                @endif    
-                <a class="mx-2 text-blue-600 hover:text-gray-400" href="{{ route('inventory.export') }}">
+                @endif   
+                <button @click="dropdownOpen = !dropdownOpen" class="relative z-10 block mx-2 text-blue-600 hover:text-gray-400">
                     <i class="fas fa-download"></i>
-                </a>
+                </button>
+                <div x-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10"></div>
+
+                <div x-show="dropdownOpen" class="absolute top-28 left-48 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
+                    <a @click="dropdownOpen = false" href="{{ route('inventory.export') }}" class="modal-open import-toggle w-full text-left block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white">
+                        Recap
+                    </a>       
+                    <a @click="dropdownOpen = false"  href="{{ route('inventory.raw') }}" class="modal-open report-toggle w-full text-left block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white">
+                        Raw
+                    </a>       
+                </div> 
                 <div class="ml-auto my-auto text-xs">
                     <form action="{{ route('inventory.search') }}" method="post" class="flex">
                         @csrf

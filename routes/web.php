@@ -42,6 +42,7 @@ if (Tenant::current()) {
                 Route::get('/create', [InventoryController::class, 'create'])->name('inventory.create');
                 Route::post('/store', [InventoryController::class, 'store'])->name('inventory.store');
                 Route::get('/export', [InventoryController::class, 'export'])->name('inventory.export');
+                Route::get('/raw', [InventoryController::class, 'raw'])->name('inventory.raw');
                 Route::post('/import', [InventoryController::class, 'import'])->name('inventory.import');
                 Route::get('/{id}', [InventoryController::class, 'show'])->name('inventory.show');
                 Route::get('/edit/{inventory}', [InventoryController::class, 'edit'])->name('inventory.edit');

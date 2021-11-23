@@ -18,6 +18,7 @@
     <link href="{{ mix('css/app.css', 'themes/host') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons">
 
     {{-- sidebar --}}
     <style>
@@ -76,7 +77,7 @@
                 <div>
                     <a href="{{ route('administrator.dashboard') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
                         <span class="flex items-center">
-                            <i class="fas fa-home"></i>
+                            <i class="material-icons">home</i>
                             <span class="mx-4">Dashboard</span>
                         </span>
                     </a>
@@ -84,7 +85,7 @@
                 <div x-data="{ open: false }">
                     <button @click="open = !open" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
                         <span class="flex items-center">
-                            <i class="fas fa-users"></i>
+                            <i class="material-icons">person_pin</i>
                             <span class="mx-4">Tenants</span>
                         </span>
 
@@ -97,17 +98,19 @@
                     </button>
 
                     <div x-show="open" class="bg-gray-700">
-                        <a class="py-2 px-14 block text-sm text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('tenant.create') }}">
-                            <i class="fas fa-plus mr-2"></i>
-                            New Tenant
+                        <a class="py-2 pl-14 block text-sm text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('tenant.create') }}">
+                            <span class="flex">
+                                <i class="material-icons mr-2">person_add_alt</i>
+                                New Tenant
+                            </span>
                         </a>
                     </div>
                 </div>
-                {{-- <div x-data="{ open: false }">
+                <div x-data="{ open: false }">
                     <button @click="open = !open" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
                         <span class="flex items-center">
-                            <i class="fas fa-balance-scale"></i>
-                            <span class="mx-4">Vendor</span>
+                            <i class="material-icons">inventory</i>
+                            <span class="mx-4 text-left">Calibrator Management</span>
                         </span>
 
                         <span>
@@ -119,21 +122,33 @@
                     </button>
 
                     <div x-show="open" class="bg-gray-700">
-                        <a class="py-2 px-16 block text-sm text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('vendor.create') }}">
-                            <i class="fas fa-plus mr-2"></i>
-                            New Vendor
+                        <a class="py-2 px-14 block text-sm text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('tenant.create') }}">
+                            <span class="flex">
+                                <i class="material-icons mr-2">handyman</i>
+                                Calibrators
+                            </span>
                         </a>
-                        <a class="py-2 px-16 block text-sm text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('vendor.index') }}">
-                            <i class="fas fa-list mr-2"></i>
-                            Vendor List
+                        <a class="py-2 px-14 block text-sm text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('tenant.create') }}">
+                            <span class="flex">
+                                <i class="material-icons mr-2">add</i>
+                                Add
+                            </span>
+                        </a>
+                        <a class="py-2 px-14 block text-sm text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('tenant.create') }}">
+                            <i class="fas fa-plus mr-2"></i>
+                            Check In
+                        </a>
+                        <a class="py-2 px-14 block text-sm text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('tenant.create') }}">
+                            <i class="fas fa-plus mr-2"></i>
+                            Check Out
                         </a>
                     </div>
-                </div> --}}
+                </div>
                 <div>
                     <form method="post" action="{{ route('administrator.logout') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
                         @csrf
                         <span id="logoutBtn" class="flex items-center">
-                            <i class="fas fa-power-off"></i>
+                            <i class="material-icons">power_settings_new</i>
                             <span class="mx-4">Logout</span>
                         </span>
                         <script>
