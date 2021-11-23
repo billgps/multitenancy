@@ -189,6 +189,11 @@ class RecordController extends Controller
         return redirect()->route('record.index');
     }
 
+    public function export(Request $request)
+    {
+        return Excel::download(new RecordExport, 'record.xlsx');
+    }
+
     public function reportDownload (Record $record)
     {
         $path = public_path().'/report/'.Tenant::current()->domain.'/'.$record->report;
@@ -238,11 +243,6 @@ class RecordController extends Controller
                 return back()->with('success', 'Reports uploaded!');
             }
         }
-    }
-
-    public function export(Request $request)
-    {
-        return Excel::download(new RecordExport, 'record.xlsx');
     }
 
     public function certificateDownload (Record $record)
