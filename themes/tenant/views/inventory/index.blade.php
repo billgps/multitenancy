@@ -16,7 +16,7 @@
         @endif
 
         <section class="sm:grid sm:grid-cols-6 sm:gap-2 break-words">
-            <div class="col-span-6 h-12 flex items-center py-2 px-4 bg-gray-200">
+            <div class="col-span-6 h-12 flex items-center py-2 px-4 bg-gray-200" x-data="{ dropdownOpen: false }">
                 @if (Auth::user()->role < 2)
                     <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('inventory.create') }}">
                         <i class="fas fa-plus"></i>
@@ -36,10 +36,10 @@
                 <div x-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10"></div>
 
                 <div x-show="dropdownOpen" class="absolute top-28 left-48 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
-                    <a @click="dropdownOpen = false" href="{{ route('inventory.export') }}" class="modal-open import-toggle w-full text-left block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white">
+                    <a @click="dropdownOpen = false" href="{{ route('inventory.export') }}" class="w-full text-left block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white">
                         Recap
                     </a>       
-                    <a @click="dropdownOpen = false"  href="{{ route('inventory.raw') }}" class="modal-open report-toggle w-full text-left block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white">
+                    <a @click="dropdownOpen = false"  href="{{ route('inventory.raw') }}" class="w-full text-left block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white">
                         Raw
                     </a>       
                 </div> 
