@@ -189,7 +189,7 @@ class RecordController extends Controller
         return redirect()->route('record.index');
     }
 
-    public function export(Request $request)
+    public function extort(Request $request)
     { 
         dd("wnet in");
         return Excel::download(new RecordExport, 'record.xlsx');
