@@ -118,7 +118,7 @@ if (Tenant::current()) {
                 Route::get('/{param}', [RecordController::class, 'paramIndex'])->name('record.param');
                 Route::post('/store', [RecordController::class, 'store'])->name('record.store');
                 Route::post('/import', [RecordController::class, 'import'])->name('record.import');
-                Route::get('/export', [RecordController::class, 'extort'])->name('record.export');
+                Route::get('/export/raw', [RecordController::class, 'export'])->name('record.export');
                 Route::post('/upload/report', [RecordController::class, 'reportUpload'])->name('record.upload.report');
                 Route::get('/download/report/{record}', [RecordController::class, 'reportDownload'])->name('record.download.report');
                 Route::post('/upload/certificate', [RecordController::class, 'certificateUpload'])->name('record.upload.certificate');
