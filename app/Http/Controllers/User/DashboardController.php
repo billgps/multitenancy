@@ -26,6 +26,7 @@ class DashboardController extends Controller
         $calibrated = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
             $query->where('calibration_status', 'Terkalibrasi');
         })->count();
+        dd($calibrated);
         $expired = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
             $query->where('calibration_status', 'Expired');
         })->count();
