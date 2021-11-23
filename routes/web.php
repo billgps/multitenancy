@@ -69,6 +69,7 @@ if (Tenant::current()) {
                 Route::get('/create', [RoomController::class, 'create'])->name('room.create');
                 Route::post('/store', [RoomController::class, 'store'])->name('room.store');
                 Route::post('/import', [RoomController::class, 'import'])->name('room.import');
+                Route::get('/export', [RoomController::class, 'export'])->name('room.export');
                 Route::get('/{id}', [RoomController::class, 'show'])->name('room.show');
                 Route::get('/edit/{room}', [RoomController::class, 'edit'])->name('room.edit');
                 Route::post('/update/{room}', [RoomController::class, 'update'])->name('room.update');
@@ -80,6 +81,7 @@ if (Tenant::current()) {
                 Route::get('/create', [BrandController::class, 'create'])->name('brand.create');
                 Route::post('/store', [BrandController::class, 'store'])->name('brand.store');
                 Route::post('/import', [BrandController::class, 'import'])->name('brand.import');
+                Route::get('/export', [BrandController::class, 'export'])->name('brand.export');
                 Route::get('/{id}', [BrandController::class, 'show'])->name('brand.show');
                 Route::get('/edit/{brand}', [BrandController::class, 'edit'])->name('brand.edit');
                 Route::post('/update/{brand}', [BrandController::class, 'update'])->name('brand.update');
@@ -91,7 +93,7 @@ if (Tenant::current()) {
                 Route::get('/create', [IdentityController::class, 'create'])->name('identity.create');
                 Route::post('/store', [IdentityController::class, 'store'])->name('identity.store');
                 Route::post('/import', [IdentityController::class, 'import'])->name('identity.import');
-                // Route::get('/{id}', [IdentityController::class, 'show'])->name('identity.show');
+                Route::get('/export', [IdentityController::class, 'export'])->name('identity.export');
                 Route::get('/download/manual/{identity}', [IdentityController::class, 'manualDownload'])->name('identity.download.manual');
                 Route::get('/download/procedure/{identity}', [IdentityController::class, 'procedureDownload'])->name('identity.download.procedure');
                 Route::get('/edit/{identity}', [IdentityController::class, 'edit'])->name('identity.edit');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Exports\BrandExport;
 use App\Http\Controllers\Controller;
 use App\Imports\BrandImport;
 use App\Models\Brand;
@@ -125,6 +126,11 @@ class BrandController extends Controller
         Excel::import(new BrandImport, request()->file('file'));
 
         return redirect()->route('brand.index')->with('success', 'Data Imported');
+    }
+
+    public function export(Request $request)
+    { 
+        return Excel::download(new BrandExport, 'brand.xlsx');
     }
 
     public function ajax(Request $request)

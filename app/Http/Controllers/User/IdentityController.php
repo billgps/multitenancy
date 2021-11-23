@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Exports\IdentityExport;
 use App\Http\Controllers\Controller;
 use App\Imports\IdentityImport;
 use App\Models\Brand;
@@ -183,6 +184,11 @@ class IdentityController extends Controller
         Excel::import(new IdentityImport, request()->file('file'));
 
         return redirect()-> route('identity.index')->with('success', 'Data Imported');
+    }
+
+    public function export(Request $request)
+    { 
+        return Excel::download(new IdentityExport, 'identity.xlsx');
     }
 
     public function manualDownload (Identity $identity)

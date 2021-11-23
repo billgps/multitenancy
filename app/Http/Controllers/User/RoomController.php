@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Exports\RoomExport;
 use App\Http\Controllers\Controller;
 use App\Imports\RoomImport;
 use App\Models\Room;
@@ -132,5 +133,10 @@ class RoomController extends Controller
         Excel::import(new RoomImport, request()->file('file'));
 
         return redirect()->route('room.index')->with('success', 'Data Imported');
+    }
+
+    public function export(Request $request)
+    { 
+        return Excel::download(new RoomExport, 'room.xlsx');
     }
 }
