@@ -113,6 +113,7 @@ if (Tenant::current()) {
                 Route::get('/', [RecordController::class, 'index'])->name('record.index');
                 Route::get('/create/{inventory?}', [RecordController::class, 'create'])->name('record.create');
                 Route::get('/{param}', [RecordController::class, 'paramIndex'])->name('record.param');
+                Route::get('/export', [RecordController::class, 'export'])->name('record.export');
                 Route::post('/store', [RecordController::class, 'store'])->name('record.store');
                 Route::post('/import', [RecordController::class, 'import'])->name('record.import');
                 Route::post('/upload/report', [RecordController::class, 'reportUpload'])->name('record.upload.report');
@@ -123,7 +124,6 @@ if (Tenant::current()) {
                 Route::get('/edit/{record}', [RecordController::class, 'edit'])->name('record.edit');
                 Route::post('/update/{record}', [RecordController::class, 'update'])->name('record.update');
                 Route::get('/delete/{record}', [RecordController::class, 'destroy'])->name('record.delete');
-                Route::get('/export', [RecordController::class, 'export'])->name('record.export');
             });
 
             Route::prefix('condition')->group(function () {
