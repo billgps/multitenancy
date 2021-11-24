@@ -14,9 +14,16 @@
                 <a href="{{ route('complain.delete', ['complain' => $complain->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
                     <i class="fas fa-trash-alt"></i>
                 </a>   
-                <a href="{{ route('response.edit', ['response' => $complain->response->id]) }}" class="ml-auto mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
-                    <i class="fas fa-edit"></i>
-                </a>      
+                @empty($complain->response->id)
+                    <a href="{{ route('response.create', ['complain' => $complain->id]) }}" class="ml-auto mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
+                        <i class="fas fa-plus-circle"></i>
+                    </a>  
+                @endempty
+                @isset($complain->response->id)
+                    <a href="{{ route('response.edit', ['response' => $complain->response->id]) }}" class="ml-auto mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                @endisset      
                 {{-- <div class="ml-auto my-auto flex text-xs">
                     <input class="h-8 rounded-r-none text-xs text-gray-800 w-full px-2 rounded-md focus:ring-0 border-none" id="search_" type="text" placeholder="Search..." name="search" />
                     <button type="button" class="h-8 rounded-l-none w-20 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-gray-100 uppercase tracking-widest hover:text-gray-800 hover:bg-gray-400 active:bg-gray-900 focus:outline-none disabled:opacity-25 transition ease-in-out duration-150">

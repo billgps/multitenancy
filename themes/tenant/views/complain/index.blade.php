@@ -280,16 +280,17 @@
                         viewIcon.classList.add('fas', 'fa-eye')
                         viewLink.appendChild(viewIcon)
 
-                        if (user == 1) {
-                            let editContainer = document.createElement('div')
-                            editContainer.classList.add('w-4', 'mr-2', 'transform', 'hover:text-purple-500', 'hover:scale-110')
-                            container.appendChild(editContainer)
-                            let editLink = document.createElement('a')
-                            editLink.href = window.location.origin + '/response/create/' + data
-                            editContainer.appendChild(editLink)
-                            let editIcon = document.createElement('i')
-                            editIcon.classList.add('fas', 'fa-edit')
-                            editLink.appendChild(editIcon)
+                        if (user <= 1) {
+                            // console.log(data);
+                            // let editContainer = document.createElement('div')
+                            // editContainer.classList.add('w-4', 'mr-2', 'transform', 'hover:text-purple-500', 'hover:scale-110')
+                            // container.appendChild(editContainer)
+                            // let editLink = document.createElement('a')
+                            // editLink.href = window.location.origin + '/response/create/' + data
+                            // editContainer.appendChild(editLink)
+                            // let editIcon = document.createElement('i')
+                            // editIcon.classList.add('fas', 'fa-edit')
+                            // editLink.appendChild(editIcon)
                         } else {
                             let deleteContainer = document.createElement('div')
                             deleteContainer.classList.add('w-4', 'mr-2', 'transform', 'hover:text-purple-500', 'hover:scale-110')

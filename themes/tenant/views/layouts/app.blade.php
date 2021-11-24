@@ -369,7 +369,7 @@
                             Submit a Ticket
                         </a>
                         {{-- <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="">
-                            Respon
+                            Response
                         </a> --}}
                     </div>
                 </div>
