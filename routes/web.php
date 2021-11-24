@@ -191,7 +191,9 @@ if (Tenant::current()) {
             });
         });
     });
-} else {
+} 
+
+else if (Tenant::current() == null) {
     Route::get('/', function () {
         return redirect()->route('administrator.dashboard');
     });

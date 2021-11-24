@@ -19,6 +19,7 @@ class ThemeSelectorMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (Tenant::current()) {
+            app('currentTenant');
             Theme::set('tenant');
         } else {
             Theme::set('host');
