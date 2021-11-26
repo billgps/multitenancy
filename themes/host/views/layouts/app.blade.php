@@ -109,8 +109,8 @@
                 <div x-data="{ open: false }">
                     <button @click="open = !open" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
                         <span class="flex items-center">
-                            <i class="material-icons">inventory</i>
-                            <span class="mx-4 text-left">Calibrator Management</span>
+                            <i class="material-icons">ios_share</i>
+                            <span class="mx-4">ASPAK</span>
                         </span>
 
                         <span>
@@ -122,25 +122,19 @@
                     </button>
 
                     <div x-show="open" class="bg-gray-700">
-                        <a class="py-2 px-14 block text-sm text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('tenant.create') }}">
+                        <a class="py-2 pl-14 block text-sm text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('tenant.create') }}">
                             <span class="flex">
-                                <i class="material-icons mr-2">handyman</i>
-                                Calibrators
+                                <i class="material-icons mr-2">star_border</i>
+                                Map Code
                             </span>
                         </a>
-                        <a class="py-2 px-14 block text-sm text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('tenant.create') }}">
+                    </div>
+                    <div x-show="open" class="bg-gray-700">
+                        <a class="py-2 pl-14 block text-sm text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('tenant.create') }}">
                             <span class="flex">
-                                <i class="material-icons mr-2">add</i>
-                                Add
+                                <i class="material-icons mr-2">queue</i>
+                                Queue Sync
                             </span>
-                        </a>
-                        <a class="py-2 px-14 block text-sm text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('tenant.create') }}">
-                            <i class="fas fa-plus mr-2"></i>
-                            Check In
-                        </a>
-                        <a class="py-2 px-14 block text-sm text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('tenant.create') }}">
-                            <i class="fas fa-plus mr-2"></i>
-                            Check Out
                         </a>
                     </div>
                 </div>

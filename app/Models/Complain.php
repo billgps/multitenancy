@@ -19,6 +19,7 @@ class Complain extends Model
     public function response()
     {
         return $this->hasOne('App\Models\Response')->withDefault([
+            'progress_status' => 'Pending',
             'created_at' => 0
         ]);
     }
