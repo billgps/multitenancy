@@ -48,8 +48,6 @@
                         <tbody class="text-gray-600 text-sm font-light">
                             @foreach ($devices as $device)
                                 <tr class="hover:bg-gray-100">
-                                    <input name="inventory['id']" type="hidden" value="{{ $device->id }}">
-                                    <input id="code_for_{{ $device->id }}" name="inventory['code']" type="hidden" value="">
                                     <td class="py-3 px-6 items-start text-left">
                                         {{ $device->standard_name }}
                                     </td>
@@ -126,19 +124,31 @@
 
 <div id="nomenclature-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
     <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-    <div class="modal-container bg-gray-800 text-gray-300 w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+    <div class="modal-container bg-gray-800 text-gray-300 w-2/5 mx-auto rounded shadow-lg z-50 overflow-y-auto">
         <div class="modal-content py-4 text-left px-6">
             <div class="flex justify-between items-center pb-3 text-lg">
                 Referensi Nomenklatur ASPAK
             </div>
-            <form action="{{ route('device.import') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('aspak.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="input_paramter" value="device">
+                <input type="hidden" name="input_parameter" value="device">
+                <input id="device_id" name="id" type="hidden" value="">
                 <div class="text-xs">
                     <div class="flex flex-col col-span-2">
-                        <label class="block text-sm text-gray-00" for="device_id">Pencarian Manual</label>
-                        <div class="py-2 text-left">
-                            <select style="width: 90%;" id="nomenclature_code" class="text-sm bg-gray-20 focus:outline-none block w-full px-3">
+                        <div class="w-full h-80 overflow-y-auto">
+                            <div class="flex my-1">
+                                <div class="w-4/5 h-10 py-3 px-1">
+                                    <p></p>
+                                </div>
+                                <div class="w-1/5 h-10 text-right p-3">
+                                    <p class="text-sm text-grey-dark">Member</p>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="text-center my-6"> or Search Manually </span>
+                        {{-- <label class="block text-sm text-gray-00" for="device_id">Pencarian Manual</label> --}}
+                        <div class="py-2 w-80">
+                            <select style="width: 90%;" id="nomenclature_code" name="code_" class="text-center text-sm bg-gray-20 focus:outline-none block w-full px-3">
                                 <option></option>
                                 @foreach ($nomenclatures as $n)
                                     <option value="{{ $n->code }}">{{ $n->name }}</option>
@@ -155,7 +165,7 @@
                         </div>
                     </div>
                     <div class="flex w-full justify-end pt-2">
-                        <input type="submit" value="{{ __('Upload') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
+                        <input type="submit" value="{{ __('Map') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
                         <button onclick="toggleModal(this, 'nomenclature-toggle', 'nomenclature-modal')" type="button" class="modal-close nomenclature-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
                     </div>
                 </div>
@@ -211,12 +221,33 @@
                 url: "/ajax/aspak-map/" + button.id,
                 success: function (data) {
                     console.log(data);
+                    document.getElementById('device_id').value = button.id
                     toggleModal(button, toggle, modal)
                 },
                 error: function (error) {
                     console.log(error)
                 }
             })
+        }
+
+        function populateRow (data) {
+            let row = table.insertRow()
+            row.classList.add('border-b', 'border-gray-500')
+            let barcode = row.insertCell()
+            barcode.classList.add('py-3', 'px-6', 'text-left', 'whitespace-nowrap')
+            barcode.innerHTML = data.barcode
+            let name = row.insertCell()
+            name.classList.add('py-3', 'px-6', 'text-left', 'whitespace-nowrap')
+            name.innerHTML = data.item.name
+            let brand = row.insertCell()
+            brand.classList.add('py-3', 'px-6', 'text-left', 'whitespace-nowrap')
+            brand.innerHTML = data.brand.name
+            let model = row.insertCell()
+            model.classList.add('py-3', 'px-6', 'text-left', 'whitespace-nowrap')
+            model.innerHTML = data.model.model
+            let serial = row.insertCell()
+            serial.classList.add('py-3', 'px-6', 'text-left', 'whitespace-nowrap')
+            serial.innerHTML = data.serial
         }
     })
 </script>

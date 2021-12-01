@@ -187,8 +187,9 @@ if (Tenant::current()) {
             Route::prefix('aspak')->group(function () {
                 Route::get('/', [ASPAKController::class, 'index'])->name('aspak.map');
                 Route::get('/create/{id}', [ASPAKController::class, 'create'])->name('aspak.create');
-                Route::post('/map/device/{device}', [ASPAKController::class, 'bulkMap'])->name('aspak.bulk');
-                Route::post('/map/inventory/{inventory}', [ASPAKController::class, 'singleMap'])->name('aspak.single');
+                Route::post('/store', [ASPAKController::class, 'store'])->name('aspak.store');
+                // Route::post('/map/device/{device}', [ASPAKController::class, 'bulkMap'])->name('aspak.bulk');
+                // Route::post('/map/inventory/{inventory}', [ASPAKController::class, 'singleMap'])->name('aspak.single');
             });
 
             Route::prefix('ajax')->group(function () {

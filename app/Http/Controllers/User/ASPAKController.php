@@ -35,6 +35,25 @@ class ASPAKController extends Controller
         return view('aspak.create', ['invo' => $invo, 'nomenclatures' => $nomenclatures]);
     }
 
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'id' => 'numeric|required',
+            'input_parameter' => 'string|required',
+            'code_'  => 'numeric|required'
+        ]);
+
+        if ($validated) {
+            if ($request->input_parameter == 'device') {
+                Inventory::where('device_id', $request->id)->update(['aspak_code' => $request->code_]);
+            } else {
+                Inventory::where('id', $request->id)->update(['aspak_code' => $request->code_]);
+            }
+
+            return back()->with('success', 'Code berhasil ditambahkan');
+        }
+    }
+
     public function ajaxMap(Device $device)
     {
         // $similar = Nomenclature::where('name', 'like', '%'.$device->standard_name.'%')->get();
