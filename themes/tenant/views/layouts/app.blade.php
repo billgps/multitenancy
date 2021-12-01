@@ -374,7 +374,7 @@
                     </div>
                 </div>
                 <div>
-                    <a href="http://aspak.kemkes.go.id/monitoring/" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
+                    <a href="{{ route('aspak.map') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
                         <span class="flex items-center">
                             <i class="fas fa-share-square"></i>
                             <span class="mx-4">ASPAK</span>

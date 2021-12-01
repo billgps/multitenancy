@@ -17,6 +17,7 @@ class AlterInventoriesTable extends Migration
         {
             $table->string('aspak_code')->nullable()->after('id');
             $table->boolean('is_verified')->after('aspak_code')->default(false);
+            $table->integer('payload_id')->nullable();
         });
     }
 

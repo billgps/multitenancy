@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TenantController;
+use App\Http\Controllers\User\ASPAKController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\User\AssetController;
 use App\Http\Controllers\User\BrandController;
@@ -183,11 +184,20 @@ if (Tenant::current()) {
                 // Route::get('/delete/{response}', [ResponseController::class, 'destroy'])->name('response.delete');
             });
 
+            Route::prefix('aspak')->group(function () {
+                Route::get('/', [ASPAKController::class, 'index'])->name('aspak.map');
+                Route::get('/create/{id}', [ASPAKController::class, 'create'])->name('aspak.create');
+                Route::post('/map/device/{device}', [ASPAKController::class, 'bulkMap'])->name('aspak.bulk');
+                Route::post('/map/inventory/{inventory}', [ASPAKController::class, 'singleMap'])->name('aspak.single');
+            });
+
             Route::prefix('ajax')->group(function () {
                 Route::get('/identities', [IdentityController::class, 'ajax'])->name('identity.ajax');
                 Route::get('/brands', [BrandController::class, 'ajax'])->name('brand.ajax');
                 Route::get('/complaints', [ComplainController::class, 'ajax'])->name('complain.ajax');
                 Route::get('/notifications', [NotificationController::class, 'ajax'])->name('notification.ajax');
+                // Route::get('/aspak-details/{id}', [ASPAKController::class, 'ajaxGetDetails'])->name('aspak.details');
+                Route::get('/aspak-map/{device}', [ASPAKController::class, 'ajaxMap'])->name('aspak.nomenclature');
             });
         });
     });
