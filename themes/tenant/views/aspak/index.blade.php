@@ -1,6 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    .progress {
+        background: rgba(255,255,255,0.1);
+        justify-content: flex-start;
+        border-radius: 100px;
+        align-items: center;
+        position: relative;
+        padding: 0 5px;
+        display: flex;
+        height: 40px;
+        width: 200px;
+    }
+
+    .progress-value {
+        /* animation: load 3s normal forwards; */
+        border-radius: 100px;
+        background: rgb(0, 143, 0);
+        height: 20px;
+        width: 100%;
+    }
+
+    /* @keyframes load {
+        0% { width: 0; }
+        100% { width: 68%; }
+    } */
+</style>
 <main class="sm:container sm:mx-auto sm:mt-6 overflow-y-auto">
     <div class="w-full sm:px-6">
 
@@ -43,7 +69,6 @@
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <th class="py-3 px-6">Nama Alat</th>
                                 <th class="py-3 px-6">Tersinkron</th>
-                                <th class="py-3 px-6">Jumlah</th>
                                 <th class="py-3 px-6">Action</th>
                             </tr>
                         </thead>
@@ -53,24 +78,33 @@
                                     <td class="py-3 px-6 items-start text-left">
                                         @if ($device->mapped == $device->total)
                                             <span class="w-4 mr-2 transform hover:text-purple-500">
-                                                <i class="text-green-500 mx-2 far fa-circle"></i>
+                                                <i class="text-green-500 mx-2 fas fa-circle"></i>
                                             </span>
                                         @elseif ($device->mapped < $device->total && $device->mapped > 0)
                                             <span class="w-4 mr-2 transform hover:text-purple-500">
-                                                <i class="text-yellow-500 mx-2 far fa-circle"></i>
+                                                <i class="text-yellow-500 mx-2 fas fa-circle"></i>
                                             </span>
                                         @else
                                             <span class="w-4 mr-2 transform hover:text-purple-500">
-                                                <i class="text-red-500 mx-2 far fa-circle"></i>
+                                                <i class="text-red-500 mx-2 fas fa-circle"></i>
                                             </span>
                                         @endif
                                         {{ $device->standard_name }}
                                     </td>
-                                    <td class="py-3 px-6 text-center text-green-500">
-                                        {{ $device->mapped }}
-                                    </td>
                                     <td class="py-3 px-6 text-center">
-                                        {{ $device->total }}
+                                        <div class="progress mx-auto">
+                                            <div class="progress-value flex" style="width: {{ ($device->mapped * 100) / $device->total }}%">
+                                                @if ($device->mapped == 0)
+                                                <p class="text-xs mx-auto font-semibold my-auto text-gray-600">
+                                                    {{ $device->mapped.'/'.$device->total }}
+                                                </p>
+                                                @else
+                                                <p class="text-xs mx-auto font-semibold my-auto text-white">
+                                                    {{ $device->mapped.'/'.$device->total }}
+                                                </p>
+                                                @endif
+                                            </div>
+                                        </div>
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">
@@ -145,7 +179,7 @@
 
 <div id="nomenclature-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
     <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-    <div class="modal-container bg-gray-800 text-gray-300 w-2/5 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+    <div class="modal-container bg-gray-800 text-gray-300 w-3/5 mx-auto rounded shadow-lg z-50 overflow-y-auto">
         <div class="modal-content py-4 text-left px-6">
             <div class="flex justify-between items-center pb-3 text-lg">
                 Referensi Nomenklatur ASPAK
@@ -156,8 +190,12 @@
                 <input id="device_id" name="id" type="hidden" value="">
                 <div class="text-xs">
                     <div class="flex flex-col col-span-2">
-                        <span class="text-center my-6"> Suggested Nomenclatures </span>
-                        <div id="suggestionList" class="w-full h-80 overflow-y-auto">
+                        <span class="text-center text-sm my-6"> Pick from <span class="font-semibold">Suggested Nomenclatures,</span> 
+                            <span class="text-center my-6"> or  
+                                <button type="button" onclick="manualModal(this, 'manual-toggle', 'manual-modal')" class="hover:text-purple-500 modal-open manual-toggle">Search Manually</button>
+                            </span>
+                        </span>
+                        <div id="suggestionList" class="w-full h-96 my-6 overflow-y-auto bg-gray-700 shadow-inner">
                             <div class="flex my-1">
                                 <div class="w-4/5 h-10 py-3 px-1">
                                 </div>
@@ -166,12 +204,32 @@
                                 </div>
                             </div>
                         </div>
-                        <span class="text-center my-6"> or  
-                            <button type="button" id="disableToggle">Search Manually</button>
-                        </span>
-                        {{-- <label class="block text-sm text-gray-00" for="device_id">Pencarian Manual</label> --}}
-                        <div class="py-2 w-80">
-                            <select disabled style="width: 90%;" id="nomenclature_code" name="code_" class="text-center text-sm bg-gray-20 focus:outline-none block w-full px-3">
+                    </div>
+                    <div class="flex w-full justify-end pt-2">
+                        <input type="submit" value="{{ __('Submit') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
+                        <button onclick="toggleModal(this, 'nomenclature-toggle', 'nomenclature-modal')" type="button" class="modal-close nomenclature-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="manual-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+    <div class="modal-container bg-gray-800 text-gray-300 w-2/5 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        <div class="modal-content py-4 text-left px-6">
+            <div class="flex justify-between items-center pb-3 text-lg">
+                Manual Search
+            </div>
+            <form action="{{ route('aspak.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="input_parameter" value="device">
+                <input id="device_id_manual" name="id" type="hidden" value="">
+                <div class="text-xs">
+                    <div class="flex flex-col col-span-2">
+                        <div class="py-2 w-full">
+                            <select style="width: 100%;" id="nomenclature_code" name="code_" class="text-center text-sm bg-gray-20 focus:outline-none block w-full px-3">
                                 <option></option>
                                 @foreach ($nomenclatures as $n)
                                     <option value="{{ $n->code }}">{{ $n->name }}</option>
@@ -189,7 +247,7 @@
                     </div>
                     <div class="flex w-full justify-end pt-2">
                         <input type="submit" value="{{ __('Submit') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
-                        <button onclick="toggleModal(this, 'nomenclature-toggle', 'nomenclature-modal')" type="button" class="modal-close nomenclature-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
+                        <button onclick="toggleModal(this, 'manual-toggle', 'manual-modal')" type="button" class="modal-close manual-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
                     </div>
                 </div>
             </form>
@@ -220,6 +278,12 @@
         body.classList.toggle('modal-active')
     }
 
+    function manualModal(button, toggle, modal) {
+        console.log(document.getElementById('device_id').value);
+        document.getElementById('device_id_manual').value = document.getElementById('device_id').value
+        toggleModal(button, toggle, modal)
+    }
+
     $(document).ready(function() {
         let nomenclatures = document.querySelectorAll('.nomenclature-toggle.modal-open')
         for (let i = 0; i < nomenclatures.length; i++) {
@@ -230,6 +294,7 @@
         }
 
         let toggleBtn = document.getElementById('disableToggle')
+        console.log(document.getElementById('nomenclature_code').disabled);
         toggleBtn.onclick = function () {
             toggleDisable(document.getElementById('nomenclature_code').disabled)
         }
@@ -242,8 +307,16 @@
                     console.log(data);
                     let list = document.getElementById('suggestionList')
                     list.innerHTML = ''
-                    for (let i = 0; i < data.data.length; i++) {
-                        populateRow(list, data.data[i])                        
+                    if (data.data.length > 0) {
+                        for (let i = 0; i < data.data.length; i++) {
+                            populateRow(list, data.data[i])                        
+                        }
+                    } else {
+                        let par = document.createElement('span')
+                        par.classList.add('text-center', 'flex', 'justify-center', 'mt-6')
+                        par.innerHTML = 'No Suggested Entry'
+
+                        list.appendChild(par)
                     }
                     document.getElementById('device_id').value = button.id
                     toggleModal(button, toggle, modal)
@@ -256,20 +329,20 @@
 
         function populateRow (list, data) {
             let container = document.createElement('div')
-            container.classList.add('flex', 'my-1')
+            container.classList.add('flex', 'hover:bg-gray-800', 'px-3', 'cursor-pointer', 'max-h-full', 'font-semibold')
 
             let text = document.createElement('div')
             text.classList.add('w-4/5', 'h-10', 'py-3', 'px-1')
             text.innerHTML = data.name
 
-            let button = document.createElement('input')
-            button.type = 'radio'
-            button.classList.add('form-radio', 'h-5', 'w-5', 'my-2', 'text-gray-600')
-            button.name = 'code_'
-            button.value = data.code
+            // let button = document.createElement('input')
+            // button.type = 'radio'
+            // button.classList.add('form-radio', 'h-5', 'w-5', 'my-2', 'text-gray-600')
+            // button.name = 'code_'
+            // button.value = data.code
 
             container.appendChild(text)
-            container.appendChild(button)
+            // container.appendChild(button)
             list.appendChild(container)
         }
 
@@ -281,6 +354,7 @@
 
             let manual = document.getElementById('nomenclature_code')
             manual.disabled = !toggle
+            manual.hidden = !toggle
         }
     })
 </script>
