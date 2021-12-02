@@ -62,14 +62,14 @@ class RecordController extends Controller
 
             if ($report != null) {
                 $reportName = $report->getClientOriginalName();
-                $report->move(public_path().'/report/', $reportName);
+                $report->move(public_path().'/report/'.Tenant::current()->domain, $request->label.'L.'.$report->guessExtension());  
             } else {
                 $reportName = 'Belum Update';
             }
 
             if ($certificate != null) {
                 $certificateName = $certificate->getClientOriginalName();
-                $certificate->move(public_path().'/certificate/', $certificateName);
+                $certificate->move(public_path().'/certificate/'.Tenant::current()->domain, $request->label.'C.'.$certificate->guessExtension());  
             } else {
                 $certificateName = 'Belum Update';
             }
@@ -157,11 +157,11 @@ class RecordController extends Controller
             $record->inventory_id = $request->inventory_id;
             if ($report) {
                 $record->report = $request->label.'L.'.$report->guessExtension();
-                $report->move(public_path().'/report/', $request->label.'L.'.$report->guessExtension());
+                $report->move(public_path().'/report/'.Tenant::current()->domain, $record->label.'L.'.$report->guessExtension());  
             }
             if ($certificate) {
                 $record->certificate = $request->label.'C.'.$certificate->guessExtension();
-                $certificate->move(public_path().'/certificate/', $request->label.'C.'.$certificate->guessExtension());
+                $certificate->move(public_path().'/certificate/'.Tenant::current()->domain, $record->label.'C.'.$certificate->guessExtension());  
             }
             $record->update();
 
