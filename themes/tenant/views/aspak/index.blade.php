@@ -42,6 +42,8 @@
                         <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <th class="py-3 px-6">Nama Alat</th>
+                                <th class="py-3 px-6">Tersinkron</th>
+                                <th class="py-3 px-6">Jumlah</th>
                                 <th class="py-3 px-6">Action</th>
                             </tr>
                         </thead>
@@ -49,7 +51,26 @@
                             @foreach ($devices as $device)
                                 <tr class="hover:bg-gray-100">
                                     <td class="py-3 px-6 items-start text-left">
+                                        @if ($device->mapped == $device->total)
+                                            <span class="w-4 mr-2 transform hover:text-purple-500">
+                                                <i class="text-green-500 mx-2 far fa-circle"></i>
+                                            </span>
+                                        @elseif ($device->mapped < $device->total && $device->mapped > 0)
+                                            <span class="w-4 mr-2 transform hover:text-purple-500">
+                                                <i class="text-yellow-500 mx-2 far fa-circle"></i>
+                                            </span>
+                                        @else
+                                            <span class="w-4 mr-2 transform hover:text-purple-500">
+                                                <i class="text-red-500 mx-2 far fa-circle"></i>
+                                            </span>
+                                        @endif
                                         {{ $device->standard_name }}
+                                    </td>
+                                    <td class="py-3 px-6 text-center text-green-500">
+                                        {{ $device->mapped }}
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        {{ $device->total }}
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">
@@ -135,20 +156,22 @@
                 <input id="device_id" name="id" type="hidden" value="">
                 <div class="text-xs">
                     <div class="flex flex-col col-span-2">
-                        <div class="w-full h-80 overflow-y-auto">
+                        <span class="text-center my-6"> Suggested Nomenclatures </span>
+                        <div id="suggestionList" class="w-full h-80 overflow-y-auto">
                             <div class="flex my-1">
                                 <div class="w-4/5 h-10 py-3 px-1">
-                                    <p></p>
                                 </div>
                                 <div class="w-1/5 h-10 text-right p-3">
                                     <p class="text-sm text-grey-dark">Member</p>
                                 </div>
                             </div>
                         </div>
-                        <span class="text-center my-6"> or Search Manually </span>
+                        <span class="text-center my-6"> or  
+                            <button type="button" id="disableToggle">Search Manually</button>
+                        </span>
                         {{-- <label class="block text-sm text-gray-00" for="device_id">Pencarian Manual</label> --}}
                         <div class="py-2 w-80">
-                            <select style="width: 90%;" id="nomenclature_code" name="code_" class="text-center text-sm bg-gray-20 focus:outline-none block w-full px-3">
+                            <select disabled style="width: 90%;" id="nomenclature_code" name="code_" class="text-center text-sm bg-gray-20 focus:outline-none block w-full px-3">
                                 <option></option>
                                 @foreach ($nomenclatures as $n)
                                     <option value="{{ $n->code }}">{{ $n->name }}</option>
@@ -165,7 +188,7 @@
                         </div>
                     </div>
                     <div class="flex w-full justify-end pt-2">
-                        <input type="submit" value="{{ __('Map') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
+                        <input type="submit" value="{{ __('Submit') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
                         <button onclick="toggleModal(this, 'nomenclature-toggle', 'nomenclature-modal')" type="button" class="modal-close nomenclature-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
                     </div>
                 </div>
@@ -187,7 +210,6 @@
     }
     
     function toggleModal (button, toggle, modal) {
-        console.log(button.id);
         const body = document.querySelector('body')
         if (button.classList.contains(toggle)) {
             modal = document.getElementById(modal)
@@ -199,14 +221,6 @@
     }
 
     $(document).ready(function() {
-        let details = document.querySelectorAll('.detail-toggle.modal-open')
-        for (let i = 0; i < details.length; i++) {
-            details[i].addEventListener('click', function (event) {
-                event.preventDefault()
-                getDetails(this, 'detail-toggle', 'detail-modal')
-            })
-        }
-
         let nomenclatures = document.querySelectorAll('.nomenclature-toggle.modal-open')
         for (let i = 0; i < nomenclatures.length; i++) {
             nomenclatures[i].addEventListener('click', function (event) {
@@ -215,12 +229,22 @@
             })
         }
 
+        let toggleBtn = document.getElementById('disableToggle')
+        toggleBtn.onclick = function () {
+            toggleDisable(document.getElementById('nomenclature_code').disabled)
+        }
+
         function getNomenclature(button, toggle, modal) {
             $.ajax({
                 type: "GET",
                 url: "/ajax/aspak-map/" + button.id,
                 success: function (data) {
                     console.log(data);
+                    let list = document.getElementById('suggestionList')
+                    list.innerHTML = ''
+                    for (let i = 0; i < data.data.length; i++) {
+                        populateRow(list, data.data[i])                        
+                    }
                     document.getElementById('device_id').value = button.id
                     toggleModal(button, toggle, modal)
                 },
@@ -230,24 +254,33 @@
             })
         }
 
-        function populateRow (data) {
-            let row = table.insertRow()
-            row.classList.add('border-b', 'border-gray-500')
-            let barcode = row.insertCell()
-            barcode.classList.add('py-3', 'px-6', 'text-left', 'whitespace-nowrap')
-            barcode.innerHTML = data.barcode
-            let name = row.insertCell()
-            name.classList.add('py-3', 'px-6', 'text-left', 'whitespace-nowrap')
-            name.innerHTML = data.item.name
-            let brand = row.insertCell()
-            brand.classList.add('py-3', 'px-6', 'text-left', 'whitespace-nowrap')
-            brand.innerHTML = data.brand.name
-            let model = row.insertCell()
-            model.classList.add('py-3', 'px-6', 'text-left', 'whitespace-nowrap')
-            model.innerHTML = data.model.model
-            let serial = row.insertCell()
-            serial.classList.add('py-3', 'px-6', 'text-left', 'whitespace-nowrap')
-            serial.innerHTML = data.serial
+        function populateRow (list, data) {
+            let container = document.createElement('div')
+            container.classList.add('flex', 'my-1')
+
+            let text = document.createElement('div')
+            text.classList.add('w-4/5', 'h-10', 'py-3', 'px-1')
+            text.innerHTML = data.name
+
+            let button = document.createElement('input')
+            button.type = 'radio'
+            button.classList.add('form-radio', 'h-5', 'w-5', 'my-2', 'text-gray-600')
+            button.name = 'code_'
+            button.value = data.code
+
+            container.appendChild(text)
+            container.appendChild(button)
+            list.appendChild(container)
+        }
+
+        function toggleDisable (toggle) {
+            let radios = document.getElementsByClassName('form-radio')
+            for (let i = 0; i < radios.length; i++) {
+                radios[i].disabled = toggle                
+            }
+
+            let manual = document.getElementById('nomenclature_code')
+            manual.disabled = !toggle
         }
     })
 </script>
