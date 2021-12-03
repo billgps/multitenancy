@@ -283,6 +283,14 @@
                         </span>
                     </a>
                 </div>
+                <div>
+                    <a href="{{ route('activity.index') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
+                        <span class="flex items-center">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span class="mx-4">Kegiatan Kalibrasi</span>
+                        </span>
+                    </a>
+                </div>
                 <div x-data="{ open: false }">
                     <button @click="open = !open" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
                         <span class="flex items-center">

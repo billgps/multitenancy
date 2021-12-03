@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TenantController;
+use App\Http\Controllers\User\ActivityController;
 use App\Http\Controllers\User\ASPAKController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\User\AssetController;
@@ -182,6 +183,15 @@ if (Tenant::current()) {
                 Route::get('/edit/{response}', [ResponseController::class, 'edit'])->name('response.edit');
                 Route::post('/update/{response}', [ResponseController::class, 'update'])->name('response.update');
                 // Route::get('/delete/{response}', [ResponseController::class, 'destroy'])->name('response.delete');
+            });
+
+            Route::prefix('activity')->group(function () {
+                Route::get('/', [ActivityController::class, 'index'])->name('activity.index');
+                Route::get('/create/{inventory?}', [ActivityController::class, 'create'])->name('activity.create');
+                Route::post('/store', [ActivityController::class, 'store'])->name('activity.store');
+                Route::get('/edit/{activity}', [ActivityController::class, 'edit'])->name('activity.edit');
+                Route::post('/update/{activity}', [ActivityController::class, 'update'])->name('activity.update');
+                Route::get('/delete/{activity}', [ActivityController::class, 'destroy'])->name('activity.delete');
             });
 
             Route::prefix('aspak')->group(function () {
