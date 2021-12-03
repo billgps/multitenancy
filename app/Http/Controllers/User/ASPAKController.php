@@ -41,7 +41,7 @@ class ASPAKController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'id' => 'numeric|required',
+            'id' => 'required',
             'input_parameter' => 'string|required',
             'code_'  => 'numeric|required'
         ]);

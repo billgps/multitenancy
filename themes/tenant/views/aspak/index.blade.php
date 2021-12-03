@@ -188,6 +188,7 @@
                 @csrf
                 <input type="hidden" name="input_parameter" value="device">
                 <input id="device_id" name="id" type="hidden" value="">
+                <input id="code_suggested" type="hidden" name="code_" value="">
                 <div class="text-xs">
                     <div class="flex flex-col col-span-2">
                         <span class="text-center text-sm my-6"> Pick from <span class="font-semibold">Suggested Nomenclatures,</span> 
@@ -329,20 +330,23 @@
 
         function populateRow (list, data) {
             let container = document.createElement('div')
-            container.classList.add('flex', 'hover:bg-gray-800', 'px-3', 'cursor-pointer', 'max-h-full', 'font-semibold')
+            container.classList.add('suggestions', 'flex', 'hover:bg-gray-800', 'px-3', 'cursor-pointer', 'max-h-full', 'font-semibold')
+            container.id = data.code
+            container.onclick = function () {
+                document.getElementById('code_suggested').value = data.code
+                let sugs = document.getElementsByClassName('suggestions')
+                for (let i = 0; i < sugs.length; i++) {
+                    sugs[i].classList.remove('bg-gray-800')                    
+                }
+                
+                this.classList.add('bg-gray-800')
+            }
 
             let text = document.createElement('div')
             text.classList.add('w-4/5', 'h-10', 'py-3', 'px-1')
             text.innerHTML = data.name
 
-            // let button = document.createElement('input')
-            // button.type = 'radio'
-            // button.classList.add('form-radio', 'h-5', 'w-5', 'my-2', 'text-gray-600')
-            // button.name = 'code_'
-            // button.value = data.code
-
             container.appendChild(text)
-            // container.appendChild(button)
             list.appendChild(container)
         }
 
