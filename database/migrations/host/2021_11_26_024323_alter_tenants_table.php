@@ -14,7 +14,7 @@ class AlterTenantsTable extends Migration
     public function up()
     {
         Schema::table('tenants', function($table) {
-            $table->string('public_code')->unique()->after('code');
+            $table->string('public_code')->nullable()->after('code');
         });   
     }
 
