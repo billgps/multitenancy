@@ -14,9 +14,9 @@
             <div class="col-span-6 px-2 sm:px-6 md:px-2 py-3 my-3">
                 <div class="grid grid-cols-12 gap-3">
                     <!-- Meta Column -->
-                    <div class="col-span-0 sm:col-span-2 items-center h-full text-center flex">        
+                    <div class="col-span-0 sm:col-span-2 items-center text-center flex">        
                         <!-- Answer Counts -->
-                        <a href="#" class="text-green-500 grid grid-rows-2 mx-auto py-1 w-4/5 2lg:w-3/5">
+                        <a href="#" class="text-green-500 flex flex-col mx-auto py-1 w-4/5 2lg:w-3/5">
                             <div class="inline-block font-medium text-5xl">
                                 12
                             </div>
@@ -35,25 +35,13 @@
                             </span>
                             <span class="flex mr-2">
                                 <div class="flex item-center justify-center">
-                                    <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                        <a href="">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                    </div>
                                     @if (Auth::user()->role < 2)
                                         <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                             <a href="">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                         </div>
-                                    @endif
-                                    @if (Auth::user()->role < 1)
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <a href="">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
-                                        </div>
-                                    @endif    
+                                    @endif 
                                 </div>
                             </span>
                         </div>

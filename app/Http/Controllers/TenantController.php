@@ -39,6 +39,7 @@ class TenantController extends Controller
         $validated = $request->validate([
             'name' => 'required|max:255',
             'code' => 'required',
+            'public_code' => 'required',
             'address' => 'required',
             'database' => 'required',
             'domain' => 'required',
@@ -56,6 +57,7 @@ class TenantController extends Controller
             $tenant = new Tenant();
             $tenant->name = $request->name;
             $tenant->code = $request->code;
+            $tenant->public_code = $request->public_code;
             $tenant->address = $request->address;
             $tenant->database = $request->database;
             $tenant->domain = $request->domain.'.'.substr(env('APP_URL'), 7);
