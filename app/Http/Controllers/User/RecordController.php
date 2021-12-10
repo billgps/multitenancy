@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Exports\RecordExport;
 use App\Http\Controllers\Controller;
 use App\Imports\RecordImport;
+use App\Models\Activity;
 use App\Models\Inventory;
 use App\Models\Record;
 use Illuminate\Http\Request;
@@ -79,6 +80,7 @@ class RecordController extends Controller
             $record->label = $request->label;
             $record->calibration_status = $request->calibration_status;
             $record->result = $request->result;
+            $record->activity_id = Activity::active()->id;
             $record->certificate = $certificateName;
             $record->report = $reportName;
             $record->vendor = 'PT Global Promedika Services';

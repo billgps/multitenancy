@@ -12,68 +12,70 @@
 
         <section class="sm:grid sm:grid-cols-6 sm:gap-2 break-words">
             <div class="col-span-6 px-2 sm:px-6 md:px-2 py-3 my-3">
-                <div class="grid grid-cols-12 gap-3">
-                    <!-- Meta Column -->
-                    <div class="col-span-0 sm:col-span-2 items-center text-center flex">        
-                        <!-- Answer Counts -->
-                        <a href="#" class="text-green-500 flex flex-col mx-auto py-1 w-4/5 2lg:w-3/5">
-                            <div class="inline-block font-medium text-5xl">
-                                12
-                            </div>
-    
-                            <div class="inline-block font-medium mx-1 text-xs">
-                                Entries
-                            </div>
-                        </a>
-                    </div>
-        
-                    <!-- Summary Column -->
-                    <div class="col-span-12 sm:col-start-3 sm:col-end-13 px-3 sm:px-0">
-                        <div class="flex justify-between items-center">
-                            <span class="font-light text-gray-600">
-                                created_at
-                            </span>
-                            <span class="flex mr-2">
-                                <div class="flex item-center justify-center">
-                                    @if (Auth::user()->role < 2)
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <a href="">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </div>
-                                    @endif 
+                @isset($active)
+                    <div class="grid grid-cols-12 gap-3">
+                        <!-- Meta Column -->
+                        <div class="col-span-0 sm:col-span-2 items-center text-center flex">        
+                            <!-- Answer Counts -->
+                            <a href="#" class="text-green-500 flex flex-col mx-auto py-1 w-4/5 2lg:w-3/5">
+                                <div class="inline-block font-medium text-5xl">
+                                    12
                                 </div>
-                            </span>
+        
+                                <div class="inline-block font-medium mx-1 text-xs">
+                                    Entries
+                                </div>
+                            </a>
                         </div>
-        
-                        <div class="mt-2">
-                            <span>
-                                <a href="{{ route('user.dashboard') }}" class="sm:text-sm md:text-md lg:text-lg text-gray-700 font-bold hover:underline">
-                                    customer name
-                                </a>
+            
+                        <!-- Summary Column -->
+                        <div class="col-span-12 sm:col-start-3 sm:col-end-13 px-3 sm:px-0">
+                            <div class="flex justify-between items-center">
+                                <span class="font-light text-gray-600">
+                                    {{ $active->created_at }}
+                                </span>
+                                <span class="flex mr-2">
+                                    <div class="flex item-center justify-center">
+                                        @if (Auth::user()->role < 2)
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <a href="">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </div>
+                                        @endif 
+                                    </div>
+                                </span>
+                            </div>
+            
+                            <div class="mt-2">
+                                <span>
+                                    <a href="{{ route('user.dashboard') }}" class="sm:text-sm md:text-md lg:text-lg text-gray-700 font-bold hover:underline">
+                                        customer_name
+                                    </a>
 
-                                <a href="#" class="inline-block rounded-full text-white 
-                                    bg-red-400 hover:bg-red-500 duration-300 
-                                    text-xs font-bold 
-                                    mx-2 mb-2 px-2 md:px-4 py-1 
-                                    opacity-90 hover:opacity-100">
-                                    Caching
-                                </a>
-                            </span>
-        
-                            <p class="mt-1 text-gray-600 text-xs">
-                                Nomor PO : 
-                            </p>
-                            <p class="mt-1 text-gray-600 text-xs">
-                                Tanggal Mulai Pekerjaan : 
-                            </p>
+                                    <a href="#" class="inline-block rounded-full text-white 
+                                        bg-red-400 hover:bg-red-500 duration-300 
+                                        text-xs font-bold 
+                                        mx-2 mb-2 px-2 md:px-4 py-1 
+                                        opacity-90 hover:opacity-100">
+                                        {{ $active->status }}
+                                    </a>
+                                </span>
+            
+                                <p class="mt-1 text-gray-600 text-xs">
+                                    Nomor PO : {{ $active->order_no }}
+                                </p>
+                                <p class="mt-1 text-gray-600 text-xs">
+                                    Tanggal Mulai Pekerjaan : {{ $active->started_at }}
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endisset
             </div>
             <div class="col-span-6 h-12 flex items-center py-2 px-4 bg-gray-200" x-data="{ dropdownOpen: false }">
                 @if (Auth::user()->role < 2)
-                    <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('condition.create') }}">
+                    <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('activity.create') }}">
                         <i class="fas fa-plus"></i>
                     </a>
                 @endif   

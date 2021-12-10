@@ -23,13 +23,36 @@
                     <div class="">
                         <label class="block mb-2 text-sm text-gray-00" for="brand">Nomor PO</label>
                         <div class="py-2 text-left">
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="brand" name="brand" type="text" required>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="order_no" name="order_no" type="text" required>
                         </div>
                     </div>
                     <div class="row-start-2">
-                        <label class="block mb-2 text-sm text-gray-00" for="origin">Asal</label>
+                        <label class="block mb-2 text-sm text-gray-00" for="origin">Tanggal Mulai</label>
                         <div class="py-2 text-left">
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="origin" name="origin" type="text" required>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="started_at" name="started_at" type="date" required>
+                        </div>
+                    </div>
+                    <div class="row-start-2">
+                        <label class="block mb-2 text-sm text-gray-00" for="origin">Tanggal Selesai</label>
+                        <div class="py-2 text-left">
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="finished_at" name="finished_at" type="date" required>
+                        </div>
+                    </div>
+                    <div class="row-start-2">
+                        <label class="block mb-2 text-sm text-gray-00" for="origin">Tahun Aktif</label>
+                        <div class="py-2 text-left">
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="active_at" name="active_at" type="number" required>
+                        </div>
+                    </div>
+                    <div class="">
+                        <label class="block mb-2 text-sm text-gray-00" for="status">Status</label>
+                        <div class="py-2 text-left">
+                            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="status" id="status" required>
+                                <option value="on going">On Going</option>
+                                <option value="queued">Waiting List</option>
+                                <option value="on hold">On Hold</option>
+                                <option value="finished">Finished</option>
+                            </select>
                         </div>
                     </div>
                 </div>

@@ -9,5 +9,15 @@ class Activity extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['facility_code', 'name', 'order_no', 'started_at', 'finished_at'];
+    protected $fillable = ['facility_code', 'name', 'order_no', 'started_at', 'finished_at', 'active_at', 'is_active'];
+
+    public function records ()
+    {
+        return $this->hasMany(Record::class);
+    }
+
+    public static function active () : Activity
+    {
+        return Activity::where('is_active', true)->first();
+    }
 }

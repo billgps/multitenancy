@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterInventoriesTableAddActivityId extends Migration
+class UpdateRecordsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class AlterInventoriesTableAddActivityId extends Migration
      */
     public function up()
     {
-        Schema::table('inventories', function($table)
-        {
-            $table->unsignedBigInt('activity_id');
+        Schema::table('records', function ($table) {
+            $table->unsignedBigInteger('activity_id')->after('result');
 
-            $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
+            // $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
         });
     }
 

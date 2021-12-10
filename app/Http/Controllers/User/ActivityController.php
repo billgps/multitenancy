@@ -4,7 +4,10 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
+use App\Models\Record;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ActivityController extends Controller
 {
@@ -15,7 +18,10 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        return view('activity.index');
+        $active = Activity::where('is_active', true)->first();
+        $history = Activity::where('is_active', false)->get();
+
+        return view('activity.index', ['active' => $active, 'history' => $history]);
     }
 
     /**
@@ -25,7 +31,7 @@ class ActivityController extends Controller
      */
     public function create()
     {
-        //
+        return view('activity.create');
     }
 
     /**
@@ -36,7 +42,37 @@ class ActivityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'started_at' => 'date',
+            'order_no' => 'required|string|max:255',
+            'finished_at' => 'date',
+            'active_at' => 'required|numeric',
+            'status' => 'required|in:on going,finished,queued,on hold'
+        ]);
+
+        if ($validated) {
+            if ($request->active_at == date('Y')) {
+                $is_active = true;
+            } else {
+                $is_active = false;
+            }
+
+            // dd(intVal($request->active_at));
+
+            $activity = Activity::create([
+                'order_no' => $request->order_no,
+                'started_at' => $request->started_at,
+                'finished_at' => $request->finished_at,
+                'active_at' => intVal($request->active_at),
+                'status' => $request->status,
+                'is_active' => $is_active
+            ]);
+
+            $query = "UPDATE records SET `activity_id`=".$activity->id." WHERE YEAR (`cal_date`) = ".$request->active_at;
+            DB::update($query);
+
+            return redirect()->route('activity.index');
+        }
     }
 
     /**
