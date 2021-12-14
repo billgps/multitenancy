@@ -53,24 +53,10 @@ class ActivityController extends Controller
         ]);
 
         $client = new Client([
-            'base_uri' => '	http://aspak.kemkes.go.id/monitoring/gps'
+            'base_uri' => 'http://aspak.kemkes.go.id/monitoring/gps/'
         ]);
 
         $token = 'xcdfae';
-
-        $response = $client->request('POST', 'create?ipid=IP3173002', [
-            'headers'=> [
-                'Authorization' => 'Bearer '.$token,        
-                'Accept'        => 'application/json'
-            ],
-            'form_params' => [
-                'Data[no]' => $request->order_no,
-                'Data[tgl]' => $request->started_at,
-                'Data[faskes]' => Tenant::current()->aspak_id
-            ]
-        ]);
-
-        dd($response->getBody());
 
         if ($validated) {
             if ($request->active_at == date('Y')) {
@@ -79,10 +65,23 @@ class ActivityController extends Controller
                 $is_active = false;
             }
 
-            // dd(intVal($request->active_at));
+            $response = $client->request('POST', 'create?ipid=IP3173002', [
+                'headers'=> [
+                    'Authorization' => 'Bearer '.$token,        
+                    'Accept'        => 'application/json'
+                ],
+                'form_params' => [
+                    'Data[no]' => $request->order_no,
+                    'Data[tgl]' => $request->started_at,
+                    'Data[faskes]' => Tenant::current()->aspak_id
+                ]
+            ]);
+    
+            $content = json_decode($response->getBody()->getContents());
 
             $activity = Activity::create([
                 'order_no' => $request->order_no,
+                'aspak_id' => $content->data->id,
                 'started_at' => $request->started_at,
                 'finished_at' => $request->finished_at,
                 'active_at' => intVal($request->active_at),

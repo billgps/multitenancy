@@ -9,7 +9,7 @@ class Activity extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['facility_code', 'name', 'order_no', 'started_at', 'finished_at', 'active_at', 'is_active'];
+    protected $fillable = ['facility_code', 'name', 'order_no', 'started_at', 'finished_at', 'active_at', 'is_active', 'aspak_id'];
 
     public function records ()
     {
