@@ -7,8 +7,11 @@ use App\Models\Brand;
 use App\Models\Device;
 use App\Models\Inventory;
 use App\Models\Nomenclature;
+use App\Models\Queue;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Multitenancy\Models\Tenant;
 
 class ASPAKController extends Controller
 {
@@ -48,10 +51,16 @@ class ASPAKController extends Controller
 
         if ($validated) {
             if ($request->input_parameter == 'device') {
-                Inventory::where('device_id', $request->id)->update(['aspak_code' => $request->code_]);
+                $inventories = Inventory::where('device_id', $request->id)->get();
             } else {
-                Inventory::where('id', $request->id)->update(['aspak_code' => $request->code_]);
+                $inventories = Inventory::where('id', $request->id);
             }
+
+            foreach ($inventories as $inv) {
+                $inv->update(['aspak_code' => $request->code_]);
+            }
+
+            $this->apiMap($inventories);
 
             return back()->with('success', 'Code berhasil ditambahkan');
         }
@@ -64,5 +73,65 @@ class ASPAKController extends Controller
         $similar = DB::connection('host')->select($query);
 
         return response()->json(['data' => $similar], 200);
+    }
+
+    function apiMap(Collection $inventories)
+    {
+        $payload = array();
+        $counter = 0;
+        $batch   = 0;
+
+        foreach ($inventories as $inv) {
+            if ($inv->latest_record->result == 'Laik') {
+                $laik = 1;
+            } else {
+                $laik = 0;
+            }
+
+            $array = [
+                'cd_alat' => $inv->aspak_code,
+                'cd_ruang' => 0,
+                'sn' => $inv->serial,
+                'merk' => $inv->brand->brand,
+                'tipe' => $inv->identity->model,
+                'tgl' => $inv->latest_record->cal_date,
+                'laik' => $laik,
+                'petugas' => 'Null',
+                'tgl_ser' => $inv->latest_record->cal_date,
+                'cttn' => '-',
+                'metode' => 0,
+                'lokasi' => $inv->room->room_name,
+                'no_ser' => $inv->latest_record->label
+            ];
+
+            if ($counter < 10) {
+                if ($inventories[($batch * 10) + ($counter + 1)] == null) {
+                    dd($inventories[$batch * $counter]);
+                    array_push($payload, json_encode($array));
+                    Queue::create([
+                        'status' => 'queue',
+                        'payload' => json_encode($payload),
+                        'tenant_id' => Tenant::current()->id
+                    ]);
+                } else {
+                    array_push($payload, json_encode($array));
+                    $counter++;
+                }
+            } else {
+                Queue::create([
+                    'status' => 'queue',
+                    'payload' => json_encode($payload),
+                    'tenant_id' => Tenant::current()->id
+                ]);
+
+                $payload = array();
+                array_push($payload, json_encode($array));
+
+                $batch++;
+                $counter = 0;
+            }
+        }
+
+        return 0;
     }
 }
