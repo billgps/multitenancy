@@ -8,6 +8,8 @@ use App\Models\Record;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use GuzzleHttp\Client;
+use Spatie\Multitenancy\Models\Tenant;
 
 class ActivityController extends Controller
 {
@@ -49,6 +51,26 @@ class ActivityController extends Controller
             'active_at' => 'required|numeric',
             'status' => 'required|in:on going,finished,queued,on hold'
         ]);
+
+        $client = new Client([
+            'base_uri' => '	http://aspak.kemkes.go.id/monitoring/gps'
+        ]);
+
+        $token = 'xcdfae';
+
+        $response = $client->request('POST', 'create?ipid=IP3173002', [
+            'headers'=> [
+                'Authorization' => 'Bearer '.$token,        
+                'Accept'        => 'application/json'
+            ],
+            'form_params' => [
+                'Data[no]' => $request->order_no,
+                'Data[tgl]' => $request->started_at,
+                'Data[faskes]' => Tenant::current()->aspak_id
+            ]
+        ]);
+
+        dd($response->getBody());
 
         if ($validated) {
             if ($request->active_at == date('Y')) {
