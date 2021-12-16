@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('calibration:update')->everyMinute();
+        $schedule->command('sync:aspak')->everyFiveMinutes();
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Activity;
 use App\Models\Brand;
 use App\Models\Device;
 use App\Models\Inventory;
@@ -52,12 +53,10 @@ class ASPAKController extends Controller
         if ($validated) {
             if ($request->input_parameter == 'device') {
                 $inventories = Inventory::where('device_id', $request->id)->get();
+                Inventory::where('device_id', $request->id)->update(['aspak_code' => $request->code_]);
             } else {
-                $inventories = Inventory::where('id', $request->id);
-            }
-
-            foreach ($inventories as $inv) {
-                $inv->update(['aspak_code' => $request->code_]);
+                $inventories = Inventory::where('device_id', $request->id)->get();
+                Inventory::where('id', $request->id)->update(['aspak_code' => $request->code_]);
             }
 
             $this->apiMap($inventories);
@@ -79,7 +78,6 @@ class ASPAKController extends Controller
     {
         $payload = array();
         $counter = 0;
-        $batch   = 0;
 
         foreach ($inventories as $inv) {
             if ($inv->latest_record->result == 'Laik') {
@@ -104,31 +102,37 @@ class ASPAKController extends Controller
                 'no_ser' => $inv->latest_record->label
             ];
 
-            if ($counter < 10) {
-                if ($inventories[($batch * 10) + ($counter + 1)] == null) {
-                    dd($inventories[$batch * $counter]);
-                    array_push($payload, json_encode($array));
-                    Queue::create([
-                        'status' => 'queue',
-                        'payload' => json_encode($payload),
-                        'tenant_id' => Tenant::current()->id
-                    ]);
-                } else {
-                    array_push($payload, json_encode($array));
-                    $counter++;
-                }
-            } else {
+            if (count($payload) % 10 == 0 && $counter != 0) {
+                $counter++;
                 Queue::create([
                     'status' => 'queue',
                     'payload' => json_encode($payload),
-                    'tenant_id' => Tenant::current()->id
+                    'activity_id' => Activity::active()->aspak_id
                 ]);
 
                 $payload = array();
                 array_push($payload, json_encode($array));
 
-                $batch++;
-                $counter = 0;
+                if (count($inventories) === $counter) {
+                    array_push($payload, json_encode($array));
+                    Queue::create([
+                        'status' => 'queue',
+                        'payload' => json_encode($payload),
+                        'activity_id' => Activity::active()->aspak_id
+                    ]);
+                }
+            } else {
+                if (count($inventories) - 1 === $counter) {
+                    array_push($payload, json_encode($array));
+                    Queue::create([
+                        'status' => 'queue',
+                        'payload' => json_encode($payload),
+                        'activity_id' => Activity::active()->aspak_id
+                    ]);
+                } else {
+                    array_push($payload, json_encode($array));
+                    $counter++;
+                }
             }
         }
 
