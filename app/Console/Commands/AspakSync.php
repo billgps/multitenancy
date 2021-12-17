@@ -46,6 +46,10 @@ class AspakSync extends Command
     public function handle()
     {
         $queues = Queue::where('status', 'queue')->orderBy('created_at', 'asc')->first();
+
+        if (!$queues) {
+            return "there is no queue";
+        }
         
         if ($queues->activity_id) {
             $token = 'xcdfae';

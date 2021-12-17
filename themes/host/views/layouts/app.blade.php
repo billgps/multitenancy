@@ -59,14 +59,14 @@
         }
     </style> --}}
 </head>
-<body class="h-screen font-sans antialiased leading-none bg-gray-100 sm:overflow-hidden" x-data="{isClose: false, notification: false}">
+<body class="h-screen font-sans antialiased leading-none bg-gray-200 sm:overflow-auto" x-data="{isClose: false, notification: false}">
     <header class="bg-white shadow w-full h-14">
         <div class="flex mx-auto py-4 px-6 sm:px-3">
             <span class="ml-6 hover:text-purple-500">
                 <i @click="isClose=!isClose" class="mr-3 cursor-pointer fi-rr-menu-burger"></i>
             </span>
             Dashboard
-            <div class="ml-auto mr-6">
+            <div class="ml-auto mr-6 flex">
                 <span class="mx-2 lg:mx-6">
                     <button onclick="markAsRead()" @click="notification = !notification" class="relative z-10 hover:text-purple-500 focus:outline-none">
                         @if(Session::get('notifications'))
@@ -112,7 +112,25 @@
                         </div>
                     </div>
                 </span>
-                {{ Auth::user()->name }}
+
+                <script>
+                    function markAsRead() {
+                        $.ajax({
+                            type: "GET",
+                            url: "{{ route('notification.ajax') }}",
+                            success: function (data) {
+                                console.log(data);
+                            },
+                            error: function (error) {
+                                console.log(error)
+                            }
+                        })
+                    }
+                </script>
+
+                <span class="hidden lg:block">
+                    {{ Auth::user()->name }}
+                </span>
             </div>
         </div>
     </header>
