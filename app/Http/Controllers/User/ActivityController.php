@@ -78,22 +78,25 @@ class ActivityController extends Controller
             ]);
     
             $content = json_decode($response->getBody()->getContents());
-            dd($content);
 
-            $activity = Activity::create([
-                'order_no' => $request->order_no,
-                'aspak_id' => $content->data->id,
-                'started_at' => $request->started_at,
-                'finished_at' => $request->finished_at,
-                'active_at' => intVal($request->active_at),
-                'status' => $request->status,
-                'is_active' => $is_active
-            ]);
-
-            $query = "UPDATE records SET `activity_id`=".$activity->id." WHERE YEAR (`cal_date`) = ".$request->active_at;
-            DB::update($query);
-
-            return redirect()->route('activity.index');
+            if ($content->success) {
+                $activity = Activity::create([
+                    'order_no' => $request->order_no,
+                    'aspak_id' => $content->data->id,
+                    'started_at' => $request->started_at,
+                    'finished_at' => $request->finished_at,
+                    'active_at' => intVal($request->active_at),
+                    'status' => $request->status,
+                    'is_active' => $is_active
+                ]);
+    
+                $query = "UPDATE records SET `activity_id`=".$activity->id." WHERE YEAR (`cal_date`) = ".$request->active_at;
+                DB::update($query);
+    
+                return redirect()->route('activity.index');
+            } else {
+                return back()->with('error', $content->msg);
+            }
         }
     }
 
