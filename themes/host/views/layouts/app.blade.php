@@ -59,7 +59,7 @@
         }
     </style> --}}
 </head>
-<body class="h-screen font-sans antialiased leading-none bg-gray-100 sm:overflow-hidden" x-data="{isClose: false}">
+<body class="h-screen font-sans antialiased leading-none bg-gray-100 sm:overflow-hidden" x-data="{isClose: false, notification: false}">
     <header class="bg-white shadow w-full h-14">
         <div class="flex mx-auto py-4 px-6 sm:px-3">
             <span class="ml-6 hover:text-purple-500">
@@ -67,6 +67,51 @@
             </span>
             Dashboard
             <div class="ml-auto mr-6">
+                <span class="mx-2 lg:mx-6">
+                    <button onclick="markAsRead()" @click="notification = !notification" class="relative z-10 hover:text-purple-500 focus:outline-none">
+                        @if(Session::get('notifications'))
+                            <span id="badge" class="badge pl-1 bg-red-800 rounded-full text-center text-white text-xs mr-1">
+                                @if (Session::get('notifications')->count() < 99)
+                                    {{ Session::get('notifications')->count() }}
+                                @else
+                                    99+
+                                @endif
+                            </span>
+                        @endif
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <div x-show="notification" @click="notification = false" class="fixed inset-0 h-full w-full z-10"></div>
+    
+                    <div x-show="notification" class="absolute top-9 right-28 mt-2 py-2 px-2 w-64 h-96 overflow-auto bg-white rounded-md shadow-xl z-20">
+                        @if(Session::get('notifications'))
+                            @foreach (Session::get('notifications') as $notification)
+                                <div class="flex flex-col">
+                                    <div class="text-sm mt-3">
+                                        {{ $notification->data['title'] }}
+                                    </div>
+                                    <div class="text-xs mt-1">
+                                        {{ $notification->data['message'] }}
+                                    </div>
+                                    <div class="flex justify-center mt-1 py-1 w-full hover:text-purple-500 border-b border-gray-500 border-opacity-60">
+                                        <a href="{{ $notification->data['url'] }}">
+                                            <i class="fas fa-eye fa-xs"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="text-sm w-full flex justify-center">
+                                No new notifications
+                            </div>
+                        @endif
+
+                        <div class="w-full flex mt-6 justify-center text-xs hover:text-purple-500">
+                            <a href="">
+                                See all
+                            </a>
+                        </div>
+                    </div>
+                </span>
                 {{ Auth::user()->name }}
             </div>
         </div>

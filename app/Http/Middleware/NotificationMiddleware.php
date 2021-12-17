@@ -2,10 +2,12 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Administrator;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Multitenancy\Models\Tenant;
 use Illuminate\Support\Facades\Notification;
 
 class NotificationMiddleware
@@ -20,7 +22,12 @@ class NotificationMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (Auth::user()) {
-            $user = User::find(Auth::user()->id);
+            if (Tenant::current()) {
+                $user = User::find(Auth::user()->id);
+            } else {
+                $user = Administrator::find(Auth::user()->id);
+            }
+            
             $notifications = $user->unreadNotifications;
             $request->session()->put('notifications', $notifications);
         }

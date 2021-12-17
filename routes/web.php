@@ -215,11 +215,11 @@ if (Tenant::current()) {
 } 
 
 else if (Tenant::current() == null) {
-    Route::get('/', function () {
-        return redirect()->route('administrator.dashboard');
-    });
     Route::multiauth('Administrator', 'administrator');
-    Route::middleware(['auth:administrator'])->group(function () {
+    Route::middleware(['auth:administrator', 'notifications'])->group(function () {
+        Route::get('/', function () {
+            return redirect()->route('administrator.dashboard');
+        });
         Route::prefix('tenant')->group(function () {
             Route::get('/create', [TenantController::class, 'create'])->name('tenant.create');
             Route::post('/store', [TenantController::class, 'store'])->name('tenant.store');
