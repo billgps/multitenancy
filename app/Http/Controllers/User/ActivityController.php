@@ -73,7 +73,7 @@ class ActivityController extends Controller
                 'form_params' => [
                     'Data[no]' => $request->order_no,
                     'Data[tgl]' => $request->started_at,
-                    'Data[faskes]' => Tenant::current()->aspak_id
+                    'Data[faskes]' => Tenant::current()->public_code
                 ]
             ]);
     
