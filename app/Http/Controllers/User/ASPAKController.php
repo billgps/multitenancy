@@ -52,11 +52,11 @@ class ASPAKController extends Controller
 
         if ($validated) {
             if ($request->input_parameter == 'device') {
-                $inventories = Inventory::where('device_id', $request->id)->get();
                 Inventory::where('device_id', $request->id)->update(['aspak_code' => $request->code_]);
-            } else {
                 $inventories = Inventory::where('device_id', $request->id)->get();
+            } else {
                 Inventory::where('id', $request->id)->update(['aspak_code' => $request->code_]);
+                $inventories = Inventory::where('id', $request->id)->get();
             }
 
             $this->apiMap($inventories);
@@ -87,6 +87,7 @@ class ASPAKController extends Controller
             }
 
             $array = [
+                'inventory_id' => $inv->id,
                 'cd_alat' => $inv->aspak_code,
                 'cd_ruang' => 0,
                 'sn' => $inv->serial,

@@ -3,9 +3,13 @@
 namespace App\Console\Commands;
 
 use App\Models\Activity;
+use App\Models\Administrator;
+use App\Models\Log;
 use App\Models\Queue;
+use App\Notifications\ASPAKSyncUpdate;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Spatie\Multitenancy\Models\Tenant;
 
 class AspakSync extends Command
@@ -53,10 +57,10 @@ class AspakSync extends Command
 
             foreach (json_decode($queues->payload) as $item) {
                 $serialized .= "Data[]={$item}&";
-                array_push($codes, json_decode($item)->cd_alat);
+                array_push($codes, json_decode($item)->inventory_id);
             }
 
-            dd($codes);
+            // dd($codes);
 
             $curl = curl_init();
             curl_setopt_array($curl, array(
@@ -76,8 +80,38 @@ class AspakSync extends Command
             $error = curl_error($curl);
             curl_close($curl);
 
-            if ($response->success) {
+            if ($error == "") {
+                $log = Log::create([
+                    'queue_id' => $queues->id,
+                    'response' => json_encode($response),
+                    'error' => null,
+                ]);
+            } else {
+                $log = Log::create([
+                    'queue_id' => $queues->id,
+                    'resposne' => json_encode($response),
+                    'error' => $error,
+                ]);
+            }
 
+            $admins = Administrator::all();
+
+            if ($response->success) {
+                $queues->update([
+                    'status' => 'success'
+                ]);
+            } else {
+                $queues->update([
+                    'status' => 'failed'
+                ]);
+            }
+
+            foreach ($admins as $admin) {
+                $admin->notify(new ASPAKSyncUpdate (
+                    " item diterima : ".$response->data->accept.", item ditolak : ".$response->data->denied, 
+                    $queues->status, 
+                    $log->id 
+                ));
             }
         }
 
