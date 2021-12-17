@@ -57,6 +57,7 @@ class ActivityController extends Controller
         ]);
 
         $token = 'xcdfae';
+        Tenant::current()->public_code;
 
         if ($validated) {
             if ($request->active_at == date('Y')) {
