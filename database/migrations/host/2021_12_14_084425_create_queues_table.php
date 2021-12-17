@@ -16,6 +16,7 @@ class CreateQueuesTable extends Migration
         Schema::create('queues', function (Blueprint $table) {
             $table->id();
             $table->string('activity_id');
+            $table->unsignedBigInteger('tenant_id');
             $table->enum('status', ['queue', 'success', 'failed']);
             $table->json('payload');
             $table->json('response')->nullable();

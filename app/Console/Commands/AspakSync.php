@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Activity;
 use App\Models\Administrator;
+use App\Models\Inventory;
 use App\Models\Log;
 use App\Models\Queue;
 use App\Notifications\ASPAKSyncUpdate;
@@ -57,14 +58,10 @@ class AspakSync extends Command
                 'Authorization: Bearer '.$token       
             ];
             $serialized = "";
-            $codes = array();
 
             foreach (json_decode($queues->payload) as $item) {
                 $serialized .= "Data[]={$item}&";
-                array_push($codes, json_decode($item)->inventory_id);
             }
-
-            // dd($codes);
 
             $curl = curl_init();
             curl_setopt_array($curl, array(
@@ -93,14 +90,40 @@ class AspakSync extends Command
             } else {
                 $log = Log::create([
                     'queue_id' => $queues->id,
-                    'resposne' => json_encode($response),
+                    'response' => json_encode($response),
                     'error' => $error,
                 ]);
             }
 
-            $admins = Administrator::all();
-
             if ($response->success) {
+                Tenant::where('id', $queues->tenant_id)->get()->eachCurrent(function (Tenant $tenant) use ($queues, $response) {
+                    Tenant::current()->is($tenant); // returns true;
+
+                    preg_match_all('!\d+!', $response->msg, $message);
+                    foreach (json_decode($queues->payload) as $index => $value) {
+                        for ($i = 0; $i < count($message); $i++) {
+                            if (count($message[0]) > 0) {
+                                if (intVal($message[0][$i]) === $index) {
+                                    echo('failed:'.$index);
+                                    Inventory::where('id', json_decode($value)->inventory_id)->update([
+                                        'is_verified' => 0
+                                    ]);
+                                } else {
+                                    echo('success:'.$index);
+                                    Inventory::where('id', json_decode($value)->inventory_id)->update([
+                                        'is_verified' => 1
+                                    ]);
+                                }
+                            } else {
+                                echo('success:'.$index);
+                                Inventory::where('id', json_decode($value)->inventory_id)->update([
+                                    'is_verified' => 1
+                                ]);
+                            }
+                        }
+                    }
+                });
+
                 $queues->update([
                     'status' => 'success'
                 ]);
@@ -109,6 +132,8 @@ class AspakSync extends Command
                     'status' => 'failed'
                 ]);
             }
+
+            $admins = Administrator::all();
 
             foreach ($admins as $admin) {
                 $admin->notify(new ASPAKSyncUpdate (

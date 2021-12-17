@@ -10,5 +10,5 @@ class Queue extends Model
 {
     use HasFactory, UsesLandlordConnection;
 
-    protected $fillable = ['status', 'payload', 'activity_id'];
+    protected $fillable = ['status', 'payload', 'activity_id', 'tenant_id'];
 }
