@@ -78,6 +78,7 @@ class ActivityController extends Controller
             ]);
     
             $content = json_decode($response->getBody()->getContents());
+            dd($content);
 
             $activity = Activity::create([
                 'order_no' => $request->order_no,
