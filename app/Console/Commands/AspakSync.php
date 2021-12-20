@@ -104,18 +104,18 @@ class AspakSync extends Command
                         for ($i = 0; $i < count($message); $i++) {
                             if (count($message[0]) > 0) {
                                 if (intVal($message[0][$i]) === $index) {
-                                    echo('failed:'.$index);
+                                    // echo('failed:'.$index);
                                     Inventory::where('id', json_decode($value)->inventory_id)->update([
                                         'is_verified' => 0
                                     ]);
                                 } else {
-                                    echo('success:'.$index);
+                                    // echo('success:'.$index);
                                     Inventory::where('id', json_decode($value)->inventory_id)->update([
                                         'is_verified' => 1
                                     ]);
                                 }
                             } else {
-                                echo('success:'.$index);
+                                // echo('success:'.$index);
                                 Inventory::where('id', json_decode($value)->inventory_id)->update([
                                     'is_verified' => 1
                                 ]);
