@@ -91,7 +91,7 @@ class ASPAKController extends Controller
                 'cd_alat' => $inv->aspak_code,
                 'cd_ruang' => 0,
                 'sn' => $inv->serial,
-                'merk' => $inv->brand->brand,
+                'merk' => $inv->identity->brand->brand,
                 'tipe' => $inv->identity->model,
                 'tgl' => $inv->latest_record->cal_date,
                 'laik' => $laik,
