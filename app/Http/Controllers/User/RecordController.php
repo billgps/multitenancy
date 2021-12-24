@@ -22,9 +22,9 @@ class RecordController extends Controller
      */
     public function index()
     {
-        $abc = Inventory::get()->chunk(10);
+        // $abc = Inventory::get()->chunk(10);
 
-        dd($abc);
+        // dd($abc);
 
         $records = Record::with('inventory', 'inventory.device')->get();
 
