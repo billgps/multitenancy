@@ -154,6 +154,7 @@ class IdentityController extends Controller
             $identity->model = $request->model;
             if ($manual) {
                 $identity->manual = $request->model.'M.'.$manual->guessExtension();
+                // pake DIRECTORY_SEPARATOR untuk /
                 $manual->move(public_path().'/module/'.Tenant::current()->domain, $manual->getClientOriginalName().'M.'.$manual->guessExtension());  
             }
             if ($procedure) {
