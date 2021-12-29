@@ -32,7 +32,7 @@
                 {{ __('Create New Identiy') }}
             </header>
 
-            <form class="w-3/5 mx-auto pb-6 my-6" method="POST"
+            <form enctype="multipart/form-data" class="w-3/5 mx-auto pb-6 my-6" method="POST"
                 action="{{ route('identity.store') }}">
                 @csrf
                 <div class="sm:grid sm:grid-cols-2 sm:gap-2 sm:px-6">

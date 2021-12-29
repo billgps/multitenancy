@@ -63,25 +63,27 @@ class IdentityController extends Controller
 
             if ($manual != null) {
                 $manualName = $manual->getClientOriginalName();
-                $manual->move(public_path().'/module/'.Tenant::current()->domain.'/', $manualName);
-                $manualPath = '/module/'.Tenant::current()->domain.'/'.$manualName;
+                $manual->move(public_path().'/module/'.Tenant::current()->domain, $manualName.'M.'.$manual->guessExtension());  
+            } else {
+                $manualName = 'Belum Update';
             }
 
             if ($procedure != null) {
                 $procedureName = $procedure->getClientOriginalName();
-                $procedure->move(public_path().'/procedure/'.Tenant::current()->domain.'/', $procedureName);
-                $procedurePath = '/procedure/'.Tenant::current()->domain.'/'.$procedureName;
+                $procedure->move(public_path().'/procedure/'.Tenant::current()->domain, $procedureName.'P.'.$procedure->guessExtension());  
+            } else {
+                $procedureName = 'Belum Update';
             }
 
             $identity = new Identity();
             $identity->device_id = $request->device_id;
             $identity->brand_id = $request->brand_id;
             $identity->model = $request->model;
-            $identity->manual = ($manual != null) ? $manualPath : null;
-            $identity->procedure = ($procedure != null) ? $procedurePath : null;
+            $identity->manual = $manualName;
+            $identity->procedure = $procedureName;
             $identity->save();
 
-            if ($request->redirect != null) {
+            if ($request->modal) {
                 return back()->with('success', 'New Entry Added');
             } else {
                 return redirect()->route('identity.index')->with('success', 'New Entry Added');
@@ -151,16 +153,12 @@ class IdentityController extends Controller
             $identity->brand_id = $request->brand_id;
             $identity->model = $request->model;
             if ($manual) {
-                $manualName = $manual->getClientOriginalName();
-                $manual->move(public_path().'/module/'.Tenant::current()->domain.'/', $manualName);
-                $manualPath = '/module/'.Tenant::current()->domain.'/'.$manualName;
-                $identity->manual = $manualPath;
+                $identity->manual = $request->model.'M.'.$manual->guessExtension();
+                $manual->move(public_path().'/module/'.Tenant::current()->domain, $manual->getClientOriginalName().'M.'.$manual->guessExtension());  
             }
             if ($procedure) {
-                $procedureName = $procedure->getClientOriginalName();
-                $procedure->move(public_path().'/procedure/'.Tenant::current()->domain.'/', $procedureName);
-                $procedurePath = '/procedure/'.Tenant::current()->domain.'/'.$procedureName;
-                $identity->procedure = $procedurePath;
+                $identity->procedure = $request->model.'P.'.$procedure->guessExtension();
+                $procedure->move(public_path().'/procedure/'.Tenant::current()->domain, $procedure->getClientOriginalName().'P.'.$procedure->guessExtension());  
             }
             $identity->update();
 
@@ -193,47 +191,29 @@ class IdentityController extends Controller
 
     public function manualDownload (Identity $identity)
     {
-        // dd($path);
+        $path = public_path().'/module/'.Tenant::current()->domain.'/'.$identity->manual;
         if ($identity->manual != null) {
-            try {
-                $path = public_path().$identity->manual;
-
+            if (file_exists($path)) {
                 return response()->download($path, $identity->manual);
-            } catch (\Throwable $th) {
-                Log::error('Manual cannot be downloaded', ['id' => $identity->id]);
-
-                return back()->with('error', 'Something went wrong');
+            } else {
+                return back()->with('error', 'Something wrong');
             }
         } else {
-            // $path = public_path().'/report/'.Tenant::current()->domain.'/'.$record->report;
-            // if (file_exists($path)) {
-            //     return response()->download($path, $record->report);
-            // } else {
-                return back()->with('error', 'File does not exist');
-            // }
+            return back()->with('error', 'File does not exist');
         }
     }
 
     public function procedureDownload (Identity $identity)
     {
-        // dd($path);
+        $path = public_path().'/procedure/'.Tenant::current()->domain.'/'.$identity->procedure;
         if ($identity->procedure != null) {
-            try {
-                $path = public_path().$identity->procedure;
-
+            if (file_exists($path)) {
                 return response()->download($path, $identity->procedure);
-            } catch (\Throwable $th) {
-                Log::error('Procedure cannot be downloaded', ['id' => $identity->id]);
-
-                return back()->with('error', 'Something went wrong');
+            } else {
+                return back()->with('error', 'Something wrong');
             }
         } else {
-            // $path = public_path().'/report/'.Tenant::current()->domain.'/'.$record->report;
-            // if (file_exists($path)) {
-            //     return response()->download($path, $record->report);
-            // } else {
-                return back()->with('error', 'File does not exist');
-            // }
+            return back()->with('error', 'File does not exist');
         }
     }
 

@@ -162,6 +162,9 @@
                                     })
                                 });
                             </script>
+                            <button onclick="toggleModal(this, 'identity-toggle', 'identity-modal')" type="button" class="modal-open identity-toggle mx-2 text-green-600 hover:text-purple-500">
+                                <i class="fas fa-plus"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="flex flex-col col-span-2">
@@ -366,6 +369,85 @@
                     <div class="flex w-full justify-end pt-6">
                         <input type="submit" value="{{ __('Upload') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
                         <button onclick="toggleModal(this, 'room-toggle', 'room-modal')" type="button" class="modal-close room-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="identity-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+    <div class="modal-container bg-gray-800 text-gray-300 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        <div class="modal-content py-4 text-left px-6">
+            <div class="flex justify-between items-center pb-3 text-lg">
+                Create New Model
+            </div>
+            <form action="{{ route('identity.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="modal" value="1">
+                <div class="text-xs">
+                    <div class="sm:grid sm:grid-cols-2 sm:gap-2 sm:px-6">
+                        <div class="">
+                            <label class="block text-sm text-gray-00" for="device_id">Nama Alat</label>
+                            <div class="py-2 text-left flex">
+                                <select style="width: 90%;" id="device_id_" name="device_id" class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4">
+                                    <option></option>
+                                    @foreach ($devices as $device)
+                                        <option value="{{ $device->id }}">{{ $device->standard_name }}</option>
+                                    @endforeach
+                                </select>
+                                
+                                <script>
+                                    $(document).ready(function() {
+                                        $('#device_id_').select2({
+                                            placeholder: 'Select Device'
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                        <div class="">
+                            <label class="block text-sm text-gray-00" for="brand_id">Merk</label>
+                            <div class="py-2 text-left flex">
+                                <select style="width: 90%;" id="brand_id" name="brand_id" class="text-sm bg-gray-200 border-2 border-gray-100 focus:outline-none block w-full py-2 px-4">
+                                    <option value=""></option>
+                                    @foreach ($brands as $brand)
+                                        <option value="{{ $brand->id }}">{{ $brand->brand }}</option>
+                                    @endforeach
+                                </select>
+                                
+                                <script>
+                                    $(document).ready(function() {
+                                        $('#brand_id').select2({
+                                            placeholder: 'Select Brand'
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                        <div class="">
+                            <label class="block mb-2 text-sm text-gray-00" for="model">Tipe Alat</label>
+                            <div class="py-2 text-left">
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="model" name="model" type="text" required>
+                            </div>
+                        </div>
+                        {{-- <div class="row-start-3">
+                            <label class="block mb-2 text-sm text-gray-00" for="manual">Manual Book</label>
+                            <div class="py-2 text-left">
+                                <input class="" id="manual" name="manual" type="file">
+                            </div>
+                        </div>
+                        <div class="row-start-3">
+                            <label class="block mb-2 text-sm text-gray-00" for="procedure">Prosedur</label>
+                            <div class="py-2 text-left">
+                                <input class="" id="procedure" name="procedure" type="file">
+                            </div>
+                        </div> --}}
+                    </div>
+                    <div class="flex w-full justify-end pt-6">
+                        <input type="submit" value="{{ __('Save') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
+                        <button onclick="toggleModal(this, 'identity-toggle', 'identity-modal')" type="button" class="modal-close identity-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
                     </div>
                 </div>
             </form>

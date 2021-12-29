@@ -68,10 +68,14 @@
                                         {{ $identity->model }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $identity->manual }}
+                                        <a href="{{ route('identity.download.manual', ['identity' => $identity->id]) }}">
+                                            {{ $identity->manual }}
+                                        </a>
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $identity->procedure }}
+                                        <a href="{{ route('identity.download.procedure', ['identity' => $identity->id]) }}">
+                                            {{ $identity->procedure }}
+                                        </a>
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">

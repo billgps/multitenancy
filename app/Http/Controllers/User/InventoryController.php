@@ -41,12 +41,12 @@ class InventoryController extends Controller
     public function create()
     {
         $devices = Device::all();
-        // $brands = Brand::all();
+        $brands = Brand::all();
         $rooms = Room::all();
 
         return view('inventory.create', [
             'devices' => $devices,
-            // 'brands' => $brands,
+            'brands' => $brands,
             'rooms' => $rooms
         ]);
     }
