@@ -67,13 +67,7 @@
                                         {{ $condition->inventory_id }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        @php
-                                            $device = ""
-                                            if ($condition->inventory) {
-                                                $device = $condition->inventory->device->standard_name;
-                                            }
-                                        @endphp
-                                        {{$device}}
+                                        {{ $condition->inventory->device->standard_name }}
                                     </td>
                                     <td class="py-3 px-6">
                                         {{ $condition->event_date }}
