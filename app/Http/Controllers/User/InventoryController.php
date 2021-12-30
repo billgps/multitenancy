@@ -69,6 +69,8 @@ class InventoryController extends Controller
             'picture' => new RulesImageUpload
         ]);
 
+        $latest_id = Inventory::max('id');
+
         if ($validated) {
             $picture = $request->file('picture');
 
@@ -79,11 +81,11 @@ class InventoryController extends Controller
             // $inventory->brand_id = $request->brand_id;
             $inventory->identity_id = $request->identity_id;
             $inventory->room_id = $request->room_id;
-            dd($picture."&&".$inventory->id);
             if ($picture) {
-                $path = ($picture != null) ? Tenant::current()->domain.'/'.'picture_'.$inventory->id.'.'.$picture->guessExtension() : 'no_image.jpg';
+                $path = ($picture != null) ? Tenant::current()->domain.'/'.'picture_'.($latest_id + 1).'.'.$picture->guessExtension() : 'no_image.jpg';
                 $inventory->picture = '/images/'.$path;
-                $picture->move(public_path().'/images/'.Tenant::current()->domain.'/', 'picture_'.$inventory->id.'.'.$picture->guessExtension());
+                // dd($inventory->picture);
+                $picture->move(public_path().'/images/'.Tenant::current()->domain.'/', 'picture_'.($latest_id + 1).'.'.$picture->guessExtension());
             }
             $inventory->save();
 
