@@ -21,7 +21,7 @@ class ActivityController extends Controller
     public function index()
     {
         $active = Activity::where('is_active', true)->first();
-        $history = Activity::where('is_active', false)->get();
+        $history = Activity::where('is_active', false)->orderBy('started_at', 'desc')->get();
 
         return view('activity.index', ['active' => $active, 'history' => $history]);
     }
