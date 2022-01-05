@@ -71,6 +71,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'theme' => \Qirolab\Theme\Middleware\ThemeMiddleware::class,
-        'notifications' => \App\Http\Middleware\NotificationMiddleware::class
+        'notifications' => \App\Http\Middleware\NotificationMiddleware::class,
+        'active' => \App\Http\Middleware\ActivityCheck::class
     ];
 }

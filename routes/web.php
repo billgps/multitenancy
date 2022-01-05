@@ -38,20 +38,103 @@ if (Tenant::current()) {
             return redirect()->route('user.dashboard');
         });
         Route::middleware(['auth:user', 'notifications'])->group(function () {
-            Route::prefix('inventory')->group(function () {
-                Route::get('/', [InventoryController::class, 'index'])->name('inventory.index');
-                Route::post('/image', [InventoryController::class, 'image'])->name('inventory.image');
-                Route::get('/create', [InventoryController::class, 'create'])->name('inventory.create');
-                Route::post('/store', [InventoryController::class, 'store'])->name('inventory.store');
-                Route::get('/export', [InventoryController::class, 'export'])->name('inventory.export');
-                Route::get('/raw', [InventoryController::class, 'raw'])->name('inventory.raw');
-                Route::post('/import', [InventoryController::class, 'import'])->name('inventory.import');
-                Route::get('/{id}', [InventoryController::class, 'show'])->name('inventory.show');
-                Route::get('/edit/{inventory}', [InventoryController::class, 'edit'])->name('inventory.edit');
-                Route::post('/update/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
-                Route::get('/delete/{inventory}', [InventoryController::class, 'destroy'])->name('inventory.delete');
-                Route::get('/sort/{parameter}/{value}', [InventoryController::class, 'paramIndex'])->name('inventory.param');
-                Route::post('/search', [InventoryController::class, 'search'])->name('inventory.search');
+            Route::middleware(['active'])->group(function () {
+                Route::prefix('inventory')->group(function () {
+                    Route::get('/', [InventoryController::class, 'index'])->name('inventory.index');
+                    Route::post('/image', [InventoryController::class, 'image'])->name('inventory.image');
+                    Route::get('/create', [InventoryController::class, 'create'])->name('inventory.create');
+                    Route::post('/store', [InventoryController::class, 'store'])->name('inventory.store');
+                    Route::get('/export', [InventoryController::class, 'export'])->name('inventory.export');
+                    Route::get('/raw', [InventoryController::class, 'raw'])->name('inventory.raw');
+                    Route::post('/import', [InventoryController::class, 'import'])->name('inventory.import');
+                    Route::get('/{id}', [InventoryController::class, 'show'])->name('inventory.show');
+                    Route::get('/edit/{inventory}', [InventoryController::class, 'edit'])->name('inventory.edit');
+                    Route::post('/update/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
+                    Route::get('/delete/{inventory}', [InventoryController::class, 'destroy'])->name('inventory.delete');
+                    Route::get('/sort/{parameter}/{value}', [InventoryController::class, 'paramIndex'])->name('inventory.param');
+                    Route::post('/search', [InventoryController::class, 'search'])->name('inventory.search');
+                });
+    
+                Route::prefix('record')->group(function () {
+                    Route::get('/', [RecordController::class, 'index'])->name('record.index');
+                    Route::get('/create/{inventory?}', [RecordController::class, 'create'])->name('record.create');
+                    Route::get('/{param}', [RecordController::class, 'paramIndex'])->name('record.param');
+                    Route::post('/store', [RecordController::class, 'store'])->name('record.store');
+                    Route::post('/import', [RecordController::class, 'import'])->name('record.import');
+                    Route::get('/export/raw', [RecordController::class, 'export'])->name('record.export');
+                    Route::post('/upload/report', [RecordController::class, 'reportUpload'])->name('record.upload.report');
+                    Route::get('/download/report/{record}', [RecordController::class, 'reportDownload'])->name('record.download.report');
+                    Route::post('/upload/certificate', [RecordController::class, 'certificateUpload'])->name('record.upload.certificate');
+                    Route::get('/download/certificate/{record}', [RecordController::class, 'certificateDownload'])->name('record.download.certificate');
+                    Route::get('/edit/{record}', [RecordController::class, 'edit'])->name('record.edit');
+                    Route::post('/update/{record}', [RecordController::class, 'update'])->name('record.update');
+                    Route::get('/delete/{record}', [RecordController::class, 'destroy'])->name('record.delete');
+                });
+    
+                Route::prefix('condition')->group(function () {
+                    Route::get('/', [ConditionController::class, 'index'])->name('condition.index');
+                    Route::get('/create/{inventory?}', [ConditionController::class, 'create'])->name('condition.create');
+                    Route::get('/{condition}', [ConditionController::class, 'show'])->name('condition.show');
+                    Route::get('/{param}', [ConditionController::class, 'parameterIndex'])->name('condition.param');
+                    Route::post('/update/{condition}', [ConditionController::class, 'update'])->name('condition.update');
+                    Route::post('/store', [ConditionController::class, 'store'])->name('condition.store');
+                    Route::post('/import', [ConditionController::class, 'import'])->name('condition.import');
+                    Route::post('/upload/worksheet', [ConditionController::class, 'worksheetUpload'])->name('condition.upload.worksheet');
+                    Route::get('/download/worksheet/{condition}', [ConditionController::class, 'worksheetDownload'])->name('condition.download.worksheet');
+                    Route::get('/edit/{condition}', [ConditionController::class, 'edit'])->name('condition.edit');
+                    Route::get('/delete/{condition}', [ConditionController::class, 'destroy'])->name('condition.delete');
+                });
+    
+                Route::prefix('consumable')->group(function () {
+                    Route::get('/', [ConsumableController::class, 'index'])->name('consumable.index');
+                    Route::get('/create/{inventory?}', [ConsumableController::class, 'create'])->name('consumable.create');
+                    Route::post('/store', [ConsumableController::class, 'store'])->name('consumable.store');
+                    Route::post('/import', [ConsumableController::class, 'import'])->name('consumable.import');
+                    Route::get('/{consumable}', [ConsumableController::class, 'show'])->name('consumable.show');
+                    Route::get('/edit/{consumable}', [ConsumableController::class, 'edit'])->name('consumable.edit');
+                    Route::post('/update/{consumable}', [ConsumableController::class, 'update'])->name('consumable.update');
+                    Route::get('/delete/{consumable}', [ConsumableController::class, 'destroy'])->name('consumable.delete');
+                });
+    
+                Route::prefix('maintenance')->group(function () {
+                    Route::get('/', [MaintenanceController::class, 'index'])->name('maintenance.index');
+                    Route::get('/create/{inventory?}', [MaintenanceController::class, 'create'])->name('maintenance.create');
+                    Route::post('/store', [MaintenanceController::class, 'store'])->name('maintenance.store');
+                    Route::post('/import', [MaintenanceController::class, 'import'])->name('maintenance.import');
+                    // Route::get('/{id}', [MaintenanceController::class, 'show'])->name('maintenance.show');
+                    Route::get('/edit/{maintenance}', [MaintenanceController::class, 'edit'])->name('maintenance.edit');
+                    Route::post('/update/{maintenance}', [MaintenanceController::class, 'update'])->name('maintenance.update');
+                    Route::get('/delete/{maintenance}', [MaintenanceController::class, 'destroy'])->name('maintenance.delete');
+                });
+    
+                Route::prefix('response')->group(function () {
+                    // Route::get('/', [ResponseController::class, 'index'])->name('response.index');
+                    Route::get('/create/{complain}', [ResponseController::class, 'create'])->name('response.create');
+                    Route::post('/store', [ResponseController::class, 'store'])->name('response.store');
+                    Route::get('/{response}', [ResponseController::class, 'show'])->name('response.show');
+                    Route::get('/edit/{response}', [ResponseController::class, 'edit'])->name('response.edit');
+                    Route::post('/update/{response}', [ResponseController::class, 'update'])->name('response.update');
+                    // Route::get('/delete/{response}', [ResponseController::class, 'destroy'])->name('response.delete');
+                }); 
+
+                Route::prefix('asset')->group(function () {
+                    Route::get('/', [AssetController::class, 'index'])->name('asset.index');
+                    Route::get('/create/{inventory?}', [AssetController::class, 'create'])->name('asset.create');
+                    Route::post('/store', [AssetController::class, 'store'])->name('asset.store');
+                    Route::post('/import', [AssetController::class, 'import'])->name('asset.import');
+                    // Route::get('/{id}', [AssetController::class, 'show'])->name('asset.show');
+                    Route::get('/edit/{asset}', [AssetController::class, 'edit'])->name('asset.edit');
+                    Route::post('/update/{asset}', [AssetController::class, 'update'])->name('asset.update');
+                    Route::get('/delete/{asset}', [AssetController::class, 'destroy'])->name('asset.delete');
+                });
+
+                Route::prefix('aspak')->group(function () {
+                    Route::get('/', [ASPAKController::class, 'index'])->name('aspak.map');
+                    Route::get('/create/{id}', [ASPAKController::class, 'create'])->name('aspak.create');
+                    Route::post('/store', [ASPAKController::class, 'store'])->name('aspak.store');
+                    // Route::post('/map/device/{device}', [ASPAKController::class, 'bulkMap'])->name('aspak.bulk');
+                    // Route::post('/map/inventory/{inventory}', [ASPAKController::class, 'singleMap'])->name('aspak.single');
+                });
             });
 
             Route::prefix('device')->group(function () {
@@ -103,69 +186,6 @@ if (Tenant::current()) {
                 Route::get('/delete/{identity}', [IdentityController::class, 'destroy'])->name('identity.delete');
             });
 
-            Route::prefix('asset')->group(function () {
-                Route::get('/', [AssetController::class, 'index'])->name('asset.index');
-                Route::get('/create/{inventory?}', [AssetController::class, 'create'])->name('asset.create');
-                Route::post('/store', [AssetController::class, 'store'])->name('asset.store');
-                Route::post('/import', [AssetController::class, 'import'])->name('asset.import');
-                // Route::get('/{id}', [AssetController::class, 'show'])->name('asset.show');
-                Route::get('/edit/{asset}', [AssetController::class, 'edit'])->name('asset.edit');
-                Route::post('/update/{asset}', [AssetController::class, 'update'])->name('asset.update');
-                Route::get('/delete/{asset}', [AssetController::class, 'destroy'])->name('asset.delete');
-            });
-
-            Route::prefix('record')->group(function () {
-                Route::get('/', [RecordController::class, 'index'])->name('record.index');
-                Route::get('/create/{inventory?}', [RecordController::class, 'create'])->name('record.create');
-                Route::get('/{param}', [RecordController::class, 'paramIndex'])->name('record.param');
-                Route::post('/store', [RecordController::class, 'store'])->name('record.store');
-                Route::post('/import', [RecordController::class, 'import'])->name('record.import');
-                Route::get('/export/raw', [RecordController::class, 'export'])->name('record.export');
-                Route::post('/upload/report', [RecordController::class, 'reportUpload'])->name('record.upload.report');
-                Route::get('/download/report/{record}', [RecordController::class, 'reportDownload'])->name('record.download.report');
-                Route::post('/upload/certificate', [RecordController::class, 'certificateUpload'])->name('record.upload.certificate');
-                Route::get('/download/certificate/{record}', [RecordController::class, 'certificateDownload'])->name('record.download.certificate');
-                Route::get('/edit/{record}', [RecordController::class, 'edit'])->name('record.edit');
-                Route::post('/update/{record}', [RecordController::class, 'update'])->name('record.update');
-                Route::get('/delete/{record}', [RecordController::class, 'destroy'])->name('record.delete');
-            });
-
-            Route::prefix('condition')->group(function () {
-                Route::get('/', [ConditionController::class, 'index'])->name('condition.index');
-                Route::get('/create/{inventory?}', [ConditionController::class, 'create'])->name('condition.create');
-                Route::get('/{condition}', [ConditionController::class, 'show'])->name('condition.show');
-                Route::get('/{param}', [ConditionController::class, 'parameterIndex'])->name('condition.param');
-                Route::post('/update/{condition}', [ConditionController::class, 'update'])->name('condition.update');
-                Route::post('/store', [ConditionController::class, 'store'])->name('condition.store');
-                Route::post('/import', [ConditionController::class, 'import'])->name('condition.import');
-                Route::post('/upload/worksheet', [ConditionController::class, 'worksheetUpload'])->name('condition.upload.worksheet');
-                Route::get('/download/worksheet/{condition}', [ConditionController::class, 'worksheetDownload'])->name('condition.download.worksheet');
-                Route::get('/edit/{condition}', [ConditionController::class, 'edit'])->name('condition.edit');
-                Route::get('/delete/{condition}', [ConditionController::class, 'destroy'])->name('condition.delete');
-            });
-
-            Route::prefix('consumable')->group(function () {
-                Route::get('/', [ConsumableController::class, 'index'])->name('consumable.index');
-                Route::get('/create/{inventory?}', [ConsumableController::class, 'create'])->name('consumable.create');
-                Route::post('/store', [ConsumableController::class, 'store'])->name('consumable.store');
-                Route::post('/import', [ConsumableController::class, 'import'])->name('consumable.import');
-                Route::get('/{consumable}', [ConsumableController::class, 'show'])->name('consumable.show');
-                Route::get('/edit/{consumable}', [ConsumableController::class, 'edit'])->name('consumable.edit');
-                Route::post('/update/{consumable}', [ConsumableController::class, 'update'])->name('consumable.update');
-                Route::get('/delete/{consumable}', [ConsumableController::class, 'destroy'])->name('consumable.delete');
-            });
-
-            Route::prefix('maintenance')->group(function () {
-                Route::get('/', [MaintenanceController::class, 'index'])->name('maintenance.index');
-                Route::get('/create/{inventory?}', [MaintenanceController::class, 'create'])->name('maintenance.create');
-                Route::post('/store', [MaintenanceController::class, 'store'])->name('maintenance.store');
-                Route::post('/import', [MaintenanceController::class, 'import'])->name('maintenance.import');
-                // Route::get('/{id}', [MaintenanceController::class, 'show'])->name('maintenance.show');
-                Route::get('/edit/{maintenance}', [MaintenanceController::class, 'edit'])->name('maintenance.edit');
-                Route::post('/update/{maintenance}', [MaintenanceController::class, 'update'])->name('maintenance.update');
-                Route::get('/delete/{maintenance}', [MaintenanceController::class, 'destroy'])->name('maintenance.delete');
-            });
-
             Route::prefix('complain')->group(function () {
                 Route::get('/', [ComplainController::class, 'index'])->name('complain.index');
                 Route::get('/create', [ComplainController::class, 'create'])->name('complain.create');
@@ -175,16 +195,6 @@ if (Tenant::current()) {
                 Route::get('/delete/{complain}', [ComplainController::class, 'destroy'])->name('complain.delete');
             });
 
-            Route::prefix('response')->group(function () {
-                // Route::get('/', [ResponseController::class, 'index'])->name('response.index');
-                Route::get('/create/{complain}', [ResponseController::class, 'create'])->name('response.create');
-                Route::post('/store', [ResponseController::class, 'store'])->name('response.store');
-                Route::get('/{response}', [ResponseController::class, 'show'])->name('response.show');
-                Route::get('/edit/{response}', [ResponseController::class, 'edit'])->name('response.edit');
-                Route::post('/update/{response}', [ResponseController::class, 'update'])->name('response.update');
-                // Route::get('/delete/{response}', [ResponseController::class, 'destroy'])->name('response.delete');
-            });
-
             Route::prefix('activity')->group(function () {
                 Route::get('/', [ActivityController::class, 'index'])->name('activity.index');
                 Route::get('/create/{inventory?}', [ActivityController::class, 'create'])->name('activity.create');
@@ -192,14 +202,6 @@ if (Tenant::current()) {
                 Route::get('/edit/{activity}', [ActivityController::class, 'edit'])->name('activity.edit');
                 Route::post('/update/{activity}', [ActivityController::class, 'update'])->name('activity.update');
                 Route::get('/delete/{activity}', [ActivityController::class, 'destroy'])->name('activity.delete');
-            });
-
-            Route::prefix('aspak')->group(function () {
-                Route::get('/', [ASPAKController::class, 'index'])->name('aspak.map');
-                Route::get('/create/{id}', [ASPAKController::class, 'create'])->name('aspak.create');
-                Route::post('/store', [ASPAKController::class, 'store'])->name('aspak.store');
-                // Route::post('/map/device/{device}', [ASPAKController::class, 'bulkMap'])->name('aspak.bulk');
-                // Route::post('/map/inventory/{inventory}', [ASPAKController::class, 'singleMap'])->name('aspak.single');
             });
 
             Route::prefix('ajax')->group(function () {

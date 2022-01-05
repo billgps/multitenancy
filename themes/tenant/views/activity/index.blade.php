@@ -123,7 +123,7 @@
                             </div>
                         @endforeach
                         @else
-                        <div class="w-full flex justify-center text-gray-500">
+                        <div class="w-full flex justify-center text-gray-500 text-sm">
                             Tidak ada riwayat kegiatan
                         </div>
                     @endif

@@ -15,7 +15,8 @@
         "maatwebsite/excel": "^3.1",
         "painlesscode/breeze-multiauth": "^1.1",
         "qirolab/laravel-themer": "^1.4",
-        "spatie/laravel-multitenancy": "^2.0"
+        "spatie/laravel-multitenancy": "^2.0",
+        "spatie/laravel-permission": "^5.4"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
