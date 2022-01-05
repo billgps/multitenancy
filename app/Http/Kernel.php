@@ -72,6 +72,9 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'theme' => \Qirolab\Theme\Middleware\ThemeMiddleware::class,
         'notifications' => \App\Http\Middleware\NotificationMiddleware::class,
-        'active' => \App\Http\Middleware\ActivityCheck::class
+        'active' => \App\Http\Middleware\ActivityCheck::class,
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
     ];
 }
