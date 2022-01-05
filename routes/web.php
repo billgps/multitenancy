@@ -106,16 +106,6 @@ if (Tenant::current()) {
                     Route::post('/update/{maintenance}', [MaintenanceController::class, 'update'])->name('maintenance.update');
                     Route::get('/delete/{maintenance}', [MaintenanceController::class, 'destroy'])->name('maintenance.delete');
                 });
-    
-                Route::prefix('response')->group(function () {
-                    // Route::get('/', [ResponseController::class, 'index'])->name('response.index');
-                    Route::get('/create/{complain}', [ResponseController::class, 'create'])->name('response.create');
-                    Route::post('/store', [ResponseController::class, 'store'])->name('response.store');
-                    Route::get('/{response}', [ResponseController::class, 'show'])->name('response.show');
-                    Route::get('/edit/{response}', [ResponseController::class, 'edit'])->name('response.edit');
-                    Route::post('/update/{response}', [ResponseController::class, 'update'])->name('response.update');
-                    // Route::get('/delete/{response}', [ResponseController::class, 'destroy'])->name('response.delete');
-                }); 
 
                 Route::prefix('asset')->group(function () {
                     Route::get('/', [AssetController::class, 'index'])->name('asset.index');
@@ -194,6 +184,16 @@ if (Tenant::current()) {
                 Route::get('/edit/{complain}', [ComplainController::class, 'edit'])->name('complain.edit');
                 Route::get('/delete/{complain}', [ComplainController::class, 'destroy'])->name('complain.delete');
             });
+
+            Route::prefix('response')->group(function () {
+                // Route::get('/', [ResponseController::class, 'index'])->name('response.index');
+                Route::get('/create/{complain}', [ResponseController::class, 'create'])->name('response.create');
+                Route::post('/store', [ResponseController::class, 'store'])->name('response.store');
+                Route::get('/{response}', [ResponseController::class, 'show'])->name('response.show');
+                Route::get('/edit/{response}', [ResponseController::class, 'edit'])->name('response.edit');
+                Route::post('/update/{response}', [ResponseController::class, 'update'])->name('response.update');
+                // Route::get('/delete/{response}', [ResponseController::class, 'destroy'])->name('response.delete');
+            }); 
 
             Route::prefix('activity')->group(function () {
                 Route::get('/', [ActivityController::class, 'index'])->name('activity.index');
