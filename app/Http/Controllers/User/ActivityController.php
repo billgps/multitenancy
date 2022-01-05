@@ -45,10 +45,8 @@ class ActivityController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'started_at' => 'date',
+            'started_at' => 'required|date',
             'order_no' => 'required|string|max:255',
-            'finished_at' => 'date',
-            'active_at' => 'required|numeric',
             'status' => 'required|in:on going,finished,queued,on hold'
         ]);
 
@@ -57,10 +55,9 @@ class ActivityController extends Controller
         ]);
 
         $token = 'xcdfae';
-        // dd(Tenant::current()->public_code);
 
         if ($validated) {
-            if ($request->active_at == date('Y')) {
+            if (date('Y', strtotime($request->started_at)) == date('Y')) {
                 $is_active = true;
             } else {
                 $is_active = false;
@@ -85,13 +82,13 @@ class ActivityController extends Controller
                     'order_no' => $request->order_no,
                     'aspak_id' => $content->data->id,
                     'started_at' => $request->started_at,
-                    'finished_at' => $request->finished_at,
-                    'active_at' => intVal($request->active_at),
+                    // 'finished_at' => $request->finished_at,
+                    // 'active_at' => intVal($request->active_at),
                     'status' => $request->status,
                     'is_active' => $is_active
                 ]);
     
-                $query = "UPDATE records SET `activity_id`=".$activity->id." WHERE YEAR (`cal_date`) = ".$request->active_at;
+                $query = "UPDATE records SET `activity_id`=".$activity->id." WHERE YEAR (`cal_date`) = ".date('Y', strtotime($request->started_at));
                 DB::update($query);
     
                 return redirect()->route('activity.index');
