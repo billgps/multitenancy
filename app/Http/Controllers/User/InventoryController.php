@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Exports\InventoryDetailExport;
 use App\Exports\InventoryExport;
 use App\Exports\InventoryRawExport;
 use App\Http\Controllers\Controller;
@@ -217,6 +218,11 @@ class InventoryController extends Controller
     public function export(Request $request)
     {
         return Excel::download(new InventoryExport, 'inventory.xlsx');
+    }
+
+    public function excel(Inventory $inventory)
+    {
+        return Excel::download(new InventoryDetailExport($inventory->id), 'inventory.xlsx');
     }
 
     public function raw(Request $request)
