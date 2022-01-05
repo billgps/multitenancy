@@ -14,15 +14,17 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        User::firstOrCreate([
+        $user = User::firstOrCreate([
             'name' => 'Super User',
             'email' => 'super.user@gmail.com',
             'password' => bcrypt('password'),
-            'role' => 0,
+            // 'role' => 0,
             'phone' => '-',
             'nip' => '-',
             'position' => 'admin',
             'group' => 'admin'
         ]);
+
+        $user->assignRole('admin');
     }
 }

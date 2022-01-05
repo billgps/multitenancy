@@ -40,19 +40,31 @@ if (Tenant::current()) {
         Route::middleware(['auth:user', 'notifications'])->group(function () {
             Route::middleware(['active'])->group(function () {
                 Route::prefix('inventory')->group(function () {
-                    Route::get('/', [InventoryController::class, 'index'])->name('inventory.index');
-                    Route::post('/image', [InventoryController::class, 'image'])->name('inventory.image');
-                    Route::get('/create', [InventoryController::class, 'create'])->name('inventory.create');
-                    Route::post('/store', [InventoryController::class, 'store'])->name('inventory.store');
-                    Route::get('/export', [InventoryController::class, 'export'])->name('inventory.export');
-                    Route::get('/raw', [InventoryController::class, 'raw'])->name('inventory.raw');
-                    Route::post('/import', [InventoryController::class, 'import'])->name('inventory.import');
-                    Route::get('/{id}', [InventoryController::class, 'show'])->name('inventory.show');
-                    Route::get('/edit/{inventory}', [InventoryController::class, 'edit'])->name('inventory.edit');
-                    Route::post('/update/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
-                    Route::get('/delete/{inventory}', [InventoryController::class, 'destroy'])->name('inventory.delete');
-                    Route::get('/sort/{parameter}/{value}', [InventoryController::class, 'paramIndex'])->name('inventory.param');
-                    Route::post('/search', [InventoryController::class, 'search'])->name('inventory.search');
+                    Route::middleware(['permission:create inventory'])->group(function () {
+                        Route::get('/create', [InventoryController::class, 'create'])->name('inventory.create');
+                        Route::post('/store', [InventoryController::class, 'store'])->name('inventory.store');
+                        Route::post('/import', [InventoryController::class, 'import'])->name('inventory.import');
+                        Route::post('/image', [InventoryController::class, 'image'])->name('inventory.image');
+                    });
+
+                    Route::middleware(['permission:read inventory'])->group(function () {
+                        Route::get('/', [InventoryController::class, 'index'])->name('inventory.index');
+                        Route::get('/{id}', [InventoryController::class, 'show'])->name('inventory.show');
+                        Route::post('/search', [InventoryController::class, 'search'])->name('inventory.search');
+                        Route::get('/sort/{parameter}/{value}', [InventoryController::class, 'paramIndex'])->name('inventory.param');
+                    });
+
+                    Route::middleware(['permission:update inventory'])->group(function () {
+                        Route::get('/edit/{inventory}', [InventoryController::class, 'edit'])->name('inventory.edit');
+                        Route::post('/update/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
+                    });
+
+                    Route::middleware(['role:staff|admin'])->group(function () {
+                        Route::get('/export', [InventoryController::class, 'export'])->name('inventory.export');
+                        Route::get('/raw', [InventoryController::class, 'raw'])->name('inventory.raw');
+                    });
+
+                    Route::get('/delete/{inventory}', [InventoryController::class, 'destroy'])->middleware('permission:delete inventory')->name('inventory.delete');
                 });
     
                 Route::prefix('record')->group(function () {
@@ -106,16 +118,6 @@ if (Tenant::current()) {
                     Route::post('/update/{maintenance}', [MaintenanceController::class, 'update'])->name('maintenance.update');
                     Route::get('/delete/{maintenance}', [MaintenanceController::class, 'destroy'])->name('maintenance.delete');
                 });
-    
-                Route::prefix('response')->group(function () {
-                    // Route::get('/', [ResponseController::class, 'index'])->name('response.index');
-                    Route::get('/create/{complain}', [ResponseController::class, 'create'])->name('response.create');
-                    Route::post('/store', [ResponseController::class, 'store'])->name('response.store');
-                    Route::get('/{response}', [ResponseController::class, 'show'])->name('response.show');
-                    Route::get('/edit/{response}', [ResponseController::class, 'edit'])->name('response.edit');
-                    Route::post('/update/{response}', [ResponseController::class, 'update'])->name('response.update');
-                    // Route::get('/delete/{response}', [ResponseController::class, 'destroy'])->name('response.delete');
-                }); 
 
                 Route::prefix('asset')->group(function () {
                     Route::get('/', [AssetController::class, 'index'])->name('asset.index');
@@ -195,7 +197,17 @@ if (Tenant::current()) {
                 Route::get('/delete/{complain}', [ComplainController::class, 'destroy'])->name('complain.delete');
             });
 
-            Route::prefix('activity')->group(function () {
+            Route::prefix('response')->group(function () {
+                // Route::get('/', [ResponseController::class, 'index'])->name('response.index');
+                Route::get('/create/{complain}', [ResponseController::class, 'create'])->name('response.create');
+                Route::post('/store', [ResponseController::class, 'store'])->name('response.store');
+                Route::get('/{response}', [ResponseController::class, 'show'])->name('response.show');
+                Route::get('/edit/{response}', [ResponseController::class, 'edit'])->name('response.edit');
+                Route::post('/update/{response}', [ResponseController::class, 'update'])->name('response.update');
+                // Route::get('/delete/{response}', [ResponseController::class, 'destroy'])->name('response.delete');
+            }); 
+
+            Route::prefix('activity')->middleware('role:admin')->group(function () {
                 Route::get('/', [ActivityController::class, 'index'])->name('activity.index');
                 Route::get('/create/{inventory?}', [ActivityController::class, 'create'])->name('activity.create');
                 Route::post('/store', [ActivityController::class, 'store'])->name('activity.store');

@@ -50,7 +50,7 @@ class RegisteredUserController extends Controller
         Auth::guard('user')->login($user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'role' => $request->role,
+            // 'role' => $request->role,
             'nip' => $request->nip,
             'phone' => $request->phone,
             'position' => $request->position,
@@ -58,6 +58,18 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]));
 
+        if ($request->role == 0) {
+            $user->assignRole('admin');
+        } 
+
+        else if ($request->role == 1) {
+            $user->assignRole('staff');
+        }
+        
+        else {
+            $user->assignRole('visit');
+        }
+    
         VerifyEmail::createUrlUsing(function ($notifiable) {
             return URL::temporarySignedRoute(
                 'user.verification.verify',
