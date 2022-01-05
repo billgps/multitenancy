@@ -40,31 +40,24 @@ if (Tenant::current()) {
         Route::middleware(['auth:user', 'notifications'])->group(function () {
             Route::middleware(['active'])->group(function () {
                 Route::prefix('inventory')->group(function () {
-                    Route::middleware(['permission:create inventory'])->group(function () {
+                    Route::middleware(['role:admin|staff'])->group(function () {
                         Route::get('/create', [InventoryController::class, 'create'])->name('inventory.create');
                         Route::post('/store', [InventoryController::class, 'store'])->name('inventory.store');
                         Route::post('/import', [InventoryController::class, 'import'])->name('inventory.import');
                         Route::post('/image', [InventoryController::class, 'image'])->name('inventory.image');
+                        Route::get('/edit/{inventory}', [InventoryController::class, 'edit'])->name('inventory.edit');
+                        Route::post('/update/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
+                        Route::get('/export', [InventoryController::class, 'export'])->name('inventory.export');
+                        Route::get('/raw', [InventoryController::class, 'raw'])->name('inventory.raw');
+                        Route::get('/delete/{inventory}', [InventoryController::class, 'destroy'])->name('inventory.delete');
                     });
-
-                    Route::middleware(['permission:read inventory'])->group(function () {
+                    
+                    Route::middleware(['role:admin|staff|visit'])->group(function () {
                         Route::get('/', [InventoryController::class, 'index'])->name('inventory.index');
                         Route::get('/{id}', [InventoryController::class, 'show'])->name('inventory.show');
                         Route::post('/search', [InventoryController::class, 'search'])->name('inventory.search');
                         Route::get('/sort/{parameter}/{value}', [InventoryController::class, 'paramIndex'])->name('inventory.param');
                     });
-
-                    Route::middleware(['permission:update inventory'])->group(function () {
-                        Route::get('/edit/{inventory}', [InventoryController::class, 'edit'])->name('inventory.edit');
-                        Route::post('/update/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
-                    });
-
-                    Route::middleware(['role:staff|admin'])->group(function () {
-                        Route::get('/export', [InventoryController::class, 'export'])->name('inventory.export');
-                        Route::get('/raw', [InventoryController::class, 'raw'])->name('inventory.raw');
-                    });
-
-                    Route::get('/delete/{inventory}', [InventoryController::class, 'destroy'])->middleware('permission:delete inventory')->name('inventory.delete');
                 });
     
                 Route::prefix('record')->group(function () {
