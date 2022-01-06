@@ -16,9 +16,9 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-        Role::firstOrCreate(['name' => 'admin']);
-        Role::firstOrCreate(['name' => 'staff']);
-        Role::firstOrCreate(['name' => 'visit']);
+        Role::firstOrCreate(['guard_name' => 'web', 'name' => 'admin']);
+        Role::firstOrCreate(['guard_name' => 'web', 'name' => 'staff']);
+        Role::firstOrCreate(['guard_name' => 'web', 'name' => 'visit']);
 
         $permissions = array(
             'create inventory',
@@ -80,7 +80,7 @@ class PermissionSeeder extends Seeder
         );
 
         foreach ($permissions as $p) {
-            Permission::firstOrCreate(['name' => $p]);
+            Permission::firstOrCreate(['name' => $p, 'guard_name' => 'web']);
         }
 
         Role::where('name', 'admin')->each(function($role) use ($permissions) {
