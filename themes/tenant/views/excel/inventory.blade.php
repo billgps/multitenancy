@@ -62,6 +62,15 @@
             <td colspan="2">Serial Number :</td>
             <td colspan="2" style="background-color: yellow">{{ $inventory->serial}}</td>
         </tr>
+        <tr>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
     </tbody>
 </table>
 
