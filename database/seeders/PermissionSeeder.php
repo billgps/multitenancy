@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -139,5 +140,18 @@ class PermissionSeeder extends Seeder
                 'read asset',
             ));
         });
+
+        $user = User::firstOrCreate([
+            'name' => 'Super User',
+            'email' => 'super.user@gmail.com',
+            'password' => bcrypt('password'),
+            // 'role' => 0,
+            'phone' => '-',
+            'nip' => '-',
+            'position' => 'admin',
+            'group' => 'admin'
+        ]);
+
+        $user->assignRole('admin');
     }
 }
