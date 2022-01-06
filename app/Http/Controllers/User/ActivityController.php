@@ -66,37 +66,41 @@ class ActivityController extends Controller
                 $is_active = false;
             }
 
-            $response = $client->request('POST', 'create?ipid=IP3173002', [
-                'headers'=> [
-                    'Authorization' => 'Bearer '.$token,        
-                    'Accept'        => 'application/json'
-                ],
-                'form_params' => [
-                    'Data[no]' => $request->order_no,
-                    'Data[tgl]' => $request->started_at,
-                    'Data[faskes]' => Tenant::current()->public_code
-                ]
-            ]);
-    
-            $content = json_decode($response->getBody()->getContents());
-
-            if ($content->success) {
-                $activity = Activity::create([
-                    'order_no' => $request->order_no,
-                    'aspak_id' => $content->data->id,
-                    'started_at' => $request->started_at,
-                    'finished_at' => $request->finished_at,
-                    'active_at' => intVal($request->active_at),
-                    'status' => $request->status,
-                    'is_active' => $is_active
+            try {
+                $response = $client->request('POST', 'create?ipid=IP3173002', [
+                    'headers'=> [
+                        'Authorization' => 'Bearer '.$token,        
+                        'Accept'        => 'application/json'
+                    ],
+                    'form_params' => [
+                        'Data[no]' => $request->order_no,
+                        'Data[tgl]' => $request->started_at,
+                        'Data[faskes]' => Tenant::current()->public_code
+                    ]
                 ]);
-    
-                $query = "UPDATE records SET `activity_id`=".$activity->id." WHERE YEAR (`cal_date`) = ".$request->active_at;
-                DB::update($query);
-    
-                return redirect()->route('activity.index');
-            } else {
-                return back()->with('error', $content->msg);
+
+                $content = json_decode($response->getBody()->getContents());
+
+                if ($content->success) {
+                    $activity = Activity::create([
+                        'order_no' => $request->order_no,
+                        'aspak_id' => $content->data->id,
+                        'started_at' => $request->started_at,
+                        'finished_at' => $request->finished_at,
+                        'active_at' => intVal($request->active_at),
+                        'status' => $request->status,
+                        'is_active' => $is_active
+                    ]);
+        
+                    $query = "UPDATE records SET `activity_id`=".$activity->id." WHERE YEAR (`cal_date`) = ".$request->active_at;
+                    DB::update($query);
+        
+                    return redirect()->route('activity.index');
+                } else {
+                    return back()->with('error', $content->msg);
+                }
+            } catch (\Throwable $th) {
+                return back()->with('error', $th);
             }
         }
     }

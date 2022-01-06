@@ -22,13 +22,7 @@ class ASPAKController extends Controller
                     WHERE device_id = i.device_id AND aspak_code IS NOT null) as mapped FROM devices 
                     LEFT JOIN inventories as i ON devices.id=i.device_id WHERE i.is_verified=0 GROUP BY i.device_id";
         $devices = DB::select($query);
-        // dd($inventories);
-        // $index = array();
-        // foreach ($inventories as $inv) {
-        //     array_push($index, $inv->device_id);
-        // }
-
-        // $devices = Device::find($index);
+        
         $nomenclatures = DB::connection('host')->select('SELECT `code`, `name` FROM nomenclatures');
         
         return view('aspak.index', ['devices' => $devices, 'nomenclatures' => $nomenclatures]);
