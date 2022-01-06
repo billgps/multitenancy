@@ -6,8 +6,10 @@ use App\Models\Inventory;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithDrawings;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-class InventoryDetailExport implements FromView, ShouldAutoSize
+class InventoryDetailExport implements FromView, ShouldAutoSize, WithDrawings
 {
     protected $inventory;
     
@@ -32,5 +34,17 @@ class InventoryDetailExport implements FromView, ShouldAutoSize
             'conditions' => $conditions,
             'maintenances' => $maintenances
         ]);
+    }
+
+    public function drawings()
+    {
+        $drawing = new Drawing();
+        $drawing->setName('Logo');
+        $drawing->setDescription('This is my logo');
+        $drawing->setPath(public_path($this->inventory->picture));
+        $drawing->setHeight(200);
+        $drawing->setCoordinates('J3');
+
+        return $drawing;
     }
 }
