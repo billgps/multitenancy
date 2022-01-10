@@ -41,6 +41,7 @@ if (Tenant::current()) {
             Route::middleware(['active'])->group(function () {
                 Route::prefix('inventory')->group(function () {
                     Route::get('/pdf/booklet', [InventoryController::class, 'pdf'])->name('inventory.booklet');
+                    Route::get('/pdf/booklet/view', [InventoryController::class, 'bookletView'])->name('inventory.booklet.view');
                     Route::middleware(['role:admin|staff'])->group(function () {
                         Route::get('/create', [InventoryController::class, 'create'])->name('inventory.create');
                         Route::post('/store', [InventoryController::class, 'store'])->name('inventory.store');
@@ -50,10 +51,9 @@ if (Tenant::current()) {
                         Route::post('/update/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
                         Route::get('/export', [InventoryController::class, 'export'])->name('inventory.export');
                         Route::get('/raw', [InventoryController::class, 'raw'])->name('inventory.raw');
-                        Route::get('/excel/{inventory}', [InventoryController::class, 'excel'])->name('inventory.excel');
                         Route::get('/delete/{inventory}', [InventoryController::class, 'destroy'])->name('inventory.delete');
                     });
-
+                    
                     Route::middleware(['role:admin|staff|visit'])->group(function () {
                         Route::get('/', [InventoryController::class, 'index'])->name('inventory.index');
                         Route::get('/{id}', [InventoryController::class, 'show'])->name('inventory.show');
