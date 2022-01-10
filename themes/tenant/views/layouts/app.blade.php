@@ -382,6 +382,14 @@
                     </div>
                 </div>
                 <div>
+                    <a href="{{ route('inventory.booklet') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
+                        <span class="flex items-center">
+                            <i class="fas fa-book"></i>
+                            <span class="mx-4">Booklet</span>
+                        </span>
+                    </a>
+                </div>
+                <div>
                     <a href="{{ route('aspak.map') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
                         <span class="flex items-center">
                             <i class="fas fa-share-square"></i>

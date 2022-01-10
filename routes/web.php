@@ -40,6 +40,7 @@ if (Tenant::current()) {
         Route::middleware(['auth:user', 'notifications'])->group(function () {
             Route::middleware(['active'])->group(function () {
                 Route::prefix('inventory')->group(function () {
+                    Route::get('/pdf/booklet', [InventoryController::class, 'pdf'])->name('inventory.booklet');
                     Route::middleware(['role:admin|staff'])->group(function () {
                         Route::get('/create', [InventoryController::class, 'create'])->name('inventory.create');
                         Route::post('/store', [InventoryController::class, 'store'])->name('inventory.store');
