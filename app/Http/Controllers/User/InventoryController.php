@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Exports\InventoryDetailExport;
 use App\Exports\InventoryExport;
 use App\Exports\InventoryRawExport;
 use App\Http\Controllers\Controller;
@@ -227,6 +228,11 @@ class InventoryController extends Controller
         $pdf = PDF::loadView('pdf.booklet', ['inventories' => $inventories]);
 
         return $pdf->download('booklet_'.strtotime(date('Y-m-d H:i:s')).'.pdf');
+    }
+  
+    public function excel(Inventory $inventory)
+    {
+        return Excel::download(new InventoryDetailExport($inventory->id), 'inventory.xlsx');
     }
 
     public function raw(Request $request)

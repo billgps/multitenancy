@@ -50,9 +50,10 @@ if (Tenant::current()) {
                         Route::post('/update/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
                         Route::get('/export', [InventoryController::class, 'export'])->name('inventory.export');
                         Route::get('/raw', [InventoryController::class, 'raw'])->name('inventory.raw');
+                        Route::get('/excel/{inventory}', [InventoryController::class, 'excel'])->name('inventory.excel');
                         Route::get('/delete/{inventory}', [InventoryController::class, 'destroy'])->name('inventory.delete');
                     });
-                    
+
                     Route::middleware(['role:admin|staff|visit'])->group(function () {
                         Route::get('/', [InventoryController::class, 'index'])->name('inventory.index');
                         Route::get('/{id}', [InventoryController::class, 'show'])->name('inventory.show');

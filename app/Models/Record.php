@@ -26,4 +26,9 @@ class Record extends Model
     {
         return $this->belongsTo('App\Models\Inventory', 'inventory_id', 'id');
     }
+
+    public function activity()
+    {
+        return $this->belongsTo(Activity::class);
+    }
 }
