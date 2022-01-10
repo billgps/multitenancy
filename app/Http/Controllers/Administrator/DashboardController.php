@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
-use App\Models\Tenant;
+use Spatie\Multitenancy\Models\Tenant;
 
 class DashboardController extends Controller
 {
@@ -16,6 +16,7 @@ class DashboardController extends Controller
     }
 
     public function index(){
+        dd(Tenant::current());
         $tenants = Tenant::orderBy('updated_at', 'desc')->get();
 
         return view('home', ['tenants' => $tenants]);
