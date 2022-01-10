@@ -55,7 +55,11 @@
                 </tr>
                 <tr>
                     <td colspan="3">
-                        <img src="data:image/png;base64,{{ base64_encode($generatorPNG->getBarcode(substr($inv->barcode, 3), $generatorPNG::TYPE_CODE_128)) }}">
+                        @if (strlen($inv->barcode) < 4)
+                            {{ $inv->barcode }}
+                        @else
+                            <img src="data:image/png;base64,{{ base64_encode($generatorPNG->getBarcode(substr($inv->barcode, 3), $generatorPNG::TYPE_CODE_128)) }}">
+                        @endif
                     </td>
                 </tr>
             @endforeach
