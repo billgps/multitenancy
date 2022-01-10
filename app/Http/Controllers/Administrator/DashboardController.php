@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Spatie\Multitenancy\Models\Tenant;
 
 class DashboardController extends Controller
@@ -16,9 +17,13 @@ class DashboardController extends Controller
     }
 
     public function index(){
-        dd(Tenant::current());
         $tenants = Tenant::orderBy('updated_at', 'desc')->get();
+        $dataCount = array();
+        foreach ($tenants as $t) {
+            $data = DB::select('SELECT COUNT(`id`) as "count" FROM '.$t->database.'.inventories');
+            array_push($dataCount, $data[0]->count);
+        }
 
-        return view('home', ['tenants' => $tenants]);
+        return view('home', ['tenants' => $tenants, 'data' => $dataCount]);
     }
 }
