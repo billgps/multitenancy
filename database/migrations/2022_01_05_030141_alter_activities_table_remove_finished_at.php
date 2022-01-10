@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateRecordsTable extends Migration
+class AlterActivitiesTableRemoveFinishedAt extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class UpdateRecordsTable extends Migration
      */
     public function up()
     {
-        Schema::table('records', function ($table) {
-            $table->unsignedBigInteger('activity_id')->after('result');
-
-            // $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
+        Schema::table('activities', function($table) {
+            $table->dropColumn('finished_at');
+            $table->dropColumn('active_at');
         });
     }
 

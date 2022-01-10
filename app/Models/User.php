@@ -30,6 +30,8 @@ class User extends Authenticatable
         'class'
     ];
 
+    protected $guard_name = 'web';
+
     /**
      * The attributes that should be hidden for arrays.
      *
