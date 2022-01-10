@@ -9,13 +9,13 @@
         html{
             width: 100%;
             height: 100%;
-            /* padding: 0;
-            margin: 0; */
+            padding: 0;
+            margin: 0;
         }
 
         body {
             font-family: Arial, Helvetica, sans-serif;
-            padding: 0px;
+            padding: 60px 10px 66px 50px;
             margin: 0px;
         }
 
@@ -38,11 +38,11 @@
         }
 
         @page {
-            margin: 60px 10px 66px 50px;
+            /* margin: 60px 10px 66px 50px; */
         }
     </style>
 </head>
-<body background="" style="background-size: contain;">
+<body background="{{ public_path('/booklet_template.jpg') }}" style="background-size: contain;">
     <script type="text/php">
         if ( isset($pdf) ) {
             $font = $fontMetrics->get_font("helvetica");
