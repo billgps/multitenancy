@@ -16,7 +16,6 @@ class DashboardController extends Controller
     }
 
     public function index(){
-        dd(Tenant::current());
         $tenants = Tenant::orderBy('updated_at', 'desc')->get();
 
         return view('home', ['tenants' => $tenants]);

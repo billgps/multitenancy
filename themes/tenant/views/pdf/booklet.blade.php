@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="background-image: url({{ public_path('booklet_template.jpg') }})">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -14,6 +14,8 @@
         }
 
         body {
+            /* background-image: url('https://miro.medium.com/max/2000/1*7fjKqWmqMrryq0XLkHbjTg.png'); */
+            background-size: contain;
             font-family: Arial, Helvetica, sans-serif;
             padding: 60px 10px 66px 50px;
             margin: 0px;
@@ -34,6 +36,7 @@
             padding: 2px;
             margin: 0px;
             align-content: center;
+            text-align: center;
             vertical-align: middle;
         }
 
@@ -42,7 +45,8 @@
         }
     </style>
 </head>
-<body background="{{ public_path('/booklet_template.jpg') }}" style="background-size: contain;">
+<body style="">
+    <img src="https://miro.medium.com/max/2000/1*7fjKqWmqMrryq0XLkHbjTg.png" alt="">
     <script type="text/php">
         if ( isset($pdf) ) {
             $font = $fontMetrics->get_font("helvetica");
@@ -58,7 +62,7 @@
             <table>
                 <tr>
                     <td rowspan="6">
-                        <div 
+                        {{-- <div 
                             style="
                                 width: 178px; 
                                 height: 134px;
@@ -67,8 +71,7 @@
                                 background-image: url({{ public_path($inv->picture) }}); 
                                 background-size: contain;
                                 background-repeat: no-repeat;">
-                        </div>
-                        {{-- <img src="{{ public_path($inv->picture) }}" width="210" height="191"> --}}
+                        </div> --}}
                     </td>
                     <td>Nama Alat : </td>
                     <td> {{ $inv->device->standard_name }}</td>

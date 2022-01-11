@@ -16,6 +16,7 @@ use App\Models\Room;
 use Illuminate\Http\Request;
 
 use App\Rules\ImageUpload as RulesImageUpload;
+use Illuminate\Support\Facades\App;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Multitenancy\Models\Tenant;
 
@@ -224,9 +225,10 @@ class InventoryController extends Controller
 
     public function pdf()
     {
-        $inventories = Inventory::all();
+        ini_set('max_execution_time', 300);
+        $inventories = Inventory::take(10)->get();
+        // dd($inventories);
         $pdf = PDF::loadView('pdf.booklet', ['inventories' => $inventories]);
-        // $pdf->set_option('isHtml5ParserEnabled', true); 
 
         return $pdf->stream('booklet_'.strtotime(date('Y-m-d H:i:s')).'.pdf');
     }
