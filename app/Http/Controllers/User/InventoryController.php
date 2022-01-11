@@ -19,6 +19,8 @@ use App\Rules\ImageUpload as RulesImageUpload;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Multitenancy\Models\Tenant;
 
+use PDF;
+
 class InventoryController extends Controller
 {
     /**
@@ -220,6 +222,22 @@ class InventoryController extends Controller
         return Excel::download(new InventoryExport, 'inventory.xlsx');
     }
 
+    public function pdf()
+    {
+        $inventories = Inventory::all();
+        $pdf = PDF::loadView('pdf.booklet', ['inventories' => $inventories]);
+        // $pdf->set_option('isHtml5ParserEnabled', true); 
+
+        return $pdf->stream('booklet_'.strtotime(date('Y-m-d H:i:s')).'.pdf');
+    }
+
+    public function bookletView()
+    {
+        $inventories = Inventory::all();
+
+        return view('pdf.booklet', ['inventories' => $inventories]);
+    }
+  
     public function excel(Inventory $inventory)
     {
         return Excel::download(new InventoryDetailExport($inventory->id), 'inventory.xlsx');
