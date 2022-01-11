@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="background-image: url({{ public_path('booklet_template.jpg') }})">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -14,8 +14,9 @@
         }
 
         body {
+            background-size: contain;
             font-family: Arial, Helvetica, sans-serif;
-            padding: 60px 10px 66px 50px;
+            padding: 60px 10px 66px 60px;
             margin: 0px;
         }
 
@@ -32,7 +33,7 @@
 
         table td {
             padding: 2px;
-            margin: 0px;
+            margin: 0px 10px 0px 25px;
             align-content: center;
             vertical-align: middle;
         }
@@ -57,7 +58,7 @@
         @foreach ($inventories as $inv)
             <table>
                 <tr>
-                    <td rowspan="6">
+                    <td rowspan="6" style="text-align: center;">
                         <div 
                             style="
                                 width: 178px; 
@@ -68,7 +69,6 @@
                                 background-size: contain;
                                 background-repeat: no-repeat;">
                         </div>
-                        {{-- <img src="{{ public_path($inv->picture) }}" width="210" height="191"> --}}
                     </td>
                     <td>Nama Alat : </td>
                     <td> {{ $inv->device->standard_name }}</td>

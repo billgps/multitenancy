@@ -5,6 +5,7 @@ use App\Http\Controllers\User\ActivityController;
 use App\Http\Controllers\User\ASPAKController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\User\AssetController;
+use App\Http\Controllers\User\BookletController;
 use App\Http\Controllers\User\BrandController;
 use App\Http\Controllers\User\ComplainController;
 use App\Http\Controllers\User\ConditionController;
@@ -40,8 +41,11 @@ if (Tenant::current()) {
         Route::middleware(['auth:user', 'notifications'])->group(function () {
             Route::middleware(['active'])->group(function () {
                 Route::prefix('inventory')->group(function () {
-                    Route::get('/pdf/booklet', [InventoryController::class, 'pdf'])->name('inventory.booklet');
-                    Route::get('/pdf/booklet/view', [InventoryController::class, 'bookletView'])->name('inventory.booklet.view');
+                    Route::middleware('role:admin')->group(function () {
+                        Route::get('/booklet', [BookletController::class, 'index'])->name('booklet.index');
+                        Route::get('booklet/pdf/{offset}', [BookletController::class, 'generate'])->name('booklet.generate');
+                    });
+                    
                     Route::middleware(['role:admin|staff'])->group(function () {
                         Route::get('/create', [InventoryController::class, 'create'])->name('inventory.create');
                         Route::post('/store', [InventoryController::class, 'store'])->name('inventory.store');

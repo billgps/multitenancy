@@ -16,6 +16,7 @@ use App\Models\Room;
 use Illuminate\Http\Request;
 
 use App\Rules\ImageUpload as RulesImageUpload;
+use Illuminate\Support\Facades\App;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Multitenancy\Models\Tenant;
 
@@ -222,21 +223,17 @@ class InventoryController extends Controller
         return Excel::download(new InventoryExport, 'inventory.xlsx');
     }
 
-    public function pdf()
-    {
-        $inventories = Inventory::all();
-        $pdf = PDF::loadView('pdf.booklet', ['inventories' => $inventories]);
-        // $pdf->set_option('isHtml5ParserEnabled', true); 
+    // public function pdf()
+    // {
 
-        return $pdf->stream('booklet_'.strtotime(date('Y-m-d H:i:s')).'.pdf');
-    }
+    // }
 
-    public function bookletView()
-    {
-        $inventories = Inventory::all();
+    // public function bookletView()
+    // {
+    //     $inventories = Inventory::all();
 
-        return view('pdf.booklet', ['inventories' => $inventories]);
-    }
+    //     return view('pdf.booklet', ['inventories' => $inventories]);
+    // }
   
     public function excel(Inventory $inventory)
     {
