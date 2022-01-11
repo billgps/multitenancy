@@ -14,10 +14,9 @@
         }
 
         body {
-            /* background-image: url('https://miro.medium.com/max/2000/1*7fjKqWmqMrryq0XLkHbjTg.png'); */
             background-size: contain;
             font-family: Arial, Helvetica, sans-serif;
-            padding: 60px 10px 66px 50px;
+            padding: 60px 10px 66px 60px;
             margin: 0px;
         }
 
@@ -34,9 +33,8 @@
 
         table td {
             padding: 2px;
-            margin: 0px;
+            margin: 0px 10px 0px 25px;
             align-content: center;
-            text-align: center;
             vertical-align: middle;
         }
 
@@ -45,8 +43,7 @@
         }
     </style>
 </head>
-<body style="">
-    <img src="https://miro.medium.com/max/2000/1*7fjKqWmqMrryq0XLkHbjTg.png" alt="">
+<body background="{{ public_path('/booklet_template.jpg') }}" style="background-size: contain;">
     <script type="text/php">
         if ( isset($pdf) ) {
             $font = $fontMetrics->get_font("helvetica");
@@ -61,8 +58,8 @@
         @foreach ($inventories as $inv)
             <table>
                 <tr>
-                    <td rowspan="6">
-                        {{-- <div 
+                    <td rowspan="6" style="text-align: center;">
+                        <div 
                             style="
                                 width: 178px; 
                                 height: 134px;
@@ -71,7 +68,7 @@
                                 background-image: url({{ public_path($inv->picture) }}); 
                                 background-size: contain;
                                 background-repeat: no-repeat;">
-                        </div> --}}
+                        </div>
                     </td>
                     <td>Nama Alat : </td>
                     <td> {{ $inv->device->standard_name }}</td>

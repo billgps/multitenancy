@@ -223,22 +223,17 @@ class InventoryController extends Controller
         return Excel::download(new InventoryExport, 'inventory.xlsx');
     }
 
-    public function pdf()
-    {
-        ini_set('max_execution_time', 300);
-        $inventories = Inventory::take(10)->get();
-        // dd($inventories);
-        $pdf = PDF::loadView('pdf.booklet', ['inventories' => $inventories]);
+    // public function pdf()
+    // {
 
-        return $pdf->stream('booklet_'.strtotime(date('Y-m-d H:i:s')).'.pdf');
-    }
+    // }
 
-    public function bookletView()
-    {
-        $inventories = Inventory::all();
+    // public function bookletView()
+    // {
+    //     $inventories = Inventory::all();
 
-        return view('pdf.booklet', ['inventories' => $inventories]);
-    }
+    //     return view('pdf.booklet', ['inventories' => $inventories]);
+    // }
   
     public function excel(Inventory $inventory)
     {
