@@ -33,7 +33,6 @@
 
         table td {
             padding: 2px;
-            margin: 0px 10px 0px 25px;
             align-content: center;
             vertical-align: middle;
         }
@@ -70,27 +69,33 @@
                                 background-repeat: no-repeat;">
                         </div>
                     </td>
+                    <td style="width: 20px;"></td>
                     <td>Nama Alat : </td>
                     <td> {{ $inv->device->standard_name }}</td>
                 </tr>
                 <tr>
+                    <td style="width: 20px;"></td>
                     <td>Merk : </td>
                     <td> {{ $inv->identity->brand->brand }}</td>
                 </tr>
                 <tr>
+                    <td style="width: 20px;"></td>
                     <td>Ruangan : </td>
                     <td> {{ $inv->room->room_name }}</td>
                 </tr>
                 <tr>
+                    <td style="width: 20px;"></td>
                     <td>Tipe Alat : </td>
                     <td> {{ $inv->identity->model }}</td>
                 </tr>
                 <tr>
+                    <td style="width: 20px;"></td>
                     <td>Nomor Seri : </td>
                     <td> {{ $inv->serial }}</td>
                 </tr>
                 <tr>
-                    <td colspan="3">
+                    <td style="width: 20px;"></td>
+                    <td colspan="2">
                         @if (strlen($inv->barcode) < 4)
                             {{ $inv->barcode }}
                         @else
