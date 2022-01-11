@@ -50,7 +50,7 @@
                             <div class="mt-2">
                                 <span>
                                     <a href="{{ route('user.dashboard') }}" class="sm:text-sm md:text-md lg:text-lg text-gray-700 font-bold hover:underline">
-                                        customer_name
+                                        {{ app('currentTenant')->name }}
                                     </a>
 
                                     <a href="#" class="inline-block rounded-full text-white 

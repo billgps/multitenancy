@@ -2,11 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Activity;
 use Closure;
 use Illuminate\Http\Request;
 
-class ActivityCheck
+class ASPAKCheck
 {
     /**
      * Handle an incoming request.
@@ -17,14 +16,8 @@ class ActivityCheck
      */
     public function handle(Request $request, Closure $next)
     {
-        if (app('currentTenant')->is_aspak) {
-            $active = Activity::where('is_active', '=', 1)->first();
-
-            if (!$active) {
-                return redirect()->route('activity.create')->with('error', 'Buat kegiatan kalibrasi terlebih dahulu!');
-            } else {
-                return $next($request);
-            }
+        if (!app('currentTenant')->is_aspak) {
+            return redirect()->back()->with('error', 'Tenant ini tidak memiliki persyaratan ASPAK');
         } else {
             return $next($request);
         }

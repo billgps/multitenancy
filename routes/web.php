@@ -130,7 +130,7 @@ if (Tenant::current()) {
                     Route::get('/delete/{asset}', [AssetController::class, 'destroy'])->name('asset.delete');
                 });
 
-                Route::prefix('aspak')->group(function () {
+                Route::prefix('aspak')->middleware(['aspak'])->group(function () {
                     Route::get('/', [ASPAKController::class, 'index'])->name('aspak.map');
                     Route::get('/create/{id}', [ASPAKController::class, 'create'])->name('aspak.create');
                     Route::post('/store', [ASPAKController::class, 'store'])->name('aspak.store');
@@ -207,7 +207,7 @@ if (Tenant::current()) {
                 // Route::get('/delete/{response}', [ResponseController::class, 'destroy'])->name('response.delete');
             }); 
 
-            Route::prefix('activity')->middleware('role:admin')->group(function () {
+            Route::prefix('activity')->middleware(['role:admin', 'aspak'])->group(function () {
                 Route::get('/', [ActivityController::class, 'index'])->name('activity.index');
                 Route::get('/create/{inventory?}', [ActivityController::class, 'create'])->name('activity.create');
                 Route::post('/store', [ActivityController::class, 'store'])->name('activity.store');
