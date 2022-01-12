@@ -43,12 +43,12 @@
     </style>
 </head>
 <body background="{{ public_path('/booklet_template.jpg') }}" style="background-size: contain;">
-    <script type="text/php">
+    {{-- <script type="text/php">
         if ( isset($pdf) ) {
             $font = $fontMetrics->get_font("helvetica");
-            $pdf->page_text(525, 816, "Page {PAGE_NUM} of {PAGE_COUNT}", $font, 8, array(0,0,0));
+            $pdf->page_text(525, 816, "Page {PAGE_NUM} * 2 of {PAGE_COUNT}", $font, 8, array(0,0,0));
         }
-    </script>
+    </script> --}}
     <div id="contents">
         @php
             $generatorPNG = new Picqer\Barcode\BarcodeGeneratorPNG();
