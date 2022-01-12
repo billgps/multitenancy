@@ -26,7 +26,8 @@
                     }
                 }
             </script>
-            <img onload="getScale(this)" id="logo_front" src="{{ asset(app('currentTenant')->vendor_id) }}" alt="logo" class="mt-6 mx-auto">
+            {{-- <img onload="getScale(this)" id="logo_front" src="{{ asset(app('currentTenant')->vendor_id) }}" alt="logo" class="mt-6 mx-auto"> --}}
+            <img onload="getScale(this)" id="logo_front" src="{{ asset('gps_logo.png') }}" alt="logo" class="mt-6 mx-auto">
             <p class="text-xs text-gray-600">Inventory Website</p>
         </div>
     </div>
