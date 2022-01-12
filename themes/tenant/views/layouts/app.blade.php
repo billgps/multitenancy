@@ -181,7 +181,8 @@
                             }
                         }
                     </script>
-                    <img onload="getScale(this)" src="{{ asset(app('currentTenant')->vendor_id) }}">
+                    {{-- <img onload="getScale(this)" src="{{ asset(app('currentTenant')->vendor_id) }}"> --}}
+                    <img onload="getScale(this)" src="{{ asset('gps_logo.png') }}">
                 </a>
             </div>
             <span class="ml-6 hover:text-purple-500">
