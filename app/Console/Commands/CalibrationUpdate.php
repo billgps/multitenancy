@@ -91,16 +91,16 @@ class CalibrationUpdate extends Command
             $users = User::all();
     
             if ($scheduled > 0) {
-                foreach ($users as $user) {
-                    $user->notify(new CalibrationStatusUpdate(' item inventory harus segera dikalibrasi', $scheduled));
-                }
+                // foreach ($users as $user) {
+                //     $user->notify(new CalibrationStatusUpdate(' item inventory harus segera dikalibrasi', $scheduled));
+                // }
                 // Notification::send($users, new CalibrationStatusUpdate(' item inventory harus segera dikalibrasi', $scheduled));
             }
     
             if ($expired > 0) {
-                foreach ($users as $user) {
-                    $user->notify(new CalibrationStatusUpdate(' item inventory sudah expired', $expired));
-                }
+                // foreach ($users as $user) {
+                //     $user->notify(new CalibrationStatusUpdate(' item inventory sudah expired', $expired));
+                // }
                 // Notification::send($users, new CalibrationStatusUpdate(' item inventory sudah expired', $expired));
             }
         });
