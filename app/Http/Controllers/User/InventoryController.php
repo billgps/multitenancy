@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Exports\InventoryDetailExport;
 use App\Exports\InventoryExport;
 use App\Exports\InventoryRawExport;
 use App\Http\Controllers\Controller;
@@ -15,8 +16,11 @@ use App\Models\Room;
 use Illuminate\Http\Request;
 
 use App\Rules\ImageUpload as RulesImageUpload;
+use Illuminate\Support\Facades\App;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Multitenancy\Models\Tenant;
+
+use PDF;
 
 class InventoryController extends Controller
 {
@@ -217,6 +221,23 @@ class InventoryController extends Controller
     public function export(Request $request)
     {
         return Excel::download(new InventoryExport, 'inventory.xlsx');
+    }
+
+    // public function pdf()
+    // {
+
+    // }
+
+    // public function bookletView()
+    // {
+    //     $inventories = Inventory::all();
+
+    //     return view('pdf.booklet', ['inventories' => $inventories]);
+    // }
+  
+    public function excel(Inventory $inventory)
+    {
+        return Excel::download(new InventoryDetailExport($inventory->id), 'inventory.xlsx');
     }
 
     public function raw(Request $request)

@@ -102,6 +102,7 @@ class ASPAKController extends Controller
                 Queue::create([
                     'status' => 'queue',
                     'payload' => json_encode($payload),
+                    'tenant_id' => Tenant::current()->id,
                     'activity_id' => Activity::active()->aspak_id
                 ]);
 

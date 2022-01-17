@@ -182,7 +182,8 @@
                             }
                         }
                     </script>
-                    <img onload="getScale(this)" src="{{ asset(app('currentTenant')->vendor_id) }}">
+                    {{-- <img onload="getScale(this)" src="{{ asset(app('currentTenant')->vendor_id) }}"> --}}
+                    <img onload="getScale(this)" src="{{ asset('gps_logo.png') }}">
                 </a>
             </div>
             <span class="ml-6 hover:text-purple-500">
@@ -381,6 +382,14 @@
                             Response
                         </a> --}}
                     </div>
+                </div>
+                <div>
+                    <a href="{{ route('booklet.index') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
+                        <span class="flex items-center">
+                            <i class="fas fa-book"></i>
+                            <span class="mx-4">Booklet</span>
+                        </span>
+                    </a>
                 </div>
                 <div>
                     <a href="{{ route('aspak.map') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">

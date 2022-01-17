@@ -50,7 +50,7 @@
                             <div class="mt-2">
                                 <span>
                                     <a href="{{ route('user.dashboard') }}" class="sm:text-sm md:text-md lg:text-lg text-gray-700 font-bold hover:underline">
-                                        customer_name
+                                        {{ app('currentTenant')->name }}
                                     </a>
 
                                     <a href="#" class="inline-block rounded-full text-white 
@@ -102,7 +102,7 @@
                                     <div class="flex-1">
                                         <div class="ml-3 space-y-1 border-r-2 pr-3">
                                             <div class="text-base leading-6 font-normal">{{ app('currentTenant')->name }}</div>
-                                            <div class="text-sm leading-4 font-normal"><span class="text-xs leading-4 font-normal text-gray-500"> Selesai Pada</span> {{ $act->finished_at }}</div>
+                                            <div class="text-sm leading-4 font-normal"><span class="text-xs leading-4 font-normal text-gray-500"> Aktif Pada</span> {{ date('Y', strtotime($act->started_at)) }}</div>
                                             <div class="text-sm leading-4 font-normal text-gray-100"><span class="text-xs leading-4 font-normal">abc</span>ad</div>
                                         </div>
                                     </div>
