@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\QueueController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\User\ActivityController;
 use App\Http\Controllers\User\ASPAKController;
@@ -248,6 +249,9 @@ else if (Tenant::current() == null) {
             Route::get('/{vendor}', [VendorController::class, 'show'])->name('vendor.show');
             Route::get('/edit/{vendor}', [VendorController::class, 'edit'])->name('vendor.edit');
         }); 
+        Route::prefix('aspak')->group(function () {
+            Route::get('/queue', [QueueController::class, 'index'])->name('queue.index');
+        });
         Route::prefix('ajax')->group(function () {
             Route::get('/notifications', [NotificationController::class, 'ajax'])->name('notification.ajax');
         });

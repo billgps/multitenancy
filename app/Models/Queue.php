@@ -11,4 +11,24 @@ class Queue extends Model
     use HasFactory, UsesLandlordConnection;
 
     protected $fillable = ['status', 'payload', 'activity_id', 'tenant_id'];
+
+    /**
+     * Get the tenant that owns the Queue
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class);
+    }
+
+    /**
+     * Get all of the logs for the Queue
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function logs()
+    {
+        return $this->hasMany(Log::class);
+    }
 }
