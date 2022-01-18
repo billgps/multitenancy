@@ -92,7 +92,7 @@
                                     @foreach ($payload as $p)
                                         <tr class="border-b border-gray-200 hover:bg-gray-100">
                                             <td class="py-3 px-6">
-                                                <a target="blank_" href="{{ $queue->tenant->domain.'/inventory/'.$p->inventory_id }}" class="hover:text-purple-500">
+                                                <a target="blank_" href="{{ 'http://'.$queue->tenant->domain.'/inventory/'.$p->inventory_id }}" class="hover:text-purple-500">
                                                     {{ $p->inventory_id }}
                                                 </a>
                                             </td>
