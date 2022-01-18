@@ -265,7 +265,8 @@
             columnDefs: [
                 {
                     "render": function ( data, type, row ) {
-                        let user = {!! json_encode(Auth::user()->role) !!}
+                        let user = {!! json_encode(Auth::user()->roles) !!}
+                        console.log(user);
                         let carrier = document.createElement('div')
                         let container = document.createElement('div')
                         container.classList.add('flex', 'item-center', 'justify-center')
@@ -280,7 +281,7 @@
                         viewIcon.classList.add('fas', 'fa-eye')
                         viewLink.appendChild(viewIcon)
 
-                        if (user <= 1) {
+                        if (user == 'staff') {
                             // console.log(data);
                             // let editContainer = document.createElement('div')
                             // editContainer.classList.add('w-4', 'mr-2', 'transform', 'hover:text-purple-500', 'hover:scale-110')
