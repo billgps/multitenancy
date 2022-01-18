@@ -15,7 +15,7 @@ class QueueController extends Controller
      */
     public function index()
     {
-        $queues = Queue::paginate(15);
+        $queues = Queue::orderBy('created_at', 'desc')->paginate(15);
 
         return view('queue.index', ['queues' => $queues]);
     }
