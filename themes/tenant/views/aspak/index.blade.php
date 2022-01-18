@@ -127,12 +127,11 @@
                     <script>
                         $(document).ready(function() {
                             var table = $('#device').DataTable({
-                                "pageLength": 15,
                                 "ordering": true,
                                 "info":     false,
                                 "lengthChange": false,
                                 "searching": true,
-                                "paging":   true,
+                                "paging":   false,
                                 columnDefs: [
                                     { orderable: false, targets: -1 }
                                 ],
