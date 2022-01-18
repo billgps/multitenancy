@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\QueueController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\User\ActivityController;
@@ -251,6 +252,8 @@ else if (Tenant::current() == null) {
         }); 
         Route::prefix('aspak')->group(function () {
             Route::get('/queue', [QueueController::class, 'index'])->name('queue.index');
+            Route::get('/queue/{queue}/logs', [QueueController::class, 'logs'])->name('queue.logs');
+            Route::get('/log', [LogController::class, 'index'])->name('log.index');
         });
         Route::prefix('ajax')->group(function () {
             Route::get('/notifications', [NotificationController::class, 'ajax'])->name('notification.ajax');

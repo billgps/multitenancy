@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Queue;
+use App\Models\Log;
 use Illuminate\Http\Request;
 
-class QueueController extends Controller
+class LogController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,14 +14,7 @@ class QueueController extends Controller
      */
     public function index()
     {
-        $queues = Queue::paginate(15);
-
-        return view('queue.index', ['queues' => $queues]);
-    }
-
-    public function logs(Queue $queue)
-    {
-        $logs = $queue->logs;
+        $logs = Log::paginate(15);
 
         return view('log.index', ['logs' => $logs]);
     }
@@ -50,10 +43,10 @@ class QueueController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Queue  $queue
+     * @param  \App\Models\Log  $log
      * @return \Illuminate\Http\Response
      */
-    public function show(Queue $queue)
+    public function show(Log $log)
     {
         //
     }
@@ -61,10 +54,10 @@ class QueueController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Queue  $queue
+     * @param  \App\Models\Log  $log
      * @return \Illuminate\Http\Response
      */
-    public function edit(Queue $queue)
+    public function edit(Log $log)
     {
         //
     }
@@ -73,10 +66,10 @@ class QueueController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Queue  $queue
+     * @param  \App\Models\Log  $log
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Queue $queue)
+    public function update(Request $request, Log $log)
     {
         //
     }
@@ -84,10 +77,10 @@ class QueueController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Queue  $queue
+     * @param  \App\Models\Log  $log
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Queue $queue)
+    public function destroy(Log $log)
     {
         //
     }
