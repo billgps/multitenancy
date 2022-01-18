@@ -6,6 +6,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="refresh" content="time; URL=new_url" />
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
