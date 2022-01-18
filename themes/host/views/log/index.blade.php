@@ -33,13 +33,16 @@
                                 </td>
                                 <td class="py-3 px-6">
                                     @if (json_decode($log->response)->success)
-                                        <div class="rounded bg-yellow-400 text-gray-800 py-1 px-3 text-xs font-bold">
-                                            Queue
+                                        <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                            Success
                                         </div>
                                     @else
+                                        <div class="rounded bg-red-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                            Failed
+                                        </div>
                                     @endif
                                 </td>
-                                <td class="py-3 px-6">
+                                <td class="py-3 px-6 w-72">
                                     <a href="" class="hover:text-purple-500">
                                         {{ json_decode($log->response)->msg }}
                                     </a>
