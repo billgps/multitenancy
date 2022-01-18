@@ -213,12 +213,11 @@
         let CSRF_TOKEN = document.getElementsByTagName('meta')[2].getAttribute('content')
 
         var table = $('#device').DataTable({
-            "pageLength": 15,
             "ordering": true,
             "info":     false,
             "lengthChange": false,
             "searching": true,
-            "paging":   true,
+            "paging":   false,
             "dom": 'lrtip',
             processing: true,
             serverSide: true,
@@ -226,23 +225,23 @@
                 url: "{{ route('complain.ajax') }}",
                 dataSrc: 'data',
                 complete: function(data) {
-                    $("#page").append($(".dataTables_paginate"));
+                    // $("#page").append($(".dataTables_paginate"));
 
-                    var prev = document.getElementsByClassName('previous')[0]
-                    prev.classList.add('mr-3', 'cursor-pointer', 'hover:text-purple-500')
-                    prev.innerHTML = '<i class="fas fa-chevron-left"></i>'
+                    // var prev = document.getElementsByClassName('previous')[0]
+                    // prev.classList.add('mr-3', 'cursor-pointer', 'hover:text-purple-500')
+                    // prev.innerHTML = '<i class="fas fa-chevron-left"></i>'
     
-                    var next = document.getElementsByClassName('next')[0]
-                    next.classList.add('ml-3', 'cursor-pointer', 'hover:text-purple-500')
-                    next.innerHTML = '<i class="fas fa-chevron-right"></i>'
+                    // var next = document.getElementsByClassName('next')[0]
+                    // next.classList.add('ml-3', 'cursor-pointer', 'hover:text-purple-500')
+                    // next.innerHTML = '<i class="fas fa-chevron-right"></i>'
     
-                    var page = document.getElementById('device_paginate').getElementsByTagName('span')[0].getElementsByClassName('paginate_button')
-                    for (let i = 0; i < page.length; i++) {
-                        if (page[i].classList.contains('current')) {
-                            page[i].classList.add('mx-1', 'text-purple-500')                    
-                        }
-                        page[i].classList.add('mx-1', 'cursor-pointer', 'hover:text-purple-500')                    
-                    }
+                    // var page = document.getElementById('device_paginate').getElementsByTagName('span')[0].getElementsByClassName('paginate_button')
+                    // for (let i = 0; i < page.length; i++) {
+                    //     if (page[i].classList.contains('current')) {
+                    //         page[i].classList.add('mx-1', 'text-purple-500')                    
+                    //     }
+                    //     page[i].classList.add('mx-1', 'cursor-pointer', 'hover:text-purple-500')                    
+                    // }
                 }
             },
             columns: [
@@ -265,7 +264,8 @@
             columnDefs: [
                 {
                     "render": function ( data, type, row ) {
-                        let user = {!! json_encode(Auth::user()->role) !!}
+                        let user = {!! json_encode(Auth::user()->roles->pluck('name')[0]) !!}
+                        console.log(user);
                         let carrier = document.createElement('div')
                         let container = document.createElement('div')
                         container.classList.add('flex', 'item-center', 'justify-center')
@@ -280,7 +280,7 @@
                         viewIcon.classList.add('fas', 'fa-eye')
                         viewLink.appendChild(viewIcon)
 
-                        if (user <= 1) {
+                        if (user == 'staff') {
                             // console.log(data);
                             // let editContainer = document.createElement('div')
                             // editContainer.classList.add('w-4', 'mr-2', 'transform', 'hover:text-purple-500', 'hover:scale-110')
@@ -342,35 +342,35 @@
             table.ajax.reload();
         }, 60000 );
 
-        drawPaginate()
+        // drawPaginate()
 
         $('#search_').keyup(function(){
             table.search($(this).val()).draw()
         })
 
-        $("#page").append($(".dataTables_paginate"));
+        // $("#page").append($(".dataTables_paginate"));
 
-        $('#device').on( 'draw.dt', function () {
-            drawPaginate()
-        })
+        // $('#device').on( 'draw.dt', function () {
+        //     drawPaginate()
+        // })
 
-        function drawPaginate() {
-            var prev = document.getElementsByClassName('previous')[0]
-            prev.classList.add('mr-3', 'cursor-pointer', 'hover:text-purple-500')
-            prev.innerHTML = '<i class="fas fa-chevron-left"></i>'
+        // function drawPaginate() {
+        //     var prev = document.getElementsByClassName('previous')[0]
+        //     prev.classList.add('mr-3', 'cursor-pointer', 'hover:text-purple-500')
+        //     prev.innerHTML = '<i class="fas fa-chevron-left"></i>'
 
-            var next = document.getElementsByClassName('next')[0]
-            next.classList.add('ml-3', 'cursor-pointer', 'hover:text-purple-500')
-            next.innerHTML = '<i class="fas fa-chevron-right"></i>'
+        //     var next = document.getElementsByClassName('next')[0]
+        //     next.classList.add('ml-3', 'cursor-pointer', 'hover:text-purple-500')
+        //     next.innerHTML = '<i class="fas fa-chevron-right"></i>'
 
-            var page = document.getElementById('device_paginate').getElementsByTagName('span')[0].getElementsByClassName('paginate_button')
-            for (let i = 0; i < page.length; i++) {
-                if (page[i].classList.contains('current')) {
-                    page[i].classList.add('mx-1', 'text-purple-500')                    
-                }
-                page[i].classList.add('mx-1', 'cursor-pointer', 'hover:text-purple-500')                    
-            }
-        }
+        //     var page = document.getElementById('device_paginate').getElementsByTagName('span')[0].getElementsByClassName('paginate_button')
+        //     for (let i = 0; i < page.length; i++) {
+        //         if (page[i].classList.contains('current')) {
+        //             page[i].classList.add('mx-1', 'text-purple-500')                    
+        //         }
+        //         page[i].classList.add('mx-1', 'cursor-pointer', 'hover:text-purple-500')                    
+        //     }
+        // }
     })
 </script>
 @endsection
