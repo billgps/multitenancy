@@ -15,11 +15,14 @@
                     <i class="fas fa-trash-alt"></i>
                 </a>   
                 @empty($complain->response->id)
-                    <a href="{{ route('response.create', ['complain' => $complain->id]) }}" class="ml-auto mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
-                        <i class="fas fa-plus-circle"></i>
-                    </a>  
+                    @role('staff')
+                        <a href="{{ route('response.create', ['complain' => $complain->id]) }}" class="ml-auto mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
+                            <i class="fas fa-plus-circle"></i>
+                        </a>  
+                    @endrole
                 @endempty
                 @isset($complain->response->id)
+                    
                     <a href="{{ route('response.edit', ['response' => $complain->response->id]) }}" class="ml-auto mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
                         <i class="fas fa-edit"></i>
                     </a>

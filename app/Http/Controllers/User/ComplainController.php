@@ -18,8 +18,12 @@ class ComplainController extends Controller
      */
     public function index()
     {
-        $complains = Complain::where('user_id', Auth::user()->id)->with('response', 'response.user',  'user', 'room')->orderBy('created_at', 'desc')->get();
-
+        if (Auth::user()->roles->pluck('name')[0] == 'staff') {
+            $complains = Complain::with('response', 'response.user',  'user', 'room')->orderBy('created_at', 'desc')->get();
+        } else {
+            $complains = Complain::where('user_id', Auth::user()->id)->with('response', 'response.user',  'user', 'room')->orderBy('created_at', 'desc')->get();
+        }
+        
         return view('complain.index', ['complains' => $complains]);
     }
 
@@ -114,17 +118,28 @@ class ComplainController extends Controller
 
     public function ajax(Request $request)
     {
-        $data =array();
+        $data = array();
         $start = $request->get('start');
         $length = $request->get('length');
         $search_term = $request->get('search')['value'];
-        $complain = Complain::where('user_id', Auth::user()->id)->with('response', 'response.user',  'user', 'room')->whereHas('user', function($query) use ($search_term) {
-            $query->where('name', 'like', '%'.$search_term.'%');
-        })
-        ->orderBy('updated_at', 'desc')
-        ->skip($start)
-        ->take($length)
-        ->get();
+
+        if (Auth::user()->roles->pluck('name')[0] == 'staff') {
+            $complain = Complain::with('response', 'response.user',  'user', 'room')->whereHas('user', function($query) use ($search_term) {
+                $query->where('name', 'like', '%'.$search_term.'%');
+            })
+            ->orderBy('updated_at', 'desc')
+            // ->skip($start)
+            // ->take($length)
+            ->get();
+        } else {
+            $complain = Complain::where('user_id', Auth::user()->id)->with('response', 'response.user',  'user', 'room')->whereHas('user', function($query) use ($search_term) {
+                $query->where('name', 'like', '%'.$search_term.'%');
+            })
+            ->orderBy('updated_at', 'desc')
+            // ->skip($start)
+            // ->take($length)
+            ->get();
+        }
 
         foreach ($complain as $com) {
             array_push($data, array(
