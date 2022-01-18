@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('calibration:update')->everyMinute();
         $schedule->command('sync:aspak')->everyFiveMinutes()
             ->timezone('Asia/Jakarta')
-            ->between('22:00','06:00');
+            ->between('18:00','06:00');
     }
 
     /**

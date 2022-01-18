@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Queue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class QueueController extends Controller
 {
@@ -14,7 +15,7 @@ class QueueController extends Controller
      */
     public function index()
     {
-        $queues = Queue::paginate(15);
+        $queues = Queue::orderBy('created_at', 'desc')->paginate(15);
 
         return view('queue.index', ['queues' => $queues]);
     }
@@ -55,7 +56,19 @@ class QueueController extends Controller
      */
     public function show(Queue $queue)
     {
-        //
+        $inventoriyIDs = array();
+        foreach (json_decode($queue->payload) as $p) {
+            array_push($inventoriyIDs, json_decode($p));
+        }
+
+        // $inventoriyIDs = implode(',', $inventoriyIDs);
+
+        // opted for just showing the payload details
+        // $tenantDB = $queue->tenant->database;
+        // $query = "SELECT `id`, standard_name FROM ".$tenantDB.".inventories AS i WHERE `id` IN (".$inventoriyIDs.") INNER JOIN ".$tenantDB.".devices AS d ON d.id = i.device_id";
+        // $inventories = DB::connection('tenant')->select($query);
+
+        return view('queue.show', ['queue' => $queue, 'payload' => $inventoriyIDs]);
     }
 
     /**
