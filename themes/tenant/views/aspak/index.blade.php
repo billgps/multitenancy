@@ -324,6 +324,7 @@
                 },
                 error: function (error) {
                     console.log(error)
+                    swal("Error!", "Server responded with code " + error.status, "error");
                 }
             })
         }

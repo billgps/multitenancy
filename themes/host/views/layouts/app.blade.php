@@ -193,7 +193,7 @@
                         </a>
                     </div> --}}
                     <div x-show="open" class="bg-gray-700">
-                        <a class="py-2 pl-14 block text-sm text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('tenant.create') }}">
+                        <a class="py-2 pl-14 block text-sm text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('queue.index') }}">
                             <span class="flex">
                                 <i class="material-icons mr-2">queue</i>
                                 Queue
@@ -201,7 +201,7 @@
                         </a>
                     </div>
                     <div x-show="open" class="bg-gray-700">
-                        <a class="py-2 pl-14 block text-sm text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('tenant.create') }}">
+                        <a class="py-2 pl-14 block text-sm text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('log.index') }}">
                             <span class="flex">
                                 <i class="material-icons mr-2">history</i>
                                 Log
