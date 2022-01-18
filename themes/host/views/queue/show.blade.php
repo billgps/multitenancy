@@ -92,7 +92,7 @@
                                     @foreach ($payload as $p)
                                         <tr class="border-b border-gray-200 hover:bg-gray-100">
                                             <td class="py-3 px-6">
-                                                <a href="" class="hover:text-purple-500">
+                                                <a target="blank_" href="{{ $queue->tenant->domain.'/inventory/'.$p->inventory_id }}" class="hover:text-purple-500">
                                                     {{ $p->inventory_id }}
                                                 </a>
                                             </td>
@@ -148,6 +148,9 @@
                                 <tbody class="text-gray-600 text-sm font-light">
                                     @foreach ($queue->logs as $q)
                                         <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                            <td class="py-3 px-6 w-96">
+                                                {{ json_decode($q->response)->msg }}
+                                            </td>
                                             <td class="py-3 px-6">
                                                 @if (json_decode($q->response)->success)
                                                     <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
@@ -158,9 +161,6 @@
                                                         Failed
                                                     </div>
                                                 @endif
-                                            </td>
-                                            <td class="py-3 px-6 w-max">
-                                                {{ json_decode($q->response)->msg }}
                                             </td>
                                             <td class="py-3 px-6">
                                                 {{ $q->created_at }}
