@@ -27,6 +27,21 @@ class QueueController extends Controller
         return view('log.index', ['logs' => $logs]);
     }
 
+    public function retry(Request $request)
+    {
+        $validated = $request->validate([
+            'activity_id' => 'required|numeric',
+            'tenant_id' => 'required|numeric',
+            'payload' => 'required'
+        ]);
+
+        if ($validated) {
+            Queue::create($validated);
+
+            return redirect()->route('queue.index');
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
