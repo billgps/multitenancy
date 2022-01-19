@@ -70,7 +70,7 @@
                 </table>
 
                 <div class="mt-16 flex w-full justify-center">
-                    {{-- {{ $queues->links() }} --}}
+                    {{ $logs->links() }}
                 </div>
             </div>
         </section>

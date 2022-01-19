@@ -52,6 +52,9 @@
                                                 <div class="rounded bg-red-400 text-gray-800 py-1 px-3 text-xs font-bold">
                                                     Failed
                                                 </div>
+                                                <span>
+                                                    Retry
+                                                </span>
                                             @else
                                                 <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
                                                     Success
