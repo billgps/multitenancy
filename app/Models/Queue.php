@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Queue extends Model
 {
-    use HasFactory, UsesLandlordConnection;
+    use HasFactory, UsesLandlordConnection, SoftDeletes;
 
     protected $fillable = ['status', 'payload', 'activity_id', 'tenant_id'];
 

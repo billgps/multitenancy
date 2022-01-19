@@ -259,6 +259,7 @@ else if (Tenant::current() == null) {
         });
         Route::prefix('ajax')->group(function () {
             Route::get('/notifications', [NotificationController::class, 'ajax'])->name('notification.ajax');
+            Route::delete('/queue/delete/{queue}', [QueueController::class, 'destroy'])->name('queue.delete');
         });
     });
 }

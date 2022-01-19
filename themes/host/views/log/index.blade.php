@@ -22,7 +22,6 @@
                             <th class="py-3 px-6">Response</th>
                             <th class="py-3 px-6">Message</th>
                             <th class="py-3 px-6">Created at</th>
-                            <th class="py-3 px-6">Action</th>
                         </tr>
                     </thead>
                     <tbody class="text-gray-600 text-sm font-light">
@@ -49,20 +48,6 @@
                                 </td>
                                 <td class="py-3 px-6">
                                     {{ $log->created_at }}
-                                </td>
-                                <td class="py-3 px-6 text-center">
-                                    <div class="flex item-center justify-center">
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <a href="">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                        </div>
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <a href="">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
-                                        </div>
-                                    </div>
                                 </td>
                             </tr>
                         @endforeach
