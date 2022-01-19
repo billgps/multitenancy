@@ -69,9 +69,11 @@
                     </tbody>
                 </table>
 
-                <div class="mt-16 flex w-full justify-center">
-                    {{ $logs->links() }}
-                </div>
+                @if(Route::currentRouteName() == 'log.index')
+                    <div class="mt-16 flex w-full justify-center">
+                        {{ $logs->links() }}
+                    </div>
+                @endif
             </div>
         </section>
     </div>
