@@ -313,6 +313,9 @@
                                 <div class="text-md flex hover:text-purple-500 mx-2 my-2">
                                     <a href="{{ route('inventory.param', ['parameter' => 'device', 'value' => $inventory->device_id]) }}">
                                         {{ $inventory->device->standard_name }}
+                                        @if ($inventory->is_verified)
+                                            <i class="fas fa-check-circle text-blue-500 mx-2 my-1 aspak-verified"></i>
+                                        @endif
                                     </a>
                                 </div>
                                 <div class="flex mb-2 mx-2">
@@ -320,7 +323,7 @@
                                         <div class="flex mb-2 mx-2">
                                             @if ($inventory->latest_condition->status != 'Rusak')
                                                 @if ($inventory->latest_condition->status == 'Baik')
-                                                    <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                    <div class="rounded bg-green-400 text-gray-800 py-1 px-2 text-xs font-bold">
                                                         {{ $inventory->latest_condition->status }}
                                                     </div>
                                                 @else
@@ -510,5 +513,13 @@
         modal.classList.toggle('pointer-events-none')
         body.classList.toggle('modal-active')
     }
+</script>
+
+<script>
+    $(document).ready(function () {
+        tippy(".aspak-verified", {
+            content: "Item ini sudah terverifikasi ASPAK"
+        })
+    })
 </script>
 @endsection
