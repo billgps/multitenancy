@@ -19,6 +19,8 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="https://unpkg.com/@zxing/browser@latest"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css', 'themes/tenant') }}" rel="stylesheet">
