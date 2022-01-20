@@ -1,6 +1,40 @@
 @extends('layouts.app')
 
 @section('content')
+<script>
+    function deleteConfirm(queue) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            }
+        });
+        swal({
+            title: "Yakin ingin menghapus Queue?",
+            text: "Data yang sudah dihapus tidak bisa dikembalikan!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url    : "/ajax/queue/delete/" + queue,
+                    type   : "delete",
+                    success: function(data) {
+                        swal("Queue sudah dihapus!", {
+                            icon: "success",
+                        }).then((success) => {
+                            $(location).attr('href', "{{route('queue.index')}}"); // temporary, next time do ajax dataatbles refresh
+                        })
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
+            }
+        });
+    }
+</script>
 <main class="sm:container sm:mx-auto mt-6">
     <div class="w-full sm:px-6">
 
@@ -67,9 +101,9 @@
                                             </a>
                                         </div>
                                         <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <a href="">
+                                            <button role="button" type="button" onclick="deleteConfirm({{ $queue->id }})">
                                                 <i class="fas fa-trash-alt"></i>
-                                            </a>
+                                            </button>
                                         </div>
                                     </div>
                                 </td>

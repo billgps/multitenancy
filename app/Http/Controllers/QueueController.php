@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Queue;
+use App\Models\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -117,6 +118,20 @@ class QueueController extends Controller
      */
     public function destroy(Queue $queue)
     {
-        //
+        $queue->logs()->delete();
+        $payload = json_decode($queue->payload);
+        $tenant = $queue->tenant->database;
+        $ids = array();
+
+        foreach ($payload as $p) {
+            array_push($ids, json_decode($p)->inventory_id);
+        }
+
+        $query = "UPDATE ".$tenant.".inventories SET `aspak_code` = null WHERE `id` IN (".implode(',', $ids).")";
+        DB::connection('tenant')->update($query);
+
+        $queue->delete();
+
+        return response(['message' => "successfully deleted", 200]);
     }
 }
