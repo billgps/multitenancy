@@ -33,7 +33,7 @@
                         Wajib Kalibrasi
                     </div>
                     <div class="mt-4 text-2xl text-center text-yellow-500">
-                        {{ $scheduled }}
+                        {{ $scheduled + $expired }}
                     </div>
                 </div>
             </div>
