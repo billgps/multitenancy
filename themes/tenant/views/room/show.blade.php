@@ -87,6 +87,9 @@
                             <div class="text-md flex hover:text-purple-500 mx-2 my-2">
                                 <a href="{{ route('inventory.param', ['parameter' => 'device', 'value' => $inventory->device_id]) }}">
                                     {{ $inventory->device->standard_name }}
+                                    @if ($inventory->is_verified)
+                                        <i class="fas fa-check-circle text-blue-500 mx-2 my-1 aspak-verified"></i>
+                                    @endif
                                 </a>
                             </div>
                             <div class="flex mb-2 mx-2">
@@ -204,5 +207,13 @@
             </div>
         </section>
     </div>
+
+    <script>
+        $(document).ready(function () {
+            tippy(".aspak-verified", {
+                content: "Item ini sudah terverifikasi ASPAK"
+            })
+        })
+    </script>
 </main>
 @endsection
