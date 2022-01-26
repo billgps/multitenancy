@@ -196,7 +196,7 @@
             </span> --}}
             <div class="ml-auto mr-6 flex">
                 <span class="mx-2 lg:mx-6">
-                    <button onclick="markAsRead()" @click="notification = !notification" class="relative z-10 hover:text-purple-500 focus:outline-none">
+                    <button @click="notification = !notification" class="relative z-10 hover:text-purple-500 focus:outline-none">
                         @if(Session::get('notifications'))
                             <span id="badge" class="badge pl-1 bg-red-800 rounded-full text-center text-white text-xs mr-1">
                                 @if (Session::get('notifications')->count() < 99)
@@ -218,25 +218,27 @@
                         </div>
                         @if(count(Session::get('notifications')) > 0)
                             @foreach (Session::get('notifications') as $notification)
-                                <div class="flex flex-col">
-                                    <div class="text-sm mt-3">
-                                        {{ $notification->data['title'] }}
+                                <a href="{{ $notification->data['url'] }}">
+                                    <div class="flex flex-col hover:bg-gray-200 hover:text-purple-500 rounded-sm py-2 px-2">
+                                        <div class="text-sm mt-1 font-semibold">
+                                            {{ $notification->data['title'] }}
+                                        </div>
+                                        <div class="text-xs mt-1">
+                                            {{ $notification->data['message'] }}
+                                        </div>
+                                        {{-- <div class="flex justify-center my-2 py-2 w-full hover:text-purple-500 border-b border-gray-500 border-opacity-60">
+                                            <a href="{{ $notification->data['url'] }}">
+                                                <i class="fas fa-eye fa-xs"></i>
+                                            </a>
+                                        </div> --}}
                                     </div>
-                                    <div class="text-xs mt-1">
-                                        {{ $notification->data['message'] }}
-                                    </div>
-                                    <div class="flex justify-center mt-1 py-1 w-full hover:text-purple-500 border-b border-gray-500 border-opacity-60">
-                                        <a href="{{ $notification->data['url'] }}">
-                                            <i class="fas fa-eye fa-xs"></i>
-                                        </a>
-                                    </div>
-                                </div>
+                                </a>
                             @endforeach
 
-                            <div class="w-full flex mt-6 justify-center text-xs hover:text-purple-500">
-                                <a href="">
+                            <div class="w-full flex my-2 justify-center text-xs hover:text-purple-500">
+                                <button onclick="markAsRead()" @click="notification = false">
                                     Mark all as read
-                                </a>
+                                </button>
                             </div>
                         @else
                             <div class="text-sm w-full p-2 flex justify-center mt-3">
@@ -271,11 +273,10 @@
                     type: "GET",
                     url: "{{ route('notification.ajax') }}",
                     success: function (data) {
-                        // document.getElementById('badge').innerHTML = data
-                        console.log(data);
+                        // console.log(data);
                     },
                     error: function (error) {
-                        console.log(error)
+                        // console.log(error)
                     }
                 })
             }

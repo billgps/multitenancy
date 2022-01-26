@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Ramsey\Uuid\Type\Integer;
 
 class ASPAKSyncUpdate extends Notification
 {
@@ -18,9 +19,10 @@ class ASPAKSyncUpdate extends Notification
      *
      * @return void
      */
-    public function __construct(string $message, string $q, int $log)
+    public function __construct(Integer $success, Integer $failed, string $q, int $log)
     {
-        $this->message = $message;
+        $this->success = $success;
+        $this->failed = $failed;
         $this->q = $q;
         $this->log = $log;
     }
@@ -60,7 +62,7 @@ class ASPAKSyncUpdate extends Notification
     {
         return [
             'title' => "Sinkronisasi ASPAK ".ucfirst($this->q),
-            'message' => $this->message,
+            'message' => $this->success." item berhasil dikirim \n".$this->failed." item gagal dikirim",
             'url' => "#linktologdetail"
         ];
     }

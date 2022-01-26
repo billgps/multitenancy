@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Notifications\CalibrationStatusUpdate;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Spatie\Multitenancy\Models\Tenant;
 
@@ -89,17 +90,19 @@ class CalibrationUpdate extends Command
             $users = User::all();
     
             if ($scheduled > 0) {
-                foreach ($users as $user) {
-                    $user->notify(new CalibrationStatusUpdate(' item inventory harus segera dikalibrasi', $scheduled));
-                }
-                // Notification::send($users, new CalibrationStatusUpdate(' item inventory harus segera dikalibrasi', $scheduled));
+                // foreach ($users as $user) {
+                //     $user->notify(new CalibrationStatusUpdate("Wajib Kalibrasi", $scheduled));
+                // }
+
+                Notification::send($users, new CalibrationStatusUpdate("Wajib Kalibrasi", $scheduled));
             }
     
             if ($expired > 0) {
-                foreach ($users as $user) {
-                    $user->notify(new CalibrationStatusUpdate(' item inventory sudah expired', $expired));
-                }
-                // Notification::send($users, new CalibrationStatusUpdate(' item inventory sudah expired', $expired));
+                // foreach ($users as $user) {
+                //     $user->notify(new CalibrationStatusUpdate("Expired", $expired));
+                // }
+
+                Notification::send($users, new CalibrationStatusUpdate("Expired", $scheduled));
             }
         });
 

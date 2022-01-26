@@ -18,9 +18,9 @@ class CalibrationStatusUpdate extends Notification
      *
      * @return void
      */
-    public function __construct(string $message, int $count)
+    public function __construct(string $status, int $count)
     {
-        $this->message = $message;
+        $this->status = $status;
         $this->count = $count;
     }
 
@@ -58,9 +58,10 @@ class CalibrationStatusUpdate extends Notification
     public function toArray($notifiable)
     {
         return [
-            'title' => 'Status Kalibrasi Berubah!',
-            'message' => $this->count.$this->message,
-            'url' => '#'
+            'title' => "Status Kalibrasi Berubah!",
+            'message' => $this->count." Alat di inventory sudah ",
+            'status' => $this->status,
+            'url' => url("/inventory/sort/calibration_status/".$this->status)
         ];
     }
 }
