@@ -11,6 +11,7 @@ use App\Notifications\ASPAKSyncUpdate;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log as FacadesLog;
 use Spatie\Multitenancy\Models\Tenant;
 
 class AspakSync extends Command
@@ -140,11 +141,11 @@ class AspakSync extends Command
                     $admin->notify(new ASPAKSyncUpdate (
                         " item diterima : ".$response->data->accept.", item ditolak : ".$response->data->denied, 
                         $queues->status, 
-                        $log->id 
+                        $queues->id 
                     ));
                 }
             } catch (\Throwable $th) {
-                return $th;
+                FacadesLog::error($th);
             }
         }
 
