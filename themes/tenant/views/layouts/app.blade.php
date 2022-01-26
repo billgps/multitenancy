@@ -210,8 +210,13 @@
                     </button>
                     <div x-show="notification" @click="notification = false" class="fixed inset-0 h-full w-full z-10"></div>
     
-                    <div x-show="notification" class="absolute top-9 right-28 mt-2 py-2 px-2 w-64 h-96 overflow-auto bg-white rounded-md shadow-xl z-20">
-                        @if(Session::get('notifications'))
+                    <div x-show="notification" class="absolute top-9 right-6 mt-2 py-2 px-2 w-80 max-h-5/6 overflow-auto bg-white rounded-md shadow-xl z-20">
+                        <div class="w-full flex p-3">
+                            <header>
+                                <h4>Notifications</h4>
+                            </header>
+                        </div>
+                        @if(count(Session::get('notifications')) > 0)
                             @foreach (Session::get('notifications') as $notification)
                                 <div class="flex flex-col">
                                     <div class="text-sm mt-3">
@@ -227,17 +232,17 @@
                                     </div>
                                 </div>
                             @endforeach
+
+                            <div class="w-full flex mt-6 justify-center text-xs hover:text-purple-500">
+                                <a href="">
+                                    Mark all as read
+                                </a>
+                            </div>
                         @else
-                            <div class="text-sm w-full flex justify-center">
+                            <div class="text-sm w-full p-2 flex justify-center mt-3">
                                 No new notifications
                             </div>
                         @endif
-
-                        <div class="w-full flex mt-6 justify-center text-xs hover:text-purple-500">
-                            <a href="">
-                                See all
-                            </a>
-                        </div>
                     </div>
                 </span>
                 {{-- <span class="mx-2 lg:mx-6">

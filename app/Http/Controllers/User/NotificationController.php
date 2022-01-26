@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Administrator;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,5 +25,10 @@ class NotificationController extends Controller
         }
 
         return response()->json($user->unreadNotifications->count(), 200);
+    }
+
+    public function index()
+    {
+        $notifications = Auth::user();
     }
 }
