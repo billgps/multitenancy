@@ -19,7 +19,7 @@ class ComplainObserver
     {
         $users = User::role('staff')->get();
 
-        Notification::send($users, new ComplainUpdate($complain, ' membuat komplain baru'));
+        Notification::send($users, new ComplainUpdate($complain));
     }
 
     /**

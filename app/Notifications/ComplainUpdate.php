@@ -19,9 +19,8 @@ class ComplainUpdate extends Notification
      *
      * @return void
      */
-    public function __construct(Complain $complain, string $message)
+    public function __construct(Complain $complain)
     {
-        $this->message = $message;
         $this->complain = $complain;
     }
 
@@ -59,9 +58,9 @@ class ComplainUpdate extends Notification
     public function toArray($notifiable)
     {
         return [
-            'title' => 'Komplain Baru!',
-            'message' => $this->complain->user->name.$this->message,
-            'url' => route('complain.show', ['id' => $this->complain->id])
+            'title' => "Komplain Baru!",
+            'message' => $this->complain->user->name." Membuat komplain baru.",
+            'url' => route('complain.show', ['id' => $this->complain->id]),
         ];
     }
 }
