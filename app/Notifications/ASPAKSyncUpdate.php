@@ -63,7 +63,7 @@ class ASPAKSyncUpdate extends Notification
         return [
             'title' => "Sinkronisasi ASPAK ".ucfirst($this->q),
             'message' => $this->success." item berhasil dikirim \n".$this->failed." item gagal dikirim",
-            'url' => route('queue.logs', ['queue' => $this->log->id])
+            'url' => route('queue.logs', ['queue' => $this->log->id]),
         ];
     }
 }

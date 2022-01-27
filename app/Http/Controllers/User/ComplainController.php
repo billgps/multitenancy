@@ -18,7 +18,7 @@ class ComplainController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->roles->pluck('name')[0] == 'staff') {
+        if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('staff')) {
             $complains = Complain::with('response', 'response.user',  'user', 'room')->orderBy('created_at', 'desc')->get();
         } else {
             $complains = Complain::where('user_id', Auth::user()->id)->with('response', 'response.user',  'user', 'room')->orderBy('created_at', 'desc')->get();

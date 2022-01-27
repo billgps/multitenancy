@@ -226,6 +226,8 @@ if (Tenant::current()) {
                 // Route::get('/aspak-details/{id}', [ASPAKController::class, 'ajaxGetDetails'])->name('aspak.details');
                 Route::get('/aspak-map/{device}', [ASPAKController::class, 'ajaxMap'])->name('aspak.nomenclature');
             });
+
+            Route::get('/user/notfication-routing/{notification}', [NotificationController::class, 'routing'])->name('user.notification.routing');
         });
     });
 } 

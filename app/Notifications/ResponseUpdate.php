@@ -2,14 +2,13 @@
 
 namespace App\Notifications;
 
+use App\Models\Response;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Spatie\Multitenancy\Models\Tenant;
-use Spatie\Multitenancy\Jobs\TenantAware;
 
-class CalibrationStatusUpdate extends Notification
+class ResponseUpdate extends Notification
 {
     use Queueable;
 
@@ -18,10 +17,9 @@ class CalibrationStatusUpdate extends Notification
      *
      * @return void
      */
-    public function __construct(string $status, int $count)
+    public function __construct(Response $response)
     {
-        $this->status = $status;
-        $this->count = $count;
+        $this->response = $response;
     }
 
     /**
@@ -32,7 +30,7 @@ class CalibrationStatusUpdate extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['mail'];
     }
 
     /**
@@ -58,9 +56,9 @@ class CalibrationStatusUpdate extends Notification
     public function toArray($notifiable)
     {
         return [
-            'title' => "Status Kalibrasi Berubah!",
-            'message' => $this->count." Alat di inventory sudah ".$this->status,
-            'url' => url("/inventory/sort/calibration_status/".$this->status),
+            'title' => "Komplain Sudah Direspon",
+            'message' => "Komplain ID".$this->response->complain_id." direspon oleh ".$this->response->user->name, 
+            'url' => route('complain.show', ['id' => $this->response->complain_id]),
         ];
     }
 }

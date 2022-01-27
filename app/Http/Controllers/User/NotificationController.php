@@ -27,8 +27,15 @@ class NotificationController extends Controller
         return response()->json($user->unreadNotifications->count(), 200);
     }
 
-    public function index()
+    public function routing(Notification $notification)
     {
-        $notifications = Auth::user();
+        $notification->markAsRead();
+
+        return redirect($notification->data['url']);
+    }
+
+    public function markAllAsRead()
+    {
+
     }
 }

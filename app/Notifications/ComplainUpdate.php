@@ -60,7 +60,7 @@ class ComplainUpdate extends Notification
         return [
             'title' => "Komplain Baru!",
             'message' => $this->complain->user->name." Membuat komplain baru.",
-            'url' => route('complain.show', ['id' => $this->complain->id])
+            'url' => route('complain.show', ['id' => $this->complain->id]),
         ];
     }
 }

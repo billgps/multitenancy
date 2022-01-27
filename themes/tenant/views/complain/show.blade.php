@@ -11,9 +11,11 @@
         @endif
         <section class="flex flex-col break-words bg-gray-200 sm:border-1">
             <div class="col-span-6 h-12 flex items-center py-2 px-4 bg-gray-200"> 
-                <a href="{{ route('complain.delete', ['complain' => $complain->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
-                    <i class="fas fa-trash-alt"></i>
-                </a>   
+                @if (Auth::user()->id === $complain->user_id || Auth::user()->hasRole('admin'))
+                    <a href="{{ route('complain.delete', ['complain' => $complain->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>   
+                @endif
                 @empty($complain->response->id)
                     @role('staff')
                         <a href="{{ route('response.create', ['complain' => $complain->id]) }}" class="ml-auto mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
