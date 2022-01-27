@@ -384,7 +384,11 @@
 
                     <div x-show="open" class="bg-gray-900">
                         <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('complain.index') }}">
-                            Submit a Ticket
+                            @if (Auth::user()->hasRole('staff'))
+                                Tickets
+                            @else
+                                Submit a Ticket
+                            @endif
                         </a>
                         {{-- <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="">
                             Response

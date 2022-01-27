@@ -80,7 +80,7 @@
                                             </div>
                                             <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                 @role('staff')
-                                                    @empty($complain->response)
+                                                    @empty($complain->response->user_id)
                                                         <a href="{{ route('response.create', ['complain' => $complain->id]) }}">
                                                             <i class="fas fa-edit"></i>
                                                         </a>
