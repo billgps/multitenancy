@@ -84,7 +84,7 @@ class RecordController extends Controller
             $record->label = $request->label;
             $record->calibration_status = $request->calibration_status;
             $record->result = $request->result;
-            $record->activity_id = Activity::active()->id;
+            $record->activity_id = Tenant::current()->is_aspak ? Activity::active()->id : null;
             $record->certificate = $certificateName;
             $record->report = $reportName;
             $record->vendor = 'PT Global Promedika Services';
