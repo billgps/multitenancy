@@ -210,7 +210,7 @@
                     </button>
                     <div x-show="notification" @click="notification = false" class="fixed inset-0 h-full w-full z-10"></div>
     
-                    <div x-show="notification" class="absolute top-9 right-6 mt-2 py-2 px-2 w-80 max-h-5/6 overflow-auto bg-white rounded-md shadow-xl z-20">
+                    <div x-show="notification" class="absolute top-9 right-6 mt-2 py-2 px-2 w-80 max-h-96 overflow-auto bg-white rounded-md shadow-xl z-20">
                         <div class="w-full flex p-3">
                             <header>
                                 <h4>Notifications</h4>
