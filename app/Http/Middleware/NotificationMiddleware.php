@@ -28,7 +28,7 @@ class NotificationMiddleware
                 $user = Administrator::find(Auth::user()->id);
             }
             
-            $notifications = $user->unreadNotifications;
+            $notifications = $user->unreadNotifications()->limit(50)->get();
             $request->session()->put('notifications', $notifications);
         }
 
