@@ -40,7 +40,7 @@
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
-                            {{-- @foreach ($complains as $complain)
+                            @foreach ($complains as $complain)
                                 <tr class="hover:bg-gray-100">
                                     <td class="py-3 px-6">
                                         {{ $complain->id }}
@@ -79,23 +79,28 @@
                                                 </a>
                                             </div>
                                             <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <a href="{{ route('response.create', ['complain' => $complain->id]) }}">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
+                                                @role('staff')
+                                                    @empty($complain->response->user_id)
+                                                        <a href="{{ route('response.create', ['complain' => $complain->id]) }}">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                    @endempty
+                                                @endrole
                                             </div>
                                             <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <a href="{{ route('complain.delete', ['complain' => $complain->id]) }}">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </a>
+                                                @if (Auth::user()->hasRole('admin') || $complain->user_id === Auth::user()->id)
+                                                    <a href="{{ route('complain.delete', ['complain' => $complain->id]) }}">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+                                                @endif
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table> 
                     {{-- <script>
-
                             var table = $('#example').DataTable({
                                 "pageLength": 30,
                                 "ordering": true,
@@ -188,27 +193,7 @@
     </div>
 </main>
 
-<div id="action" class="hidden">
-    <div class="flex item-center justify-center">
-        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-            <a href="">
-                <i class="fas fa-eye"></i>
-            </a>
-        </div>
-        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-            <a href="">
-                <i class="fas fa-edit"></i>
-            </a>
-        </div>
-        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-            <a href="">
-                <i class="fas fa-trash-alt"></i>
-            </a>
-        </div>
-    </div>
-</div>
-
-<script>
+{{-- <script>
     $(document).ready(function() {
         let CSRF_TOKEN = document.getElementsByTagName('meta')[2].getAttribute('content')
 
@@ -372,5 +357,5 @@
         //     }
         // }
     })
-</script>
+</script> --}}
 @endsection
