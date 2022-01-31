@@ -220,8 +220,13 @@
                             @foreach (Session::get('notifications') as $notification)
                                 <a href="{{ route('user.notification.routing', ['notification' => $notification->id]) }}">
                                     <div class="flex flex-col hover:bg-gray-200 hover:text-purple-500 rounded-sm py-2 px-2">
-                                        <div class="text-sm mt-1 font-semibold">
-                                            {{ $notification->data['title'] }}
+                                        <div class="mt-1 flex items-center">
+                                            <span class="font-semibold text-sm">
+                                                {{ $notification->data['title'] }}
+                                            </span>
+                                            <span class="ml-auto text-xs">
+                                                {{ $notification->created_at }}
+                                            </span>
                                         </div>
                                         <div class="text-xs mt-1">
                                             {{ $notification->data['message'] }}
