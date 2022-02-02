@@ -24,16 +24,74 @@
                     <div x-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10"></div>
 
                     <div x-show="dropdownOpen" class="absolute top-28 left-48 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
-                        <button @click="dropdownOpen = false" onclick="toggleModal(this, 'import-toggle', 'import-modal')" class="modal-open import-toggle w-full text-left block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white">
+                        <a href="#recordImport" rel="modal:open" @click="dropdownOpen = false" class="w-full text-left block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white">
                             Records
-                        </button>       
-                        <button @click="dropdownOpen = false" onclick="toggleModal(this, 'report-toggle', 'report-modal')" class="modal-open report-toggle w-full text-left block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white">
+                        </a>       
+                        <a href="#reportImport" rel="modal:open" @click="dropdownOpen = false" onclick="toggleModal(this, 'report-toggle', 'report-modal')" class="modal-open report-toggle w-full text-left block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white">
                             Reports
-                        </button>     
-                        <button @click="dropdownOpen = false" onclick="toggleModal(this, 'certificate-toggle', 'certificate-modal')" class="modal-open certificate-toggle w-full text-left block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white">
+                        </a>     
+                        <a href="#certificateImport" rel="modal:open" @click="dropdownOpen = false" onclick="toggleModal(this, 'certificate-toggle', 'certificate-modal')" class="modal-open certificate-toggle w-full text-left block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white">
                             Certificates
-                        </button>     
+                        </a>     
                     </div>
+    
+                    <div id="recordImport" style="background-color: rgb(31, 41, 55);" class="modal text-gray-200 flex items-center justify-center">
+                        <div class="flex justify-between items-center pb-3 text-lg">
+                            Import Excel to Records
+                        </div>
+                        <form action="{{ route('record.import') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="text-xs">
+                                <div>
+                                    <label class="block mb-2 text-sm text-gray-00" for="file">Records</label>
+                                    <div class="py-2 text-left">
+                                        <input id="file" name="file" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                    </div>
+                                </div>
+                                <div class="flex w-full justify-end pt-2">
+                                    <input type="submit" value="{{ __('Import') }}" class="block text-center text-white bg-green-600 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
+                                </div>
+                            </div>
+                        </form>
+                    </div>  
+                    <div id="reportImport" style="background-color: rgb(31, 41, 55);" class="modal text-gray-200 flex items-center justify-center">
+                        <div class="flex justify-between items-center pb-3 text-lg">
+                            Upload Batch Reports
+                        </div>
+                        <form action="{{ route('record.upload.report') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="text-xs">
+                                <div>
+                                    <label class="block mb-2 text-sm text-gray-00" for="report">Reports</label>
+                                    <div class="py-2 text-left">
+                                        <input id="report" name="report[]" type="file" multiple="multiple">
+                                    </div>
+                                </div>
+                                <div class="flex w-full justify-end pt-2">
+                                    <input type="submit" value="{{ __('Import') }}" class="block text-center text-white bg-green-600 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
+                                </div>
+                            </div>
+                        </form>
+                    </div>  
+                    <div id="certificateImport" style="background-color: rgb(31, 41, 55);" class="modal text-gray-200 flex items-center justify-center">
+                        <div class="flex justify-between items-center pb-3 text-lg">
+                            Upload Batch Certificates
+                        </div>
+                        <form action="{{ route('record.upload.certificate') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="text-xs">
+                                <div>
+                                    <label class="block mb-2 text-sm text-gray-00" for="certificate">Certificates</label>
+                                    <div class="py-2 text-left">
+                                        <input id="certificate" name="certificate[]" type="file" multiple="multiple">
+                                    </div>
+                                </div>
+                                <div class="flex w-full justify-end pt-2">
+                                    <input type="submit" value="{{ __('Import') }}" class="block text-center text-white bg-green-600 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
+                                </div>
+                            </div>
+                        </form>
+                    </div>  
                 @endif
                 <a class="mx-2 text-blue-600 hover:text-gray-400" href="{{ route('record.export') }}">
                     <i class="fas fa-download"></i>
@@ -197,54 +255,11 @@
     </div>
 </main>
 
-<div id="import-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
-    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-    <div class="modal-container bg-gray-800 text-gray-300 w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
-        <div class="modal-content py-4 text-left px-6">
-            <div class="flex justify-between items-center pb-3 text-lg">
-                Import Excel to Records
-            </div>
-            <form action="{{ route('record.import') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="text-xs">
-                    <div>
-                        <label class="block mb-2 text-sm text-gray-00" for="file">Records</label>
-                        <div class="py-2 text-left">
-                            <input id="file" name="file" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                        </div>
-                    </div>
-                    <div class="flex w-full justify-end pt-2">
-                        <input type="submit" value="{{ __('Import') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
-                        <button onclick="toggleModal(this, 'import-toggle', 'import-modal')" type="button" class="modal-close import-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 <div id="report-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
     <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
     <div class="modal-container bg-gray-800 text-gray-300 w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
         <div class="modal-content py-4 text-left px-6">
-            <div class="flex justify-between items-center pb-3 text-lg">
-                Upload Batch Reports
-            </div>
-            <form action="{{ route('record.upload.report') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="text-xs">
-                    <div>
-                        <label class="block mb-2 text-sm text-gray-00" for="report">Reports</label>
-                        <div class="py-2 text-left">
-                            <input id="report" name="report[]" type="file" multiple="multiple">
-                        </div>
-                    </div>
-                    <div class="flex w-full justify-end pt-2">
-                        <input type="submit" value="{{ __('Upload') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
-                        <button onclick="toggleModal(this, 'report-toggle', 'report-modal')" type="button" class="modal-close report-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
-                    </div>
-                </div>
-            </form>
+
         </div>
     </div>
 </div>
@@ -253,49 +268,8 @@
     <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
     <div class="modal-container bg-gray-800 text-gray-300 w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
         <div class="modal-content py-4 text-left px-6">
-            <div class="flex justify-between items-center pb-3 text-lg">
-                Upload Batch Certificates
-            </div>
-            <form action="{{ route('record.upload.certificate') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="text-xs">
-                    <div>
-                        <label class="block mb-2 text-sm text-gray-00" for="certificate">Certificates</label>
-                        <div class="py-2 text-left">
-                            <input id="certificate" name="certificate[]" type="file" multiple="multiple">
-                        </div>
-                    </div>
-                    <div class="flex w-full justify-end pt-2">
-                        <input type="submit" value="{{ __('Upload') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
-                        <button onclick="toggleModal(this, 'certificate-toggle', 'certificate-modal')" type="button" class="modal-close certificate-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
-                    </div>
-                </div>
-            </form>
+
         </div>
     </div>
 </div>
-
-<script>    
-    const overlay = document.querySelector('.modal-overlay')
-    overlay.addEventListener('click', toggleModal)
-    
-    var closemodal = document.querySelectorAll('.modal-close')
-    for (var i = 0; i < closemodal.length; i++) {
-        closemodal[i].addEventListener('click', function(event){
-            event.preventDefault()
-            toggleModal(this)
-        })
-    }
-    
-    function toggleModal (button, toggle, modal) {
-        const body = document.querySelector('body')
-        if (button.classList.contains(toggle)) {
-            modal = document.getElementById(modal)
-        } 
-        
-        modal.classList.toggle('opacity-0')
-        modal.classList.toggle('pointer-events-none')
-        body.classList.toggle('modal-active')
-    }
-</script>
 @endsection

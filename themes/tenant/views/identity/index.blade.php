@@ -24,9 +24,29 @@
                     </a>
                 @endif
                 @if (Auth::user()->role < 1)
-                    <button onclick="toggleModal(this, 'import-toggle', 'import-modal')" class="mx-2 text-blue-600 hover:text-gray-400 modal-open import-toggle">
+                    <a href="#import" rel="modal:open" class="mx-2 text-blue-600 hover:text-gray-400">
                         <i class="fas fa-file-upload"></i>
-                    </button>    
+                    </a>  
+                    
+                    <div id="import" style="background-color: rgb(31, 41, 55);" class="modal text-gray-200 flex items-center justify-center">
+                        <div class="flex justify-between items-center pb-3 text-lg">
+                            Import Excel to Identity
+                        </div>
+                        <form action="{{ route('identity.import') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="text-xs">
+                                <div>
+                                    <label class="block mb-2 text-sm text-gray-00" for="file">identities</label>
+                                    <div class="py-2 text-left">
+                                        <input id="file" name="file" type="file">
+                                    </div>
+                                </div>
+                                <div class="flex w-full justify-end pt-2">
+                                    <input type="submit" value="{{ __('Import') }}" class="block text-center text-white bg-green-600 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
+                                </div>
+                            </div>
+                        </form>
+                    </div>   
                 @endif
                 <a class="mx-2 text-blue-600 hover:text-gray-400" href="{{ route('identity.export') }}">
                     <i class="fas fa-download"></i>
@@ -149,54 +169,4 @@
         </section>
     </div>
 </main>
-
-<div id="import-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
-    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-    <div class="modal-container bg-gray-800 text-gray-300 w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
-        <div class="modal-content py-4 text-left px-6">
-            <div class="flex justify-between items-center pb-3 text-lg">
-                Import Excel to Identity
-            </div>
-            <form action="{{ route('identity.import') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="text-xs">
-                    <div>
-                        <label class="block mb-2 text-sm text-gray-00" for="file">identities</label>
-                        <div class="py-2 text-left">
-                            <input id="file" name="file" type="file">
-                        </div>
-                    </div>
-                    <div class="flex w-full justify-end pt-2">
-                        <input type="submit" value="{{ __('Upload') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
-                        <button onclick="toggleModal(this, 'import-toggle', 'import-modal')" type="button" class="modal-close import-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<script>    
-    const overlay = document.querySelector('.modal-overlay')
-    overlay.addEventListener('click', toggleModal)
-    
-    var closemodal = document.querySelectorAll('.modal-close')
-    for (var i = 0; i < closemodal.length; i++) {
-        closemodal[i].addEventListener('click', function(event){
-            event.preventDefault()
-            toggleModal(this)
-        })
-    }
-    
-    function toggleModal (button, toggle, modal) {
-        const body = document.querySelector('body')
-        if (button.classList.contains(toggle)) {
-            modal = document.getElementById(modal)
-        } 
-        
-        modal.classList.toggle('opacity-0')
-        modal.classList.toggle('pointer-events-none')
-        body.classList.toggle('modal-active')
-    }
-</script>
 @endsection
