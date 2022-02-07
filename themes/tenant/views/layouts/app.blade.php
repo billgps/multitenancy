@@ -21,6 +21,7 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css', 'themes/tenant') }}" rel="stylesheet">
@@ -28,15 +29,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 
     <style>
-        .modal {
-          transition: opacity 0.25s ease;
-        }
-        body.modal-active {
-          overflow-x: hidden;
-          overflow-y: visible !important;
-        }
         table.dataTable.no-footer {
             border-bottom: 0 !important;
         }
@@ -72,22 +67,6 @@
             border-bottom: 0px !important;
         }
     </style>
-
-    <style>
-        .modal {
-            transition: opacity 0.25s ease;
-        }
-        body.modal-active {
-            overflow-x: hidden;
-            overflow-y: visible !important;
-        }
-        table.dataTable.no-footer {
-            border-bottom: 0 !important;
-        }
-        #example_wrapper {
-            display: none !important;
-        }
-    </style>
 </head>
 <body class="h-screen font-sans antialiased leading-none bg-gray-200 sm:overflow-auto" x-data="{isClose: false, notification: false}">
     @if ($errors->any())
@@ -102,7 +81,7 @@
             <div class="text-xl font-normal  max-w-full flex-initial">
                 <div class="py-2 ml-3">
                     @foreach ($errors->all() as $error)
-                    <div class="text-xs font-base">{{ $error }}</div>
+                        <div class="text-xs font-base">{{ $error }}</div>
                     @endforeach
                 </div>
             </div>
@@ -220,8 +199,13 @@
                             @foreach (Session::get('notifications') as $notification)
                                 <a href="{{ route('user.notification.routing', ['notification' => $notification->id]) }}">
                                     <div class="flex flex-col hover:bg-gray-200 hover:text-purple-500 rounded-sm py-2 px-2">
-                                        <div class="text-sm mt-1 font-semibold">
-                                            {{ $notification->data['title'] }}
+                                        <div class="mt-1 flex items-center">
+                                            <span class="font-semibold text-sm">
+                                                {{ $notification->data['title'] }}
+                                            </span>
+                                            <span class="ml-auto text-xs">
+                                                {{ $notification->created_at }}
+                                            </span>
                                         </div>
                                         <div class="text-xs mt-1">
                                             {{ $notification->data['message'] }}
