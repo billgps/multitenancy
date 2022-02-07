@@ -38,19 +38,6 @@
 
         <section class="sm:grid sm:grid-cols-6 sm:gap-2 break-words">
             <div class="col-span-6 h-12 flex items-center py-2 px-4 bg-gray-200">
-                {{-- @if (Auth::user()->role < 2)
-                    <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('device.create') }}">
-                        <i class="fas fa-plus"></i>
-                    </a>
-                @endif
-                @if (Auth::user()->role < 1)
-                    <button onclick="toggleModal(this, 'import-toggle', 'import-modal')" class="mx-2 text-blue-600 hover:text-gray-400 modal-open import-toggle">
-                        <i class="fas fa-file-upload"></i>
-                    </button>   
-                @endif
-                <a class="mx-2 text-blue-600 hover:text-gray-400" href="{{ route('device.export') }}">
-                    <i class="fas fa-download"></i>
-                </a> --}}
                 <div class="ml-auto my-auto flex text-xs">
                     <input class="h-8 rounded-r-none text-xs text-gray-800 w-full px-2 rounded-md focus:ring-0 border-none" id="search_" type="text" placeholder="Search..." name="search" />
                     <button type="button" class="h-8 rounded-l-none w-20 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-gray-100 uppercase tracking-widest hover:text-gray-800 hover:bg-gray-400 active:bg-gray-900 focus:outline-none disabled:opacity-25 transition ease-in-out duration-150">
@@ -108,15 +95,15 @@
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">
-                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                            {{-- <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                 <a href="{{ route('aspak.create', ['id' => $device->id]) }}">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                            </div>
+                                            </div> --}}
                                             <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <button id="{{ $device->id }}" onclick="getNomenclature(this, 'nomenclature-toggle', 'nomenclature-modal')" class="mx-2 modal-open nomenclature-toggle">
+                                                <a href="#nomenclature" rel="modal:open" id="{{ $device->id }}" onclick="getNomenclature(this, 'nomenclature-toggle', 'nomenclature-modal')" class="mx-2 modal-open nomenclature-toggle">
                                                     <i class="fas fa-search"></i>
-                                                </button>   
+                                                </a>   
                                             </div>
                                         </div>
                                     </td>
@@ -124,6 +111,7 @@
                             @endforeach
                         </tbody>
                     </table> 
+
                     <script>
                         $(document).ready(function() {
                             var table = $('#device').DataTable({
@@ -169,6 +157,7 @@
                             }
                         })
                     </script>
+
                     <div class="mt-3 w-full h-20 flex justify-center text-sm p-2" id="page"></div>
                 </div>
             </div>
@@ -176,190 +165,152 @@
     </div>
 </main>
 
-<div id="nomenclature-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
-    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-    <div class="modal-container bg-gray-800 text-gray-300 w-3/5 mx-auto rounded shadow-lg z-50 overflow-y-auto">
-        <div class="modal-content py-4 text-left px-6">
-            <div class="flex justify-between items-center pb-3 text-lg">
-                Referensi Nomenklatur ASPAK
-            </div>
-            <form action="{{ route('aspak.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="input_parameter" value="device">
-                <input id="device_id" name="id" type="hidden" value="">
-                <input id="code_suggested" type="hidden" name="code_" value="">
-                <div class="text-xs">
-                    <div class="flex flex-col col-span-2">
-                        <span class="text-center text-sm my-6"> Pick from <span class="font-semibold">Suggested Nomenclatures,</span> 
-                            <span class="text-center my-6"> or  
-                                <button type="button" onclick="manualModal(this, 'manual-toggle', 'manual-modal')" class="hover:text-purple-500 modal-open manual-toggle">Search Manually</button>
-                            </span>
-                        </span>
-                        <div id="suggestionList" class="w-full h-96 my-6 overflow-y-auto bg-gray-700 shadow-inner">
-                            <div class="flex my-1">
-                                <div class="w-4/5 h-10 py-3 px-1">
-                                </div>
-                                <div class="w-1/5 h-10 text-right p-3">
-                                    <p class="text-sm text-grey-dark">Member</p>
-                                </div>
-                            </div>
+<div id="nomenclature" style="background-color: rgb(31, 41, 55); width: 100%;" class="modal text-gray-200 flex items-center justify-center">
+    <div class="flex justify-between items-center pb-3 text-lg">
+        Referensi Nomenklatur ASPAK
+    </div>
+    <form action="{{ route('aspak.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <input type="hidden" name="input_parameter" value="device">
+        <input id="device_id" name="id" type="hidden" value="">
+        <input id="code_suggested" type="hidden" name="code_" value="">
+        <div class="text-xs">
+            <div class="flex flex-col col-span-2">
+                <span class="text-center text-sm my-6"> Pick from <span class="font-semibold">Suggested Nomenclatures,</span> 
+                    <span class="text-center my-6"> or  
+                        <a href="#manual" rel="modal:open" onclick="manualModal(this, 'manual-toggle', 'manual-modal')" class="hover:text-purple-500 modal-open manual-toggle">Search Manually</a>
+                    </span>
+                </span>
+                <div id="suggestionList" class="w-full h-96 my-6 overflow-y-auto bg-gray-700 shadow-inner">
+                    <div class="flex my-1">
+                        <div class="w-4/5 h-10 py-3 px-1">
+                        </div>
+                        <div class="w-1/5 h-10 text-right p-3">
+                            <p class="text-sm text-grey-dark">Member</p>
                         </div>
                     </div>
-                    <div class="flex w-full justify-end pt-2">
-                        <input type="submit" value="{{ __('Submit') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
-                        <button onclick="toggleModal(this, 'nomenclature-toggle', 'nomenclature-modal')" type="button" class="modal-close nomenclature-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
-                    </div>
                 </div>
-            </form>
+            </div>
+            <div class="flex w-full justify-end pt-2">
+                <input type="submit" value="{{ __('Submit') }}" class="block text-center text-white bg-green-600 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
+            </div>
         </div>
-    </div>
-</div>
+    </form>
+</div>  
 
-<div id="manual-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
-    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-    <div class="modal-container bg-gray-800 text-gray-300 w-2/5 mx-auto rounded shadow-lg z-50 overflow-y-auto">
-        <div class="modal-content py-4 text-left px-6">
-            <div class="flex justify-between items-center pb-3 text-lg">
-                Manual Search
-            </div>
-            <form action="{{ route('aspak.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="input_parameter" value="device">
-                <input id="device_id_manual" name="id" type="hidden" value="">
-                <div class="text-xs">
-                    <div class="flex flex-col col-span-2">
-                        <div class="py-2 w-full">
-                            <select style="width: 100%;" id="nomenclature_code" name="code_" class="text-center text-sm bg-gray-20 focus:outline-none block w-full px-3">
-                                <option></option>
-                                @foreach ($nomenclatures as $n)
-                                    <option value="{{ $n->code }}">{{ $n->name }}</option>
-                                @endforeach
-                            </select>
-                            
-                            <script>
-                                $(document).ready(function() {
-                                    $('#nomenclature_code').select2({
-                                        placeholder: 'Select Nomenclature'
-                                    });
-                                });
-                            </script>
-                        </div>
-                    </div>
-                    <div class="flex w-full justify-end pt-2">
-                        <input type="submit" value="{{ __('Submit') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
-                        <button onclick="toggleModal(this, 'manual-toggle', 'manual-modal')" type="button" class="modal-close manual-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+<div id="manual" style="background-color: rgb(31, 41, 55); width: 100%;" class="modal text-gray-200 flex items-center justify-center">
+    <div class="flex justify-between items-center pb-3 text-lg">
+        Manual Search
     </div>
-</div>
+    <form action="{{ route('aspak.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <input type="hidden" name="input_parameter" value="device">
+        <input id="device_id" name="id" type="hidden" value="">
+        <input id="device_id_manual" name="id" type="hidden" value="">
+        <div class="text-xs">
+            <div class="flex flex-col col-span-2">
+                <div class="py-2 w-full">
+                    <select style="width: 100%;" id="nomenclature_code" name="code_" class="text-center text-sm bg-gray-20 focus:outline-none block w-full px-3">
+                        <option></option>
+                        @foreach ($nomenclatures as $n)
+                            <option value="{{ $n->code }}">{{ $n->name }}</option>
+                        @endforeach
+                    </select>
+                    
+                    <script>
+                        $(document).ready(function() {
+                            $('#nomenclature_code').select2({
+                                placeholder: 'Select Nomenclature'
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class="flex w-full justify-end pt-2">
+                <input type="submit" value="{{ __('Submit') }}" class="block text-center text-white bg-green-600 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
+            </div>
+        </div>
+    </form>
+</div>  
 
 <script>    
-    const overlay = document.querySelector('.modal-overlay')
-    overlay.addEventListener('click', toggleModal)
-    
-    var closemodal = document.querySelectorAll('.modal-close')
-    for (var i = 0; i < closemodal.length; i++) {
-        closemodal[i].addEventListener('click', function(event){
+    let nomenclatures = document.querySelectorAll('.nomenclature-toggle.modal-open')
+    for (let i = 0; i < nomenclatures.length; i++) {
+        nomenclatures[i].addEventListener('click', function (event) {
             event.preventDefault()
-            toggleModal(this)
+            getNomenclature(this, 'nomenclature-toggle', 'nomenclature-modal')
         })
     }
-    
-    function toggleModal (button, toggle, modal) {
-        const body = document.querySelector('body')
-        if (button.classList.contains(toggle)) {
-            modal = document.getElementById(modal)
-        } 
-        
-        modal.classList.toggle('opacity-0')
-        modal.classList.toggle('pointer-events-none')
-        body.classList.toggle('modal-active')
+
+    let toggleBtn = document.getElementById('disableToggle')
+    console.log(document.getElementById('nomenclature_code').disabled);
+    toggleBtn.onclick = function () {
+        toggleDisable(document.getElementById('nomenclature_code').disabled)
     }
 
     function manualModal(button, toggle, modal) {
-        console.log(document.getElementById('device_id').value);
         document.getElementById('device_id_manual').value = document.getElementById('device_id').value
-        toggleModal(button, toggle, modal)
     }
 
-    $(document).ready(function() {
-        let nomenclatures = document.querySelectorAll('.nomenclature-toggle.modal-open')
-        for (let i = 0; i < nomenclatures.length; i++) {
-            nomenclatures[i].addEventListener('click', function (event) {
-                event.preventDefault()
-                getNomenclature(this, 'nomenclature-toggle', 'nomenclature-modal')
-            })
-        }
-
-        let toggleBtn = document.getElementById('disableToggle')
-        console.log(document.getElementById('nomenclature_code').disabled);
-        toggleBtn.onclick = function () {
-            toggleDisable(document.getElementById('nomenclature_code').disabled)
-        }
-
-        function getNomenclature(button, toggle, modal) {
-            $.ajax({
-                type: "GET",
-                url: "/ajax/aspak-map/" + button.id,
-                success: function (data) {
-                    console.log(data);
-                    let list = document.getElementById('suggestionList')
-                    list.innerHTML = ''
-                    if (data.data.length > 0) {
-                        for (let i = 0; i < data.data.length; i++) {
-                            populateRow(list, data.data[i])                        
-                        }
-                    } else {
-                        let par = document.createElement('span')
-                        par.classList.add('text-center', 'flex', 'justify-center', 'mt-6')
-                        par.innerHTML = 'No Suggested Entry'
-
-                        list.appendChild(par)
+    function getNomenclature(button, toggle, modal) {
+        $.ajax({
+            type: "GET",
+            url: "/ajax/aspak-map/" + button.id,
+            success: function (data) {
+                let list = document.getElementById('suggestionList')
+                // console.log(list);
+                list.innerHTML = ''
+                if (data.data.length > 0) {
+                    for (let i = 0; i < data.data.length; i++) {
+                        populateRow(list, data.data[i])             
                     }
-                    document.getElementById('device_id').value = button.id
-                    toggleModal(button, toggle, modal)
-                },
-                error: function (error) {
-                    console.log(error)
-                    swal("Error!", "Server responded with code " + error.status, "error");
+                } else {
+                    let par = document.createElement('span')
+                    par.classList.add('text-center', 'flex', 'justify-center', 'mt-6')
+                    par.innerHTML = 'No Suggested Entry'
+
+                    list.appendChild(par)
                 }
-            })
-        }
-
-        function populateRow (list, data) {
-            let container = document.createElement('div')
-            container.classList.add('suggestions', 'flex', 'hover:bg-gray-800', 'px-3', 'cursor-pointer', 'max-h-full', 'font-semibold')
-            container.id = data.code
-            container.onclick = function () {
-                document.getElementById('code_suggested').value = data.code
-                let sugs = document.getElementsByClassName('suggestions')
-                for (let i = 0; i < sugs.length; i++) {
-                    sugs[i].classList.remove('bg-gray-800')                    
-                }
-                
-                this.classList.add('bg-gray-800')
+                document.getElementById('device_id').value = button.id
+            },
+            error: function (error) {
+                console.log(error)
+                swal("Error!", "Server responded with code " + error.status, "error");
             }
+        })
+    }
 
-            let text = document.createElement('div')
-            text.classList.add('w-4/5', 'h-10', 'py-3', 'px-1')
-            text.innerHTML = data.name
-
-            container.appendChild(text)
-            list.appendChild(container)
-        }
-
-        function toggleDisable (toggle) {
-            let radios = document.getElementsByClassName('form-radio')
-            for (let i = 0; i < radios.length; i++) {
-                radios[i].disabled = toggle                
+    function populateRow (list, data) {
+        let container = document.createElement('div')
+        container.classList.add('suggestions', 'flex', 'hover:bg-gray-800', 'px-3', 'cursor-pointer', 'max-h-full', 'font-semibold')
+        container.id = data.code
+        container.onclick = function () {
+            document.getElementById('code_suggested').value = data.code
+            let sugs = document.getElementsByClassName('suggestions')
+            for (let i = 0; i < sugs.length; i++) {
+                sugs[i].classList.remove('bg-gray-800')                    
             }
-
-            let manual = document.getElementById('nomenclature_code')
-            manual.disabled = !toggle
-            manual.hidden = !toggle
+            
+            this.classList.add('bg-gray-800')
         }
-    })
+
+        let text = document.createElement('div')
+        text.classList.add('w-4/5', 'h-10', 'py-3', 'px-1')
+        text.innerHTML = data.name
+
+        container.appendChild(text)
+        list.appendChild(container)
+    }
+
+    function toggleDisable (toggle) {
+        let radios = document.getElementsByClassName('form-radio')
+        for (let i = 0; i < radios.length; i++) {
+            radios[i].disabled = toggle                
+        }
+
+        let manual = document.getElementById('nomenclature_code')
+        manual.disabled = !toggle
+        manual.hidden = !toggle
+    }
 </script>
 @endsection
