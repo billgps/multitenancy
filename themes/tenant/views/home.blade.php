@@ -280,11 +280,11 @@
                         Kalibrasi Terbaru
                     </div>
                     <table id="records" class="min-w-max mt-3 w-full table-auto text-center">
-                        <thead>
+                        {{-- <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <th class="py-3 px-6">Nama Alat</th>
                             </tr>
-                        </thead>
+                        </thead> --}}
                         <tbody class="text-gray-600 text-sm font-light">
                             @foreach ($records as $record)
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">

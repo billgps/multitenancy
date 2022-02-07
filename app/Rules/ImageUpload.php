@@ -61,6 +61,6 @@ class ImageUpload implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'Nama file harus sesuai dengan nomor label terdaftar.';
     }
 }
