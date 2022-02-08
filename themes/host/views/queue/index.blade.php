@@ -101,6 +101,11 @@
                                             </a>
                                         </div>
                                         <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                            <a href="{{ route('queue.send', ['queue' => $queue->id]) }}">
+                                                <i class="fas fa-paper-plane"></i>
+                                            </a>
+                                        </div>
+                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                             <button role="button" type="button" onclick="deleteConfirm({{ $queue->id }})">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>

@@ -51,7 +51,7 @@ class AspakSync extends Command
         $queues = Queue::where('status', 'queue')->orderBy('created_at', 'asc')->first();
 
         if (!$queues) {
-            return "there is no queue";
+            FacadesLog::warning("there is no queue");
         }
         
         if ($queues->activity_id) {
@@ -144,15 +144,7 @@ class AspakSync extends Command
                     $queues->status, 
                     $queues->id 
                 ));
-    
-                // foreach ($admins as $admin) {
-                //     $admin->notify(new ASPAKSyncUpdate (
-                //         $response->data->accept,
-                //         $response->data->denied, 
-                //         $queues->status, 
-                //         $queues->id 
-                //     ));
-                // }
+
             } catch (\Throwable $th) {
                 FacadesLog::error($th);
             }
