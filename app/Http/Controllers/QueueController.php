@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Administrator;
 use App\Models\Inventory;
 use App\Models\Queue;
-use App\Models\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Log;
 use App\Models\Notification;
 use App\Notifications\ASPAKSyncUpdate;
 use Illuminate\Support\Facades\Log as FacadesLog;
+use Spatie\Multitenancy\Models\Tenant;
 
 class QueueController extends Controller
 {
