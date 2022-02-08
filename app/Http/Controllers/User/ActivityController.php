@@ -88,7 +88,7 @@ class ActivityController extends Controller
                     'order_no' => $request->order_no,
                     'aspak_id' => $content->data->id,
                     'started_at' => $request->started_at,
-                    'is_active' => $request->is_active
+                    'is_active' => $request->is_active ? 1 : 0
                 ]);
     
                 $query = "UPDATE records SET `activity_id`=".$activity->id." WHERE YEAR (`cal_date`) = ".date('Y', strtotime($request->started_at));

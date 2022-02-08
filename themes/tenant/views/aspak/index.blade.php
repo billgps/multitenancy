@@ -205,7 +205,6 @@
     <form action="{{ route('aspak.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="input_parameter" value="device">
-        <input id="device_id" name="id" type="hidden" value="">
         <input id="device_id_manual" name="id" type="hidden" value="">
         <div class="text-xs">
             <div class="flex flex-col col-span-2">
@@ -243,7 +242,7 @@
     }
 
     let toggleBtn = document.getElementById('disableToggle')
-    console.log(document.getElementById('nomenclature_code').disabled);
+    // console.log(document.getElementById('nomenclature_code').disabled);
     toggleBtn.onclick = function () {
         toggleDisable(document.getElementById('nomenclature_code').disabled)
     }
@@ -271,10 +270,11 @@
 
                     list.appendChild(par)
                 }
+
                 document.getElementById('device_id').value = button.id
             },
             error: function (error) {
-                console.log(error)
+                // console.log(error)
                 swal("Error!", "Server responded with code " + error.status, "error");
             }
         })
