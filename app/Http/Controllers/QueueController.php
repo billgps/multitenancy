@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Administrator;
+use App\Models\Inventory;
 use App\Models\Queue;
-use App\Models\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Log;
+use App\Models\Notification;
+use App\Notifications\ASPAKSyncUpdate;
+use Illuminate\Support\Facades\Log as FacadesLog;
+use Spatie\Multitenancy\Models\Tenant;
 
 class QueueController extends Controller
 {
@@ -26,6 +32,104 @@ class QueueController extends Controller
         $logs = $queue->logs;
 
         return view('log.index', ['logs' => $logs]);
+    }
+
+    public function send(Queue $queue)
+    {
+        if ($queue->activity_id) {
+            $token = 'xcdfae';
+            $headers = [
+                'Authorization: Bearer '.$token       
+            ];
+            $serialized = "";
+
+            foreach (json_decode($queue->payload) as $item) {
+                $serialized .= "Data[]={$item}&";
+            }
+
+            try {
+                $curl = curl_init();
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => "http://aspak.kemkes.go.id/monitoring/gps/add?ipid=IP3173002&id=".$queue->activity_id,
+                    CURLOPT_HTTPHEADER => $headers,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => false,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS => $serialized,
+                ));
+    
+                $response = json_decode(curl_exec($curl));
+                $error = curl_error($curl);
+                curl_close($curl);
+    
+                if ($error == "") {
+                    $log = Log::create([
+                        'queue_id' => $queue->id,
+                        'response' => json_encode($response),
+                        'error' => null,
+                    ]);
+                } else {
+                    $log = Log::create([
+                        'queue_id' => $queue->id,
+                        'response' => json_encode($response),
+                        'error' => $error,
+                    ]);
+                }
+    
+                if ($response->success) {
+                    Tenant::where('id', $queue->tenant_id)->get()->eachCurrent(function (Tenant $tenant) use ($queue, $response) {
+                        Tenant::current()->is($tenant);
+    
+                        preg_match_all('!\d+!', $response->msg, $message);
+                        foreach (json_decode($queue->payload) as $index => $value) {
+                            for ($i = 0; $i < count($message); $i++) {
+                                if (count($message[0]) > 0) {
+                                    if (intVal($message[0][$i]) === $index) {
+                                        Inventory::where('id', json_decode($value)->inventory_id)->update([
+                                            'is_verified' => 0
+                                        ]);
+                                    } else {
+                                        Inventory::where('id', json_decode($value)->inventory_id)->update([
+                                            'is_verified' => 1
+                                        ]);
+                                    }
+                                } else {
+                                    Inventory::where('id', json_decode($value)->inventory_id)->update([
+                                        'is_verified' => 1
+                                    ]);
+                                }
+                            }
+                        }
+                    });
+    
+                    $queue->update([
+                        'status' => 'success'
+                    ]);
+                } else {
+                    $queue->update([
+                        'status' => 'failed'
+                    ]);
+                }
+    
+                $admins = Administrator::all();
+
+                Notification::send($admins, new ASPAKSyncUpdate(
+                    $response->data->accept,
+                    $response->data->denied, 
+                    $queue->status, 
+                    $queue->id 
+                ));
+
+            } catch (\Throwable $th) {
+                FacadesLog::error($th);
+            }
+        }
+
+        return redirect()->route('queue.index');
     }
 
     public function retry(Request $request)

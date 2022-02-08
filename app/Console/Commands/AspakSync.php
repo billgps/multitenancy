@@ -11,6 +11,8 @@ use App\Notifications\ASPAKSyncUpdate;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log as FacadesLog;
+use Illuminate\Support\Facades\Notification;
 use Spatie\Multitenancy\Models\Tenant;
 
 class AspakSync extends Command
@@ -49,7 +51,7 @@ class AspakSync extends Command
         $queues = Queue::where('status', 'queue')->orderBy('created_at', 'asc')->first();
 
         if (!$queues) {
-            return "there is no queue";
+            FacadesLog::warning("there is no queue");
         }
         
         if ($queues->activity_id) {
@@ -135,16 +137,16 @@ class AspakSync extends Command
                 }
     
                 $admins = Administrator::all();
-    
-                foreach ($admins as $admin) {
-                    $admin->notify(new ASPAKSyncUpdate (
-                        " item diterima : ".$response->data->accept.", item ditolak : ".$response->data->denied, 
-                        $queues->status, 
-                        $log->id 
-                    ));
-                }
+
+                Notification::send($admins, new ASPAKSyncUpdate(
+                    $response->data->accept,
+                    $response->data->denied, 
+                    $queues->status, 
+                    $queues->id 
+                ));
+
             } catch (\Throwable $th) {
-                return $th;
+                FacadesLog::error($th);
             }
         }
 

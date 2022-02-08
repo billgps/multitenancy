@@ -18,29 +18,9 @@
                     </a>
                 @endif
                 @if (Auth::user()->role < 1)
-                    <a href="#import" rel="modal:open" class="mx-2 text-blue-600 hover:text-gray-400">
+                    <button onclick="toggleModal(this, 'import-toggle', 'import-modal')" class="mx-2 text-blue-600 hover:text-gray-400 modal-open import-toggle">
                         <i class="fas fa-file-upload"></i>
-                    </a>  
-                    
-                    <div id="import" style="background-color: rgb(31, 41, 55);" class="modal text-gray-200 flex items-center justify-center">
-                        <div class="flex justify-between items-center pb-3 text-lg">
-                            Import Excel to Device
-                        </div>
-                        <form action="{{ route('device.import') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="text-xs">
-                                <div>
-                                    <label class="block mb-2 text-sm text-gray-00" for="file">Devices</label>
-                                    <div class="py-2 text-left">
-                                        <input id="file" name="file" type="file">
-                                    </div>
-                                </div>
-                                <div class="flex w-full justify-end pt-2">
-                                    <input type="submit" value="{{ __('Import') }}" class="block text-center text-white bg-green-600 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
-                                </div>
-                            </div>
-                        </form>
-                    </div>  
+                    </button>   
                 @endif
                 <a class="mx-2 text-blue-600 hover:text-gray-400" href="{{ route('device.export') }}">
                     <i class="fas fa-download"></i>

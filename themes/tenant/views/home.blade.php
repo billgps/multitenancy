@@ -33,7 +33,7 @@
                         Wajib Kalibrasi
                     </div>
                     <div class="mt-4 text-2xl text-center text-yellow-500">
-                        {{ $scheduled }}
+                        {{ $scheduled + $expired }}
                     </div>
                 </div>
             </div>
@@ -274,26 +274,42 @@
                     </script>  
                 </div>
             </div>
-            <div class="col-span-2 flex overflow-y-auto w-full p-4 bg-white">
-                <div class="w-full justify-center text-gray-600">
+            <div class="col-span-2 flex overflow-auto w-full p-4 bg-white">
+                <div class="w-full h-96 justify-center text-gray-600">
                     <div class="text-md">
                         Kalibrasi Terbaru
                     </div>
                     <table id="records" class="min-w-max mt-3 w-full table-auto text-center">
-                        <thead>
+                        {{-- <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <th class="py-3 px-6">Nama Alat</th>
-                                <th class="py-3 px-6">Tanggal Kalibrasi</th>
                             </tr>
-                        </thead>
+                        </thead> --}}
                         <tbody class="text-gray-600 text-sm font-light">
                             @foreach ($records as $record)
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                    <td class="py-3 px-6">
-                                        {{ $record->inventory->device->standard_name }}
-                                    </td>
-                                    <td class="py-3 px-6">
-                                        {{ $record->created_at }}
+                                    <td class="py-3 px-6 text-left">
+                                        <a href="{{ route('inventory.show', ['id' => $record->inventory->id]) }}">
+                                            <div class="text-sm">
+                                                {{ $record->inventory->device->standard_name }}
+                                            </div>
+                                            <div class="text-xs flex items-center">
+                                                {{ $record->created_at }}
+                                                @if ($record->result == 'Laik')
+                                                    <div class="rounded bg-green-400 text-gray-800 py-1 px-3 mx-2 text-xs font-bold">
+                                                        {{ $record->result }}
+                                                    </div>
+                                                @elseif ($record->result == 'Tidak Laik')
+                                                    <div class="rounded bg-red-400 text-gray-800 py-1 px-3 mx-2 text-xs font-bold">
+                                                        {{ $record->result }}
+                                                    </div>
+                                                @else
+                                                    <div class="rounded bg-yellow-400 text-gray-800 py-1 px-3 mx-2 text-xs font-bold">
+                                                        {{ $record->result }}
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -312,21 +328,17 @@
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <th class="py-3 px-6">Nama</th>
                                 <th class="py-3 px-6">Ruangan</th>
-                                <th class="py-3 px-6">Merk</th>
                                 <th class="py-3 px-6">Status Kalibrasi</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
                             @foreach ($inventories as $inventory)
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                    <td class="py-3 px-6">
+                                    <td class="py-3 px-6 text-left">
                                         {{ $inventory->device->standard_name }}
                                     </td>
                                     <td class="py-3 px-6">
                                         {{ $inventory->room->room_name }}
-                                    </td>
-                                    <td class="py-3 px-6">
-                                        {{ $inventory->brand->brand }}
                                     </td>
                                     <td class="py-3 px-6">
                                         @if ($inventory->latest_record->calibration_status == 'Terkalibrasi')
@@ -360,13 +372,12 @@
                                 <th class="py-3 px-6">Nama</th>
                                 <th class="py-3 px-6">Tanggal Kalibrasi</th>
                                 <th class="py-3 px-6">Tenggang</th>
-                                <th class="py-3 px-6">Kondisi Alat</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
                             @foreach ($pending as $item)
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                    <td class="py-3 px-6">
+                                    <td class="py-3 px-6 text-left">
                                         {{ $item->device->standard_name }}
                                     </td>
                                     <td class="py-3 px-6">
@@ -375,17 +386,6 @@
                                     <td class="py-3 px-6">
                                         {{ $item->latest_record->updated_at }}
                                     </td>
-                                    {{-- <td class="py-3 px-6">
-                                        @if ($item->latest_record->calibration_status == 'Terkalibrasi')
-                                            <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
-                                                {{ $item->latest_record->calibration_status }}
-                                            </div>
-                                        @else
-                                            <div class="rounded bg-yellow-400 text-gray-800 py-1 px-3 text-xs font-bold">
-                                                {{ $item->latest_record->calibration_status }}
-                                            </div>
-                                        @endif
-                                    </td> --}}
                                 </tr>
                             @endforeach
                         </tbody>
