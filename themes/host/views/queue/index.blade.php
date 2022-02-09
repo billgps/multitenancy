@@ -66,7 +66,7 @@
                                 <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </button>
-                      </div>
+                    </div>
 
                     <div class="w-4 mx-2 transform hover:text-purple-500 hover:scale-110">
                         <button type="submit">
@@ -84,6 +84,7 @@
                                 <th class="py-3 px-6">Log</th>
                                 <th class="py-3 px-6">Created at</th>
                                 <th class="py-3 px-6">Action</th>
+                                <th class="never">payload</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
@@ -152,6 +153,9 @@
                                             </div>
                                         </div>
                                     </td>
+                                    <td class="never text-left">
+                                        {{ $queue->payload }}
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -165,8 +169,9 @@
                                 lengthChange: false,
                                 order:[[4, 'desc']],
                                 columnDefs: [
-                                    {target: [0], orderable: false},
-                                    {target: [1, 2, 3, 4], orderable: true}
+                                    {targets: [0, 5], orderable: false},
+                                    {targets: [6], orderable: false, visible: false},
+                                    {targets: [1, 2, 3, 4], orderable: true}
                                 ]
                             })
 
