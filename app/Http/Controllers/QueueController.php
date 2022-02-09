@@ -22,7 +22,7 @@ class QueueController extends Controller
      */
     public function index()
     {
-        $queues = Queue::orderBy('created_at', 'desc')->paginate(15);
+        $queues = Queue::orderBy('created_at', 'desc')->get();
 
         return view('queue.index', ['queues' => $queues]);
     }
@@ -130,6 +130,114 @@ class QueueController extends Controller
         }
 
         return redirect()->route('queue.index');
+    }
+
+    public function batch(Request $request)
+    {
+        $validated = $request->validate([
+            'queues' => 'required|array|min:1|max:50|distinct'
+        ]);
+
+        if ($validated) {
+            /* commented because need to retreive queues as model
+            $query = "SELECT * FROM `queues` WHERE `id` IN ('".implode("','",$request->queues)."')";
+            $queues = DB::connection('host')->select($query); */
+
+            $queues = Queue::whereIn('id', $request->queues)->get();
+
+            if (!$queues) {
+                return back()->with('error', "Queue not found code : 404");
+            }
+
+            foreach ($queues as $queue) {
+                if ($queue->activity_id) {
+                    $token = 'xcdfae';
+                    $headers = [
+                        'Authorization: Bearer '.$token       
+                    ];
+                    $serialized = "";
+        
+                    foreach (json_decode($queue->payload) as $item) {
+                        $serialized .= "Data[]={$item}&";
+                    }
+        
+                    try {
+                        $curl = curl_init();
+                        curl_setopt_array($curl, array(
+                            CURLOPT_URL => "http://aspak.kemkes.go.id/monitoring/gps/add?ipid=IP3173002&id=".$queue->activity_id,
+                            CURLOPT_HTTPHEADER => $headers,
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_ENCODING => '',
+                            CURLOPT_MAXREDIRS => 10,
+                            CURLOPT_TIMEOUT => 0,
+                            CURLOPT_FOLLOWLOCATION => false,
+                            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                            CURLOPT_CUSTOMREQUEST => 'POST',
+                            CURLOPT_POSTFIELDS => $serialized,
+                        ));
+            
+                        $response = json_decode(curl_exec($curl));
+                        $error = curl_error($curl);
+                        curl_close($curl);
+            
+                        if ($error == "") {
+                            Log::create([
+                                'queue_id' => $queue->id,
+                                'response' => json_encode($response),
+                                'error' => null,
+                            ]);
+                        } else {
+                            Log::create([
+                                'queue_id' => $queue->id,
+                                'response' => json_encode($response),
+                                'error' => $error,
+                            ]);
+                        }
+            
+                        if ($response->success) {
+                            Tenant::where('id', $queue->tenant_id)->get()->eachCurrent(function (Tenant $tenant) use ($queue, $response) {
+                                Tenant::current()->is($tenant); // returns true;
+            
+                                preg_match_all('!\d+!', $response->msg, $message);
+                                foreach (json_decode($queue->payload) as $index => $value) {
+                                    for ($i = 0; $i < count($message); $i++) {
+                                        if (count($message[0]) > 0) {
+                                            if (intVal($message[0][$i]) === $index) {
+                                                Inventory::where('id', json_decode($value)->inventory_id)->update([
+                                                    'is_verified' => 0
+                                                ]);
+                                            } else {
+                                                Inventory::where('id', json_decode($value)->inventory_id)->update([
+                                                    'is_verified' => 1
+                                                ]);
+                                            }
+                                        } else {
+                                            Inventory::where('id', json_decode($value)->inventory_id)->update([
+                                                'is_verified' => 1
+                                            ]);
+                                        }
+                                    }
+                                }
+                            });
+            
+                            $queue->update([
+                                'status' => 'success'
+                            ]);
+                        } else {
+                            $queue->update([
+                                'status' => 'failed'
+                            ]);
+                        }
+                    } catch (\Throwable $th) {
+                        FacadesLog::error($th);
+                    }
+                } else {
+                    return back()->with('error', "Queue ID #".$queue->id." does not have property `activity_id`");
+                }
+            }
+
+            return redirect()->route('queue.index')->with('success', "Successfully executed ".count($queues)." queues");
+        }
     }
 
     public function retry(Request $request)

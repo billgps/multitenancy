@@ -256,7 +256,7 @@ else if (Tenant::current() == null) {
             Route::get('/queue', [QueueController::class, 'index'])->name('queue.index');
             Route::post('/queue/retry', [QueueController::class, 'retry'])->name('queue.retry');
             Route::get('/queue/{queue}', [QueueController::class, 'show'])->name('queue.show');
-            Route::get('/queue/send/{queue}', [QueueController::class, 'send'])->name('queue.send');
+            Route::post('/queue/send/', [QueueController::class, 'batch'])->name('queue.send');
             Route::get('/queue/{queue}/logs', [QueueController::class, 'logs'])->name('queue.logs');
             Route::get('/log', [LogController::class, 'index'])->name('log.index');
         });
