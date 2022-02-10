@@ -35,6 +35,7 @@ use Spatie\Multitenancy\Models\Tenant;
 */
 
 if (Tenant::current()) {
+    // dd(Tenant::current());
     Route::domain(app('currentTenant')->domain)->middleware('tenant', 'notifications')->group(function() {
         Route::multiauth('User', 'user');
         Route::get('/', function () {
@@ -230,7 +231,7 @@ if (Tenant::current()) {
             Route::get('/user/notfication-routing/{notification}', [NotificationController::class, 'routing'])->name('user.notification.routing');
         });
     });
-} 
+}
 
 else if (Tenant::current() == null) {
     Route::get('/', function () {
