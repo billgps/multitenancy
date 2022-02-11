@@ -112,23 +112,22 @@
                     <table id="record" class="min-w-max mt-3 w-full table-auto text-center">
                         <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-6">ID Inventory</th>
+                                <th></th>
                                 <th class="py-3 px-6">Nama Alat</th>
                                 <th class="py-3 px-6">No Label</th>
                                 <th class="py-3 px-6">Tanggal Kalibrasi</th>
                                 <th class="py-3 px-6">Status</th>
-                                <th class="py-3 px-6">Hasil</th>
-                                <th class="py-3 px-6">Vendor</th>
                                 <th class="py-3 px-6">Action</th>
+                                <th>inventory_id</th>
+                                <th>result</th>
+                                <th>vendor</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
                             @foreach ($records as $record)
                                 <tr class="hover:bg-gray-100">
-                                    <td class="py-3 px-3">
-                                        {{ $record->inventory_id }}
-                                    </td>
-                                    <td class="py-3 px-3 lg:w-32">
+                                    <td class="dt-control"></td>
+                                    <td class="py-3 px-3 text-left flex-nowrap">
                                         {{ $record->inventory->device->standard_name }}
                                     </td>
                                     <td class="py-3 px-6">
@@ -152,26 +151,13 @@
                                             </div>
                                         @endif
                                     </td>
-                                    <td class="py-3 px-6">
-                                        @if ($record->result == 'Laik')
-                                            <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
-                                                {{ $record->result }}
-                                            </div>
-                                        @elseif ($record->result == 'Tidak Laik')
-                                            <div class="rounded bg-red-400 text-gray-800 py-1 px-3 text-xs font-bold">
-                                                {{ $record->result }}
-                                            </div>
-                                        @else
-                                            <div class="rounded bg-yellow-400 text-gray-800 py-1 px-3 text-xs font-bold">
-                                                {{ $record->result }}
-                                            </div>
-                                        @endif
-                                    </td>
-                                    <td class="py-3 px-6">
-                                        {{ $record->vendor }}
-                                    </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <a href="{{ route('inventory.show', ['id' => $record->inventory_id]) }}">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </div>
                                             @if (Auth::user()->role < 2)
                                                 <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                     <a href="{{ route('record.edit', ['record' => $record->id]) }}">
@@ -198,11 +184,49 @@
                                             @endif
                                         </div>
                                     </td>
+                                    <td>
+                                        {{ $record->inventory_id }}
+                                    </td>
+                                    <td>
+                                        @if ($record->result == 'Laik')
+                                            <div class="rounded w-max bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                {{ $record->result }}
+                                            </div>
+                                        @elseif ($record->result == 'Tidak Laik')
+                                            <div class="rounded w-max bg-red-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                {{ $record->result }}
+                                            </div>
+                                        @else
+                                            <div class="rounded w-max bg-yellow-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                {{ $record->result }}
+                                            </div>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{ $record->vendor }}
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table> 
                     <script>
+                        function format ( d ) {
+                            return '<table class="pl-6 text-sm text-left">'+
+                                '<tr class="p-0">'+
+                                    '<td>Nama Alat :</td>'+
+                                    '<td>'+d[1]+'</td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td>Hasil Kalibrasi :</td>'+
+                                    '<td>'+d[7]+'</td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td>Vendor :</td>'+
+                                    '<td>'+d[8]+'</td>'+
+                                '</tr>'+
+                            '</table>';
+                        }
+
                         $(document).ready(function() {
                             var table = $('#record').DataTable({
                                 "pageLength": 15,
@@ -211,10 +235,27 @@
                                 "lengthChange": false,
                                 "searching": true,
                                 "paging":   true,
+                                "order": [[6, 'desc']],
                                 columnDefs: [
-                                    { orderable: false, targets: -1 }
+                                    { orderable: false, targets: -1 },
+                                    { visible: false, targets: 6 },
+                                    { targets: [7, 8], orderable:false, visible: false }
                                 ],
                                 "dom": 'lrtip'
+                            });
+
+                            $('#record tbody').on('click', 'td.dt-control', function () {
+                                let tr = $(this).closest('tr');
+                                let row = table.row( tr );
+                        
+                                if ( row.child.isShown() ) {
+                                    row.child.hide();
+                                    tr.removeClass('shown');
+                                }
+                                else {
+                                    row.child( format(row.data()) ).show();
+                                    tr.addClass('shown');
+                                }
                             });
 
                             drawPaginate()
