@@ -22,8 +22,6 @@ class ASPAKController extends Controller
                     WHERE device_id = i.device_id AND aspak_code IS NOT null) as mapped FROM devices 
                     LEFT JOIN inventories as i ON devices.id=i.device_id WHERE i.is_verified=0 GROUP BY i.device_id";
         $devices = DB::select($query);
-
-        // dd($devices);
         
         $nomenclatures = DB::connection('host')->select('SELECT `code`, `name` FROM nomenclatures');
         
@@ -47,17 +45,32 @@ class ASPAKController extends Controller
         ]);
 
         if ($validated) {
+            /* commented because the individual inventory mapping is unused
             if ($request->input_parameter == 'device') {
                 Inventory::where('device_id', $request->id)->update(['aspak_code' => $request->code_]);
                 $inventories = Inventory::where('device_id', $request->id)->get();
             } else {
                 Inventory::where('id', $request->id)->update(['aspak_code' => $request->code_]);
                 $inventories = Inventory::where('id', $request->id)->get();
+            } */
+
+            $oldQueue = array();
+            $inventories = Inventory::where('device_id', $request->id)->get();
+            foreach ($inventories as $inv) {
+                array_push($oldQueue, $inv->queue_id);
             }
 
-            $this->apiMap($inventories);
+            $oldQueue = array_unique($oldQueue);
+            
+            if (count($oldQueue) > 0) {
+                Queue::destroy($oldQueue);
+            }
 
-            return back()->with('success', 'Code berhasil ditambahkan');
+            $newQueue = $this->apiMap($inventories);
+
+            Inventory::where('device_id', $request->id)->update(['aspak_code' => $request->code_, 'queue_id' => $newQueue->id]);
+
+            return back()->with('success', 'Kode ASPAK berhasil ditambahkan');
         }
     }
 
@@ -101,7 +114,7 @@ class ASPAKController extends Controller
 
             if (count($payload) % 10 == 0 && $counter != 0) {
                 $counter++;
-                Queue::create([
+                $queue = Queue::create([
                     'status' => 'queue',
                     'payload' => json_encode($payload),
                     'tenant_id' => Tenant::current()->id,
@@ -113,7 +126,7 @@ class ASPAKController extends Controller
 
                 if (count($inventories) === $counter) {
                     array_push($payload, json_encode($array));
-                    Queue::create([
+                    $queue = Queue::create([
                         'status' => 'queue',
                         'payload' => json_encode($payload),
                         'tenant_id' => Tenant::current()->id,
@@ -123,7 +136,7 @@ class ASPAKController extends Controller
             } else {
                 if (count($inventories) - 1 === $counter) {
                     array_push($payload, json_encode($array));
-                    Queue::create([
+                    $queue = Queue::create([
                         'status' => 'queue',
                         'payload' => json_encode($payload),
                         'tenant_id' => Tenant::current()->id,
@@ -136,6 +149,6 @@ class ASPAKController extends Controller
             }
         }
 
-        return 0;
+        return $queue;
     }
 }
