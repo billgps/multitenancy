@@ -74,6 +74,17 @@
         ::-webkit-scrollbar-thumb:hover {
             background: rgb(139, 92, 246);
         }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
     </style>
 
     <style>
@@ -90,7 +101,7 @@
         }
     </style>
 </head>
-<body class="h-screen font-sans antialiased leading-none bg-gray-200 sm:overflow-auto" x-data="{isClose: false, notification: false}">
+<body class="h-screen font-sans antialiased leading-none bg-gray-200 no-scrollbar" x-data="{isClose: false, notification: false}">
     @if ($errors->any())
         <div class="flex justify-center items-center m-1 font-medium py-1 px-2 rounded-md text-green-100 bg-red-700 border border-red-700 ">
             <div slot="avatar" class="flex">
@@ -289,7 +300,7 @@
         </script>
     </header>
     <div id="app" class="flex w-full h-full overflow-auto">
-        <aside id="sideBar" class="flex flex-col sticky top-0 w-64 h-screen bg-gray-800" :class="{'is-close': isClose, 'hidden': isClose, 'w-60': !isClose}">
+        <aside id="sideBar" class="flex flex-col sticky top-0 w-64 h-full bg-gray-800" :class="{'is-close': isClose, 'hidden': isClose, 'w-60': !isClose}">
             <nav class="pt-12 text-sm">
                 <div>
                     <a href="{{ route('user.dashboard') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
