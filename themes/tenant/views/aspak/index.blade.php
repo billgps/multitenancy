@@ -153,7 +153,7 @@
                         <a href="#manual" rel="modal:open" onclick="manualModal(this)" class="hover:text-purple-500 modal-open manual-toggle">Search Manually</a>
                     </span>
                 </span>
-                <div class="h-96 my-6 mx-6 overflow-y-auto">
+                <div class="h-96 my-6 mx-6 overflow-y-auto no-scrollbar">
                     <div id="suggestionList" class="flex flex-col w-full text-base font-light">
                     </div>
                 </div>

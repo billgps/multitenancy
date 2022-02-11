@@ -274,7 +274,7 @@
                     </script>  
                 </div>
             </div>
-            <div class="col-span-2 flex overflow-auto w-full p-4 bg-white">
+            <div class="col-span-2 flex overflow-auto no-scrollbar w-full p-4 bg-white">
                 <div class="w-full h-96 justify-center text-gray-600">
                     <div class="text-md">
                         Kalibrasi Terbaru

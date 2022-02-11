@@ -30,7 +30,7 @@ class DashboardController extends Controller
         $passed     = 0;
         $failed     = 0;
 
-        $query = "SELECT COUNT(barcode) AS subTotal, calibration_status FROM inventories AS i 
+        $query = "SELECT COUNT(barcode) AS subTotal, `calibration_status` FROM inventories AS i 
         INNER JOIN records AS r ON i.id=r.inventory_id 
         WHERE r.id = (SELECT MAX(rb.id) FROM records AS rb WHERE rb.inventory_id=r.inventory_id) 
         GROUP BY calibration_status";
@@ -71,40 +71,15 @@ class DashboardController extends Controller
         GROUP BY result";
         $groups = DB::select($query);
         foreach ($groups as $group) {
-            if ($group->result == 'Laik') {
+            if ($group->result == 'Tidak Laik') {
+                $failed += $group->subTotal;
+            }
+
+            else if ($group->result == 'Laik') {
                 $passed = $group->subTotal;
             }
-
-            if ($group->result == 'Tidak Laik') {
-                $failed = $group->subTotal;
-            }
         }
-        
-        // $total = Inventory::all()->count();
-        // $scheduled = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
-        //     $query->where('calibration_status', 'Segera Dikalibrasi');
-        // })->count();
-        // $calibrated = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
-        //     $query->where('calibration_status', 'Terkalibrasi');
-        // })->count();
-        // $expired = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
-        //     $query->where('calibration_status', 'Expired');
-        // })->count();
-
-        // $passed = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
-        //     $query->where('result', 'Laik');
-        // })->count();
-        // $failed = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
-        //     $query->where('result', 'Tidak Laik');
-        // })->count();
-
-        // $good = Inventory::with('latest_condition')->whereHas('latest_condition', function($query) {
-        //     $query->where('status', 'Baik');
-        // })->count();
-        // $broken = Inventory::with('latest_condition')->whereHas('latest_condition', function($query) {
-        //     $query->where('status', 'Rusak');
-        // })->count();
-
+    
         $inventories = Inventory::with('device', 'room', 'brand', 'latest_record')->orderBy('created_at', 'desc')->take(5)->get();
         $pending = Inventory::with('latest_record')->whereHas('latest_record', function($query) {
             $query->where('calibration_status', 'Segera Dikalibrasi');
