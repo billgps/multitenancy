@@ -216,75 +216,138 @@
                 </div>
                 <div class="flex flex-col mt-6">
                     <div class="w-full h-full">
-                        <canvas id="line-chart" class="text-sm text-gray-700"></canvas>
+                        <canvas id="polarChart" class="text-sm text-gray-700"></canvas>
                     </div>        
                     <script>
-                        var array1 = {!! json_encode($statistic)  !!};
-                        var months = []
-                        let data = []
-                        for (var property in array1) {
-                            months.unshift(property)
-                        }
-
-                        for (let i = 0; i < months.length; i++) {
-                            data.push(array1[months[i]].length)
-                        }
-
-                        var chart = new Chart(document.getElementById("line-chart"), {
-                            type: 'line',
+                        const ctx = document.getElementById('polarChart').getContext('2d');
+                        const myChart = new Chart(ctx, {
+                            type: 'polarArea',
                             data: {
-                                    labels: months,
-                                    datasets: [{
-                                    backgroundColor: 'rgba(239, 68, 68, 1)',
-                                    borderColor: 'rgba(239, 68, 68, 1)',
-                                    data: data,
-                                    fill: false
+                                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                                datasets: [{
+                                    label: '# of Votes',
+                                    data: [12, 19, 3, 5, 2, 3],
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)',
+                                        'rgba(255, 159, 64, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)',
+                                        'rgba(255, 159, 64, 1)'
+                                    ],
+                                    borderWidth: 1
                                 }]
                             },
                             options: {
                                 responsive: true,
-                                // scales: {
-                                //     xAxes: [{
-                                //         type: 'time',
-                                //         time: {
-                                //             unit: 'month'
-                                //         }
-                                //     }]
-                                // },
-                                legend: {
-                                    display: false,
+                                plugins: {
+                                    legend: {
+                                        position: 'top',
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Chart.js Polar Area Chart'
+                                    }
                                 }
-                            }
-                        });            
-                        // console.log(months);
-                        // new Chart(document.getElementById("line-chart"), {
-                        //     type: 'line',
-                        //     data: {
-                        //         labels: months,
-                        //         // datasets: [
-                        //         //     { 
-                        //         //         data: [86,114,106,106,107,111,133,221,783,2478],
-                        //         //         label: "Africa",
-                        //         //         borderColor: "#3e95cd",
-                        //         //         fill: false
-                        //         //     }, 
-                        //         // ],
-                        //     },
-                        // });
+                            },
+                        })
                     </script>  
                 </div>
             </div>
-            <div class="col-span-2 flex overflow-auto no-scrollbar w-full p-4 bg-white">
+            <div x-data="{ dropdownOpen: false }" class="col-span-2 flex overflow-auto no-scrollbar w-full p-4 bg-white">
+
+                <div class='w-full max-w-lg px-10 py-8 mx-auto'>
+        
+                    <div class='max-w-md mx-auto space-y-6'>
+            
+                        <div class="dropdown-menu">
+            
+                            <div @click="dropdownOpen = !dropdownOpen" class="bg-white rounded-lg shadow-xl flex items-center px-6 py-3 cursor-pointer">
+                                <input id="dropdownPlaceholder" type="text" placeholder="Filter" readonly class="pointer-events-none text-base placeholder-gray-400 outline-0 border-none outline-none w-full flex-1" />
+                                <i class="fa-solid fa-angle-down"></i>
+                            </div>
+            
+                            <div class="bg-white rounded-lg shadow-xl px-4 relative mt-8">
+            
+                                <svg class="absolute bottom-full right-4" width="30" height="20" viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg">
+                                    <polygon points="15, 0 30, 20 0, 20" fill="#FFFFFF"/>
+                                </svg>
+            
+                                <div x-show="dropdownOpen" @click="dropdownOpen = false" class="py-6 flex items-center w-full hover:bg-gray-50">
+                                    <a href="#" class="flex-1">
+                                        <div class="text-gray-400 text-base">Profile</div>
+                                    </a>
+                                    <div>
+                                        <svg width="40" height="20" viewBox="0 0 40 20" xmlns="http://www.w3.org/2000/svg">
+                                            <line x1="30" y1="2" x2="40" y2="10" stroke="#9CA3AF" />
+                                            <line x1="30" y1="18" x2="40" y2="10" stroke="#9CA3AF" />
+                                            <line x1="20" y1="10" x2="40" y2="10" stroke="#9CA3AF" />
+                                        </svg>
+                                    </div>
+                                </div>
+            
+                                <div class="py-6 flex items-center w-full border-t border-gray-200 hover:bg-gray-50">
+                                    <a href="#" class="flex-1">
+                                        <div class="text-gray-400 text-base">Status (Online)</div>
+                                    </a>
+                                    <div>
+                                        <svg width="40" height="20" viewBox="0 0 40 20" xmlns="http://www.w3.org/2000/svg">
+                                            <line x1="30" y1="2" x2="40" y2="10" stroke="#9CA3AF" />
+                                            <line x1="30" y1="18" x2="40" y2="10" stroke="#9CA3AF" />
+                                            <line x1="20" y1="10" x2="40" y2="10" stroke="#9CA3AF" />
+                                        </svg>
+                                    </div>
+                                </div>
+            
+                                <div class="py-6 flex items-center w-full border-t border-gray-200 hover:bg-gray-50">
+                                    <a href="#" class="flex-1">
+                                        <div class="text-gray-400 text-base">Notifications</div>
+                                    </a>
+                                    <div>
+                                        <svg width="40" height="20" viewBox="0 0 40 20" xmlns="http://www.w3.org/2000/svg">
+                                            <line x1="30" y1="2" x2="40" y2="10" stroke="#9CA3AF" />
+                                            <line x1="30" y1="18" x2="40" y2="10" stroke="#9CA3AF" />
+                                            <line x1="20" y1="10" x2="40" y2="10" stroke="#9CA3AF" />
+                                        </svg>
+                                    </div>
+                                </div>
+            
+                                <div class="py-6 flex items-center w-full hover:bg-gray-50 border-t border-gray-200 hover:bg-gray-50">
+                                    <a href="#" class="flex-1">
+                                        <div class="text-gray-400 text-base">Sign out</div>
+                                    </a>
+                                    <div>
+                                        <svg width="40" height="20" viewBox="0 0 40 20" xmlns="http://www.w3.org/2000/svg">
+                                            <line x1="30" y1="2" x2="40" y2="10" stroke="#9CA3AF" />
+                                            <line x1="30" y1="18" x2="40" y2="10" stroke="#9CA3AF" />
+                                            <line x1="20" y1="10" x2="40" y2="10" stroke="#9CA3AF" />
+                                        </svg>
+                                    </div>
+                                </div>
+            
+                            </div>
+            
+                        </div>
+            
+                    </div>
+            
+                </div>
+            </div>
+
+            <div class="col-span-3 flex overflow-y-auto w-full px-4 pb-4 no-scrollbar bg-white">
                 <div class="w-full h-96 justify-center text-gray-600">
-                    <div class="text-md">
+                    <div class="text-md w-full bg-white sticky top-0 pt-4 pb-2">
                         Kalibrasi Terbaru
                     </div>
                     <table id="records" class="min-w-max mt-3 w-full table-auto text-center">
-                        {{-- <thead>
-                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-6">Nama Alat</th>
-                            </tr>
-                        </thead> --}}
                         <tbody class="text-gray-600 text-sm font-light">
                             @foreach ($records as $record)
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">
@@ -310,50 +373,6 @@
                                                 @endif
                                             </div>
                                         </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="col-span-3 flex overflow-y-auto w-full p-4 bg-white">
-                <div class="w-full justify-center text-gray-600">
-                    <div class="text-md">
-                        Inventori Baru
-                    </div>
-                    <table id="records" class="min-w-max mt-3 w-full table-auto text-center">
-                        <thead>
-                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-6">Nama</th>
-                                <th class="py-3 px-6">Ruangan</th>
-                                <th class="py-3 px-6">Status Kalibrasi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-gray-600 text-sm font-light">
-                            @foreach ($inventories as $inventory)
-                                <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                    <td class="py-3 px-6 text-left">
-                                        {{ $inventory->device->standard_name }}
-                                    </td>
-                                    <td class="py-3 px-6">
-                                        {{ $inventory->room->room_name }}
-                                    </td>
-                                    <td class="py-3 px-6">
-                                        @if ($inventory->latest_record->calibration_status == 'Terkalibrasi')
-                                            <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
-                                                {{ $inventory->latest_record->calibration_status }}
-                                            </div>
-                                        @elseif ($inventory->latest_record->calibration_status == 'Expired')
-                                            <div class="rounded bg-red-400 text-gray-800 py-1 px-3 text-xs font-bold">
-                                                {{ $inventory->latest_record->calibration_status }}
-                                            </div>
-                                        @else
-                                            <div class="rounded bg-yellow-400 text-gray-800 py-1 px-3 text-xs font-bold">
-                                                {{ $inventory->latest_record->calibration_status }}
-                                            </div>
-                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
