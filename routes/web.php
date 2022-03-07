@@ -12,6 +12,7 @@ use App\Http\Controllers\User\BrandController;
 use App\Http\Controllers\User\ComplainController;
 use App\Http\Controllers\User\ConditionController;
 use App\Http\Controllers\User\ConsumableController;
+use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\DeviceController;
 use App\Http\Controllers\User\IdentityController;
 use App\Http\Controllers\User\RoomController;
@@ -226,6 +227,7 @@ if (Tenant::current()) {
                 Route::get('/notifications', [NotificationController::class, 'ajax'])->name('notification.ajax');
                 // Route::get('/aspak-details/{id}', [ASPAKController::class, 'ajaxGetDetails'])->name('aspak.details');
                 Route::get('/aspak-map/{device}', [ASPAKController::class, 'ajaxMap'])->name('aspak.nomenclature');
+                Route::get('/pie/{parameter}', [DashboardController::class, 'pieChart'])->name('dashboard.pie');
             });
 
             Route::get('/user/notfication-routing/{notification}', [NotificationController::class, 'routing'])->name('user.notification.routing');

@@ -212,135 +212,108 @@
 
             <div class="col-span-4 w-full p-4 bg-white">
                 <div class="text-md flex text-left text-gray-600">
-                    Kerusakan Alat
+                    Diagram Data Inventory
                 </div>
                 <div class="flex flex-col mt-6">
                     <div class="w-full h-full">
                         <canvas id="polarChart" class="text-sm text-gray-700"></canvas>
                     </div>        
-                    <script>
-                        const ctx = document.getElementById('polarChart').getContext('2d');
-                        const myChart = new Chart(ctx, {
-                            type: 'polarArea',
-                            data: {
-                                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                                datasets: [{
-                                    label: '# of Votes',
-                                    data: [12, 19, 3, 5, 2, 3],
-                                    backgroundColor: [
-                                        'rgba(255, 99, 132, 0.2)',
-                                        'rgba(54, 162, 235, 0.2)',
-                                        'rgba(255, 206, 86, 0.2)',
-                                        'rgba(75, 192, 192, 0.2)',
-                                        'rgba(153, 102, 255, 0.2)',
-                                        'rgba(255, 159, 64, 0.2)'
-                                    ],
-                                    borderColor: [
-                                        'rgba(255, 99, 132, 1)',
-                                        'rgba(54, 162, 235, 1)',
-                                        'rgba(255, 206, 86, 1)',
-                                        'rgba(75, 192, 192, 1)',
-                                        'rgba(153, 102, 255, 1)',
-                                        'rgba(255, 159, 64, 1)'
-                                    ],
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                plugins: {
-                                    legend: {
-                                        position: 'top',
-                                    },
-                                    title: {
-                                        display: true,
-                                        text: 'Chart.js Polar Area Chart'
-                                    }
-                                }
-                            },
-                        })
-                    </script>  
                 </div>
             </div>
-            <div x-data="{ dropdownOpen: false }" class="col-span-2 flex overflow-auto no-scrollbar w-full p-4 bg-white">
 
-                <div class='w-full max-w-lg px-10 py-8 mx-auto'>
-        
-                    <div class='max-w-md mx-auto space-y-6'>
-            
-                        <div class="dropdown-menu">
-            
-                            <div @click="dropdownOpen = !dropdownOpen" class="bg-white rounded-lg shadow-xl flex items-center px-6 py-3 cursor-pointer">
-                                <input id="dropdownPlaceholder" type="text" placeholder="Filter" readonly class="pointer-events-none text-base placeholder-gray-400 outline-0 border-none outline-none w-full flex-1" />
-                                <i class="fa-solid fa-angle-down"></i>
-                            </div>
-            
-                            <div class="bg-white rounded-lg shadow-xl px-4 relative mt-8">
-            
-                                <svg class="absolute bottom-full right-4" width="30" height="20" viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg">
-                                    <polygon points="15, 0 30, 20 0, 20" fill="#FFFFFF"/>
-                                </svg>
-            
-                                <div x-show="dropdownOpen" @click="dropdownOpen = false" class="py-6 flex items-center w-full hover:bg-gray-50">
-                                    <a href="#" class="flex-1">
-                                        <div class="text-gray-400 text-base">Profile</div>
-                                    </a>
-                                    <div>
-                                        <svg width="40" height="20" viewBox="0 0 40 20" xmlns="http://www.w3.org/2000/svg">
-                                            <line x1="30" y1="2" x2="40" y2="10" stroke="#9CA3AF" />
-                                            <line x1="30" y1="18" x2="40" y2="10" stroke="#9CA3AF" />
-                                            <line x1="20" y1="10" x2="40" y2="10" stroke="#9CA3AF" />
-                                        </svg>
-                                    </div>
-                                </div>
-            
-                                <div class="py-6 flex items-center w-full border-t border-gray-200 hover:bg-gray-50">
-                                    <a href="#" class="flex-1">
-                                        <div class="text-gray-400 text-base">Status (Online)</div>
-                                    </a>
-                                    <div>
-                                        <svg width="40" height="20" viewBox="0 0 40 20" xmlns="http://www.w3.org/2000/svg">
-                                            <line x1="30" y1="2" x2="40" y2="10" stroke="#9CA3AF" />
-                                            <line x1="30" y1="18" x2="40" y2="10" stroke="#9CA3AF" />
-                                            <line x1="20" y1="10" x2="40" y2="10" stroke="#9CA3AF" />
-                                        </svg>
-                                    </div>
-                                </div>
-            
-                                <div class="py-6 flex items-center w-full border-t border-gray-200 hover:bg-gray-50">
-                                    <a href="#" class="flex-1">
-                                        <div class="text-gray-400 text-base">Notifications</div>
-                                    </a>
-                                    <div>
-                                        <svg width="40" height="20" viewBox="0 0 40 20" xmlns="http://www.w3.org/2000/svg">
-                                            <line x1="30" y1="2" x2="40" y2="10" stroke="#9CA3AF" />
-                                            <line x1="30" y1="18" x2="40" y2="10" stroke="#9CA3AF" />
-                                            <line x1="20" y1="10" x2="40" y2="10" stroke="#9CA3AF" />
-                                        </svg>
-                                    </div>
-                                </div>
-            
-                                <div class="py-6 flex items-center w-full hover:bg-gray-50 border-t border-gray-200 hover:bg-gray-50">
-                                    <a href="#" class="flex-1">
-                                        <div class="text-gray-400 text-base">Sign out</div>
-                                    </a>
-                                    <div>
-                                        <svg width="40" height="20" viewBox="0 0 40 20" xmlns="http://www.w3.org/2000/svg">
-                                            <line x1="30" y1="2" x2="40" y2="10" stroke="#9CA3AF" />
-                                            <line x1="30" y1="18" x2="40" y2="10" stroke="#9CA3AF" />
-                                            <line x1="20" y1="10" x2="40" y2="10" stroke="#9CA3AF" />
-                                        </svg>
-                                    </div>
-                                </div>
-            
-                            </div>
-            
-                        </div>
-            
-                    </div>
-            
+            <div style="height: 437px;" class="col-span-2 flex flex-col w-full">
+                <div class="w-full">
+                    <ul id="tabBar" class='flex cursor-pointer'>
+                      <li onclick="toggleTab(0)" class='tab py-2 active px-4 text-sm text-gray-600 bg-white rounded-t-lg'>Ruangan</li>
+                      <li onclick="toggleTab(1)" class='tab py-2 px-4 text-sm rounded-t-lg text-gray-600 bg-gray-300'>Nama Alat</li>
+                    </ul>
+                </div>
+                <div class='w-full h-full mx-auto bg-white p-4 flex flex-col no-scrollbar overflow-hidden'>
+                    <div id="legend" class="h-full overflow-y-auto no-scrollbar"></div>
                 </div>
             </div>
+
+            <script>
+                Chart.defaults.global.legend.display = false; 
+                const colors = []
+                const data = {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: '',
+                            data: [],
+                            backgroundColor: []                        
+                        }
+                    ]
+                };
+
+                const ctx = document.getElementById('polarChart').getContext('2d');
+                const myChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: data,
+                    options: {
+                        legendCallback: function (chart) {
+                            let text = [];
+                            text.push('<ul>');
+                            for (let i = 0; i < chart.data.datasets[0].data.length; i++) {
+                                text.push('<li class="flex items-center">');
+                                text.push('<div style="background-color:' + chart.data.datasets[0].backgroundColor[i] + '" class="w-6 h-3 mr-6 my-1"></div>');
+                                if (chart.data.labels[i]) {
+                                    text.push(chart.data.labels[i]);
+                                }
+                                text.push('<span class="ml-auto">' + chart.data.datasets[0].data[i] + '</span>')
+                                text.push('</li>');
+                            }
+                            text.push('</ul>');
+
+                            return text.join("");
+                        }
+                    },
+                })
+
+                toggleTab(0)
+
+                function toggleTab(el) {
+                    let tabs = document.getElementsByClassName('tab')
+                    for (let i = 0; i < tabs.length; i++) {
+                        if (i == el) {
+                            fetchData(el)
+                            if (!tabs[i].classList.contains('active')) {
+                                tabs[i].classList.remove('bg-gray-300')
+                                tabs[i].classList.add('active', 'bg-white')
+                            }
+                        } else {
+                            tabs[i].classList.remove('active', 'bg-white')
+                            if (!tabs[i].classList.contains('bg-gray-300')) {
+                                tabs[i].classList.add('bg-gray-300')
+                            }
+                        }
+                    }
+                }
+
+                function fetchData(index) {
+                    let params = ['room', 'device']
+
+                    $.ajax({
+                        url: '/ajax/pie/' + params[index],
+                        type: 'get',
+                        success: function (res) {
+                            let e = JSON.parse(res)
+
+                            for(let i = 0;i < e.datasets.length; i++){
+                                colors.push('#' + Math.floor(Math.random()*16777215).toString(16));
+                            }
+
+                            myChart.data.labels = e.labels
+                            myChart.data.datasets[0].data = e.datasets
+                            myChart.data.datasets[0].backgroundColor = colors
+                            myChart.update()
+
+                            document.getElementById('legend').innerHTML = myChart.generateLegend()
+                        }
+                    })
+                }
+            </script>
 
             <div class="col-span-3 flex overflow-y-auto w-full px-4 pb-4 no-scrollbar bg-white">
                 <div class="w-full h-96 justify-center text-gray-600">
