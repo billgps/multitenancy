@@ -259,7 +259,7 @@
                                 text.push('<li class="flex items-center">');
                                 text.push('<div style="background-color:' + chart.data.datasets[0].backgroundColor[i] + '" class="w-6 h-3 mr-6 my-1"></div>');
                                 if (chart.data.labels[i]) {
-                                    text.push(chart.data.labels[i]);
+                                    text.push('<p class="text-sm text-left">' + chart.data.labels[i] + '</p>');
                                 }
                                 text.push('<span class="ml-auto">' + chart.data.datasets[0].data[i] + '</span>')
                                 text.push('</li>');
