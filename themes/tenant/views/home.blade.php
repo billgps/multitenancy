@@ -212,79 +212,118 @@
 
             <div class="col-span-4 w-full p-4 bg-white">
                 <div class="text-md flex text-left text-gray-600">
-                    Kerusakan Alat
+                    Diagram Data Inventory
                 </div>
                 <div class="flex flex-col mt-6">
                     <div class="w-full h-full">
-                        <canvas id="line-chart" class="text-sm text-gray-700"></canvas>
+                        <canvas id="polarChart" class="text-sm text-gray-700"></canvas>
                     </div>        
-                    <script>
-                        var array1 = {!! json_encode($statistic)  !!};
-                        var months = []
-                        let data = []
-                        for (var property in array1) {
-                            months.unshift(property)
-                        }
-
-                        for (let i = 0; i < months.length; i++) {
-                            data.push(array1[months[i]].length)
-                        }
-
-                        var chart = new Chart(document.getElementById("line-chart"), {
-                            type: 'line',
-                            data: {
-                                    labels: months,
-                                    datasets: [{
-                                    backgroundColor: 'rgba(239, 68, 68, 1)',
-                                    borderColor: 'rgba(239, 68, 68, 1)',
-                                    data: data,
-                                    fill: false
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                // scales: {
-                                //     xAxes: [{
-                                //         type: 'time',
-                                //         time: {
-                                //             unit: 'month'
-                                //         }
-                                //     }]
-                                // },
-                                legend: {
-                                    display: false,
-                                }
-                            }
-                        });            
-                        // console.log(months);
-                        // new Chart(document.getElementById("line-chart"), {
-                        //     type: 'line',
-                        //     data: {
-                        //         labels: months,
-                        //         // datasets: [
-                        //         //     { 
-                        //         //         data: [86,114,106,106,107,111,133,221,783,2478],
-                        //         //         label: "Africa",
-                        //         //         borderColor: "#3e95cd",
-                        //         //         fill: false
-                        //         //     }, 
-                        //         // ],
-                        //     },
-                        // });
-                    </script>  
                 </div>
             </div>
-            <div class="col-span-2 flex overflow-auto no-scrollbar w-full p-4 bg-white">
+
+            <div style="height: 437px;" class="col-span-2 flex flex-col w-full">
+                <div class="w-full">
+                    <ul id="tabBar" class='flex cursor-pointer'>
+                      <li onclick="toggleTab(0)" class='tab py-2 active px-4 text-sm text-gray-600 bg-white rounded-t-lg'>Ruangan</li>
+                      <li onclick="toggleTab(1)" class='tab py-2 px-4 text-sm rounded-t-lg text-gray-600 bg-gray-300'>Nama Alat</li>
+                    </ul>
+                </div>
+                <div class='w-full h-full mx-auto bg-white p-4 flex flex-col no-scrollbar overflow-hidden'>
+                    <div id="legend" class="h-full overflow-y-auto no-scrollbar"></div>
+                </div>
+            </div>
+
+            <script>
+                Chart.defaults.global.legend.display = false; 
+                const colors = []
+                const data = {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: '',
+                            data: [],
+                            backgroundColor: []                        
+                        }
+                    ]
+                };
+
+                const ctx = document.getElementById('polarChart').getContext('2d');
+                const myChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: data,
+                    options: {
+                        legendCallback: function (chart) {
+                            let text = [];
+                            text.push('<ul>');
+                            for (let i = 0; i < chart.data.datasets[0].data.length; i++) {
+                                text.push('<li class="flex items-center">');
+                                text.push('<div style="background-color:' + chart.data.datasets[0].backgroundColor[i] + '" class="w-6 h-3 mr-6 my-1"></div>');
+                                if (chart.data.labels[i]) {
+                                    text.push(chart.data.labels[i]);
+                                }
+                                text.push('<span class="ml-auto">' + chart.data.datasets[0].data[i] + '</span>')
+                                text.push('</li>');
+                            }
+                            text.push('</ul>');
+
+                            return text.join("");
+                        }
+                    },
+                })
+
+                toggleTab(0)
+
+                function toggleTab(el) {
+                    let tabs = document.getElementsByClassName('tab')
+                    for (let i = 0; i < tabs.length; i++) {
+                        if (i == el) {
+                            fetchData(el)
+                            if (!tabs[i].classList.contains('active')) {
+                                tabs[i].classList.remove('bg-gray-300')
+                                tabs[i].classList.add('active', 'bg-white')
+                            }
+                        } else {
+                            tabs[i].classList.remove('active', 'bg-white')
+                            if (!tabs[i].classList.contains('bg-gray-300')) {
+                                tabs[i].classList.add('bg-gray-300')
+                            }
+                        }
+                    }
+                }
+
+                function fetchData(index) {
+                    let params = ['room', 'device']
+
+                    $.ajax({
+                        url: '/ajax/pie/' + params[index],
+                        type: 'get',
+                        success: function (res) {
+                            let e = JSON.parse(res)
+
+                            for(let i = 0;i < e.datasets.length; i++){
+                                const randomNum = () => Math.floor(Math.random() * (235 - 52 + 1) + 52);
+                                const randomRGB = () => `rgba(${randomNum()}, ${randomNum()}, ${randomNum()}, 50%)`;
+
+                                colors.push(randomRGB());
+                            }
+
+                            myChart.data.labels = e.labels
+                            myChart.data.datasets[0].data = e.datasets
+                            myChart.data.datasets[0].backgroundColor = colors
+                            myChart.update()
+
+                            document.getElementById('legend').innerHTML = myChart.generateLegend()
+                        }
+                    })
+                }
+            </script>
+
+            <div class="col-span-3 flex overflow-y-auto w-full px-4 pb-4 no-scrollbar bg-white">
                 <div class="w-full h-96 justify-center text-gray-600">
-                    <div class="text-md">
+                    <div class="text-md w-full bg-white sticky top-0 pt-4 pb-2">
                         Kalibrasi Terbaru
                     </div>
                     <table id="records" class="min-w-max mt-3 w-full table-auto text-center">
-                        {{-- <thead>
-                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-6">Nama Alat</th>
-                            </tr>
-                        </thead> --}}
                         <tbody class="text-gray-600 text-sm font-light">
                             @foreach ($records as $record)
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">
@@ -310,50 +349,6 @@
                                                 @endif
                                             </div>
                                         </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="col-span-3 flex overflow-y-auto w-full p-4 bg-white">
-                <div class="w-full justify-center text-gray-600">
-                    <div class="text-md">
-                        Inventori Baru
-                    </div>
-                    <table id="records" class="min-w-max mt-3 w-full table-auto text-center">
-                        <thead>
-                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-6">Nama</th>
-                                <th class="py-3 px-6">Ruangan</th>
-                                <th class="py-3 px-6">Status Kalibrasi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-gray-600 text-sm font-light">
-                            @foreach ($inventories as $inventory)
-                                <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                    <td class="py-3 px-6 text-left">
-                                        {{ $inventory->device->standard_name }}
-                                    </td>
-                                    <td class="py-3 px-6">
-                                        {{ $inventory->room->room_name }}
-                                    </td>
-                                    <td class="py-3 px-6">
-                                        @if ($inventory->latest_record->calibration_status == 'Terkalibrasi')
-                                            <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
-                                                {{ $inventory->latest_record->calibration_status }}
-                                            </div>
-                                        @elseif ($inventory->latest_record->calibration_status == 'Expired')
-                                            <div class="rounded bg-red-400 text-gray-800 py-1 px-3 text-xs font-bold">
-                                                {{ $inventory->latest_record->calibration_status }}
-                                            </div>
-                                        @else
-                                            <div class="rounded bg-yellow-400 text-gray-800 py-1 px-3 text-xs font-bold">
-                                                {{ $inventory->latest_record->calibration_status }}
-                                            </div>
-                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

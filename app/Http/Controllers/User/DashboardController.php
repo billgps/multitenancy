@@ -20,7 +20,8 @@ class DashboardController extends Controller
         //$this->middleware('verified:user.verification.notice');
     }
 
-    public function index(){
+    public function index()
+    {
         $total      = 0;
         $scheduled  = 0;
         $calibrated = 0;
@@ -112,5 +113,40 @@ class DashboardController extends Controller
             'failed' => $failed,
             'statistic' => $months
         ]);
+    }
+
+    public function pieChart($param)
+    {
+        $labels = array();
+        $values = array();
+
+        switch ($param) {
+            case 'room':
+                $result = DB::select('SELECT room_name, COUNT(i.id) as inventories FROM inventories as i RIGHT JOIN rooms ON i.room_id = rooms.id GROUP BY room_id');
+                foreach ($result as $val) {
+                    array_push($labels, $val->room_name);
+                    array_push($values, $val->inventories);
+                }
+                break;
+
+            case 'device':
+                $result = DB::select('SELECT standard_name, COUNT(i.id) as inventories FROM inventories as i RIGHT JOIN devices ON i.device_id = devices.id GROUP BY device_id');
+                foreach ($result as $val) {
+                    array_push($labels, $val->standard_name);
+                    array_push($values, $val->inventories);
+                }
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+
+        $data = array(
+            'labels' => $labels,
+            'datasets' => $values
+        );
+
+        return response(json_encode($data), 200);
     }
 }

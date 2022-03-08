@@ -130,7 +130,8 @@ class InventoryController extends Controller
             'inventory' => $inventory, 
             'records' => $inventory->records,
             'conditions' => $inventory->conditions,
-            'maintenances' => $inventory->maintenance,
+            'maintenances' => $inventory->maintenances,
+            'consumables' => $inventory->consumables,
             'asset' => $inventory->asset
         ]);
     }
