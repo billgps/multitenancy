@@ -301,7 +301,10 @@
                             let e = JSON.parse(res)
 
                             for(let i = 0;i < e.datasets.length; i++){
-                                colors.push('#' + Math.floor(Math.random()*16777215).toString(16));
+                                const randomNum = () => Math.floor(Math.random() * (235 - 52 + 1) + 52);
+                                const randomRGB = () => `rgba(${randomNum()}, ${randomNum()}, ${randomNum()}, 50%)`;
+
+                                colors.push(randomRGB());
                             }
 
                             myChart.data.labels = e.labels
