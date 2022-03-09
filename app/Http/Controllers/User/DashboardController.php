@@ -32,9 +32,9 @@ class DashboardController extends Controller
         $failed     = 0;
 
         $query = "SELECT COUNT(barcode) AS subTotal, `calibration_status` FROM inventories AS i 
-        INNER JOIN records AS r ON i.id=r.inventory_id 
-        WHERE r.id = (SELECT MAX(rb.id) FROM records AS rb WHERE rb.inventory_id=r.inventory_id) 
-        GROUP BY calibration_status";
+            INNER JOIN records AS r ON i.id=r.inventory_id 
+            WHERE r.id = (SELECT MAX(rb.id) FROM records AS rb WHERE rb.inventory_id=r.inventory_id) 
+            GROUP BY calibration_status";
         $groups = DB::select($query);
         foreach ($groups as $group) {
             $total += $group->subTotal;
@@ -52,9 +52,9 @@ class DashboardController extends Controller
         }
 
         $query = "SELECT COUNT(barcode) AS subTotal, `status` FROM inventories AS i 
-        INNER JOIN conditions AS c ON i.id=c.inventory_id 
-        WHERE c.id = (SELECT MAX(cb.id) FROM conditions AS cb WHERE cb.inventory_id=c.inventory_id) 
-        GROUP BY status";
+            INNER JOIN conditions AS c ON i.id=c.inventory_id 
+            WHERE c.id = (SELECT MAX(cb.id) FROM conditions AS cb WHERE cb.inventory_id=c.inventory_id) 
+            GROUP BY status";
         $groups = DB::select($query);
         foreach ($groups as $group) {
             if ($group->status == 'Rusak') {
@@ -67,9 +67,9 @@ class DashboardController extends Controller
         }
 
         $query = "SELECT COUNT(barcode) AS subTotal, `result` FROM inventories AS i 
-        INNER JOIN records AS c ON i.id=c.inventory_id 
-        WHERE c.id = (SELECT MAX(cb.id) FROM records AS cb WHERE cb.inventory_id=c.inventory_id) 
-        GROUP BY result";
+            INNER JOIN records AS c ON i.id=c.inventory_id 
+            WHERE c.id = (SELECT MAX(cb.id) FROM records AS cb WHERE cb.inventory_id=c.inventory_id) 
+            GROUP BY result";
         $groups = DB::select($query);
         foreach ($groups as $group) {
             if ($group->result == 'Tidak Laik') {
@@ -87,6 +87,10 @@ class DashboardController extends Controller
         })->take(5)->get();
 
         $records = Record::with('inventory.device')->orderBy('created_at', 'desc')->take(8)->get();
+        $must_calibrates = Inventory::with('device', 'latest_record')->whereHas('latest_record', function($query) {
+            $query->where('calibration_status', 'Segera Dikalibrasi')
+                ->orWhere('calibration_status', 'Expired');
+        })->get();
         $current = date('Y-m-d h:i:s a', time());
         $before = date('Y-m-d h:i:s a', strtotime("-5months", strtotime($current)));
 
@@ -103,6 +107,7 @@ class DashboardController extends Controller
             'inventories' => $inventories,
             'pending' => $pending,
             'records' => $records,
+            'must_calibrates' => $must_calibrates,
             'total' => $total,
             'scheduled' => $scheduled,
             'calibrated' => $calibrated,
