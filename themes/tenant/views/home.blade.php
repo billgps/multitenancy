@@ -214,7 +214,7 @@
                 <div class="text-md flex text-left text-gray-600">
                     Diagram Data Inventory
                 </div>
-                <div class="flex flex-col mt-6">
+                <div style="background-image: {{ public_path('grid.png') }}" class="flex flex-col mt-6">
                     <div class="w-full h-full">
                         <canvas id="polarChart" class="text-sm text-gray-700"></canvas>
                     </div>        
@@ -259,7 +259,7 @@
                                 text.push('<li class="flex items-center">');
                                 text.push('<div style="background-color:' + chart.data.datasets[0].backgroundColor[i] + '" class="w-6 h-3 mr-6 my-1"></div>');
                                 if (chart.data.labels[i]) {
-                                    text.push(chart.data.labels[i]);
+                                    text.push('<p class="text-sm text-left">' + chart.data.labels[i] + '</p>');
                                 }
                                 text.push('<span class="ml-auto">' + chart.data.datasets[0].data[i] + '</span>')
                                 text.push('</li>');
@@ -302,7 +302,7 @@
 
                             for(let i = 0;i < e.datasets.length; i++){
                                 const randomNum = () => Math.floor(Math.random() * (235 - 52 + 1) + 52);
-                                const randomRGB = () => `rgba(${randomNum()}, ${randomNum()}, ${randomNum()}, 50%)`;
+                                const randomRGB = () => `rgba(${randomNum()}, ${randomNum()}, ${randomNum()}, 0.4)`;
 
                                 colors.push(randomRGB());
                             }
@@ -318,7 +318,7 @@
                 }
             </script>
 
-            <div class="col-span-3 flex overflow-y-auto w-full px-4 pb-4 no-scrollbar bg-white">
+            <div class="col-span-2 flex overflow-y-auto w-full px-4 pb-4 no-scrollbar bg-white">
                 <div class="w-full h-96 justify-center text-gray-600">
                     <div class="text-md w-full bg-white sticky top-0 pt-4 pb-2">
                         Kalibrasi Terbaru
@@ -356,7 +356,7 @@
                     </table>
                 </div>
             </div>
-            <div class="col-span-3 flex overflow-y-auto w-full p-4 bg-white">
+            <div class="col-span-4 flex overflow-y-auto w-full p-4 no-scrollbar bg-white">
                 <div class="w-full justify-center text-gray-600">
                     <div class="text-md">
                         Wajib Kalibrasi
@@ -370,16 +370,18 @@
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
-                            @foreach ($pending as $item)
+                            @foreach ($must_calibrates as $i)
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">
                                     <td class="py-3 px-6 text-left">
-                                        {{ $item->device->standard_name }}
+                                        <a href="{{ route('inventory.show', ['id' => $i->id]) }}">
+                                            {{ $i->device->standard_name }}
+                                        </a>
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $item->latest_record->cal_date }}
+                                        {{ $i->latest_record->cal_date }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $item->latest_record->updated_at }}
+                                        {{ $i->latest_record->updated_at }}
                                     </td>
                                 </tr>
                             @endforeach
