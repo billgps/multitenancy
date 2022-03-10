@@ -114,7 +114,7 @@ if (Tenant::current()) {
     
                 Route::prefix('maintenance')->group(function () {
                     Route::get('/', [MaintenanceController::class, 'index'])->name('maintenance.index');
-                    Route::get('/create/{inventory?}', [MaintenanceController::class, 'create'])->name('maintenance.create');
+                    Route::get('/create/{inventory}', [MaintenanceController::class, 'create'])->name('maintenance.create');
                     Route::post('/store', [MaintenanceController::class, 'store'])->name('maintenance.store');
                     Route::post('/import', [MaintenanceController::class, 'import'])->name('maintenance.import');
                     // Route::get('/{id}', [MaintenanceController::class, 'show'])->name('maintenance.show');

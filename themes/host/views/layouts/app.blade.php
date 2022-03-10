@@ -9,6 +9,7 @@
     <meta http-equiv="refresh" content="time; URL=new_url" />
 
     <title>{{ config('app.name', 'Laravel') }}</title>
+    <link rel="icon" href="{{ url('favicon.png') }}">
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js', 'themes/host') }}" defer></script>
