@@ -555,7 +555,7 @@
                                 Tidak
                             </td>
                             <td>
-                                <a onclick="addRow('function')" class="ml-auto text-green-500 cursor-pointer">
+                                <a onclick="addRow('function')" class="ml-auto text-green-500 hover:text-gray-500 cursor-pointer">
                                     <i class="fas fa-plus-circle"></i>
                                 </a>
                             </td>
@@ -571,7 +571,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="radio" name="func[]" value="0" class="hidden">
+                                                <input type="radio" name="func[0]" value="0" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -579,7 +579,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="radio" name="func[]" value="1" class="hidden">
+                                                <input type="radio" name="func[0]" value="1" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -587,7 +587,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="radio" name="func[]" value="2" class="hidden">
+                                                <input type="radio" name="func[0]" value="2" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -600,7 +600,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="radio" name="func[]" value="0" class="hidden">
+                                                <input type="radio" name="func[1]" value="0" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -608,7 +608,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="radio" name="func[]" value="1" class="hidden">
+                                                <input type="radio" name="func[1]" value="1" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -616,7 +616,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="radio" name="func[]" value="2" class="hidden">
+                                                <input type="radio" name="func[1]" value="2" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -629,7 +629,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="radio" name="func[]" value="0" class="hidden">
+                                                <input type="radio" name="func[2]" value="0" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -637,7 +637,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="radio" name="func[]" value="1" class="hidden">
+                                                <input type="radio" name="func[2]" value="1" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -645,7 +645,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="radio" name="func[]" value="2" class="hidden">
+                                                <input type="radio" name="func[2]" value="2" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -658,7 +658,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="radio" name="func[]" value="0" class="hidden">
+                                                <input type="radio" name="func[3]" value="0" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -666,7 +666,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="radio" name="func[]" value="1" class="hidden">
+                                                <input type="radio" name="func[3]" value="1" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -674,7 +674,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="radio" name="func[]" value="2" class="hidden">
+                                                <input type="radio" name="func[3]" value="2" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -687,7 +687,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="radio" name="func[]" value="0" class="hidden">
+                                                <input type="radio" name="func[4]" value="0" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -695,7 +695,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="radio" name="func[]" value="1" class="hidden">
+                                                <input type="radio" name="func[4]" value="1" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -703,7 +703,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="radio" name="func[]" value="2" class="hidden">
+                                                <input type="radio" name="func[4]" value="2" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -711,6 +711,693 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+
+                <div class="border border-gray-300 col-span-6 flex flex-col text-xs">
+                    <table class="text-sm border-gray-300 bg-gray-300 font-semibold border-b w-full px-2">
+                        <tr>
+                            <td class="w-48 pl-2">
+                                Kelengkapan Alat
+                            </td>
+                            <td class="pl-4">
+                                N / A
+                            </td>
+                            <td class="pl-7">
+                                Baik
+                            </td>
+                            <td class="pl-6">
+                                Tidak
+                            </td>
+                            <td>
+                                <a onclick="addRow('complete')" class="ml-auto text-green-500 hover:text-gray-500 cursor-pointer">
+                                    <i class="fas fa-plus-circle"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="px-2 py-1 my-1">
+                        <table class="align-middle w-full">
+                            <tbody id="completeBody">
+                                <tr>
+                                    <td class="w-48">
+                                        <p class="flex items-center col-span-2">Power Cord / Adaptor</p>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="complete[0]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="complete[0]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="complete[0]" value="2" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="border border-gray-300 col-span-12 flex flex-col text-xs">
+                    <div class="text-sm border-gray-300 bg-gray-300 font-semibold border w-full px-2 flex items-center">
+                        <span class="w-64">
+                            Pemeriksaan Kinerja Alat
+                        </span>
+                        <span class="w-16 ml-4 text-center">
+                            Setting
+                        </span>
+                        <span class="w-14 ml-10 text-center">
+                            Terukur I
+                        </span>
+                        <span class="w-16 ml-10 text-center">
+                            Terukur II
+                        </span>
+                        <span class="w-20 ml-9 text-center">
+                            Nilai Acuan
+                        </span>
+                        <span class="w-16 ml-5 text-center">
+                            Baik
+                        </span>
+                        <span class="w-16 ml-1 text-center">
+                            Tidak
+                        </span>
+                        <span>
+                            <a onclick="addRow('performance')" class="ml-auto text-green-500 cursor-pointer">
+                                <i class="fas fa-plus-circle"></i>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="px-2 py-1 my-1">
+                        <table class="align-middle w-full">
+                            <tbody id="performBody">
+                                <tr>
+                                    <td class="w-64 border-gray-300 border-r">
+                                        <span class="flex items-center col-span-2">
+                                            <input type="text" name="performanceParam[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        </span>
+                                    </td>
+                                    <td class="border-gray-300 text-center border-r">
+                                        <input type="text" name="setting[]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                    </td>
+                                    <td class="border-gray-300 text-center border-r">
+                                        <input type="number" name="value[0][]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                    </td>
+                                    <td class="border-gray-300 text-center border-r">
+                                        <input type="number" name="value[1][]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                    </td>
+                                    <td class="border-gray-300 text-center border-r">
+                                        <input type="text" name="reference[]" class="w-20 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="performanceCondition[0]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="performanceCondition[0]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td class="">
+                                        <a onclick="deleteRow(this)" class="text-red-500 hover:text-gray-500 cursor-pointer mx-1">
+                                            <i class="fas fa-minus-circle"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-sm border-gray-300 bg-gray-300 font-semibold border w-full px-2 flex items-center">
+                        <span class="w-64">
+                        </span>
+                        <span class="w-20 ml-7 text-center">
+                            Spesifikasi
+                        </span>
+                        <span class="w-14 ml-9 text-center">
+                            Terukur I
+                        </span>
+                        <span class="w-16 ml-10 text-center">
+                            Terukur II
+                        </span>
+                        <span class="w-20 ml-9 text-center">
+                            Nilai Acuan
+                        </span>
+                        <span class="w-16 ml-1 text-center">
+                            Baik
+                        </span>
+                        <span class="w-16 ml-1 text-center">
+                            Tidak
+                        </span>
+                        <span>
+                        </span>
+                    </div>
+                    <div class="px-2 py-1 my-1">
+                        <table class="align-middle w-full">
+                            <tbody id="performBody">
+                                <tr>
+                                    <td class="w-64 border-gray-300 border-r">
+                                        <span class="flex items-center col-span-2">
+                                            Battery
+                                        </span>
+                                    </td>
+                                    <td class="border-gray-300 text-center border-r">
+                                        <input type="text" name="batterySetting[]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        VDC
+                                    </td>
+                                    <td class="border-gray-300 text-center border-r">
+                                        <input type="number" name="battery[0][]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                    </td>
+                                    <td class="border-gray-300 text-center border-r">
+                                        <input type="number" name="battery[1][]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                    </td>
+                                    <td class="border-gray-300 text-center border-r">
+                                        <div class="text-center w-20">
+                                            &#8804;10%
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="batteryCondition[0]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="batteryCondition[0]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td class="w-7">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="border border-gray-300 col-span-12 flex flex-col text-xs">
+                    <div class="text-sm border-gray-300 border w-full pr-2 flex items-center">
+                        <span class="w-64 bg-gray-300 pl-2 font-semibold">
+                            Hasil Pemeriksaan
+                        </span>
+                        <span class="flex items-center text-center mx-4">
+                            <label class="custom-label flex ml-3">
+                                <div class="bg-white shadow w-4 h-4 p-1 flex justify-center items-center mr-2">
+                                    <input type="radio" name="inspectionResult" value="1" class="hidden">
+                                    <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                </div>
+                            </label>
+                            <span class="select-none text-xs">Alat Bekerja dengan Baik</span>
+                        </span>
+                        <span class="flex items-center text-center ml-8">
+                            <label class="custom-label flex ml-3">
+                                <div class="bg-white shadow w-4 h-4 p-1 flex justify-center items-center mr-2">
+                                    <input type="radio" name="inspectionResult" value="0" class="hidden">
+                                    <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                </div>
+                            </label>
+                            <span class="select-none text-xs">Alat Tidak Bekerja dengan Baik</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="border border-gray-300 col-span-6 flex flex-col text-xs">
+                    <table class="text-sm border-gray-300 bg-gray-300 font-semibold border-b w-full px-2">
+                        <tr>
+                            <td class="w-64 pl-2">
+                                Pemeliharaan Alat
+                            </td>
+                            <td class="pl-2">
+                                Dilakukan
+                            </td>
+                            <td class="pr-6">
+                                Tidak
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="px-2 py-6 my-1">
+                        <table class="align-middle w-full">
+                            <tbody>
+                                <tr>
+                                    <td class="w-64">
+                                        <p class="flex items-center col-span-2">Pembersihan Main Unit</p>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="maintenance[0]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="maintenance[0]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="w-64">
+                                        <p class="flex items-center col-span-2">Pembersihan Aksesoris / Kelengkapan alat</p>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="maintenance[1]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="maintenance[1]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="w-64">
+                                        <p class="flex items-center col-span-2">Pemantauan fungsi alat</p>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="maintenance[2]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="maintenance[2]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="w-64">
+                                        <p class="flex items-center col-span-2">Pemantauan kinerja alat</p>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="maintenance[3]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="maintenance[3]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="flex w-64">
+                                        <p class="flex items-center col-span-2">Penggantian Consumable</p>
+                                        <input type="text" name="cons" class="text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="maintenance[4]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="maintenance[4]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="w-64">
+                                        <p class="flex items-center col-span-2">Lubricating &/ Tighting</p>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="maintenance[5]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="maintenance[4]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="border border-gray-300 col-span-6 flex flex-col text-xs">
+                    <table class="text-sm border-gray-300 bg-gray-300 font-semibold border-b w-full px-2">
+                        <tr>
+                            <td class="w-14 text-center pl-5">
+                                Stok
+                            </td>
+                            <td class="w-56 text-center pl-6">
+                                Konsumabel
+                            </td>
+                            <td class="pl-3">
+                                Ada
+                            </td>
+                            <td class="pl-1">
+                                Tidak
+                            </td>
+                            <td class="pl-1">
+                                Habis
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="px-2 py-1 my-1">
+                        <table class="align-middle w-full">
+                            <tbody id="consBody">
+                                <tr>
+                                    <td>
+                                        <input type="text" name="stock[]" class="w-14 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                    </td>
+                                    <td class="w-56">
+                                        <span class="flex items-center col-span-2">
+                                            <input type="text" name="consumables[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="consCondition[0]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="consCondition[0]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="consCondition[0]" value="2" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="stock[]" class="w-14 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                    </td>
+                                    <td class="w-56">
+                                        <span class="flex items-center col-span-2">
+                                            <input type="text" name="consumables[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="consCondition[1]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="consCondition[1]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="consCondition[1]" value="2" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="stock[]" class="w-14 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                    </td>
+                                    <td class="w-56">
+                                        <span class="flex items-center col-span-2">
+                                            <input type="text" name="consumables[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="consCondition[2]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="consCondition[2]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="consCondition[2]" value="2" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="stock[]" class="w-14 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                    </td>
+                                    <td class="w-56">
+                                        <span class="flex items-center col-span-2">
+                                            <input type="text" name="consumables[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="consCondition[3]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="consCondition[3]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="consCondition[3]" value="2" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="stock[]" class="w-14 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                    </td>
+                                    <td class="w-56">
+                                        <span class="flex items-center col-span-2">
+                                            <input type="text" name="consumables[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="consCondition[4]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="consCondition[4]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="consCondition[4]" value="2" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="stock[]" class="w-14 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                    </td>
+                                    <td class="w-56">
+                                        <span class="flex items-center col-span-2">
+                                            <input type="text" name="consumables[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="consCondition[5]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="consCondition[5]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="consCondition[5]" value="2" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="border border-gray-300 col-span-12 flex flex-col text-xs">
+                    <div class="text-sm border-gray-300 border w-full pr-2 flex items-center">
+                        <span class="w-64 bg-gray-300 pl-2 font-semibold">
+                            Hasil Maintenance
+                        </span>
+                        <span class="flex items-center text-center mx-4">
+                            <label class="custom-label flex ml-3">
+                                <div class="bg-white shadow w-4 h-4 p-1 flex justify-center items-center mr-2">
+                                    <input type="radio" name="maintenanceResult" value="1" class="hidden">
+                                    <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                </div>
+                            </label>
+                            <span class="select-none text-xs">Alat Berfungsi dengan Baik</span>
+                        </span>
+                        <span class="flex items-center text-center ml-8">
+                            <label class="custom-label flex ml-3">
+                                <div class="bg-white shadow w-4 h-4 p-1 flex justify-center items-center mr-2">
+                                    <input type="radio" name="maintenanceResult" value="0" class="hidden">
+                                    <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                </div>
+                            </label>
+                            <span class="select-none text-xs">Alat Tidak Dapat Berfungsi dengan Baik</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="border border-gray-300 col-span-12 flex flex-col text-xs">
+                    <div class="text-sm border-gray-300 border w-full pr-2 flex items-center">
+                        <span class="w-64 h-full flex items-center bg-gray-300 pl-2 font-semibold">
+                            Rekomendasi Hasil Maintenance
+                        </span>
+                        <div class="flex flex-col">
+                            <span class="flex items-center text-center my-1">
+                                <label class="custom-label flex ml-3">
+                                    <div class="bg-white shadow w-4 h-4 p-1 flex justify-center items-center mr-2">
+                                        <input type="radio" name="recommendation" value="0" class="hidden">
+                                        <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                    </div>
+                                </label>
+                                <span class="select-none text-xs">Alat Dapat Digunakan</span>
+                            </span>
+                            <span class="flex items-center text-center my-1">
+                                <label class="custom-label flex ml-3">
+                                    <div class="bg-white shadow w-4 h-4 p-1 flex justify-center items-center mr-2">
+                                        <input type="radio" name="recommendation" value="1" class="hidden">
+                                        <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                    </div>
+                                </label>
+                                <span class="select-none text-xs">Alat Perlu Dikalibrasi</span>
+                            </span>
+                        </div>
+                        <div class="flex flex-col ml-20">
+                            <span class="flex items-center text-center my-1">
+                                <label class="custom-label flex ml-3">
+                                    <div class="bg-white shadow w-4 h-4 p-1 flex justify-center items-center mr-2">
+                                        <input type="radio" name="recommendation" value="2" class="hidden">
+                                        <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                    </div>
+                                </label>
+                                <span class="select-none text-xs">Alat Tidak Dapat Digunakan</span>
+                            </span>
+                            <span class="flex items-center text-center my-1">
+                                <label class="custom-label flex ml-3">
+                                    <div class="bg-white shadow w-4 h-4 p-1 flex justify-center items-center mr-2">
+                                        <input type="radio" name="recommendation" value="3" class="hidden">
+                                        <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                    </div>
+                                </label>
+                                <span class="select-none text-xs">Alat Harus Dikalibrasi</span>
+                            </span>
+                        </div>
                     </div>
                 </div>
 
@@ -818,13 +1505,13 @@
                                         '<a onclick="deleteRow(this)" class="text-red-500 hover:text-gray-500 cursor-pointer mx-1">'+
                                             '<i class="fas fa-minus-circle"></i>'+
                                         '</a>'+
-                                        '<input type="number" name="el[]" class="w-full text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+ 
+                                        '<input type="text" name="funcParam[]" class="w-full text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+ 
                                     '</span>'+
                                 '</td>'+
                                 '<td>'+
                                     '<label class="custom-label flex ml-3">'+
                                         '<div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">'+
-                                            '<input type="radio" name="func[]" value="0" class="hidden">'+
+                                            '<input type="radio" name="func['+row.rowIndex+']" value="0" class="hidden">'+
                                             '<svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>'+
                                         '</div>'+
                                     '</label>'+
@@ -832,7 +1519,7 @@
                                 '<td>'+
                                     '<label class="custom-label flex ml-3">'+
                                         '<div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">'+
-                                            '<input type="radio" name="func[]" value="1" class="hidden">'+
+                                            '<input type="radio" name="func['+row.rowIndex+']" value="1" class="hidden">'+
                                             '<svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>'+
                                         '</div>'+
                                     '</label>'+
@@ -840,13 +1527,92 @@
                                 '<td>'+
                                     '<label class="custom-label flex ml-3">'+
                                         '<div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">'+
-                                            '<input type="radio" name="func[]" value="2" class="hidden">'+
+                                            '<input type="radio" name="func['+row.rowIndex+']" value="2" class="hidden">'+
                                             '<svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>'+
                                         '</div>'+
                                     '</label>'+
                                 '</td>'
                 break;
+            case 'complete':
+                table = document.getElementById('completeBody')
+                row = table.insertRow()
+                row.innerHTML = '<td class="w-48">'+
+                                    '<span class="flex items-center col-span-2">'+
+                                        '<a onclick="deleteRow(this)" class="text-red-500 hover:text-gray-500 cursor-pointer mx-1">'+
+                                            '<i class="fas fa-minus-circle"></i>'+
+                                        '</a>'+
+                                        '<input type="text" name="compParam[]" class="w-full text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+ 
+                                    '</span>'+
+                                '</td>'+
+                                '<td>'+
+                                    '<label class="custom-label flex ml-3">'+
+                                        '<div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">'+
+                                            '<input type="radio" name="complete['+row.rowIndex+']" value="0" class="hidden">'+
+                                            '<svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>'+
+                                        '</div>'+
+                                    '</label>'+
+                                '</td>'+
+                                '<td>'+
+                                    '<label class="custom-label flex ml-3">'+
+                                        '<div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">'+
+                                            '<input type="radio" name="complete['+row.rowIndex+']" value="1" class="hidden">'+
+                                            '<svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>'+
+                                        '</div>'+
+                                    '</label>'+
+                                '</td>'+
+                                '<td>'+
+                                    '<label class="custom-label flex ml-3">'+
+                                        '<div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">'+
+                                            '<input type="radio" name="complete['+row.rowIndex+']" value="2" class="hidden">'+
+                                            '<svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>'+
+                                        '</div>'+
+                                    '</label>'+
+                                '</td>'
+                break;
+            case 'performance':
+                table = document.getElementById('performBody')
+                row = table.insertRow()
+                row.innerHTML = '<td class="w-64 border-gray-300 border-r">'+
+                                    '<span class="flex items-center col-span-2">'+
+                                        '<input type="text" name="performanceParam[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
+                                    '</span>'+
+                                '</td>'+
+                                '<td class="border-gray-300 text-center border-r">'+
+                                    '<input type="text" name="setting[]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
+                                '</td>'+
+                                '<td class="border-gray-300 text-center border-r">'+
+                                    '<input type="number" name="value[0][]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
+                                '</td>'+
+                                '<td class="border-gray-300 text-center border-r">'+
+                                    '<input type="number" name="value[1][]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
+                                '</td>'+
+                                '<td class="border-gray-300 text-center border-r">'+
+                                    '<input type="text" name="reference[]" class="w-20 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
+                                '</td>'+
+                                '<td>'+
+                                    '<label class="custom-label flex ml-3">'+
+                                        '<div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">'+
+                                            '<input type="radio" name="performanceCondition['+row.rowIndex+']" value="1" class="hidden">'+
+                                            '<svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>'+
+                                        '</div>'+
+                                    '</label>'+
+                                '</td>'+
+                                '<td>'+
+                                    '<label class="custom-label flex ml-3">'+
+                                        '<div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">'+
+                                            '<input type="radio" name="performanceCondition['+row.rowIndex+']" value="2" class="hidden">'+
+                                            '<svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>'+
+                                        '</div>'+
+                                    '</label>'+
+                                '</td>'+
+                                '<td class="">'+
+                                    '<a onclick="deleteRow(this)" class="text-red-500 hover:text-gray-500 cursor-pointer mx-1">'+
+                                        '<i class="fas fa-minus-circle"></i>'+
+                                    '</a>'+
+                                '</td>'
+                break;
             default:
+                console.log("table not found");
                 break;
         }
     }
