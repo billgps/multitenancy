@@ -337,10 +337,10 @@
                 <div class="border border-gray-300 col-span-6 flex flex-col text-xs pb-2">
                     <div class="grid grid-cols-3 gap-y-2 w-full">
                         <div class="text-sm border-gray-300 bg-gray-300 font-semibold border-b border-x w-full px-2">Pemeriksaan Fisik</div>
-                        <div class="flex justify-evenly text-sm border-gray-300 bg-gray-300 font-semibold border-b border-x w-full px-2">
-                            <span>B</span>
-                            <span>C/RR</span>
-                            <span>RB</span>
+                        <div class="flex text-sm border-gray-300 bg-gray-300 font-semibold border-b border-x w-full px-2">
+                            <span class="ml-4">B</span>
+                            <span class="ml-6">C/RR</span>
+                            <span class="ml-6">RB</span>
                         </div>
                         <div class="flex justify-evenly text-sm border-gray-300 bg-gray-300 font-semibold border-b border-x w-full px-2">
                             <span>Bersih</span>
@@ -424,51 +424,9 @@
                 <div class="border border-gray-300 col-span-6 flex flex-col text-xs">
                     <div class="text-sm border-gray-300 bg-gray-300 font-semibold border-b w-full px-2 flex">
                         Pemeriksaan Keamanan Listrik
-                        <a href="#addElectric" rel="modal:open" class="ml-auto text-green-500 cursor-pointer">
+                        <a onclick="addRow('electricity')" class="ml-auto text-green-500 hover:text-gray-500 cursor-pointer">
                             <i class="fas fa-plus-circle"></i>
                         </a>
-
-                        <div id="addElectric" style="background-color: rgb(31, 41, 55);" class="modal text-gray-200 flex items-center justify-center">
-                            {{-- <div class="flex justify-between items-center pb-3 text-lg">
-                                Import Excel to Inventory
-                            </div> --}}
-                            <div class="text-xs">
-                                <div class="grid grid-cols-6 gap-y-2 w-full">
-                                    <p class="col-span-2 flex justify-center items-center">
-                                        Parameter
-                                    </p>
-                                    <div></div>
-                                    <div></div>
-                                    <p class="flex justify-center items-center">
-                                        Nilai
-                                    </p>
-                                    <p class="flex justify-center items-center text-center">
-                                        Ambang Batas
-                                    </p>
-
-                                    <span class="ml-2 pr-1 text-xs col-span-3 flex items-center break-normal">
-                                        <input type="text" id="elParam" class="w-64 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto"> 
-                                    </span>
-                                    <label for="elToggle" class="flex items-center cursor-pointer">
-                                        <span class="relative">
-                                            <span class="block w-10 h-6 bg-gray-400 rounded-full shadow-inner"></span>
-                                            <span class="absolute block w-4 h-4 mt-1 ml-1 bg-white rounded-full shadow inset-y-0 left-0 focus-within:shadow-outline transition-transform duration-300 ease-in-out">
-                                                <input onclick="toggleInput(this)" id="elToggle" type="checkbox" class="absolute opacity-0 w-0 h-0" />
-                                            </span>
-                                        </span>
-                                    </label>
-                                    <p class="flex items-center col-span-2">
-                                        <input type="number" id="elValue" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
-                                        <input type="text" id="elThreshold" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
-                                    </p>
-                                </div>
-                                <div class="flex w-full justify-end mt-4">
-                                    <a onclick="addElectric()" href="#" rel="modal:close" class="block text-center text-white bg-green-600 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
-                                        Add
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <table class="align-middle my-3 mr-1">
                         <tbody id="elBody">
@@ -581,6 +539,181 @@
                     </table>
                 </div>
 
+                <div class="border border-gray-300 col-span-6 row-span-2 flex flex-col text-xs">
+                    <table class="text-sm border-gray-300 bg-gray-300 font-semibold border-b w-full px-2">
+                        <tr>
+                            <td class="w-48 pl-2">
+                                Pemeriksaan Fungsi Alat
+                            </td>
+                            <td class="pl-4">
+                                N / A
+                            </td>
+                            <td class="pl-7">
+                                Baik
+                            </td>
+                            <td class="pl-6">
+                                Tidak
+                            </td>
+                            <td>
+                                <a onclick="addRow('function')" class="ml-auto text-green-500 cursor-pointer">
+                                    <i class="fas fa-plus-circle"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="px-2 py-1 my-1">
+                        <table class="align-middle w-full">
+                            <tbody id="funcBody">
+                                <tr>
+                                    <td class="w-48">
+                                        <p class="flex items-center col-span-2">Display / Monitor</p>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="func[]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="func[]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="func[]" value="2" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="w-48">
+                                        <p class="flex items-center col-span-2">Switch On / Off</p>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="func[]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="func[]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="func[]" value="2" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="w-48">
+                                        <p class="flex items-center col-span-2">Control / Setting</p>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="func[]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="func[]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="func[]" value="2" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="w-48">
+                                        <p class="flex items-center col-span-2">Keypad</p>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="func[]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="func[]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="func[]" value="2" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="w-48">
+                                        <p class="flex items-center col-span-2">Timer</p>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="func[]" value="0" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="func[]" value="1" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="custom-label flex ml-3">
+                                            <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
+                                                <input type="radio" name="func[]" value="2" class="hidden">
+                                                <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
+                                            </div>
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
                 {{-- <div class="flex flex-wrap justify-center mt-12">
                     <input type="submit" value="{{ __('Submit') }}" class="block text-center text-white bg-gray-800 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-48">
                 </div>         --}}
@@ -652,41 +785,75 @@
         }
     }
 
-    function addElectric() {
-        let param = document.getElementById('elParam').value
-        let toggle = document.getElementById('elToggle').checked
-        let value = document.getElementById('elValue').value
-        let threshold = document.getElementById('elThreshold').value
-        let table = document.getElementById('elBody')
-        let checked = ''
-        let checkedClass = 'bg-white'
+    function addRow(type) {
+        let table = null
+        let row = null
 
-        if (toggle) {
-            checked = 'checked'
-            checkedClass = 'bg-purple-600 transform translate-x-full active'
-        }
-
-        let row = table.insertRow()
-        row.innerHTML = '<td class="w-64">'+
-                            '<span class="ml-2 pr-1 text-xs col-span-3 flex items-center break-normal">'+param+'</span>'+
-                            '<input type="hidden" name="elParam[]" value="'+param+'">'+
-                        '</td>'+
-                        '<td>'+
-                            '<label class="flex items-center cursor-pointer">'+
-                                '<span class="relative">'+
-                                    '<span class="block w-10 h-6 bg-gray-400 rounded-full shadow-inner"></span>'+
-                                    '<span class="absolute block w-4 h-4 mt-1 ml-1 '+checkedClass+' rounded-full shadow inset-y-0 left-0 focus-within:shadow-outline transition-transform duration-300 ease-in-out">'+
-                                        '<input onclick="return false" '+checked+' name="is_el[]" type="checkbox" class="absolute opacity-0 w-0 h-0" />'+
+        switch (type) {
+            case 'electricity':
+                table = document.getElementById('elBody')
+                row = table.insertRow()
+                row.innerHTML = '<td class="w-64 py-1">'+
+                                    '<span class="ml-2 pr-1 text-xs col-span-3 flex items-center break-normal">'+
+                                        '<a onclick="deleteRow(this)" class="text-red-500 hover:text-gray-500 cursor-pointer mx-1">'+
+                                            '<i class="fas fa-minus-circle"></i>'+
+                                        '</a>'+
+                                        '<input type="text" name="elParam[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
                                     '</span>'+
-                                '</span>'+
-                            '</label>'+
-                        '</td>'+
-                        '<td class="flex justify-start pl-2">'+
-                            '<p class="items-center">'+
-                                '<input type="number" name="el[]" value="'+value+'" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">&nbsp;'+threshold+
-                                '<input type="hidden" name="elThrehold[]" value="'+threshold+'">'+
-                            '</p>'+
-                        '</td>'
+                                '</td>'+
+                                '<td>'+
+                                '</td>'+
+                                '<td colspan="2" class="flex justify-start pl-2 py-1">'+
+                                    '<p id="el5Node" class="flex items-center col-span-2">'+
+                                        '<input type="number" name="el[]" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+ 
+                                        '<input type="text" name="elThreshold[]" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
+                                    '</p>'+
+                                '</td>'
+                break;
+            case 'function':
+                table = document.getElementById('funcBody')
+                row = table.insertRow()
+                row.innerHTML = '<td class="w-48">'+
+                                    '<span class="flex items-center col-span-2">'+
+                                        '<a onclick="deleteRow(this)" class="text-red-500 hover:text-gray-500 cursor-pointer mx-1">'+
+                                            '<i class="fas fa-minus-circle"></i>'+
+                                        '</a>'+
+                                        '<input type="number" name="el[]" class="w-full text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+ 
+                                    '</span>'+
+                                '</td>'+
+                                '<td>'+
+                                    '<label class="custom-label flex ml-3">'+
+                                        '<div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">'+
+                                            '<input type="radio" name="func[]" value="0" class="hidden">'+
+                                            '<svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>'+
+                                        '</div>'+
+                                    '</label>'+
+                                '</td>'+
+                                '<td>'+
+                                    '<label class="custom-label flex ml-3">'+
+                                        '<div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">'+
+                                            '<input type="radio" name="func[]" value="1" class="hidden">'+
+                                            '<svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>'+
+                                        '</div>'+
+                                    '</label>'+
+                                '</td>'+
+                                '<td>'+
+                                    '<label class="custom-label flex ml-3">'+
+                                        '<div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">'+
+                                            '<input type="radio" name="func[]" value="2" class="hidden">'+
+                                            '<svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>'+
+                                        '</div>'+
+                                    '</label>'+
+                                '</td>'
+                break;
+            default:
+                break;
+        }
+    }
+
+    function deleteRow(r) {
+        let parent = r.parentNode.parentNode.parentNode.parentNode
+        parent.removeChild(r.parentNode.parentNode.parentNode)
     }
 </script>
 @endsection
