@@ -2,20 +2,6 @@
 
 @section('content')
 <style>
-    .select2-results__option, .select2-search__field, .select2-selection__rendered {
-        color: black;
-        font-size: 0.875rem;
-        line-height: 1.25rem;
-    }
-
-    .select2-selection__rendered {
-        text-align: left !important;
-    }
-
-    .select2-selection, .select2-selection--single {
-        height: 32px !important;
-    }
-
     .custom-label input:checked + svg {
         display: block !important;
     }
@@ -39,7 +25,7 @@
             <form class="sm:grid sm:grid-cols-12 sm:p-4 sm:m-2" method="POST"
                 action="{{ route('maintenance.store') }}">
                 @csrf
-                <input type="hidden" name="inventory_id" value="{{ $inventory->id }}">
+                <input required type="hidden" name="inventory_id" value="{{ $inventory->id }}">
                 <div class="border border-gray-300 col-span-3 text-lg font-semibold flex items-center justify-center">
                     Pekerjaan
                 </div>
@@ -59,38 +45,50 @@
                 <div class="border border-gray-300 col-span-6 flex flex-col text-xs px-2">
                     <div class="my-1 grid grid-cols-2">
                         <p>Nama Rumah Sakit / Klinik</p>
-                        <p>: RSUD Matraman</p>
+                        <p>: {{ app('currentTenant')->name }}</p>
                     </div>
                     <div class="my-1 grid grid-cols-2">
                         <p>Lokasi</p>
-                        <p>: Parkiran</p>
+                        <p>: {{ $inventory->room->room_name }}</p>
                     </div>
                     <div class="my-1 grid grid-cols-2">
                         <p>Merk</p>
-                        <p>: Samsung</p>
+                        <p>: {{ $inventory->identity->brand->brand }}</p>
                     </div>
                     <div class="my-1 grid grid-cols-2">
                         <p>Model / Tipe</p>
-                        <p>: Vios Limo</p>
+                        <p>: {{ $inventory->identity->model }}</p>
                     </div>
                 </div>
 
                 <div class="border border-gray-300 col-span-6 flex flex-col text-xs px-2">
                     <div class="my-1 grid grid-cols-2">
                         <p>Nomor Inventory</p>
-                        <p>: 6724938273492</p>
+                        <p>: {{ $inventory->barcode }}</p>
                     </div>
                     <div class="my-1 grid grid-cols-2">
                         <p>S / N</p>
-                        <p>: B 24551 KL</p>
+                        <p>: {{ $inventory->barcode }}/p>
                     </div>
                     <div class="my-1 grid grid-cols-2">
                         <p>Nomor Kalibrasi</p>
-                        <p>: 899234</p>
+                        <p>: 
+                            @if ($inventory->latest_record->label)
+                                {{ $inventory->latest_record->label }}
+                            @else
+                                -
+                            @endif
+                        </p>
                     </div>
                     <div class="my-1 grid grid-cols-2">
                         <p>Tanggal Kalibrasi</p>
-                        <p>: 12 Maret 2019</p>
+                        <p>: 
+                            @if ($inventory->latest_record->cal_date)
+                                {{ date('d-m-Y', strtotime($inventory->latest_record->cal_date)) }}
+                            @else
+                                -
+                            @endif
+                        </p>
                     </div>
                 </div>
 
@@ -99,13 +97,13 @@
                     <div class="my-1 grid grid-cols-2 px-2 py-1">
                         <p class="flex items-center">Suhu Ruangan</p>
                         <p>:
-                            <input type="number" name="temperature" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600"> 
+                            <input required type="number" name="temperature" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600"> 
                             &#8451; <span class="ml-auto">( 21 - 25 )</span></p>
                     </div>
                     <div class="my-1 grid grid-cols-2 px-2 py-1">
                         <p class="flex items-center">Kelembaban</p>
                         <p>:
-                            <input type="number" name="humidity" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600"> 
+                            <input required type="number" name="humidity" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600"> 
                             % <span>( 50 - 60 )</span></p>
                     </div>
                 </div>
@@ -114,7 +112,7 @@
                     <div class="text-sm border-gray-300 bg-gray-300 font-semibold border-b w-full px-2">Kondisi Kelistrikan</div>
                     <div class="my-1 grid grid-cols-2 px-2 py-1">
                         <p class="flex items-center">Tegangan Jala - Jala :
-                            <input type="number" name="voltage" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600"> 
+                            <input required type="number" name="voltage" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600"> 
                             V
                         </p>
                         <span class="flex">
@@ -128,7 +126,7 @@
                                 <span class="ml-2 text-xs">UPS &nbsp;</span>
                             </label>
                             <p id="upsNode" class="hidden items-center ml-auto"> : 
-                                <input type="number" name="ups" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600"> 
+                                <input required type="number" name="ups" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600"> 
                                 V
                             </p>
                         </span>
@@ -145,7 +143,7 @@
                                 <span class="ml-2 text-xs">Stabilizer &nbsp;</span>
                             </label>
                             <p id="stabilizerNode" class="hidden items-center ml-auto"> : 
-                                <input type="number" name="stabilizer" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600"> 
+                                <input required type="number" name="stabilizer" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600"> 
                                 V
                             </p>
                         </span>
@@ -163,7 +161,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="checkbox" name="is_tools[]" class="hidden">
+                                                <input required type="checkbox" name="is_tools[]" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -187,7 +185,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="checkbox" name="is_tools[]" class="hidden">
+                                                <input required type="checkbox" name="is_tools[]" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -211,7 +209,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="checkbox" name="is_tools[]" class="hidden">
+                                                <input required type="checkbox" name="is_tools[]" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -235,7 +233,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="checkbox" name="is_tools[]" class="hidden">
+                                                <input required type="checkbox" name="is_tools[]" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -259,7 +257,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="checkbox" name="is_tools[]" class="hidden">
+                                                <input required type="checkbox" name="is_tools[]" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -467,7 +465,7 @@
                                 </td>
                                 <td class="flex justify-start pl-2">
                                     <p id="el2Node" class="hidden items-center col-span-2">
-                                        <input type="number" name="el[]" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto"> 
+                                        <input required type="number" name="el[]" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto"> 
                                         &nbsp;&#8804;100&#xb5;A
                                     </p>
                                 </td>
@@ -488,7 +486,7 @@
                                 </td>
                                 <td class="flex justify-start pl-2">
                                     <p id="el3Node" class="hidden items-center col-span-2">
-                                        <input type="number" name="el[]" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto"> 
+                                        <input required type="number" name="el[]" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto"> 
                                         &nbsp;&#8804;500&#xb5;A
                                     </p>
                                 </td>
@@ -509,7 +507,7 @@
                                 </td>
                                 <td class="flex justify-start pl-2">
                                     <p id="el4Node" class="hidden items-center col-span-2">
-                                        <input type="number" name="el[]" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto"> 
+                                        <input required type="number" name="el[]" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto"> 
                                         &nbsp;&#8804;100&#xb5;A
                                     </p>
                                 </td>
@@ -530,7 +528,7 @@
                                 </td>
                                 <td class="flex justify-start pl-2">
                                     <p id="el5Node" class="hidden items-center col-span-2">
-                                        <input type="number" name="el[]" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto"> 
+                                        <input required type="number" name="el[]" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto"> 
                                         &nbsp;&#8804;500&#xb5;A
                                     </p>
                                 </td>
@@ -808,20 +806,20 @@
                                 <tr>
                                     <td class="w-64 border-gray-300 border-r">
                                         <span class="flex items-center col-span-2">
-                                            <input type="text" name="performanceParam[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                            <input required type="text" name="performanceParam[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                         </span>
                                     </td>
                                     <td class="border-gray-300 text-center border-r">
-                                        <input type="text" name="setting[]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        <input required type="text" name="setting[]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                     </td>
                                     <td class="border-gray-300 text-center border-r">
-                                        <input type="number" name="value[0][]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        <input required type="number" name="value[0][]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                     </td>
                                     <td class="border-gray-300 text-center border-r">
-                                        <input type="number" name="value[1][]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        <input required type="number" name="value[1][]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                     </td>
                                     <td class="border-gray-300 text-center border-r">
-                                        <input type="text" name="reference[]" class="w-20 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        <input required type="text" name="reference[]" class="w-20 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                     </td>
                                     <td>
                                         <label class="custom-label flex ml-3">
@@ -882,14 +880,14 @@
                                         </span>
                                     </td>
                                     <td class="border-gray-300 text-center border-r">
-                                        <input type="text" name="batterySetting[]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        <input required type="text" name="batterySetting[]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                         VDC
                                     </td>
                                     <td class="border-gray-300 text-center border-r">
-                                        <input type="number" name="battery[0][]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        <input required type="number" name="battery[0][]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                     </td>
                                     <td class="border-gray-300 text-center border-r">
-                                        <input type="number" name="battery[1][]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        <input required type="number" name="battery[1][]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                     </td>
                                     <td class="border-gray-300 text-center border-r">
                                         <div class="text-center w-20">
@@ -1050,7 +1048,7 @@
                                 <tr>
                                     <td class="flex w-64">
                                         <p class="flex items-center col-span-2">Penggantian Consumable</p>
-                                        <input type="text" name="cons" class="text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        <input required type="text" name="cons" class="text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                     </td>
                                     <td>
                                         <label class="custom-label flex ml-3">
@@ -1084,7 +1082,7 @@
                                     <td>
                                         <label class="custom-label flex ml-3">
                                             <div class="bg-white shadow w-6 h-6 p-1 flex justify-center items-center mr-2">
-                                                <input type="radio" name="maintenance[4]" value="0" class="hidden">
+                                                <input type="radio" name="maintenance[5]" value="0" class="hidden">
                                                 <svg class="hidden w-4 h-4 text-green-600 pointer-events-none" viewBox="0 0 172 172"><g fill="none" stroke-width="none" stroke-miterlimit="10" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode:normal"><path d="M0 172V0h172v172z"/><path d="M145.433 37.933L64.5 118.8658 33.7337 88.0996l-10.134 10.1341L64.5 139.1341l91.067-91.067z" fill="currentColor" stroke-width="1"/></g></svg>
                                             </div>
                                         </label>
@@ -1120,11 +1118,11 @@
                             <tbody id="consBody">
                                 <tr>
                                     <td>
-                                        <input type="text" name="stock[]" class="w-14 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        <input required type="text" name="stock[]" class="w-14 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                     </td>
                                     <td class="w-56">
                                         <span class="flex items-center col-span-2">
-                                            <input type="text" name="consumables[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                            <input required type="text" name="consumables[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                         </span>
                                     </td>
                                     <td>
@@ -1154,11 +1152,11 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="text" name="stock[]" class="w-14 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        <input required type="text" name="stock[]" class="w-14 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                     </td>
                                     <td class="w-56">
                                         <span class="flex items-center col-span-2">
-                                            <input type="text" name="consumables[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                            <input required type="text" name="consumables[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                         </span>
                                     </td>
                                     <td>
@@ -1188,11 +1186,11 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="text" name="stock[]" class="w-14 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        <input required type="text" name="stock[]" class="w-14 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                     </td>
                                     <td class="w-56">
                                         <span class="flex items-center col-span-2">
-                                            <input type="text" name="consumables[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                            <input required type="text" name="consumables[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                         </span>
                                     </td>
                                     <td>
@@ -1222,11 +1220,11 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="text" name="stock[]" class="w-14 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        <input required type="text" name="stock[]" class="w-14 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                     </td>
                                     <td class="w-56">
                                         <span class="flex items-center col-span-2">
-                                            <input type="text" name="consumables[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                            <input required type="text" name="consumables[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                         </span>
                                     </td>
                                     <td>
@@ -1256,11 +1254,11 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="text" name="stock[]" class="w-14 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        <input required type="text" name="stock[]" class="w-14 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                     </td>
                                     <td class="w-56">
                                         <span class="flex items-center col-span-2">
-                                            <input type="text" name="consumables[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                            <input required type="text" name="consumables[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                         </span>
                                     </td>
                                     <td>
@@ -1290,11 +1288,11 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="text" name="stock[]" class="w-14 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                        <input required type="text" name="stock[]" class="w-14 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                     </td>
                                     <td class="w-56">
                                         <span class="flex items-center col-span-2">
-                                            <input type="text" name="consumables[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
+                                            <input required type="text" name="consumables[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">
                                         </span>
                                     </td>
                                     <td>
@@ -1443,7 +1441,7 @@
                 </div>
 
                 <div class="col-span-12 flex flex-wrap justify-end my-2">
-                    <input type="submit" value="{{ __('Submit') }}" class="block text-center cursor-pointer text-white bg-green-600 p-3 duration-300 rounded-sm hover:bg-green-800 w-full sm:w-48">
+                    <input role="submit" type="submit" value="{{ __('Submit') }}" class="block text-center cursor-pointer text-white bg-green-600 p-3 duration-300 rounded-sm hover:bg-green-800 w-full sm:w-32">
                 </div>        
             </form>
         </section>
@@ -1506,9 +1504,11 @@
 
         if (value) {
             node.classList.remove('hidden')
+            node.querySelector('input').required = true
             node.classList.add('flex')
         } else {
             node.classList.remove('flex')
+            node.querySelector('input').required = false
             node.classList.add('hidden')
         }
     }
@@ -1526,15 +1526,15 @@
                                         '<a onclick="deleteRow(this)" class="text-red-500 hover:text-gray-500 cursor-pointer mx-1">'+
                                             '<i class="fas fa-minus-circle"></i>'+
                                         '</a>'+
-                                        '<input type="text" name="elParam[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
+                                        '<input required type="text" name="elParam[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
                                     '</span>'+
                                 '</td>'+
                                 '<td>'+
                                 '</td>'+
                                 '<td colspan="2" class="flex justify-start pl-2 py-1">'+
                                     '<p id="el5Node" class="flex items-center col-span-2">'+
-                                        '<input type="number" name="el[]" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+ 
-                                        '<input type="text" name="elThreshold[]" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
+                                        '<input required type="number" name="el[]" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+ 
+                                        '<input required type="text" name="elThreshold[]" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
                                     '</p>'+
                                 '</td>'
                 break;
@@ -1546,7 +1546,7 @@
                                         '<a onclick="deleteRow(this)" class="text-red-500 hover:text-gray-500 cursor-pointer mx-1">'+
                                             '<i class="fas fa-minus-circle"></i>'+
                                         '</a>'+
-                                        '<input type="text" name="funcParam[]" class="w-full text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+ 
+                                        '<input required type="text" name="funcParam[]" class="w-full text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+ 
                                     '</span>'+
                                 '</td>'+
                                 '<td>'+
@@ -1582,7 +1582,7 @@
                                         '<a onclick="deleteRow(this)" class="text-red-500 hover:text-gray-500 cursor-pointer mx-1">'+
                                             '<i class="fas fa-minus-circle"></i>'+
                                         '</a>'+
-                                        '<input type="text" name="compParam[]" class="w-full text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+ 
+                                        '<input required type="text" name="compParam[]" class="w-full text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+ 
                                     '</span>'+
                                 '</td>'+
                                 '<td>'+
@@ -1615,20 +1615,20 @@
                 row = table.insertRow()
                 row.innerHTML = '<td class="w-64 border-gray-300 border-r">'+
                                     '<span class="flex items-center col-span-2">'+
-                                        '<input type="text" name="performanceParam[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
+                                        '<input required type="text" name="performanceParam[]" class="w-full text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
                                     '</span>'+
                                 '</td>'+
                                 '<td class="border-gray-300 text-center border-r">'+
-                                    '<input type="text" name="setting[]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
+                                    '<input required type="text" name="setting[]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
                                 '</td>'+
                                 '<td class="border-gray-300 text-center border-r">'+
-                                    '<input type="number" name="value[0][]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
+                                    '<input required type="number" name="value[0][]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
                                 '</td>'+
                                 '<td class="border-gray-300 text-center border-r">'+
-                                    '<input type="number" name="value[1][]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
+                                    '<input required type="number" name="value[1][]" class="w-16 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
                                 '</td>'+
                                 '<td class="border-gray-300 text-center border-r">'+
-                                    '<input type="text" name="reference[]" class="w-20 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
+                                    '<input required type="text" name="reference[]" class="w-20 text-xs rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600 ml-auto">'+
                                 '</td>'+
                                 '<td>'+
                                     '<label class="custom-label flex ml-3">'+

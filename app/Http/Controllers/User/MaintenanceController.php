@@ -7,6 +7,7 @@ use App\Imports\MaintenanceImport;
 use App\Models\Inventory;
 use App\Models\Maintenance;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class MaintenanceController extends Controller
@@ -28,13 +29,9 @@ class MaintenanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Inventory $inventory = null)
+    public function create(Inventory $inventory)
     {
-        if ($inventory) {
-            return view('maintenance.create', ['inventory' => $inventory]);
-        } else {            
-            return view('maintenance.create', ['inventories' => Inventory::with('device')->get()]);
-        }
+        return view('maintenance.create', ['inventory' => $inventory]);
     }
 
     /**
@@ -46,21 +43,23 @@ class MaintenanceController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'scheduled_date' => 'required|date',
-            'done_date' => 'required|date',
-            'personnel' => 'required|string',
             'inventory_id' => 'required|integer',
         ]);
 
         if ($validated) {
-            $maintenance = new Maintenance();
-            $maintenance->scheduled_date = $request->scheduled_date;
-            $maintenance->done_date = $request->done_date;
-            $maintenance->personnel = $request->personnel;
-            $maintenance->inventory_id = $request->inventory_id;
-            $maintenance->save();
-
-            return redirect()->route('maintenance.index')->with('success', 'New Entry Added');
+            try {
+                $maintenance = new Maintenance();
+                $maintenance->create([
+                    'inventory_id' => $request->inventory_id,
+                    'user_id' => Auth::user()->id,
+                    'result' => $request->maintenanceResult ? "Alat Bekerja dengan Baik" : "Alat Tidak Bekerja dengan Baik",
+                    'raw' => json_encode($request->all())
+                ]);
+    
+                return redirect()->route('maintenance.index')->with('success', 'Form Submitted');
+            } catch (\Throwable $th) {
+                return redirect()->route('maintenance.index')->with('error', 'Seomthing wrong when submitting form');
+            }
         }
     }
 
