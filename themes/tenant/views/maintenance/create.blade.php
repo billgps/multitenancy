@@ -1358,7 +1358,7 @@
                         <span class="w-64 h-full flex items-center bg-gray-300 pl-2 font-semibold">
                             Rekomendasi Hasil Maintenance
                         </span>
-                        <div class="flex flex-col">
+                        <div class="flex flex-col mx-4">
                             <span class="flex items-center text-center my-1">
                                 <label class="custom-label flex ml-3">
                                     <div class="bg-white shadow w-4 h-4 p-1 flex justify-center items-center mr-2">
@@ -1378,7 +1378,7 @@
                                 <span class="select-none text-xs">Alat Perlu Dikalibrasi</span>
                             </span>
                         </div>
-                        <div class="flex flex-col ml-20">
+                        <div class="flex flex-col ml-14">
                             <span class="flex items-center text-center my-1">
                                 <label class="custom-label flex ml-3">
                                     <div class="bg-white shadow w-4 h-4 p-1 flex justify-center items-center mr-2">
@@ -1398,6 +1398,28 @@
                                 <span class="select-none text-xs">Alat Harus Dikalibrasi</span>
                             </span>
                         </div>
+                    </div>
+                </div>
+
+                <div class="border border-gray-300 col-span-12 flex flex-col text-xs">
+                    <div class="text-sm border-gray-300 border bg-gray-300 w-full pr-2 flex items-center">
+                        <span class="w-full flex items-center pl-2 font-semibold">
+                            Catatan
+                        </span>
+                    </div>
+                    <div class="w-full flex justify-center">
+                        <textarea rows="15" name="notes" class="w-full my-1 text-xs shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600"></textarea>
+                    </div>
+                </div>
+
+                <div class="border border-gray-300 col-span-12 flex flex-col text-xs">
+                    <div class="text-sm border-gray-300 border bg-gray-300 w-full pr-2 flex items-center">
+                        <span class="w-full flex items-center pl-2 font-semibold">
+                            Catatan
+                        </span>
+                    </div>
+                    <div class="w-full flex justify-center">
+                        <textarea rows="15" name="notes" class="w-full my-1 text-xs shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600"></textarea>
                     </div>
                 </div>
 
