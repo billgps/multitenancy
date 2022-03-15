@@ -50,7 +50,7 @@
                     NAMA ALAT
                 </div>
                 <div class="border border-gray-300 col-span-3 flex flex-col items-center">
-                    <div class="text-xs border-gray-300 border-b w-full px-2">Date : </div>
+                    <div class="text-xs border-gray-300 border-b w-full flex px-2">Date : <span class="ml-auto">{{ date('d-m-Y', strtotime(now())) }}</span></div>
                     <div class="flex items-center p-2">
                         <img width="100" height="50" src="{{ asset('gps_logo.png') }}">
                     </div>
@@ -1413,19 +1413,38 @@
                 </div>
 
                 <div class="border border-gray-300 col-span-12 flex flex-col text-xs">
-                    <div class="text-sm border-gray-300 border bg-gray-300 w-full pr-2 flex items-center">
-                        <span class="w-full flex items-center pl-2 font-semibold">
-                            Catatan
+                    <div class="text-sm border-gray-300 border bg-gray-300 w-full pr-2 flex justify-evenly items-center">
+                        <span class="w-full text-center justify-center flex items-center font-semibold">
+                            Teknisi Pelaksana
+                        </span>
+                        <span class="w-full text-center justify-center flex items-center font-semibold">
+                            Penanggung Jawab Alat / Ruangan
+                        </span>
+                        <span class="w-full text-center justify-center flex items-center font-semibold">
+                            IPSRS
                         </span>
                     </div>
-                    <div class="w-full flex justify-center">
-                        <textarea rows="15" name="notes" class="w-full my-1 text-xs shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600"></textarea>
+                    <div class="w-full flex">
+                        <div class="h-36 w-72 border border-gray-300 flex flex-col items-center text-center text-sm">
+                            {{-- <img src="{{ asset('stamp_submitted.png') }}" alt=""> --}}
+                            <p class="self-end w-full text-center mb-1 mt-auto font-semibold">
+                                {{ Auth::user()->name }}
+                            </p>
+                        </div>
+                        <div class="h-36 w-72 border border-gray-300 flex flex-col items-center text-center text-sm">
+                            {{-- <img src="{{ asset('stamp_approved.png') }}" alt="">
+                            <p class="self-end w-full text-center mb-1 mt-auto font-semibold">User name</p> --}}
+                        </div>
+                        <div class="h-36 w-72 border border-gray-300 flex flex-col items-center text-center text-sm">
+                            {{-- <img src="{{ asset('stamp_rejected.png') }}" alt="">
+                            <p class="self-end w-full text-center mb-1 mt-auto font-semibold">User name</p> --}}
+                        </div>
                     </div>
                 </div>
 
-                {{-- <div class="flex flex-wrap justify-center mt-12">
-                    <input type="submit" value="{{ __('Submit') }}" class="block text-center text-white bg-gray-800 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-48">
-                </div>         --}}
+                <div class="col-span-12 flex flex-wrap justify-end my-2">
+                    <input type="submit" value="{{ __('Submit') }}" class="block text-center cursor-pointer text-white bg-green-600 p-3 duration-300 rounded-sm hover:bg-green-800 w-full sm:w-48">
+                </div>        
             </form>
         </section>
     </div>
