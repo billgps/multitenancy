@@ -58,7 +58,7 @@ class MaintenanceController extends Controller
     
                 return redirect()->route('maintenance.index')->with('success', 'Form Submitted');
             } catch (\Throwable $th) {
-                return redirect()->route('maintenance.index')->with('error', 'Seomthing wrong when submitting form');
+                return redirect()->route('maintenance.index')->with('error', 'Something wrong when submitting form');
             }
         }
     }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LogController;
+use App\Http\Controllers\NomenclatureController;
 use App\Http\Controllers\QueueController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\User\ActivityController;
@@ -255,6 +256,9 @@ else if (Tenant::current() == null) {
             Route::get('/{vendor}', [VendorController::class, 'show'])->name('vendor.show');
             Route::get('/edit/{vendor}', [VendorController::class, 'edit'])->name('vendor.edit');
         }); 
+        Route::prefix('nomenclature')->group(function () {
+            Route::get('/', [NomenclatureController::class, 'index'])->name('nomenclature.index');
+        });
         Route::prefix('aspak')->group(function () {
             Route::get('/queue', [QueueController::class, 'index'])->name('queue.index');
             Route::post('/queue/retry', [QueueController::class, 'retry'])->name('queue.retry');
