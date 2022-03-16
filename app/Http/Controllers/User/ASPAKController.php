@@ -19,8 +19,10 @@ class ASPAKController extends Controller
     public function index()
     {
         $query = "SELECT devices.id, standard_name, COUNT(i.id) as total, (SELECT COUNT(id) FROM inventories 
-                    WHERE device_id = i.device_id AND aspak_code IS NOT null) as mapped FROM devices 
-                    LEFT JOIN inventories as i ON devices.id=i.device_id WHERE i.is_verified=0 GROUP BY i.device_id";
+        WHERE device_id = i.device_id AND aspak_code IS NOT null) as mapped FROM devices 
+        LEFT JOIN inventories as i ON devices.id=i.device_id INNER JOIN
+        records ON i.id=records.inventory_id WHERE i.is_verified=0 
+        AND records.calibration_status=\"Terkalibrasi\" GROUP BY i.device_id";
         $devices = DB::select($query);
         
         $nomenclatures = DB::connection('host')->select('SELECT `code`, `name` FROM nomenclatures');
