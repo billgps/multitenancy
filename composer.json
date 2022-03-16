@@ -13,6 +13,7 @@
         "guzzlehttp/guzzle": "^7.4",
         "laravel/framework": "^8.12",
         "laravel/sanctum": "^2.11",
+        "laravel/scout": "^9.4",
         "laravel/tinker": "^2.5",
         "maatwebsite/excel": "^3.1",
         "painlesscode/breeze-multiauth": "^1.1",
