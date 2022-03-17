@@ -6,9 +6,11 @@ use App\Exports\DeviceExport;
 use App\Http\Controllers\Controller;
 use App\Imports\DeviceImport;
 use App\Models\Device;
+use App\Models\Nomenclature;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use Svg\Tag\Rect;
 
 class DeviceController extends Controller
 {
@@ -144,9 +146,14 @@ class DeviceController extends Controller
             }
         }
 
-        // dd($devices);
+        $nomenclatures = Nomenclature::all();
 
-        return view('device.map', ['devices' => $devices[0]]);
+        return view('device.map', ['devices' => $devices[0], 'nomenclatures' => $nomenclatures]);
+    }
+
+    public function mapped(Request $request)
+    {
+        dd($request->all());
     }
 
     public function export(Request $request)

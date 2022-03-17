@@ -149,6 +149,7 @@ if (Tenant::current()) {
                 Route::get('/create', [DeviceController::class, 'create'])->name('device.create');
                 Route::post('/store', [DeviceController::class, 'store'])->name('device.store');
                 Route::post('/import', [DeviceController::class, 'import'])->name('device.import');
+                Route::post('/map', [DeviceController::class, 'mapped'])->name('device.map');
                 Route::get('/export', [DeviceController::class, 'export'])->name('device.export');
                 Route::get('/{id}', [DeviceController::class, 'show'])->name('device.show');
                 Route::get('/edit/{device}', [DeviceController::class, 'edit'])->name('device.edit');
