@@ -14,7 +14,7 @@ class AlterTenantTableRevitalization extends Migration
     public function up()
     {
         Schema::table('tenants', function (Blueprint $table) {
-            $table->boolean('is_active')->default(false);
+            $table->boolean('is_active')->default(true);
         });
     }
 

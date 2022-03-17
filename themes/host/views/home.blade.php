@@ -10,6 +10,52 @@
             </div>
         @endif
 
+        <div class="w-full flex justify-evenly">
+            <div class="w-1/3 mb-3">
+                <div class="bg-green-600 border shadow p-2">
+                    <div class="flex flex-row items-center">
+                        <div class="flex-shrink pl-1 pr-4 text-white">
+                            <i style="font-size: 46px;" class="material-icons">person_pin</i>
+                        </div>
+                        <div class="flex-1 text-right">
+                            <h5 class="text-white">Total Tenant</h5>
+                            <h3 class="text-white text-3xl">{{ $tenants->count() }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-1/3 px-3 mb-3">
+                <div class="bg-purple-600 border shadow p-2">
+                    <div class="flex flex-row items-center">
+                        <div class="flex-shrink pl-1 pr-4 text-white">
+                            <i style="font-size: 46px;" class="material-icons">analytics</i>
+                        </div>
+                        <div class="flex-1 text-right">
+                            <h5 class="text-white">Data</h5>
+                            <h3 class="text-white text-3xl">{{ array_sum($data) }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-1/3 mb-3">
+                <div class="bg-yellow-600 border shadow p-2">
+                    <div class="flex flex-row items-center">
+                        <div class="flex-shrink pl-1 pr-4 text-white">
+                            <i style="font-size: 46px;" class="material-icons">cloud_done</i>
+                        </div>
+                        <div class="flex-1 text-right">
+                            <h5 class="text-white">Terkirim ASPAK</h5>
+                            <h3 class="text-white text-3xl">
+                                {{ $queue }}
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <section class="flex flex-col break-words bg-white sm:border-1 sm:shadow">
             <header class="px-6 py-5 flex font-semibold text-gray-700 bg-gray-200 sm:py-6 sm:px-8">
                 Dashboard
@@ -50,7 +96,12 @@
                                 <td class="py-3 px-6 text-left">
                                     {{ $tenant->name }}
                                 </td>
-                                <td class="py-3 px-6">
+                                <td class="py-3 px-6 text-left">
+                                    @if ($tenant->is_active)
+                                        <i class="fas fa-circle text-green-500 mr-2 md:ml-24"></i>
+                                    @else
+                                        <i class="fas fa-circle text-red-500 mr-2 md:ml-24"></i>
+                                    @endif
                                     <a href="http://{{ $tenant->domain }}" target="blank_">
                                         {{ $tenant->domain }}
                                     </a>

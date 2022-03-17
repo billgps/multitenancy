@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\DeviceImport;
 use App\Models\Device;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class DeviceController extends Controller
@@ -130,9 +131,22 @@ class DeviceController extends Controller
 
     public function import(Request $request)
     {
-        Excel::import(new DeviceImport, request()->file('file'));
+        $devices = Excel::toArray(new DeviceImport, request()->file('file'));
+        foreach ($devices[0] as $key => $value) {
+            $result = DB::connection('host')->select('SELECT * FROM nomenclatures WHERE 
+            MATCH(`standard_name`,  `keywords`) AGAINST ("'.$value['nama_alat'].'" 
+            IN BOOLEAN MODE) > 3');
 
-        return redirect()->route('device.index')->with('success', 'Data Imported');
+            if (count($result) > 1 || count($result) < 1) {
+                $devices[0][$key]['nomenclature_id'] = null;
+            } else {
+                $devices[0][$key]['nomenclature_id'] = $result[0];
+            }
+        }
+
+        // dd($devices);
+
+        return view('device.map', ['devices' => $devices[0]]);
     }
 
     public function export(Request $request)
