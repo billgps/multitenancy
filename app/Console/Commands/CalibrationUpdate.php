@@ -58,15 +58,11 @@ class CalibrationUpdate extends Command
     
             foreach ($inventories as $inventory) {
                 $cal_date = strtotime($inventory->latest_record->cal_date);
-                // $inventory->latest_record->vendor = 'McDonald Trump';
-                // $inventory->latest_record->update();
-    
                 if (isset($inventory->latest_record)) {
                     if (date('Y-m-d') >= date('Y-m-d', strtotime('+9 months', $cal_date))) {
                         $existing = Record::where('inventory_id', $inventory->id)->get();
                         if ($existing) {
                             foreach ($existing as $rec) {
-                                // $temp = Record::find($rec->id);
                                 $rec->calibration_status = 'Expired';
                                 $rec->update();
                             }    
