@@ -13,6 +13,8 @@ class Nomenclature extends Model
 {
     use HasFactory, UsesLandlordConnection, Searchable;
 
+    protected $fillable = ['standard_name', 'aspak_code', 'keywords'];
+
     /**
      * Get the indexable data array for the model.
      *

@@ -153,7 +153,27 @@ class DeviceController extends Controller
 
     public function mapped(Request $request)
     {
-        dd($request->all());
+        // validation cant go back because device.map is a return from a post method
+        // not a get << need to be revised >>
+
+        // $validated = $request->validate([
+        //     'nomenclature_id.*' => 'required|numeric',
+        //     'standard_name' => 'required|string|distinct|unique:devices'
+        // ]);
+
+        // if ($validated) {
+        //     dd('validated');
+        // }
+
+        foreach ($request->standard_name as $key => $value) {
+            $device = new Device();
+            $device->create([
+                'standard_name' => $request->standard_name[$key],
+                'nomenclature_id' => $request->nomenclature_id[$key] == 'null' ? null : $request->nomenclature_id[$key]
+            ]);
+        }
+
+        return redirect()->route('device.index');
     }
 
     public function export(Request $request)

@@ -21,6 +21,22 @@ class NomenclatureController extends Controller
         return view('nomenclatures.index', ['nomenclatures' => $nomenclatures]);
     }
 
+    public function addKeyword(Request $request, Nomenclature $nomenclature)
+    {
+        $currenyKeywords = $nomenclature->keywords;
+        $newKeywords = $currenyKeywords.$request->standard_name.';';
+
+        try {
+            $nomenclature->update(
+                ['keywords' => $newKeywords]
+            );
+    
+            return response(['msg' => 'successfully added to keywords'], 200);
+        } catch (\Throwable $th) {
+            return response(['err' => $th], 500);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *

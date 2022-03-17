@@ -11,7 +11,7 @@
 
         <section class="sm:grid sm:grid-cols-6 sm:gap-2 break-words">
             <div class="flex flex-col sm:col-span-6 break-words bg-white sm:border-1">
-                <form action="{{ route('device.map') }}">
+                <form method="POST" enctype="multipart/form-data" action="{{ route('device.map') }}">
                     @csrf
                     <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
                         {{ __('Daftar Nama Alat') }}
@@ -65,6 +65,7 @@
                                         @else
                                             <td colspan="3" class="not-found text-center bg-red-200 hover:bg-red-300 hover:text-gray-600 text-gray-400 font-semibold">
                                                 Match Not Found (Code 404)
+                                                <input type="hidden" name="nomenclature_id[]" value="null">
                                             </td>
                                         @endif
                                     </tr>
@@ -99,12 +100,38 @@
             currentRow.removeChild(cellName)
             currentRow.removeChild(cellRisk)
             currentRow.innerHTML += populateRow(nom)
-        }        
+        }   
+
+        let standard_name = deviceBody.rows[deviceIndex - 1].querySelector('input[name="standard_name[]"]').value
+        
+        addKeyword(nom.id, standard_name)
     }
 
     function getIndex(i) {
         let rowPlaceholder = document.getElementById('row-index');
         rowPlaceholder.value = i
+    }
+
+    function addKeyword(nomenclature_id, standard_name) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            }
+        });
+
+        $.ajax({
+                url    : '/ajax/keyword/' + nomenclature_id + '/store',
+                data   : {
+                    'standard_name': standard_name
+                },
+                type   : "post",
+                success: function(data) {
+                    console.log('succeed');
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
     }
 
     function populateRow(nom) {
