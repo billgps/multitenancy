@@ -73,6 +73,7 @@ class Kernel extends HttpKernel
         'theme' => \Qirolab\Theme\Middleware\ThemeMiddleware::class,
         'notifications' => \App\Http\Middleware\NotificationMiddleware::class,
         'active' => \App\Http\Middleware\ActivityCheck::class,
+        'aspak' => \App\Http\Middleware\ASPAKCheck::class,
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,

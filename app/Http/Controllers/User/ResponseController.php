@@ -5,7 +5,10 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Complain;
 use App\Models\Response;
+use App\Models\User;
+use App\Notifications\ResponseUpdate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class ResponseController extends Controller
 {
@@ -54,6 +57,10 @@ class ResponseController extends Controller
             $response->description = $request->description;
             $response->save();
 
+            $user = User::find($response->complain->user_id);
+
+            Notification::send($user, new ResponseUpdate($response));
+
             return redirect()->route('complain.show', ['id' => $request->complain_id])->with('success', 'New Entry Added');
         }
     }
@@ -100,6 +107,10 @@ class ResponseController extends Controller
             $response->progress_status = $request->progress_status;
             $response->description = $request->description;
             $response->update();
+
+            $user = User::find($response->complain->user_id);
+
+            Notification::send($user, new ResponseUpdate($response));
 
             return redirect()->route('complain.show', ['id' => $request->complain_id])->with('success', 'New Entry Added');
         }

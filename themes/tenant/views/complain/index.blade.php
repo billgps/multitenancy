@@ -40,7 +40,7 @@
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
-                            {{-- @foreach ($complains as $complain)
+                            @foreach ($complains as $complain)
                                 <tr class="hover:bg-gray-100">
                                     <td class="py-3 px-6">
                                         {{ $complain->id }}
@@ -79,23 +79,28 @@
                                                 </a>
                                             </div>
                                             <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <a href="{{ route('response.create', ['complain' => $complain->id]) }}">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
+                                                @role('staff')
+                                                    @empty($complain->response->user_id)
+                                                        <a href="{{ route('response.create', ['complain' => $complain->id]) }}">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                    @endempty
+                                                @endrole
                                             </div>
                                             <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <a href="{{ route('complain.delete', ['complain' => $complain->id]) }}">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </a>
+                                                @if (Auth::user()->hasRole('admin') || $complain->user_id === Auth::user()->id)
+                                                    <a href="{{ route('complain.delete', ['complain' => $complain->id]) }}">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+                                                @endif
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table> 
                     {{-- <script>
-
                             var table = $('#example').DataTable({
                                 "pageLength": 30,
                                 "ordering": true,
@@ -188,37 +193,16 @@
     </div>
 </main>
 
-<div id="action" class="hidden">
-    <div class="flex item-center justify-center">
-        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-            <a href="">
-                <i class="fas fa-eye"></i>
-            </a>
-        </div>
-        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-            <a href="">
-                <i class="fas fa-edit"></i>
-            </a>
-        </div>
-        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-            <a href="">
-                <i class="fas fa-trash-alt"></i>
-            </a>
-        </div>
-    </div>
-</div>
-
-<script>
+{{-- <script>
     $(document).ready(function() {
         let CSRF_TOKEN = document.getElementsByTagName('meta')[2].getAttribute('content')
 
         var table = $('#device').DataTable({
-            "pageLength": 15,
             "ordering": true,
             "info":     false,
             "lengthChange": false,
             "searching": true,
-            "paging":   true,
+            "paging":   false,
             "dom": 'lrtip',
             processing: true,
             serverSide: true,
@@ -226,23 +210,23 @@
                 url: "{{ route('complain.ajax') }}",
                 dataSrc: 'data',
                 complete: function(data) {
-                    $("#page").append($(".dataTables_paginate"));
+                    // $("#page").append($(".dataTables_paginate"));
 
-                    var prev = document.getElementsByClassName('previous')[0]
-                    prev.classList.add('mr-3', 'cursor-pointer', 'hover:text-purple-500')
-                    prev.innerHTML = '<i class="fas fa-chevron-left"></i>'
+                    // var prev = document.getElementsByClassName('previous')[0]
+                    // prev.classList.add('mr-3', 'cursor-pointer', 'hover:text-purple-500')
+                    // prev.innerHTML = '<i class="fas fa-chevron-left"></i>'
     
-                    var next = document.getElementsByClassName('next')[0]
-                    next.classList.add('ml-3', 'cursor-pointer', 'hover:text-purple-500')
-                    next.innerHTML = '<i class="fas fa-chevron-right"></i>'
+                    // var next = document.getElementsByClassName('next')[0]
+                    // next.classList.add('ml-3', 'cursor-pointer', 'hover:text-purple-500')
+                    // next.innerHTML = '<i class="fas fa-chevron-right"></i>'
     
-                    var page = document.getElementById('device_paginate').getElementsByTagName('span')[0].getElementsByClassName('paginate_button')
-                    for (let i = 0; i < page.length; i++) {
-                        if (page[i].classList.contains('current')) {
-                            page[i].classList.add('mx-1', 'text-purple-500')                    
-                        }
-                        page[i].classList.add('mx-1', 'cursor-pointer', 'hover:text-purple-500')                    
-                    }
+                    // var page = document.getElementById('device_paginate').getElementsByTagName('span')[0].getElementsByClassName('paginate_button')
+                    // for (let i = 0; i < page.length; i++) {
+                    //     if (page[i].classList.contains('current')) {
+                    //         page[i].classList.add('mx-1', 'text-purple-500')                    
+                    //     }
+                    //     page[i].classList.add('mx-1', 'cursor-pointer', 'hover:text-purple-500')                    
+                    // }
                 }
             },
             columns: [
@@ -265,7 +249,8 @@
             columnDefs: [
                 {
                     "render": function ( data, type, row ) {
-                        let user = {!! json_encode(Auth::user()->role) !!}
+                        let user = {!! json_encode(Auth::user()->roles->pluck('name')[0]) !!}
+                        console.log(user);
                         let carrier = document.createElement('div')
                         let container = document.createElement('div')
                         container.classList.add('flex', 'item-center', 'justify-center')
@@ -280,7 +265,7 @@
                         viewIcon.classList.add('fas', 'fa-eye')
                         viewLink.appendChild(viewIcon)
 
-                        if (user <= 1) {
+                        if (user == 'staff') {
                             // console.log(data);
                             // let editContainer = document.createElement('div')
                             // editContainer.classList.add('w-4', 'mr-2', 'transform', 'hover:text-purple-500', 'hover:scale-110')
@@ -342,35 +327,35 @@
             table.ajax.reload();
         }, 60000 );
 
-        drawPaginate()
+        // drawPaginate()
 
         $('#search_').keyup(function(){
             table.search($(this).val()).draw()
         })
 
-        $("#page").append($(".dataTables_paginate"));
+        // $("#page").append($(".dataTables_paginate"));
 
-        $('#device').on( 'draw.dt', function () {
-            drawPaginate()
-        })
+        // $('#device').on( 'draw.dt', function () {
+        //     drawPaginate()
+        // })
 
-        function drawPaginate() {
-            var prev = document.getElementsByClassName('previous')[0]
-            prev.classList.add('mr-3', 'cursor-pointer', 'hover:text-purple-500')
-            prev.innerHTML = '<i class="fas fa-chevron-left"></i>'
+        // function drawPaginate() {
+        //     var prev = document.getElementsByClassName('previous')[0]
+        //     prev.classList.add('mr-3', 'cursor-pointer', 'hover:text-purple-500')
+        //     prev.innerHTML = '<i class="fas fa-chevron-left"></i>'
 
-            var next = document.getElementsByClassName('next')[0]
-            next.classList.add('ml-3', 'cursor-pointer', 'hover:text-purple-500')
-            next.innerHTML = '<i class="fas fa-chevron-right"></i>'
+        //     var next = document.getElementsByClassName('next')[0]
+        //     next.classList.add('ml-3', 'cursor-pointer', 'hover:text-purple-500')
+        //     next.innerHTML = '<i class="fas fa-chevron-right"></i>'
 
-            var page = document.getElementById('device_paginate').getElementsByTagName('span')[0].getElementsByClassName('paginate_button')
-            for (let i = 0; i < page.length; i++) {
-                if (page[i].classList.contains('current')) {
-                    page[i].classList.add('mx-1', 'text-purple-500')                    
-                }
-                page[i].classList.add('mx-1', 'cursor-pointer', 'hover:text-purple-500')                    
-            }
-        }
+        //     var page = document.getElementById('device_paginate').getElementsByTagName('span')[0].getElementsByClassName('paginate_button')
+        //     for (let i = 0; i < page.length; i++) {
+        //         if (page[i].classList.contains('current')) {
+        //             page[i].classList.add('mx-1', 'text-purple-500')                    
+        //         }
+        //         page[i].classList.add('mx-1', 'cursor-pointer', 'hover:text-purple-500')                    
+        //     }
+        // }
     })
-</script>
+</script> --}}
 @endsection

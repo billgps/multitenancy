@@ -45,11 +45,9 @@ class ActivityController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'started_at' => 'date',
+            'started_at' => 'required|date',
             'order_no' => 'required|string|max:255',
-            'finished_at' => 'date',
-            'active_at' => 'required|numeric',
-            'status' => 'required|in:on going,finished,queued,on hold'
+            'is_active' => 'required'
         ]);
 
         $client = new Client([
@@ -57,15 +55,8 @@ class ActivityController extends Controller
         ]);
 
         $token = 'xcdfae';
-        // dd(Tenant::current()->public_code);
 
         if ($validated) {
-            if ($request->active_at == date('Y')) {
-                $is_active = true;
-            } else {
-                $is_active = false;
-            }
-
             $response = $client->request('POST', 'create?ipid=IP3173002', [
                 'headers'=> [
                     'Authorization' => 'Bearer '.$token,        
@@ -81,17 +72,26 @@ class ActivityController extends Controller
             $content = json_decode($response->getBody()->getContents());
 
             if ($content->success) {
+                if ($request->is_active) {
+                    $is_active = Activity::where('is_active', 1)->first();
+
+                    if ($is_active) {
+                        $is_active->update([
+                            'is_active' => 0
+                        ]);
+
+                        $is_active->save();
+                    }
+                }
+
                 $activity = Activity::create([
                     'order_no' => $request->order_no,
                     'aspak_id' => $content->data->id,
                     'started_at' => $request->started_at,
-                    'finished_at' => $request->finished_at,
-                    'active_at' => intVal($request->active_at),
-                    'status' => $request->status,
-                    'is_active' => $is_active
+                    'is_active' => $request->is_active ? 1 : 0
                 ]);
     
-                $query = "UPDATE records SET `activity_id`=".$activity->id." WHERE YEAR (`cal_date`) = ".$request->active_at;
+                $query = "UPDATE records SET `activity_id`=".$activity->id." WHERE YEAR (`cal_date`) = ".date('Y', strtotime($request->started_at));
                 DB::update($query);
     
                 return redirect()->route('activity.index');

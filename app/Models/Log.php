@@ -11,4 +11,14 @@ class Log extends Model
     use HasFactory, UsesLandlordConnection;
 
     protected $fillable = ['queue_id', 'response', 'error'];
+
+    /**
+     * Get the queue that owns the Log
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function queue()
+    {
+        return $this->belongsTo(Queue::class);
+    }
 }

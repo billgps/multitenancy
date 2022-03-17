@@ -17,13 +17,16 @@ class ActivityCheck
      */
     public function handle(Request $request, Closure $next)
     {
-        $active = Activity::where('is_active', '=', 1)->first();
+        if (app('currentTenant')->is_aspak) {
+            $active = Activity::where('is_active', '=', 1)->first();
 
-        if (!$active) {
-            return redirect()->route('activity.create')->with('error', 'Buat kegiatan kalibrasi terlebih dahulu!');
+            if (!$active) {
+                return redirect()->route('activity.create')->with('error', 'Buat kegiatan kalibrasi terlebih dahulu!');
+            } else {
+                return $next($request);
+            }
         } else {
             return $next($request);
         }
-        
     }
 }

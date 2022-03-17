@@ -16,24 +16,22 @@
     <script src="{{ asset('js/moment.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://unpkg.com/@zxing/browser@latest"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css', 'themes/tenant') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 
     <style>
-        .modal {
-          transition: opacity 0.25s ease;
-        }
-        body.modal-active {
-          overflow-x: hidden;
-          overflow-y: visible !important;
-        }
         table.dataTable.no-footer {
             border-bottom: 0 !important;
         }
@@ -55,6 +53,39 @@
             -moz-appearance: textfield;
         }
     </style>
+    
+    <style>
+        /* width */
+        ::-webkit-scrollbar {
+          width: 10px;
+        }
+        
+        /* Track */
+        ::-webkit-scrollbar-track {
+          background: #f1f1f1; 
+        }
+         
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+          background: #888; 
+        }
+        
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgb(139, 92, 246);
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
 
     <style>
         table.dataTable thead th {
@@ -69,24 +100,8 @@
             border-bottom: 0px !important;
         }
     </style>
-
-    <style>
-        .modal {
-            transition: opacity 0.25s ease;
-        }
-        body.modal-active {
-            overflow-x: hidden;
-            overflow-y: visible !important;
-        }
-        table.dataTable.no-footer {
-            border-bottom: 0 !important;
-        }
-        #example_wrapper {
-            display: none !important;
-        }
-    </style>
 </head>
-<body class="h-screen font-sans antialiased leading-none bg-gray-200 sm:overflow-auto" x-data="{isClose: false, notification: false}">
+<body class="h-screen font-sans antialiased leading-none bg-gray-200 no-scrollbar" x-data="{isClose: false, notification: false}">
     @if ($errors->any())
         <div class="flex justify-center items-center m-1 font-medium py-1 px-2 rounded-md text-green-100 bg-red-700 border border-red-700 ">
             <div slot="avatar" class="flex">
@@ -99,7 +114,7 @@
             <div class="text-xl font-normal  max-w-full flex-initial">
                 <div class="py-2 ml-3">
                     @foreach ($errors->all() as $error)
-                    <div class="text-xs font-base">{{ $error }}</div>
+                        <div class="text-xs font-base">{{ $error }}</div>
                     @endforeach
                 </div>
             </div>
@@ -181,7 +196,8 @@
                             }
                         }
                     </script>
-                    <img onload="getScale(this)" src="{{ asset(app('currentTenant')->vendor_id) }}">
+                    {{-- <img onload="getScale(this)" src="{{ asset(app('currentTenant')->vendor_id) }}"> --}}
+                    <img onload="getScale(this)" src="{{ asset('gps_logo.png') }}">
                 </a>
             </div>
             <span class="ml-6 hover:text-purple-500">
@@ -192,7 +208,7 @@
             </span> --}}
             <div class="ml-auto mr-6 flex">
                 <span class="mx-2 lg:mx-6">
-                    <button onclick="markAsRead()" @click="notification = !notification" class="relative z-10 hover:text-purple-500 focus:outline-none">
+                    <button @click="notification = !notification" class="relative z-10 hover:text-purple-500 focus:outline-none">
                         @if(Session::get('notifications'))
                             <span id="badge" class="badge pl-1 bg-red-800 rounded-full text-center text-white text-xs mr-1">
                                 @if (Session::get('notifications')->count() < 99)
@@ -206,34 +222,46 @@
                     </button>
                     <div x-show="notification" @click="notification = false" class="fixed inset-0 h-full w-full z-10"></div>
     
-                    <div x-show="notification" class="absolute top-9 right-28 mt-2 py-2 px-2 w-64 h-96 overflow-auto bg-white rounded-md shadow-xl z-20">
-                        @if(Session::get('notifications'))
+                    <div x-show="notification" class="absolute top-9 right-6 mt-2 py-2 px-2 w-80 max-h-96 overflow-auto bg-white rounded-md shadow-xl z-20">
+                        <div class="w-full flex p-3">
+                            <header>
+                                <h4>Notifications</h4>
+                            </header>
+                        </div>
+                        @if(count(Session::get('notifications')) > 0)
                             @foreach (Session::get('notifications') as $notification)
-                                <div class="flex flex-col">
-                                    <div class="text-sm mt-3">
-                                        {{ $notification->data['title'] }}
+                                <a href="{{ route('user.notification.routing', ['notification' => $notification->id]) }}">
+                                    <div class="flex flex-col hover:bg-gray-200 hover:text-purple-500 rounded-sm py-2 px-2">
+                                        <div class="mt-1 flex items-center">
+                                            <span class="font-semibold text-sm">
+                                                {{ $notification->data['title'] }}
+                                            </span>
+                                            <span class="ml-auto text-xs">
+                                                {{ $notification->created_at }}
+                                            </span>
+                                        </div>
+                                        <div class="text-xs mt-1">
+                                            {{ $notification->data['message'] }}
+                                        </div>
+                                        {{-- <div class="flex justify-center my-2 py-2 w-full hover:text-purple-500 border-b border-gray-500 border-opacity-60">
+                                            <a href="{{ $notification->data['url'] }}">
+                                                <i class="fas fa-eye fa-xs"></i>
+                                            </a>
+                                        </div> --}}
                                     </div>
-                                    <div class="text-xs mt-1">
-                                        {{ $notification->data['message'] }}
-                                    </div>
-                                    <div class="flex justify-center mt-1 py-1 w-full hover:text-purple-500 border-b border-gray-500 border-opacity-60">
-                                        <a href="{{ $notification->data['url'] }}">
-                                            <i class="fas fa-eye fa-xs"></i>
-                                        </a>
-                                    </div>
-                                </div>
+                                </a>
                             @endforeach
+
+                            <div class="w-full flex my-2 justify-center text-xs hover:text-purple-500">
+                                <button onclick="markAsRead()" @click="notification = false">
+                                    Mark all as read
+                                </button>
+                            </div>
                         @else
-                            <div class="text-sm w-full flex justify-center">
+                            <div class="text-sm w-full p-2 flex justify-center mt-3">
                                 No new notifications
                             </div>
                         @endif
-
-                        <div class="w-full flex mt-6 justify-center text-xs hover:text-purple-500">
-                            <a href="">
-                                See all
-                            </a>
-                        </div>
                     </div>
                 </span>
                 {{-- <span class="mx-2 lg:mx-6">
@@ -262,18 +290,17 @@
                     type: "GET",
                     url: "{{ route('notification.ajax') }}",
                     success: function (data) {
-                        // document.getElementById('badge').innerHTML = data
-                        console.log(data);
+                        // console.log(data);
                     },
                     error: function (error) {
-                        console.log(error)
+                        // console.log(error)
                     }
                 })
             }
         </script>
     </header>
     <div id="app" class="flex w-full h-full overflow-auto">
-        <aside id="sideBar" class="flex flex-col sticky top-0 w-64 h-screen bg-gray-800" :class="{'is-close': isClose, 'hidden': isClose, 'w-60': !isClose}">
+        <aside id="sideBar" class="flex flex-col sticky top-0 w-64 h-full bg-gray-800" :class="{'is-close': isClose, 'hidden': isClose, 'w-60': !isClose}">
             <nav class="pt-12 text-sm">
                 <div>
                     <a href="{{ route('user.dashboard') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
@@ -374,12 +401,24 @@
 
                     <div x-show="open" class="bg-gray-900">
                         <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('complain.index') }}">
-                            Submit a Ticket
+                            @if (Auth::user()->hasRole('staff'))
+                                Tickets
+                            @else
+                                Submit a Ticket
+                            @endif
                         </a>
                         {{-- <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="">
                             Response
                         </a> --}}
                     </div>
+                </div>
+                <div>
+                    <a href="{{ route('booklet.index') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
+                        <span class="flex items-center">
+                            <i class="fas fa-book"></i>
+                            <span class="mx-4">Booklet</span>
+                        </span>
+                    </a>
                 </div>
                 <div>
                     <a href="{{ route('aspak.map') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">

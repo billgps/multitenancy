@@ -1,14 +1,18 @@
 <?php
 
+use App\Http\Controllers\LogController;
+use App\Http\Controllers\QueueController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\User\ActivityController;
 use App\Http\Controllers\User\ASPAKController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\User\AssetController;
+use App\Http\Controllers\User\BookletController;
 use App\Http\Controllers\User\BrandController;
 use App\Http\Controllers\User\ComplainController;
 use App\Http\Controllers\User\ConditionController;
 use App\Http\Controllers\User\ConsumableController;
+use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\DeviceController;
 use App\Http\Controllers\User\IdentityController;
 use App\Http\Controllers\User\RoomController;
@@ -32,6 +36,7 @@ use Spatie\Multitenancy\Models\Tenant;
 */
 
 if (Tenant::current()) {
+    // dd(Tenant::current());
     Route::domain(app('currentTenant')->domain)->middleware('tenant', 'notifications')->group(function() {
         Route::multiauth('User', 'user');
         Route::get('/', function () {
@@ -40,31 +45,30 @@ if (Tenant::current()) {
         Route::middleware(['auth:user', 'notifications'])->group(function () {
             Route::middleware(['active'])->group(function () {
                 Route::prefix('inventory')->group(function () {
-                    Route::middleware(['permission:create inventory'])->group(function () {
+                    Route::middleware('role:admin')->group(function () {
+                        Route::get('/booklet', [BookletController::class, 'index'])->name('booklet.index');
+                        Route::get('booklet/pdf/{offset}', [BookletController::class, 'generate'])->name('booklet.generate');
+                    });
+                    
+                    Route::middleware(['role:admin|staff'])->group(function () {
                         Route::get('/create', [InventoryController::class, 'create'])->name('inventory.create');
                         Route::post('/store', [InventoryController::class, 'store'])->name('inventory.store');
                         Route::post('/import', [InventoryController::class, 'import'])->name('inventory.import');
                         Route::post('/image', [InventoryController::class, 'image'])->name('inventory.image');
+                        Route::get('/edit/{inventory}', [InventoryController::class, 'edit'])->name('inventory.edit');
+                        Route::post('/update/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
+                        Route::get('/export', [InventoryController::class, 'export'])->name('inventory.export');
+                        Route::get('/raw', [InventoryController::class, 'raw'])->name('inventory.raw');
+                        Route::get('/excel/{inventory}', [InventoryController::class, 'excel'])->name('inventory.excel');
+                        Route::get('/delete/{inventory}', [InventoryController::class, 'destroy'])->name('inventory.delete');
                     });
-
-                    Route::middleware(['permission:read inventory'])->group(function () {
+                    
+                    Route::middleware(['role:admin|staff|visit'])->group(function () {
                         Route::get('/', [InventoryController::class, 'index'])->name('inventory.index');
                         Route::get('/{id}', [InventoryController::class, 'show'])->name('inventory.show');
                         Route::post('/search', [InventoryController::class, 'search'])->name('inventory.search');
                         Route::get('/sort/{parameter}/{value}', [InventoryController::class, 'paramIndex'])->name('inventory.param');
                     });
-
-                    Route::middleware(['permission:update inventory'])->group(function () {
-                        Route::get('/edit/{inventory}', [InventoryController::class, 'edit'])->name('inventory.edit');
-                        Route::post('/update/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
-                    });
-
-                    Route::middleware(['role:staff|admin'])->group(function () {
-                        Route::get('/export', [InventoryController::class, 'export'])->name('inventory.export');
-                        Route::get('/raw', [InventoryController::class, 'raw'])->name('inventory.raw');
-                    });
-
-                    Route::get('/delete/{inventory}', [InventoryController::class, 'destroy'])->middleware('permission:delete inventory')->name('inventory.delete');
                 });
     
                 Route::prefix('record')->group(function () {
@@ -130,7 +134,7 @@ if (Tenant::current()) {
                     Route::get('/delete/{asset}', [AssetController::class, 'destroy'])->name('asset.delete');
                 });
 
-                Route::prefix('aspak')->group(function () {
+                Route::prefix('aspak')->middleware(['aspak'])->group(function () {
                     Route::get('/', [ASPAKController::class, 'index'])->name('aspak.map');
                     Route::get('/create/{id}', [ASPAKController::class, 'create'])->name('aspak.create');
                     Route::post('/store', [ASPAKController::class, 'store'])->name('aspak.store');
@@ -207,7 +211,7 @@ if (Tenant::current()) {
                 // Route::get('/delete/{response}', [ResponseController::class, 'destroy'])->name('response.delete');
             }); 
 
-            Route::prefix('activity')->middleware('role:admin')->group(function () {
+            Route::prefix('activity')->middleware(['role:admin', 'aspak'])->group(function () {
                 Route::get('/', [ActivityController::class, 'index'])->name('activity.index');
                 Route::get('/create/{inventory?}', [ActivityController::class, 'create'])->name('activity.create');
                 Route::post('/store', [ActivityController::class, 'store'])->name('activity.store');
@@ -223,10 +227,13 @@ if (Tenant::current()) {
                 Route::get('/notifications', [NotificationController::class, 'ajax'])->name('notification.ajax');
                 // Route::get('/aspak-details/{id}', [ASPAKController::class, 'ajaxGetDetails'])->name('aspak.details');
                 Route::get('/aspak-map/{device}', [ASPAKController::class, 'ajaxMap'])->name('aspak.nomenclature');
+                Route::get('/pie/{parameter}', [DashboardController::class, 'pieChart'])->name('dashboard.pie');
             });
+
+            Route::get('/user/notfication-routing/{notification}', [NotificationController::class, 'routing'])->name('user.notification.routing');
         });
     });
-} 
+}
 
 else if (Tenant::current() == null) {
     Route::get('/', function () {
@@ -248,8 +255,17 @@ else if (Tenant::current() == null) {
             Route::get('/{vendor}', [VendorController::class, 'show'])->name('vendor.show');
             Route::get('/edit/{vendor}', [VendorController::class, 'edit'])->name('vendor.edit');
         }); 
+        Route::prefix('aspak')->group(function () {
+            Route::get('/queue', [QueueController::class, 'index'])->name('queue.index');
+            Route::post('/queue/retry', [QueueController::class, 'retry'])->name('queue.retry');
+            Route::get('/queue/{queue}', [QueueController::class, 'show'])->name('queue.show');
+            Route::post('/queue/send/', [QueueController::class, 'batch'])->name('queue.send');
+            Route::get('/queue/{queue}/logs', [QueueController::class, 'logs'])->name('queue.logs');
+            Route::get('/log', [LogController::class, 'index'])->name('log.index');
+        });
         Route::prefix('ajax')->group(function () {
             Route::get('/notifications', [NotificationController::class, 'ajax'])->name('notification.ajax');
+            Route::delete('/queue/delete/{queue}', [QueueController::class, 'destroy'])->name('queue.delete');
         });
     });
 }

@@ -12,21 +12,15 @@
         <section class="flex flex-col break-words bg-gray-200 sm:border-1">
             <div class="col-span-6 h-12 flex items-center py-2 px-4 bg-gray-200">
                 @if (Auth::user()->role < 2)
-                    <a href="{{ route('room.edit', ['room' => $room->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
+                    <a href="{{ route('room.edit', ['room' => $room->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400">
                         <i class="fas fa-edit"></i>
                     </a>   
                 @endif
                 @if (Auth::user()->role < 1)
-                    <a href="{{ route('room.delete', ['room' => $room->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
+                    <a href="{{ route('room.delete', ['room' => $room->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400">
                         <i class="fas fa-trash-alt"></i>
                     </a>     
                 @endif
-                {{-- <div class="ml-auto my-auto flex text-xs">
-                    <input class="h-8 rounded-r-none text-xs text-gray-800 w-full px-2 rounded-md focus:ring-0 border-none" id="search_" type="text" placeholder="Search..." name="search" />
-                    <button type="button" class="h-8 rounded-l-none w-20 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-gray-100 uppercase tracking-widest hover:text-gray-800 hover:bg-gray-400 active:bg-gray-900 focus:outline-none disabled:opacity-25 transition ease-in-out duration-150">
-                        Search
-                    </button>
-                </div> --}}
             </div>
             <div class="bg-white">
                 <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
@@ -78,60 +72,142 @@
             </header>
 
             <div class="w-full px-6 py-3">
-                <table id="device" class="min-w-max mt-3 w-full table-auto text-center">
-                    <thead>
-                        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                            <th class="py-3 px-6">Tanggal Entry</th>
-                            <th class="py-3 px-6">Nomor Barcode</th>
-                            <th class="py-3 px-6">Nomor Label</th>
-                            <th class="py-3 px-6">Ruangan</th>
-                            <th class="py-3 px-6">Supplier</th>
-                            <th class="py-3 px-6">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-gray-600 text-sm font-light">
-                        @foreach ($inventories as $inventory)
-                            <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                <td class="py-3 px-6">
-                                    {{ $inventory->created_at }}
-                                </td>
-                                <td class="py-3 px-6">
-                                    {{ $inventory->barcode }}
-                                </td>
-                                <td class="py-3 px-6">
-                                    {{ $inventory->latest_record->label }}
-                                </td>
-                                <td class="py-3 px-6">
-                                    {{ $inventory->room->room_name }}
-                                </td>
-                                <td class="py-3 px-6">
-                                    {{ $inventory->supplier }}
-                                </td>
-                                <td class="py-3 px-6 text-center">
-                                    <div class="flex item-center justify-center">
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <a href="{{ route('inventory.show', ['id' => $inventory->id]) }}">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                        </div>
-                                        {{-- <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <a href="">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </div>
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                            <a href="">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
-                                        </div> --}}
+                <div id="display" class="flex flex-col lg:grid lg:grid-cols-4 gap-2 w-full justify-center">
+                    @foreach ($inventories as $inventory)
+                        <div class="max-w-xs flex flex-col rounded overflow-hidden bg-gray-100 my-2">
+                            <div class="w-full h-48 text-sm">
+                                <img class="object-cover h-48 w-full" src="{{ asset($inventory->picture) }}" alt="{{ $inventory->barcode }}">
+                            </div>
+                            <div class="text-md flex hover:text-purple-500 mx-2 my-2">
+                                <a href="{{ route('inventory.param', ['parameter' => 'device', 'value' => $inventory->device_id]) }}">
+                                    {{ $inventory->device->standard_name }}
+                                    @if ($inventory->is_verified)
+                                        <i class="fas fa-check-circle text-blue-500 mx-2 my-1 aspak-verified"></i>
+                                    @endif
+                                </a>
+                            </div>
+                            <div class="flex mb-2 mx-2">
+                                @if ($inventory->latest_condition)
+                                    <div class="flex mb-2 mx-2">
+                                        @if ($inventory->latest_condition->status != 'Rusak')
+                                            @if ($inventory->latest_condition->status == 'Baik')
+                                                <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                    {{ $inventory->latest_condition->status }}
+                                                </div>
+                                            @else
+                                                <div class="rounded bg-yellow-300 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                    Belum Update
+                                                </div>
+                                            @endif
+                                        @else
+                                            <div class="rounded bg-red-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                {{ $inventory->latest_condition->status }}
+                                            </div>
+                                        @endif
                                     </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table> 
+                                @else
+                                    <div class="flex mb-2 mx-2">
+                                        <div class="rounded bg-yellow-300 text-gray-800 py-1 px-3 text-xs font-bold">
+                                            Belum Update
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 w-full text-xs px-2">
+                                <div class="flex">Barcode :</div>
+                                <div class="flex justify-end text-right">
+                                    {{ $inventory->barcode }}
+                                </div>
+                                <div class="flex">Merk :</div>
+                                <div class="flex justify-end hover:text-purple-500 text-right">
+                                    <div class="flex justify-end hover:text-purple-500 text-right">
+                                        <a href="{{ route('inventory.param', ['parameter' => 'brand', 'value' => $inventory->identity->brand->id]) }}">
+                                            {{ $inventory->identity->brand->brand }}
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="flex">Model :</div>
+                                <div class="flex justify-end text-right">
+                                    {{ $inventory->identity->model }}
+                                </div>
+                                <div class="flex">Serial Number :</div>
+                                <div class="flex justify-end text-right">
+                                    {{ $inventory->serial }}
+                                </div>
+                                <div class="flex">Ruangan :</div>
+                                <div class="flex justify-end hover:text-purple-500 text-right">
+                                    <a href="{{ route('inventory.param', ['parameter' => 'room', 'value' => $inventory->room_id]) }}">
+                                        {{ $inventory->room->room_name }}
+                                    </a>
+                                </div>
+                                <div class="flex">No. Label :</div>
+                                @isset($inventory->latest_record)
+                                    <div class="flex justify-end text-right">
+                                        {{ $inventory->latest_record->label }}
+                                    </div>
+                                @endisset
+                                <div class="flex">Status Kalibrasi :</div>
+                                @isset($inventory->latest_record)
+                                    <div class="flex justify-end text-right">
+                                        @if ($inventory->latest_record->calibration_status == 'Terkalibrasi')
+                                            <div class="rounded bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                Terkalibrasi
+                                            </div>
+                                        @elseif ($inventory->latest_record->calibration_status == 'Expired')
+                                            <div class="rounded bg-red-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                Expired
+                                            </div>
+                                        @else
+                                            <div class="rounded bg-yellow-300 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                Wajib Kalibrasi
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endisset
+                            </div>
+                            <div class="px-6 py-4 mt-auto">
+                                <div class="flex item-end justify-center">
+                                    <a href="{{ route('inventory.show', ['id' => $inventory->id]) }}">
+                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                        </div>
+                                    </a>
+                                    @if (Auth::user()->role < 2)
+                                        <a href="{{ route('inventory.edit', ['inventory' => $inventory->id]) }}">
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                </svg>
+                                            </div>
+                                        </a>
+                                    @endif
+                                    @if (Auth::user()->role < 1)
+                                        <a href="{{ route('inventory.delete', ['inventory' => $inventory->id]) }}">
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </div>
+                                        </a>    
+                                    @endif   
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </section>
     </div>
+
+    <script>
+        $(document).ready(function () {
+            tippy(".aspak-verified", {
+                content: "Item ini sudah terverifikasi ASPAK"
+            })
+        })
+    </script>
 </main>
 @endsection

@@ -19,7 +19,7 @@ class RecordImport implements ToModel, WithHeadingRow, WithValidation
     {
         return new Record([
             // 'id'    => $row['id'], 
-            'cal_date'     => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['tanggal']),
+            'cal_date'     => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(intval($row['tanggal'])),
             'label'    => $row['no_label'], 
             'calibration_status'     => $row['status_kalibrasi'],
             'vendor'    => 'PT Global Promedika Service',

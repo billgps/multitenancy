@@ -21,12 +21,13 @@
                             <th class="py-3 px-6">Tenant's Name</th>
                             <th class="py-3 px-6">Domain</th>
                             <th class="py-3 px-6">Database</th>
+                            <th class="py-3 px-6">Jumlah Data</th>
                             <th class="py-3 px-6">Created at</th>
                             <th class="py-3 px-6">Action</th>
                         </tr>
                     </thead>
                     <tbody class="text-gray-600 text-sm font-light">
-                        @foreach ($tenants as $tenant)
+                        @foreach ($tenants as $key => $tenant)
                             <tr class="border-b border-gray-200 hover:bg-gray-100">
                                 <td class="py-3 px-6">
                                     {{ $tenant->name }}
@@ -38,6 +39,9 @@
                                 </td>
                                 <td class="py-3 px-6">
                                     {{ $tenant->database }}
+                                </td>
+                                <td class="py-3 px-6">
+                                    {{ $data[$key] }}
                                 </td>
                                 <td class="py-3 px-6">
                                     {{ $tenant->created_at }}

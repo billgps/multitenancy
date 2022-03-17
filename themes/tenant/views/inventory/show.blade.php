@@ -51,6 +51,9 @@
                         <i class="fas fa-trash-alt"></i>
                     </a>     
                 @endif
+                <a href="{{ route('inventory.excel', ['inventory' => $inventory->id]) }}" class="mx-2 text-gray-600 hover:text-gray-400 modal-open image-toggle">
+                    <i class="fas fa-file-download"></i>
+                </a>   
                 {{-- <div class="ml-auto my-auto flex text-xs">
                     <input class="h-8 rounded-r-none text-xs text-gray-800 w-full px-2 rounded-md focus:ring-0 border-none" id="search_" type="text" placeholder="Search..." name="search" />
                     <button type="button" class="h-8 rounded-l-none w-20 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-gray-100 uppercase tracking-widest hover:text-gray-800 hover:bg-gray-400 active:bg-gray-900 focus:outline-none disabled:opacity-25 transition ease-in-out duration-150">
@@ -119,16 +122,11 @@
                         <div class="text-xs text-right my-2">
                             {{ __('Created at : '.$inventory->created_at) }}
                         </div>
-                        {{-- @if ($inventory->picture != 'no_image.jpg')
-                            <img onclick="toggleModal(this, 'image-toggle', 'image-modal')" class="modal-open image-toggle h-96 w-96 object-cover object-center" src="{{ asset('images/'.app('currentTenant')->domain.'/'.$inventory->picture) }}" alt="">
-                        @else --}}
-                            <img onclick="toggleModal(this, 'image-toggle', 'image-modal')" class="modal-open image-toggle h-96 w-96 object-cover object-center" src="{{ asset($inventory->picture) }}" alt="">
-                        {{-- @endif --}}
+                            {{-- <img onclick="toggleModal(this, 'image-toggle', 'image-modal')" class="modal-open image-toggle h-96 w-96 object-cover object-center" src="{{ asset($inventory->picture) }}" alt=""> --}}
+                            <a href="#image" rel="modal:open">
+                                <img class="h-96 w-96 object-cover object-center" src="{{ asset($inventory->picture) }}" alt="">
+                            </a>
                     </div>
-                    {{-- <div class="flex flex-wrap justify-end">
-                        <button disabled id="cancelBtn" onclick="toggleEdit(true)" type="button" class="block text-center text-white bg-red-600 mx-2 p-3 duration-300 rounded-sm hover:bg-red-500 disabled:opacity-75 w-24">Cancel</button>
-                        <input disabled type="submit" value="{{ __('Update') }}" class="block text-center mx-2 text-white bg-gray-800 p-3 duration-300 rounded-sm hover:bg-black disabled:opacity-75 w-24">
-                    </div>         --}}
                 </div>
             </div>
         </section>
@@ -403,34 +401,7 @@
     </div>
 </main>
 
-<div id="image-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
-    <div onclick="toggleModal(this, 'image-toggle', 'image-modal')" class="modal-close image-toggle modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-    <div class="modal-container bg-gray-800 text-gray-300 w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
-        <img class="object-cover object-center" src="{{ asset($inventory->picture) }}" alt="">
-    </div>
+<div id="image" style="width: fit-content; height:fit-content; padding: 0px;" class="modal text-gray-200 flex items-center justify-center">
+    <img class="object-cover object-center" src="{{ asset($inventory->picture) }}" alt="">
 </div>
-
-<script>    
-    const overlay = document.querySelector('.modal-overlay')
-    overlay.addEventListener('click', toggleModal)
-    
-    var closemodal = document.querySelectorAll('.modal-close')
-    for (var i = 0; i < closemodal.length; i++) {
-        closemodal[i].addEventListener('click', function(event){
-            event.preventDefault()
-            toggleModal(this)
-        })
-    }
-    
-    function toggleModal (button, toggle, modal) {
-        const body = document.querySelector('body')
-        if (button.classList.contains(toggle)) {
-            modal = document.getElementById(modal)
-        } 
-        
-        modal.classList.toggle('opacity-0')
-        modal.classList.toggle('pointer-events-none')
-        body.classList.toggle('modal-active')
-    }
-</script>
 @endsection

@@ -39,29 +39,23 @@ class TenantController extends Controller
         $validated = $request->validate([
             'name' => 'required|max:255',
             'code' => 'required',
-            'public_code' => 'required',
             'address' => 'required',
-            'database' => 'required',
             'domain' => 'required',
         ]);
 
         if ($validated) {
-            $picture = $request->file('vendor_id');
-            if ($picture != null) {
-                $label = $picture->getClientOriginalName();
-                $picture->move(public_path(), $picture->getClientOriginalName());
-            } else {
-                $label = 'gps_logo.png';
-            }
+            $label = 'gps_logo.png';
 
             $tenant = new Tenant();
             $tenant->name = $request->name;
             $tenant->code = $request->code;
-            $tenant->public_code = $request->public_code;
+            if ($request->is_aspak) {
+                $tenant->public_code = $request->public_code;
+            }
+            $tenant->is_aspak = $request->is_aspak ? 1 : 0;
             $tenant->address = $request->address;
-            $tenant->database = $request->database;
+            $tenant->database = $request->domain;
             $tenant->domain = $request->domain.'.'.substr(env('APP_URL'), 7);
-            $tenant->vendor_id = $label;
             $tenant->save();
     
             return redirect()->route('administrator.dashboard');
