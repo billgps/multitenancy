@@ -24,10 +24,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('calibration:update')->dailyAt('06:00');
+        $schedule->command('calibration:update')->everyTwoHours()
+            ->timezone('Asia/Jakarta');
+
         $schedule->command('sync:aspak')->everyFiveMinutes()
             ->timezone('Asia/Jakarta')
-            ->between('22:00','06:00');
+            ->between('21:00','06:00');
     }
 
     /**
