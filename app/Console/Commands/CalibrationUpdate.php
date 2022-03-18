@@ -57,31 +57,36 @@ class CalibrationUpdate extends Command
     
             foreach ($inventories as $inventory) {
                 $cal_date = strtotime($inventory->latest_record->cal_date);
-                // $inventory->latest_record->vendor = 'McDonald Trump';
-                // $inventory->latest_record->update();
-    
                 if (isset($inventory->latest_record)) {
-                    if (date('Y-m-d') >= date('Y-m-d', strtotime('+9 months', $cal_date))) {
-                        $existing = Record::where('inventory_id', $inventory->id)->get();
-                        if ($existing) {
-                            foreach ($existing as $rec) {
-                                // $temp = Record::find($rec->id);
-                                $rec->calibration_status = 'Expired';
-                                $rec->update();
-                            }    
+                    $existing = Record::where('inventory_id', $inventory->id)
+                            ->whereDate('cal_date', '<', date('Y-m-d', $cal_date))
+                            ->get();
+
+                    if ($existing->count() > 0) {
+                        foreach ($existing as $rec) {
+                            $rec->calibration_status = "Expired";
+                            $rec->update();
+                        }    
+                    }
+
+                    if (date('Y-m-d') >= date('Y-m-d', strtotime('+12 months', $cal_date))) {
+                        if ($inventory->latest_record->calibration_status != "Expired") {
+                            $inventory->latest_record->calibration_status = "Expired";
+                            $inventory->latest_record->update();
+                            $expired++;
                         }
-                        if (date('Y-m-d') >= date('Y-m-d', strtotime('+12 months', $cal_date))) {
-                            if ($inventory->latest_record->calibration_status != 'Expired') {
-                                $inventory->latest_record->calibration_status = 'Expired';
-                                $inventory->latest_record->update();
-                                $expired++;
-                            }
-                        } else {
-                            if ($inventory->latest_record->calibration_status != 'Segera Dikalibrasi') {
-                                $inventory->latest_record->calibration_status = 'Segera Dikalibrasi';
-                                $inventory->latest_record->update();
-                                $scheduled++;
-                            }
+                    } 
+                    else if (date('Y-m-d') >= date('Y-m-d', strtotime('+9 months', $cal_date))) {
+                        if ($inventory->latest_record->calibration_status != "Segera Dikalibrasi") {
+                            $inventory->latest_record->calibration_status = "Segera Dikalibrasi";
+                            $inventory->latest_record->update();
+                            $scheduled++;
+                        }
+                    }
+                    else {
+                        if ($inventory->latest_record->calibration_status != "Terkalibrasi") {
+                            $inventory->latest_record->calibration_status = "Terkalibrasi";
+                            $inventory->latest_record->update();
                         }
                     }
                 }
@@ -90,18 +95,10 @@ class CalibrationUpdate extends Command
             $users = User::all();
     
             if ($scheduled > 0) {
-                // foreach ($users as $user) {
-                //     $user->notify(new CalibrationStatusUpdate("Wajib Kalibrasi", $scheduled));
-                // }
-
                 Notification::send($users, new CalibrationStatusUpdate("Wajib Kalibrasi", $scheduled));
             }
     
             if ($expired > 0) {
-                // foreach ($users as $user) {
-                //     $user->notify(new CalibrationStatusUpdate("Expired", $expired));
-                // }
-
                 Notification::send($users, new CalibrationStatusUpdate("Expired", $scheduled));
             }
         });
