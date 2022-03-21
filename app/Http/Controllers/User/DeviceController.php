@@ -153,14 +153,16 @@ class DeviceController extends Controller
         //     'standard_name' => 'required|string|distinct|unique:devices'
         // ]);
 
-        // if ($validated) {
-        //     dd('validated');
-        // }
+        foreach ($request->isNewKeyword as $key => $value) {
+            if ($value == 1) {
+                DB::connection('host')->update('UPDATE nomenclatures SET keywords = CONCAT(COALESCE(keywords, ""), ";'.$request->standard_name[$key].'") WHERE id = '.$request->nomenclature_id[$key]);   
+            }
+        }
 
         foreach ($request->standard_name as $key => $value) {
             $device = new Device();
             $device->create([
-                'standard_name' => $request->standard_name[$key],
+                'standard_name' => $value,
                 'nomenclature_id' => $request->nomenclature_id[$key] == 'null' ? null : $request->nomenclature_id[$key]
             ]);
         }

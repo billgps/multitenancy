@@ -60,7 +60,7 @@
                     <div class="mx-4">
                         <label class="block mb-2 text-sm text-gray-00 ml-4" for="alias_name">Nomenklatur</label>
                         <div class="py-2 text-left flex items-center w-96">
-                            <a href="#map" rel="modal:open" class="mr-4">
+                            <a href="#map" rel="modal:open" onclick="getIndex()" class="mr-4">
                                 <i class="fas fa-exchange"></i>
                             </a>
                             <input type="hidden" id="nomenclature_id" name="nomenclature_id">
@@ -79,19 +79,75 @@
 </main>
 
 <script>
-    function getNomenclatureId(id) {
-        console.log(id);
-        let inputNomenclature = document.getElementById('nomenclature_name')
-        inputNomenclature.value = id.standard_name
+    function mapRow(nom) {
+        let deviceIndex = document.getElementById('row-index').value
+        let deviceBody  = document.getElementById('deviceBody')
+        let notFound = deviceBody.rows[deviceIndex - 1].querySelector('.not-found')
+        if (notFound != null) {
+            let currentRow = notFound.parentNode
+            currentRow.removeChild(notFound)
+            currentRow.innerHTML += populateRow(nom)
+        } else {
+            let cellId = deviceBody.rows[deviceIndex - 1].querySelector('.nom-id')
+            let cellName = deviceBody.rows[deviceIndex - 1].querySelector('.nom-name')
+            let cellRisk = deviceBody.rows[deviceIndex - 1].querySelector('.nom-risk')
+            let currentRow = cellId.parentNode
+            currentRow.removeChild(cellId)
+            currentRow.removeChild(cellName)
+            currentRow.removeChild(cellRisk)
+            currentRow.innerHTML += populateRow(nom)
+        }   
 
-        let inputNomId = document.getElementById('nomenclature_id')
-        inputNomId.value = id.id
+        let standard_name = deviceBody.rows[deviceIndex - 1].querySelector('input[name="standard_name[]"]').value        
+    }
+
+    function getIndex() {
+        // reset innerHTML for device name
+        document.getElementById('deviceName').innerHTML = ""
+
+        let standardName = document.getElementById('standard_name').value
+        
+        // set name in modal
+        document.getElementById('deviceName').innerHTML = standardName
+    }
+
+    function populateRow(nom) {
+        let riskClass = ''
+        let riskText = ''
+        console.log(nom.risk_level);
+
+        switch (nom.risk_level) {
+            case '1':
+                riskClass = 'bg-green-400'
+                riskText = '12 Bulan (Low)'
+                break;
+
+            case '2':
+                riskClass = 'bg-yellow-400'
+                riskText = '6 Bulan (Medium)'
+                break;
+        
+            default:
+                riskClass = 'bg-red-400'
+                riskText = '4 Bulan (High)'
+                break;
+        }
+
+        return '<td class="nom-id w-8 font-semibold">'+nom.id+
+                    '<input type="hidden" name="nomenclature_id[]" value="'+nom.id+'">'+
+                '</td>'+
+                '<td class="nom-name break-normal w-96 text-justify">'+nom.standard_name+
+                '</td>'+
+                '<td class="nom-risk flex w-full h-16 justify-center items-center">'+
+                    '<div class="rounded '+riskClass+' text-gray-800 py-1 px-3 text-xs font-bold">'+riskText+
+                    '</div>'+
+                '</td>'
     }
 </script>
 
 <div id="map" style="max-width: fit-content;" class="modal text-gray-600 w-1/2 flex items-center justify-center">
     <div class="flex justify-between items-center pb-3 text-lg">
-        Find Nomenclature
+        Find Nomenclature for <span id="deviceName"></span>
         <input type="hidden" id="row-index" value="">
     </div>
     <div class="flex relative mx-auto w-full">
@@ -117,7 +173,7 @@
                         <td class="px-2 py-1 text-center ">{{ $nom->aspak_code }}</td>
                         <td class="px-2 py-1 text-center ">{{ $nom->risk_level }}</td>
                         <td class="">
-                            <a href="#" rel="modal:close" onclick="getNomenclatureId({{ $nom }})" class="text-green-500 hover:text-gray-400">
+                            <a href="#" rel="modal:close" onclick="mapRow({{ $nom }})" class="text-green-500 hover:text-gray-400">
                                 <i class="fas fa-badge-check"></i>
                             </a>
                         </td>
