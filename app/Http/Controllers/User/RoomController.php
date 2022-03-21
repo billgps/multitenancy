@@ -74,8 +74,8 @@ class RoomController extends Controller
     public function show($id)
     {
         $room = Room::with('inventories', 'inventories.latest_record', 'inventories.room')->find($id);
-        $legends = DB::select('select d.id, standard_name, count(d.standard_name) c from abc.rooms r inner join 
-                abc.inventories i on r.id = i.room_id inner join abc.devices d on i.device_id = d.id 
+        $legends = DB::select('select d.id, standard_name, count(d.standard_name) c from rooms r inner join 
+                inventories i on r.id = i.room_id inner join devices d on i.device_id = d.id 
                 where r.id = '.$id.' group by d.standard_name');
 
         return view('room.show', ['room' => $room, 'inventories' => $room->inventories, 'legends' => $legends]);
