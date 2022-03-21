@@ -11,6 +11,7 @@ use App\Models\Brand;
 use App\Models\Condition;
 use App\Models\Device;
 use App\Models\Inventory;
+use App\Models\Nomenclature;
 use App\Models\Record;
 use App\Models\Room;
 use Illuminate\Http\Request;
@@ -47,11 +48,13 @@ class InventoryController extends Controller
         $devices = Device::all();
         $brands = Brand::all();
         $rooms = Room::all();
+        $nomenclatures = Nomenclature::all();
 
         return view('inventory.create', [
             'devices' => $devices,
             'brands' => $brands,
-            'rooms' => $rooms
+            'rooms' => $rooms,
+            'nomenclatures' => $nomenclatures
         ]);
     }
 
@@ -147,7 +150,8 @@ class InventoryController extends Controller
         return view('inventory.edit', [
             'inventory' => $inventory, 
             'devices' => Device::all(),
-            'rooms' => Room::all()
+            'rooms' => Room::all(),
+            'nomenclatures' => Nomenclature::all(),
         ]);
     }
 

@@ -72,9 +72,9 @@
                                 datasets: [{
                                     data: [calibrated, scheduled, expired, total - (scheduled + calibrated + expired)],
                                     backgroundColor: [
-                                        'rgba(52, 211, 153, 1)',
-                                        'rgba(251, 191, 135, 1)',
-                                        'rgba(239, 68, 68, 1)',
+                                        'rgba(52, 211, 153, 0.7)',
+                                        'rgba(251, 191, 135, 0.7)',
+                                        'rgba(239, 68, 68, 0.7)',
                                         'rgba(209, 213, 219, 0.3)',
                                     ],
                                 }]
@@ -123,8 +123,8 @@
                                 datasets: [{
                                     data: [passed, failed, total - (passed + failed)],
                                     backgroundColor: [
-                                        'rgba(52, 211, 153, 1)',
-                                        'rgba(239, 68, 68, 1)',
+                                        'rgba(52, 211, 153, 0.7)',
+                                        'rgba(239, 68, 68, 0.7)',
                                         'rgba(209, 213, 219, 0.3)',
                                     ],
                                 }]
@@ -173,8 +173,8 @@
                                 datasets: [{
                                     data: [good, broken, total - (good + broken)],
                                     backgroundColor: [
-                                        'rgba(52, 211, 153, 1)',
-                                        'rgba(239, 68, 68, 1)',
+                                        'rgba(52, 211, 153, 0.7)',
+                                        'rgba(239, 68, 68, 0.7)',
                                         'rgba(209, 213, 219, 0.3)',
                                     ],
                                 }]
@@ -302,7 +302,7 @@
 
                             for(let i = 0;i < e.datasets.length; i++){
                                 const randomNum = () => Math.floor(Math.random() * (235 - 52 + 1) + 52);
-                                const randomRGB = () => `rgba(${randomNum()}, ${randomNum()}, ${randomNum()}, 0.4)`;
+                                const randomRGB = () => `rgba(${randomNum()}, ${randomNum()}, ${randomNum()}, 0.5)`;
 
                                 colors.push(randomRGB());
                             }

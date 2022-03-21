@@ -9,6 +9,7 @@
     <meta http-equiv="refresh" content="time; URL=new_url" />
 
     <title>{{ config('app.name', 'Laravel') }}</title>
+    <link rel="icon" href="{{ url('favicon.png') }}">
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js', 'themes/host') }}" defer></script>
@@ -16,12 +17,14 @@
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css', 'themes/host') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
 
     {{-- sidebar --}}
@@ -33,8 +36,20 @@
         .is-close {
             text-align: center;
         }
+
         .is-close .hidden-item {
             display: none;
+        }
+        
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
         }
     </style>
 
@@ -209,7 +224,7 @@
             </div>
         </div>
     </header>
-    <div id="app" class="flex w-full h-full overflow-auto">
+    <div id="app" class="flex w-full h-full overflow-auto no-scrollbar">
         <aside id="sideBar" class="flex flex-col sticky top-0 w-64 h-screen bg-gray-800" :class="{'is-close': isClose, 'hidden': isClose, 'w-60': !isClose}">
             <nav class="pt-12 text-sm">
                 <div>
@@ -217,6 +232,14 @@
                         <span class="flex items-center">
                             <i class="material-icons">home</i>
                             <span class="mx-4">Dashboard</span>
+                        </span>
+                    </a>
+                </div>
+                <div>
+                    <a href="{{ route('nomenclature.index') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
+                        <span class="flex items-center">
+                            <i class="material-icons">screenshot_monitor</i>
+                            <span class="mx-4">Nomenklatur</span>
                         </span>
                     </a>
                 </div>

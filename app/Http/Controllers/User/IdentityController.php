@@ -8,6 +8,7 @@ use App\Imports\IdentityImport;
 use App\Models\Brand;
 use App\Models\Device;
 use App\Models\Identity;
+use App\Models\Nomenclature;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
@@ -36,10 +37,12 @@ class IdentityController extends Controller
     {
         $devices = Device::all();
         $brands = Brand::all();
+        $nomenclatures = Nomenclature::all();
 
         return view('identity.create', [
             'devices' => $devices,
             'brands' => $brands,
+            'nomenclatures' => $nomenclatures
         ]);
     }
 
@@ -112,11 +115,13 @@ class IdentityController extends Controller
     {
         $brands = Brand::all();
         $devices = Device::all();
+        $nomenclatures = Nomenclature::all();
 
         return view('identity.edit', [
             'identity' => $identity,
             'brands' => $brands, 
-            'devices' => $devices
+            'devices' => $devices,
+            'nomenclatures' => $nomenclatures
         ]);
     }
 

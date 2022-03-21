@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
+use App\Models\Queue;
 use Illuminate\Support\Facades\DB;
 use Spatie\Multitenancy\Models\Tenant;
 
@@ -24,6 +25,8 @@ class DashboardController extends Controller
             array_push($dataCount, $data[0]->count);
         }
 
-        return view('home', ['tenants' => $tenants, 'data' => $dataCount]);
+        $queues = Queue::where('status', 'success')->get()->count();
+
+        return view('home', ['tenants' => $tenants, 'data' => $dataCount, 'queue' => $queues]);
     }
 }
