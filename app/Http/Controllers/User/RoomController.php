@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\RoomImport;
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class RoomController extends Controller
@@ -73,8 +74,11 @@ class RoomController extends Controller
     public function show($id)
     {
         $room = Room::with('inventories', 'inventories.latest_record', 'inventories.room')->find($id);
+        $legends = DB::select('select d.id, standard_name, count(d.standard_name) c from abc.rooms r inner join 
+                abc.inventories i on r.id = i.room_id inner join abc.devices d on i.device_id = d.id 
+                where r.id = '.$id.' group by d.standard_name');
 
-        return view('room.show', ['room' => $room, 'inventories' => $room->inventories]);
+        return view('room.show', ['room' => $room, 'inventories' => $room->inventories, 'legends' => $legends]);
     }
 
     /**
