@@ -47,23 +47,23 @@
                 {{ __('Create New Device') }}
             </header>
 
-            <form class="w-3/5 mx-auto pb-6 my-6" method="POST"
+            <form class="mx-auto pb-6 my-6" method="POST"
                 action="{{ route('device.store') }}">
                 @csrf
-                <div class="sm:grid sm:grid-cols-2 sm:gap-2 sm:px-6">
-                    <div class="">
+                <div class="flex items-center w-full">
+                    <div class="mx-4">
                         <label class="block mb-2 text-sm text-gray-00" for="standard_name">Nama Standar</label>
-                        <div class="py-2 text-left flex items-center">
+                        <div class="py-2 text-left flex items-center w-80">
                             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline4" id="standard_name" name="standard_name" type="text" required>
-                            <a href="#map" rel="modal:open" class="ml-2">
-                                <i class="fas fa-exchange"></i>
-                            </a>
-                            <input type="hidden" name="nomenclature_id">
                         </div>
                     </div>
-                    <div class="">
-                        <label class="block mb-2 text-sm text-gray-00" for="alias_name">Nomenklatur</label>
-                        <div class="py-2 text-left">
+                    <div class="mx-4">
+                        <label class="block mb-2 text-sm text-gray-00 ml-4" for="alias_name">Nomenklatur</label>
+                        <div class="py-2 text-left flex items-center w-96">
+                            <a href="#map" rel="modal:open" class="mr-4">
+                                <i class="fas fa-exchange"></i>
+                            </a>
+                            <input type="hidden" id="nomenclature_id" name="nomenclature_id">
                             <input readonly id="nomenclature_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline4" type="text">
                         </div>
                     </div>
@@ -80,8 +80,12 @@
 
 <script>
     function getNomenclatureId(id) {
+        console.log(id);
         let inputNomenclature = document.getElementById('nomenclature_name')
-        inputNomenclature.value = id
+        inputNomenclature.value = id.standard_name
+
+        let inputNomId = document.getElementById('nomenclature_id')
+        inputNomId.value = id.id
     }
 </script>
 
@@ -113,7 +117,7 @@
                         <td class="px-2 py-1 text-center ">{{ $nom->aspak_code }}</td>
                         <td class="px-2 py-1 text-center ">{{ $nom->risk_level }}</td>
                         <td class="">
-                            <a href="#" rel="modal:close" onclick="getNomenclatureId({{ $nom->id }})" class="text-green-500 hover:text-gray-400">
+                            <a href="#" rel="modal:close" onclick="getNomenclatureId({{ $nom }})" class="text-green-500 hover:text-gray-400">
                                 <i class="fas fa-badge-check"></i>
                             </a>
                         </td>

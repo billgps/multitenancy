@@ -98,20 +98,16 @@ class DeviceController extends Controller
     {
         $validated = $request->validate([
             'standard_name' => 'required|max:255',
-            'alias_name' => 'max:255',
-            'risk_lavel' => 'max:255',
-            'ipm_frequency' => 'max:255',
+            'nomenclature_id' => 'required|numeric'
         ]);
 
         if ($validated) {
             $device->standard_name = $request->standard_name;
-            $device->alias_name = $request->alias_name;
-            $device->risk_level = $request->risk_level;
-            $device->ipm_frequency = $request->ipm_frequency;
+            $device->nomenclature_id = $request->nomenclature_id;
             $device->update();
 
             return redirect()->route('device.show', ['id' => $device->id]);
-        }    
+        }
     }
 
     /**
