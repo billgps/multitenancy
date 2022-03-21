@@ -56,9 +56,9 @@ class NomenclatureController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'standard_name' => 'required|string|max:255|unique:host.inventory.nomenclatures,standard_name',
+            'standard_name' => 'required|string|max:255|unique:host.nomenclatures,standard_name',
             'risk_level' => 'required|numeric',
-            'aspak_code' => 'required|unique:host.inventory.nomenclatures,aspak_code',
+            'aspak_code' => 'required|unique:host.nomenclatures,aspak_code',
             'keywords' => 'string'
         ]);
 
