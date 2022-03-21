@@ -262,6 +262,8 @@ else if (Tenant::current() == null) {
             Route::get('/', [NomenclatureController::class, 'index'])->name('nomenclature.index');
             Route::get('/create', [NomenclatureController::class, 'create'])->name('nomenclature.create');
             Route::post('/store', [NomenclatureController::class, 'store'])->name('nomenclature.store');
+            Route::get('/edit/{nomenclature}', [NomenclatureController::class, 'edit'])->name('nomenclature.edit');
+            Route::post('/update/{nomenclature}', [NomenclatureController::class, 'update'])->name('nomenclature.update');
         });
         Route::prefix('aspak')->group(function () {
             Route::get('/queue', [QueueController::class, 'index'])->name('queue.index');

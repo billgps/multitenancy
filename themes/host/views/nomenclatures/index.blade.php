@@ -76,7 +76,7 @@
                                             </a>
                                         </div>
                                         <div class="w-4 mr-2 transform hover:text-gray-500 text-green-500 hover:scale-110">
-                                            <a href="">
+                                            <a href="{{ route('nomenclature.edit', ['nomenclature' => $nom->id]) }}">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                         </div>
