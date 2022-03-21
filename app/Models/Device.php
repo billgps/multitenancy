@@ -10,7 +10,7 @@ class Device extends Model
 {
     use HasFactory, UsesTenantConnection;
 
-    protected $fillable = ['id', 'standard_name', 'alias_name', 'risk_level', 'ipm_frequency'];
+    protected $fillable = ['id', 'standard_name', 'nomenclature_id'];
 
     public function inventories()
     {
@@ -20,5 +20,15 @@ class Device extends Model
     public function identities()
     {
         return $this->hasMany('App\Models\Identity', 'device_id', 'id');
+    }
+
+    /**
+     * Get the nomenclature that owns the Device
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function nomenclature()
+    {
+        return $this->belongsTo(Nomenclature::class, 'nomenclature_id', 'id');
     }
 }

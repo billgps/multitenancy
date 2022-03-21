@@ -3,62 +3,25 @@
 @section('content')
 <main class="sm:container sm:mx-auto mt-6">
     <div class="w-full sm:px-6">
-
         @if (session('status'))
             <div class="px-3 py-4 mb-4 text-sm text-green-700 bg-green-100 border border-t-8 border-green-600 rounded" role="alert">
                 {{ session('status') }}
             </div>
         @endif
 
-        <div class="w-full flex justify-evenly">
-            <div class="w-1/3 mb-3">
-                <div class="bg-green-600 border shadow p-2">
-                    <div class="flex flex-row items-center">
-                        <div class="flex-shrink pl-1 pr-4 text-white">
-                            <i style="font-size: 46px;" class="material-icons">person_pin</i>
-                        </div>
-                        <div class="flex-1 text-right">
-                            <h5 class="text-white">Total Tenant</h5>
-                            <h3 class="text-white text-3xl">{{ $tenants->count() }}</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="w-1/3 px-3 mb-3">
-                <div class="bg-purple-600 border shadow p-2">
-                    <div class="flex flex-row items-center">
-                        <div class="flex-shrink pl-1 pr-4 text-white">
-                            <i style="font-size: 46px;" class="material-icons">analytics</i>
-                        </div>
-                        <div class="flex-1 text-right">
-                            <h5 class="text-white">Data</h5>
-                            <h3 class="text-white text-3xl">{{ array_sum($data) }}</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="w-1/3 mb-3">
-                <div class="bg-yellow-600 border shadow p-2">
-                    <div class="flex flex-row items-center">
-                        <div class="flex-shrink pl-1 pr-4 text-white">
-                            <i style="font-size: 46px;" class="material-icons">cloud_done</i>
-                        </div>
-                        <div class="flex-1 text-right">
-                            <h5 class="text-white">Terkirim ASPAK</h5>
-                            <h3 class="text-white text-3xl">
-                                {{ $queue }}
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <section class="flex flex-col break-words bg-white sm:border-1 sm:shadow">
             <header class="px-6 py-5 flex font-semibold text-gray-700 bg-gray-200 sm:py-6 sm:px-8">
-                Dashboard
+                Nomenklatur Alat
+                <span class="ml-auto text-green-500 hover:text-gray-500 cursor-pointer">
+                    <a href="{{ route('nomenclature.create') }}">
+                        <i class="material-icons">add_box</i>
+                    </a>
+                </span>
+                <span class="ml-2 text-blue-500 hover:text-gray-500 cursor-pointer">
+                    <a href="{{ route('nomenclature.create') }}">
+                        <i class="material-icons">file_upload</i>
+                    </a>
+                </span>
             </header>
             <div class="w-full flex flex-col sm:p-6 overflow-x-scroll sm:overflow-x-auto">
                 <span class="ml-auto my-3">
@@ -81,41 +44,34 @@
                 <table id="tenants" class="min-w-max w-full table-auto text-center">
                     <thead class="shadow">
                         <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                            <th class="py-3 px-6">Nama Tenant</th>
-                            <th class="py-3 px-6">Domain</th>
-                            <th class="py-3 px-6">Jumlah Data</th>
-                            <th class="py-3 px-6">Dibuat pada</th>
+                            <th class="py-3 px-6">ID</th>
+                            <th class="py-3 px-6">Nama Alat</th>
+                            <th class="py-3 px-6">Kode ASPAK</th>
+                            <th class="py-3 px-6">Risk Level</th>
                             <th class="py-3 px-6">
                                 <i class="material-icons">settings</i>
                             </th>
                         </tr>
                     </thead>
                     <tbody class="text-gray-600 text-sm font-light">
-                        @foreach ($tenants as $key => $tenant)
+                        @foreach ($nomenclatures as $key => $nom)
                             <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                <td class="py-3 px-6 text-left">
-                                    {{ $tenant->name }}
+                                <td class="py-3 px-6">
+                                    {{ $nom->id }}
                                 </td>
-                                <td class="py-3 px-6 text-left">
-                                    @if ($tenant->is_active)
-                                        <i class="fas fa-circle text-green-500 mr-2 md:ml-24"></i>
-                                    @else
-                                        <i class="fas fa-circle text-red-500 mr-2 md:ml-24"></i>
-                                    @endif
-                                    <a href="http://{{ $tenant->domain }}" target="blank_">
-                                        {{ $tenant->domain }}
-                                    </a>
+                                <td class="py-3 px-6 text-left break-normal w-80">
+                                    {{ $nom->standard_name }}
                                 </td>
                                 <td class="py-3 px-6">
-                                    {{ $data[$key] }}
+                                    {{ $nom->aspak_code }}
                                 </td>
                                 <td class="py-3 px-6">
-                                    {{ $tenant->created_at }}
+                                    {{ $nom->risk_level }}
                                 </td>
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex item-center justify-center">
                                         <div class="w-4 mr-2 transform hover:text-gray-500 text-blue-500 hover:scale-110">
-                                            <a href="http://{{ $tenant->domain }}" target="blank_">
+                                            <a href="" target="blank_">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         </div>
@@ -125,7 +81,7 @@
                                             </a>
                                         </div>
                                         <div class="w-4 mr-2 transform hover:text-gray-500 text-red-500 hover:scale-110">
-                                            <a href="{{ route('tenant.delete', ['tenant' => $tenant->id]) }}"
+                                            <a href=""
                                                 onclick="return confirm('Are you sure you want to delete this tenant? Deleted data cannot be recovered!')">
                                                 <i class="delete fas fa-trash-alt"></i>
                                             </a>
@@ -141,7 +97,7 @@
                     $(document).ready( function () {
                         let table = $('#tenants').DataTable({
                             dom: 'lrtp',
-                            pageLength: 20,
+                            pageLength: 15,
                             info: false,
                             lengthChange: false,
                             order: [],

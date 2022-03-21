@@ -6,8 +6,11 @@ use App\Exports\DeviceExport;
 use App\Http\Controllers\Controller;
 use App\Imports\DeviceImport;
 use App\Models\Device;
+use App\Models\Nomenclature;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use Svg\Tag\Rect;
 
 class DeviceController extends Controller
 {
@@ -30,7 +33,7 @@ class DeviceController extends Controller
      */
     public function create()
     {
-        return view('device.create');
+        return view('device.create', ['nomenclatures' => Nomenclature::all()]);
     }
 
     /**
@@ -43,17 +46,13 @@ class DeviceController extends Controller
     {
         $validated = $request->validate([
             'standard_name' => 'required|max:255',
-            'alias_name' => 'max:255',
-            'risk_lavel' => 'max:255',
-            'ipm_frequency' => 'max:255',
+            'nomenclature_id' => 'required|numeric'
         ]);
 
         if ($validated) {
             $device = new Device();
             $device->standard_name = $request->standard_name;
-            $device->alias_name = $request->alias_name;
-            $device->risk_level = $request->risk_level;
-            $device->ipm_frequency = $request->ipm_frequency;
+            $device->nomenclature_id = $request->nomenclature_id;
             $device->save();
 
             if ($request->modal) {
@@ -85,7 +84,7 @@ class DeviceController extends Controller
      */
     public function edit(Device $device)
     {
-        return view('device.edit', ['device' => $device]);
+        return view('device.edit', ['device' => $device, 'nomenclatures' => Nomenclature::all()]);
     }
 
     /**
@@ -99,20 +98,16 @@ class DeviceController extends Controller
     {
         $validated = $request->validate([
             'standard_name' => 'required|max:255',
-            'alias_name' => 'max:255',
-            'risk_lavel' => 'max:255',
-            'ipm_frequency' => 'max:255',
+            'nomenclature_id' => 'required|numeric'
         ]);
 
         if ($validated) {
             $device->standard_name = $request->standard_name;
-            $device->alias_name = $request->alias_name;
-            $device->risk_level = $request->risk_level;
-            $device->ipm_frequency = $request->ipm_frequency;
+            $device->nomenclature_id = $request->nomenclature_id;
             $device->update();
 
             return redirect()->route('device.show', ['id' => $device->id]);
-        }    
+        }
     }
 
     /**
@@ -130,9 +125,47 @@ class DeviceController extends Controller
 
     public function import(Request $request)
     {
-        Excel::import(new DeviceImport, request()->file('file'));
+        $devices = Excel::toArray(new DeviceImport, request()->file('file'));
+        foreach ($devices[0] as $key => $value) {
+            $result = DB::connection('host')->select('SELECT * FROM nomenclatures WHERE 
+            MATCH(`standard_name`,  `keywords`) AGAINST ("'.$value['nama_alat'].'" 
+            IN BOOLEAN MODE) > 3');
 
-        return redirect()->route('device.index')->with('success', 'Data Imported');
+            if (count($result) > 1 || count($result) < 1) {
+                $devices[0][$key]['nomenclature_id'] = null;
+            } else {
+                $devices[0][$key]['nomenclature_id'] = $result[0];
+            }
+        }
+
+        $nomenclatures = Nomenclature::all();
+
+        return view('device.map', ['devices' => $devices[0], 'nomenclatures' => $nomenclatures]);
+    }
+
+    public function mapped(Request $request)
+    {
+        // validation cant go back because device.map is a return from a post method
+        // not a get << need to be revised >>
+
+        // $validated = $request->validate([
+        //     'nomenclature_id.*' => 'required|numeric',
+        //     'standard_name' => 'required|string|distinct|unique:devices'
+        // ]);
+
+        // if ($validated) {
+        //     dd('validated');
+        // }
+
+        foreach ($request->standard_name as $key => $value) {
+            $device = new Device();
+            $device->create([
+                'standard_name' => $request->standard_name[$key],
+                'nomenclature_id' => $request->nomenclature_id[$key] == 'null' ? null : $request->nomenclature_id[$key]
+            ]);
+        }
+
+        return redirect()->route('device.index');
     }
 
     public function export(Request $request)

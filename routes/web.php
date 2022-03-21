@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LogController;
+use App\Http\Controllers\NomenclatureController;
 use App\Http\Controllers\QueueController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\User\ActivityController;
@@ -114,7 +115,7 @@ if (Tenant::current()) {
     
                 Route::prefix('maintenance')->group(function () {
                     Route::get('/', [MaintenanceController::class, 'index'])->name('maintenance.index');
-                    Route::get('/create/{inventory?}', [MaintenanceController::class, 'create'])->name('maintenance.create');
+                    Route::get('/create/{inventory}', [MaintenanceController::class, 'create'])->name('maintenance.create');
                     Route::post('/store', [MaintenanceController::class, 'store'])->name('maintenance.store');
                     Route::post('/import', [MaintenanceController::class, 'import'])->name('maintenance.import');
                     // Route::get('/{id}', [MaintenanceController::class, 'show'])->name('maintenance.show');
@@ -147,6 +148,7 @@ if (Tenant::current()) {
                 Route::get('/', [DeviceController::class, 'index'])->name('device.index');
                 Route::get('/create', [DeviceController::class, 'create'])->name('device.create');
                 Route::post('/store', [DeviceController::class, 'store'])->name('device.store');
+                Route::post('/map', [DeviceController::class, 'mapped'])->name('device.map');
                 Route::post('/import', [DeviceController::class, 'import'])->name('device.import');
                 Route::get('/export', [DeviceController::class, 'export'])->name('device.export');
                 Route::get('/{id}', [DeviceController::class, 'show'])->name('device.show');
@@ -226,8 +228,9 @@ if (Tenant::current()) {
                 Route::get('/complaints', [ComplainController::class, 'ajax'])->name('complain.ajax');
                 Route::get('/notifications', [NotificationController::class, 'ajax'])->name('notification.ajax');
                 // Route::get('/aspak-details/{id}', [ASPAKController::class, 'ajaxGetDetails'])->name('aspak.details');
-                Route::get('/aspak-map/{device}', [ASPAKController::class, 'ajaxMap'])->name('aspak.nomenclature');
+                // Route::get('/aspak-map/{device}', [ASPAKController::class, 'ajaxMap'])->name('aspak.nomenclature');
                 Route::get('/pie/{parameter}', [DashboardController::class, 'pieChart'])->name('dashboard.pie');
+                Route::post('/keyword/{nomenclature}/store', [NomenclatureController::class, 'addKeyword']);
             });
 
             Route::get('/user/notfication-routing/{notification}', [NotificationController::class, 'routing'])->name('user.notification.routing');
@@ -255,6 +258,11 @@ else if (Tenant::current() == null) {
             Route::get('/{vendor}', [VendorController::class, 'show'])->name('vendor.show');
             Route::get('/edit/{vendor}', [VendorController::class, 'edit'])->name('vendor.edit');
         }); 
+        Route::prefix('nomenclature')->group(function () {
+            Route::get('/', [NomenclatureController::class, 'index'])->name('nomenclature.index');
+            Route::get('/create', [NomenclatureController::class, 'create'])->name('nomenclature.create');
+            Route::post('/store', [NomenclatureController::class, 'store'])->name('nomenclature.store');
+        });
         Route::prefix('aspak')->group(function () {
             Route::get('/queue', [QueueController::class, 'index'])->name('queue.index');
             Route::post('/queue/retry', [QueueController::class, 'retry'])->name('queue.retry');

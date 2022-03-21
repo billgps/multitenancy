@@ -98,8 +98,25 @@
             
                     <div id="display" class="flex flex-col lg:grid lg:grid-cols-4 gap-2 w-full justify-center">
                         @foreach ($inventories as $inventory)
-                            <div class="max-w-xs flex flex-col rounded overflow-hidden bg-gray-100 my-2">
-                                <div class="w-full h-48 text-sm">
+                            <div x-data="{ dropdownOpen: false }" class="max-w-xs flex flex-col rounded overflow-hidden bg-gray-100 my-2">
+                                <div class="w-full h-48 text-sm relative">
+                                    <div @click="dropdownOpen = !dropdownOpen" class="hover:text-purple-500 cursor-pointer absolute transform hover:scale-110 top-0 right-0 mr-2 mt-2" href="">
+                                        <i class="fas fa-cog fa-lg"></i>
+                                    </div>
+
+                                    <div x-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10"></div>
+
+                                    <div x-show="dropdownOpen" class="absolute right-0 mt-8 py-2 bg-white rounded-md shadow-xl z-20">
+                                        <a href="{{ route('maintenance.create', ['inventory' => $inventory->id]) }}" class="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-500 hover:text-white">
+                                            <i class="fas fa-tools mr-4"></i>
+                                            Preventive Maintenance
+                                        </a>
+                                        <a href="#" class="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-500 hover:text-white">
+                                            <i class="fas fa-tachometer-alt-slowest mr-4"></i>
+                                            Riwayat Kalibrasi
+                                        </a>
+                                    </div>
+                                    
                                     <img class="object-cover h-48 w-full" src="{{ asset($inventory->picture) }}" alt="{{ $inventory->barcode }}">
                                 </div>
                                 <div class="text-md flex hover:text-purple-500 mx-2 my-2">

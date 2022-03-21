@@ -62,9 +62,8 @@
                         <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <th class="py-3 px-6">Nama Alat</th>
-                                <th class="py-3 px-6">Alias</th>
+                                <th class="py-3 px-6">Nomenclature</th>
                                 <th class="py-3 px-6">Risk Level</th>
-                                <th class="py-3 px-6">IPM Frequency</th>
                                 <th class="py-3 px-6">Jumlah Inventori</th>
                                 <th class="py-3 px-6">Action</th>
                             </tr>
@@ -72,18 +71,25 @@
                         <tbody class="text-gray-600 text-sm font-light">
                             @foreach ($devices as $device)
                                 <tr class="hover:bg-gray-100">
-                                    <td class="py-3 px-6">
+                                    <td class="py-3 px-6 w-80 text-left break-normal">
                                         {{ $device->standard_name }}
                                     </td>
-                                    <td class="py-3 px-6">
-                                        {{ $device->alias_name }}
-                                    </td>
-                                    <td class="py-3 px-6">
-                                        {{ $device->risk_level }}
-                                    </td>
-                                    <td class="py-3 px-6">
-                                        {{ $device->ipm_frequency }}
-                                    </td>
+                                    @isset($device->nomenclature)                                    
+                                        <td class="py-3 px-6 w-80 break-normal text-left">
+                                            {{ $device->nomenclature->standard_name }}
+                                        </td>
+                                        <td class="py-3 px-6">
+                                            {{ $device->nomenclature->risk_level }}
+                                        </td>
+                                    @endisset
+                                    @empty($device->nomenclature)
+                                        <td class="py-3 px-6 bg-red-200 hover:bg-red-300">
+                                            404 Not Found
+                                        </td>
+                                        <td class="py-3 px-6 text-blue-600 bg-red-200 hover:bg-red-300">
+                                            NULL
+                                        </td>
+                                    @endempty
                                     <td class="py-3 px-6">
                                         {{ count($device->inventories) }}
                                     </td>
@@ -166,30 +172,4 @@
         </section>
     </div>
 </main>
-
-<div id="import-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
-    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-    <div class="modal-container bg-gray-800 text-gray-300 w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
-        <div class="modal-content py-4 text-left px-6">
-            <div class="flex justify-between items-center pb-3 text-lg">
-                Import Excel to Device
-            </div>
-            <form action="{{ route('device.import') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="text-xs">
-                    <div>
-                        <label class="block mb-2 text-sm text-gray-00" for="file">Devices</label>
-                        <div class="py-2 text-left">
-                            <input id="file" name="file" type="file">
-                        </div>
-                    </div>
-                    <div class="flex w-full justify-end pt-2">
-                        <input type="submit" value="{{ __('Upload') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
-                        <button onclick="toggleModal(this, 'import-toggle', 'import-modal')" type="button" class="modal-close import-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 @endsection

@@ -9,7 +9,7 @@ class Maintenance extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'scheduled_date', 'done_date', 'personnel', 'inventory_id'];
+    protected $fillable = ['id', 'inventory_id', 'user_id', 'raw', 'result'];
 
     public function inventory()
     {
