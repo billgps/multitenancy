@@ -89,7 +89,7 @@ class NomenclatureController extends Controller
      */
     public function edit(Nomenclature $nomenclature)
     {
-        //
+        return view('nomenclatures.edit', ['nomenclature' => $nomenclature]);
     }
 
     /**
@@ -101,7 +101,18 @@ class NomenclatureController extends Controller
      */
     public function update(Request $request, Nomenclature $nomenclature)
     {
-        //
+        $validated = $request->validate([
+            'standard_name' => 'required|string|max:255',
+            'risk_level' => 'required|numeric',
+            'aspak_code' => 'required',
+            'keywords' => 'string'
+        ]);
+
+        if ($validated) {
+            $nomenclature->update($validated);
+
+            return redirect()->route('nomenclature.index');
+        }
     }
 
     /**
