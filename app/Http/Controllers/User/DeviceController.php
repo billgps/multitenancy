@@ -102,6 +102,7 @@ class DeviceController extends Controller
         ]);
 
         if ($validated) {
+            DB::connection('host')->update('UPDATE nomenclatures SET keywords = CONCAT(COALESCE(keywords, ""), ";'.$request->standard_name.'") WHERE id = '.$request->nomenclature_id);   
             $device->standard_name = $request->standard_name;
             $device->nomenclature_id = $request->nomenclature_id;
             $device->update();
