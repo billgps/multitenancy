@@ -60,7 +60,7 @@
                     <div class="mx-4">
                         <label class="block mb-2 text-sm text-gray-00 ml-4" for="alias_name">Nomenklatur</label>
                         <div class="py-2 text-left flex items-center w-96">
-                            <a href="#map" rel="modal:open" class="mr-4">
+                            <a href="#map" rel="modal:open" onclick="getIndex()" class="mr-4">
                                 <i class="fas fa-exchange"></i>
                             </a>
                             <input type="hidden" id="nomenclature_id" name="nomenclature_id">
@@ -79,11 +79,19 @@
 </main>
 
 <script>
+    function getIndex() {
+        // reset innerHTML for device name
+        document.getElementById('deviceName').innerHTML = ""
+
+        let standardName = document.getElementById('standard_name').value
+        
+        // set name in modal
+        document.getElementById('deviceName').innerHTML = standardName
+    }
+
     function getNomenclatureId(id) {
-        console.log(id);
         let inputNomenclature = document.getElementById('nomenclature_name')
         inputNomenclature.value = id.standard_name
-
         let inputNomId = document.getElementById('nomenclature_id')
         inputNomId.value = id.id
     }
@@ -91,7 +99,7 @@
 
 <div id="map" style="max-width: fit-content;" class="modal text-gray-600 w-1/2 flex items-center justify-center">
     <div class="flex justify-between items-center pb-3 text-lg">
-        Find Nomenclature
+        Find Nomenclature for <span id="deviceName"></span>
         <input type="hidden" id="row-index" value="">
     </div>
     <div class="flex relative mx-auto w-full">

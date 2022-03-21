@@ -71,14 +71,14 @@
                                 <th class="py-3 px-6">Unit</th>
                                 <th class="py-3 px-6">Gedung</th>
                                 <th class="py-3 px-6">PIC Ruangan</th>
-                                <th class="py-3 px-6">Jumlah Inventori</th>
+                                <th class="py-3 px-6">Jumlah Alat</th>
                                 <th class="py-3 px-6">Action</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
                             @foreach ($rooms as $room)
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                    <td class="py-3 px-6">
+                                    <td class="py-3 px-6 text-left">
                                         {{ $room->room_name }}
                                     </td>
                                     <td class="py-3 px-6">
@@ -87,7 +87,7 @@
                                     <td class="py-3 px-6">
                                         {{ $room->building }}
                                     </td>
-                                    <td class="py-3 px-6">
+                                    <td class="py-3 px-6 text-left">
                                         {{ $room->room_pic }}
                                     </td>
                                     <td class="py-3 px-6">

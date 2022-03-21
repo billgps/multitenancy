@@ -25,6 +25,9 @@
             <div class="bg-white">
                 <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
                     {{ $room->room_name }}
+                    <div class="text-xs font-light">
+                        {{ __('Created at : '.$room->created_at) }}
+                    </div>
                 </header>
     
                 <div class="w-full flex mr-auto pb-6 px-6 my-6">
@@ -54,14 +57,54 @@
                             </div>
                         </div>
                     </div>    
-                    <div class="ml-auto text-xs">
-                        {{ __('Created at : '.$room->created_at) }}
-                        {{-- <img class="w-96 h-56 opacity-75" src="{{ asset('illust_4.png') }}" alt=""> --}}
+                    <div class="ml-auto text-sm h-11/12 w-8/12">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                                    <th class="px-4 py-3 text-center">Nama Alat</th>
+                                    <th class="px-4 py-3 text-center">Jumlah</th>
+                                    <th class="px-4 py-3 text-center">
+                                        <i class="fas fa-cog"></i>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white">
+                                @foreach ($legends as $item)
+                                    <tr class="text-gray-700">
+                                        <td class="px-4 py-3 border break-normal w-96">
+                                            {{ $item->standard_name }}
+                                        </td>
+                                        <td class="px-4 py-3 text-ms font-semibold border text-center">
+                                            {{ $item->c }}
+                                        </td>
+                                        <td class="px-4 py-3 text-sm border">
+                                            <div class="flex item-center justify-center">
+                                                <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                    <a href="{{ route('device.show', ['id' => $item->id]) }}">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                </div>
+                                                @if (Auth::user()->role < 2)
+                                                    <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                        <a href="{{ route('device.edit', ['device' => $item->id]) }}">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                    </div>
+                                                @endif
+                                                @if (Auth::user()->role < 1)
+                                                    <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                        <a href="{{ route('device.delete', ['device' => $item->id]) }}">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </a>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    {{-- <div class="flex flex-wrap justify-end">
-                        <button disabled id="cancelBtn" onclick="toggleEdit(true)" type="button" class="block text-center text-white bg-red-600 mx-2 p-3 duration-300 rounded-sm hover:bg-red-500 disabled:opacity-75 w-24">Cancel</button>
-                        <input disabled type="submit" value="{{ __('Update') }}" class="block text-center mx-2 text-white bg-gray-800 p-3 duration-300 rounded-sm hover:bg-black disabled:opacity-75 w-24">
-                    </div>         --}}
                 </div>
             </div>
         </section>

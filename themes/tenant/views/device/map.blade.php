@@ -33,9 +33,10 @@
                                         <td class="py-3 px-6 text-left w-80 break-normal">
                                             {{ $device['nama_alat'] }}
                                             <input type="hidden" name="standard_name[]" value="{{ $device['nama_alat'] }}">
+                                            <input type="hidden" name="isNewKeyword[]" value="0">
                                         </td>
                                         <td>
-                                            <a onclick="getIndex(this.parentNode.parentNode.rowIndex)" href="#map" rel="modal:open">
+                                            <a onclick="getIndex(this.parentNode.parentNode)" href="#map" rel="modal:open">
                                                 <i class="fas fa-exchange"></i>
                                             </a>
                                         </td>
@@ -91,6 +92,7 @@
             let currentRow = notFound.parentNode
             currentRow.removeChild(notFound)
             currentRow.innerHTML += populateRow(nom)
+            addKeyword(currentRow)
         } else {
             let cellId = deviceBody.rows[deviceIndex - 1].querySelector('.nom-id')
             let cellName = deviceBody.rows[deviceIndex - 1].querySelector('.nom-name')
@@ -100,38 +102,45 @@
             currentRow.removeChild(cellName)
             currentRow.removeChild(cellRisk)
             currentRow.innerHTML += populateRow(nom)
+            addKeyword(currentRow)
         }   
 
-        let standard_name = deviceBody.rows[deviceIndex - 1].querySelector('input[name="standard_name[]"]').value
-        
-        addKeyword(nom.id, standard_name)
+        let standard_name = deviceBody.rows[deviceIndex - 1].querySelector('input[name="standard_name[]"]').value        
     }
 
     function getIndex(i) {
+        // reset innerHTML for device name
+        document.getElementById('deviceName').innerHTML = ""
         let rowPlaceholder = document.getElementById('row-index');
-        rowPlaceholder.value = i
+        rowPlaceholder.value = i.rowIndex
+
+        let standardName = i.querySelector('input[name="standard_name[]"]').value
+        
+        // set name in modal
+        document.getElementById('deviceName').innerHTML = standardName
     }
 
-    function addKeyword(nomenclature_id, standard_name) {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': "{{ csrf_token() }}"
-            }
-        });
+    function addKeyword(row) {
+        row.querySelector('input[name="isNewKeyword[]"]').value = 1
+        // $.ajaxSetup({
+        //     headers: {
+        //         'X-CSRF-TOKEN': "{{ csrf_token() }}"
+        //     }
+        // });
 
-        $.ajax({
-                url    : '/ajax/keyword/' + nomenclature_id + '/store',
-                data   : {
-                    'standard_name': standard_name
-                },
-                type   : "post",
-                success: function(data) {
-                    console.log('succeed');
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            })
+        // $.ajax({
+        //     url    : '/ajax/keyword/' + nomenclature_id + '/store',
+        //     data   : {
+        //         'standard_name': standard_name
+        //     },
+        //     type   : "post",
+        //     success: function(data) {
+        //         console.log('succeed');
+        //     },
+        //     error: function (error) {
+        //         console.log(error);
+        //     }
+        // })
     }
 
     function populateRow(nom) {
@@ -170,7 +179,7 @@
 
 <div id="map" style="max-width: fit-content;" class="modal text-gray-600 w-1/2 flex items-center justify-center">
     <div class="flex justify-between items-center pb-3 text-lg">
-        Find Nomenclature
+        Find Nomenclature for <span id="deviceName"></span>
         <input type="hidden" id="row-index" value="">
     </div>
     <div class="flex relative mx-auto w-full">
