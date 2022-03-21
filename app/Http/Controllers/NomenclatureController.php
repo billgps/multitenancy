@@ -44,7 +44,7 @@ class NomenclatureController extends Controller
      */
     public function create()
     {
-        //
+        return view('nomenclatures.create');
     }
 
     /**
@@ -56,19 +56,17 @@ class NomenclatureController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'standard_name' => 'required|string|max:255|unique:nomenclatures',
+            'standard_name' => 'required|string|max:255|unique:host.inventory.nomenclatures,standard_name',
             'risk_level' => 'required|numeric',
-            'aspak_code' => 'required|unique:nomenclatures'
+            'aspak_code' => 'required|unique:host.inventory.nomenclatures,aspak_code',
+            'keywords' => 'string'
         ]);
 
         if ($validated) {
             $nomenclature = new Nomenclature();
             $nomenclature->create($validated);
 
-            $tenants = DB::select("SELECT `database` FROM tenants");
-            foreach ($tenants as $t) {
-                
-            }
+            return redirect()->route('nomenclature.index');
         }
     }
 
