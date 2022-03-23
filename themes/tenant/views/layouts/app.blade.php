@@ -336,22 +336,16 @@
 
                     <div x-show="open" class="bg-gray-900">
                         <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('inventory.index') }}">
-                            Data Inventaris
+                            Inventaris
                         </a>
                         <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('asset.index') }}">
-                            Data Aset
+                            Aset
                         </a>
                         <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('consumable.index') }}">
-                            Data Consumable
+                            Consumable
                         </a>
                         <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('record.index') }}">
-                            Riwayat Kalibrasi
-                        </a>
-                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('condition.index') }}">
-                            Riwayat Kondisi
-                        </a>
-                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('maintenance.index') }}">
-                            Riwayat Maintenance
+                            Kalibrasi
                         </a>
                     </div>
                 </div>
@@ -382,6 +376,30 @@
                         </a>
                         <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('identity.index') }}">
                             Tipe Alat
+                        </a>
+                    </div>
+                </div>
+                <div x-data="{ open: false }">
+                    <button @click="open = !open" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
+                        <span class="flex items-center">
+                            <i class="far fa-tools"></i>
+                            <span class="mx-4">Maintenance</span>
+                        </span>
+
+                        <span>
+                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path x-show="! open" d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"></path>
+                                <path x-show="open" d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </span>
+                    </button>
+
+                    <div x-show="open" class="bg-gray-900">
+                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('maintenance.index') }}">
+                            Preventive
+                        </a>
+                        <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('condition.index') }}">
+                            Conditional
                         </a>
                     </div>
                 </div>
@@ -457,55 +475,4 @@
         @yield('content')
     </div>
 </body>
-
-{{-- <div id="barcode-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
-    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-    <div id="livestream" class="modal-container bg-gray-800 text-gray-300 w-full md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
-        <video id="preview"></video>
-        <div  class="modal-content py-4 text-left px-6">
-            <div class="flex justify-between items-center pb-3 text-lg">
-                Import Excel to Inventory
-            </div>
-            <form action="{{ route('inventory.import') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="text-xs">
-                    <div>
-                        <label class="block mb-2 text-sm text-gray-00" for="file">Inventories</label>
-                        <div class="py-2 text-left">
-                            <input id="fuck" name="fuck" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                        </div>
-                    </div>
-                    <div class="flex w-full justify-end pt-2">
-                        <input type="submit" value="{{ __('Import') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
-                        <button onclick="toggleModal(this, 'import-toggle', 'import-modal')" type="button" class="modal-close import-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> --}}
-
-{{-- <script>    
-    const overlay = document.querySelector('.modal-overlay')
-    overlay.addEventListener('click', toggleModal)
-    
-    var closemodal = document.querySelectorAll('.modal-close')
-    for (var i = 0; i < closemodal.length; i++) {
-        closemodal[i].addEventListener('click', function(event){
-            event.preventDefault()
-            toggleModal(this)
-        })
-    }
-    
-    function toggleModal (button, toggle, modal) {
-        const body = document.querySelector('body')
-        if (button.classList.contains(toggle)) {
-            modal = document.getElementById(modal)
-        } 
-        
-        modal.classList.toggle('opacity-0')
-        modal.classList.toggle('pointer-events-none')
-        body.classList.toggle('modal-active')
-    }
-</script> --}}
 </html>
