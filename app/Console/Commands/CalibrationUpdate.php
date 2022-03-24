@@ -51,7 +51,6 @@ class CalibrationUpdate extends Command
     {
         Tenant::whereDate('processed_at', '<', date('Y-m-d', strtotime('-1day', strtotime(date('Y-m-d')))))->take(5)->get()->eachCurrent(function(Tenant $tenant) {
             // the passed tenant has been made current
-            var_dump($tenant->id);
             Tenant::current()->is($tenant); // returns true;
             if (date('Y-m-d', strtotime('+1day', strtotime(Tenant::current()->processed_at))) < date('Y-m-d') ) {
                 var_dump("tenant being worked on at a time : ".$tenant->id);
@@ -75,6 +74,9 @@ class CalibrationUpdate extends Command
                             }
     
                             if (date('Y-m-d') >= date('Y-m-d', strtotime('+12 months', $cal_date))) {
+                                DB::connection("tenant")->update('UPDATE '.$tenant->database.'.inventories
+                                                                SET `is_verified` = 0 WHERE `id` = '.$inventory->id);
+                                
                                 if ($inventory->latest_record->calibration_status != "Expired") {
                                     $inventory->latest_record->calibration_status = "Expired";
                                     $inventory->latest_record->update();
