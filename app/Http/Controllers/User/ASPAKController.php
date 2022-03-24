@@ -34,26 +34,32 @@ class ASPAKController extends Controller
     {
         if ($device->nomenclature != null) {         
             $oldQueue = array();
-            $inventories = Inventory::where('device_id', $device->id)->get();
-            foreach ($inventories as $inv) {
-                array_push($oldQueue, $inv->queue_id);
-            }
+            $inventories = Inventory::where('device_id', $device->id)->where('is_verified', false)->get();
 
-            $oldQueue = array_unique($oldQueue);
-
-            try {
-                if (count($oldQueue) > 0) {
-                    Queue::destroy($oldQueue);
+            if (count($inventories) > 0) {
+                foreach ($inventories as $inv) {
+                    array_push($oldQueue, $inv->queue_id);
                 }
     
-                $this->apiMap($inventories);
-            } catch (\Throwable $th) {
-                return response(["err" => "Error creating queue : ".$th->getMessage()], 400);
+                $oldQueue = array_unique($oldQueue);
+    
+                try {
+                    if (count($oldQueue) > 0) {
+                        Queue::destroy($oldQueue);
+                    }
+        
+                    $this->apiMap($inventories);
+                } catch (\Throwable $th) {
+                    return response(["err" => "Error creating queue : ".$th->getMessage()], 400);
+                }
+    
+                // Inventory::where('device_id', $inv->device_id)->update(['aspak_code' => $inv->device->nomenclature->aspak_code, 'queue_id' => $queue->id]);
+    
+                return response()->json(["msg" => "queues created for device ".$device->standard_name], 201);
+            } else {
+                return response()->json(["msg" => "device ".$device->standard_name." already verified"], 201);
             }
 
-            // Inventory::where('device_id', $inv->device_id)->update(['aspak_code' => $inv->device->nomenclature->aspak_code, 'queue_id' => $queue->id]);
-
-            return response()->json(["msg" => "queues created for device ".$device->standard_name], 201);
         } else {
             return response()->json(["msg" => "no nomenclature set for device ".$device->standard_name." device ID: ".$device->id], 200);
         }
