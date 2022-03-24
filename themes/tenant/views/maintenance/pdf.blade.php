@@ -8,9 +8,12 @@
 </head>
 
 <style>
+    *{
+        font-family: "DejaVu Sans Mono";
+    }
     body {
         background-size: contain;
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: Arial, Helvetica, sans-serif, "DejaVu Sans Mono";
         padding: 60px 10px 50px 10px;
         margin: 0px;
     }
@@ -42,7 +45,7 @@
                     <td rowspan="2">
                         <h3>NAMA ALAT</h3>
                     </td>
-                    <td style="text-align: left; font-size: 10pt; display: flex;">
+                    <td style="text-align: left; font-size: 8pt; display: flex;">
                         Date:
                         <span style="margin-left: auto; text-align: right;">
                             {{ date('d-m-Y', strtotime($maintenance->created_at)) }}
@@ -51,7 +54,7 @@
                 </tr>
                 <tr>
                     <td style="text-align: center">
-                        <img width="100" height="50" src="{{ asset('gps_logo.png') }}">
+                        <img width="100" height="50" src="{{ public_path('gps_logo.png') }}">
                     </td>
                 </tr>
                 <tr>
@@ -284,7 +287,7 @@
                                     <td>Penempatan Alat : </td>
                                     <td>
                                         <input disabled type="checkbox" 
-                                        @if ($raw->condition_main == "good")
+                                        @if ($raw->placement == "good")
                                             checked
                                         @endif>
                                         Baik
@@ -301,7 +304,7 @@
                                         @if ($raw->placement == "none")
                                             checked
                                         @endif>
-                                        N / A
+                                        N/A
                                     </td>
                                 </tr>
                                 <tr>
@@ -325,7 +328,7 @@
                                         @if ($raw->extra == "none")
                                             checked
                                         @endif>
-                                        N / A
+                                        N/A
                                     </td>
                                 </tr>
                             </tbody>
@@ -1144,7 +1147,7 @@
                                 </tr>
                                 <tr>
                                     <td style="text-align: center; font-weight: 600;">
-                                        <img style="width: 200px; height: 100px;" src="{{ asset('stamp_submitted.png') }}" alt="">
+                                        <img style="width: 200px; height: 100px;" src="{{ public_path('stamp_submitted.png') }}" alt="">
                                         <div>
                                             {{ $maintenance->user->name }}
                                         </div>
