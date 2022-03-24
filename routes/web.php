@@ -135,13 +135,13 @@ if (Tenant::current()) {
                     Route::get('/delete/{asset}', [AssetController::class, 'destroy'])->name('asset.delete');
                 });
 
-                Route::prefix('aspak')->middleware(['aspak'])->group(function () {
-                    Route::get('/', [ASPAKController::class, 'index'])->name('aspak.map');
-                    Route::get('/create/{id}', [ASPAKController::class, 'create'])->name('aspak.create');
-                    Route::post('/store', [ASPAKController::class, 'store'])->name('aspak.store');
-                    // Route::post('/map/device/{device}', [ASPAKController::class, 'bulkMap'])->name('aspak.bulk');
-                    // Route::post('/map/inventory/{inventory}', [ASPAKController::class, 'singleMap'])->name('aspak.single');
-                });
+                // Route::prefix('aspak')->middleware(['aspak'])->group(function () {
+                //     Route::get('/', [ASPAKController::class, 'index'])->name('aspak.map');
+                //     Route::get('/create/{id}', [ASPAKController::class, 'create'])->name('aspak.create');
+                //     Route::post('/store', [ASPAKController::class, 'store'])->name('aspak.store');
+                //     // Route::post('/map/device/{device}', [ASPAKController::class, 'bulkMap'])->name('aspak.bulk');
+                //     // Route::post('/map/inventory/{inventory}', [ASPAKController::class, 'singleMap'])->name('aspak.single');
+                // });
             });
 
             Route::prefix('device')->group(function () {
@@ -227,6 +227,7 @@ if (Tenant::current()) {
                 Route::get('/brands', [BrandController::class, 'ajax'])->name('brand.ajax');
                 Route::get('/complaints', [ComplainController::class, 'ajax'])->name('complain.ajax');
                 Route::get('/notifications', [NotificationController::class, 'ajax'])->name('notification.ajax');
+                Route::get('/aspak/create/{device}', [ASPAKController::class, 'store']);
                 // Route::get('/aspak-details/{id}', [ASPAKController::class, 'ajaxGetDetails'])->name('aspak.details');
                 // Route::get('/aspak-map/{device}', [ASPAKController::class, 'ajaxMap'])->name('aspak.nomenclature');
                 Route::get('/pie/{parameter}', [DashboardController::class, 'pieChart'])->name('dashboard.pie');
