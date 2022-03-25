@@ -18,7 +18,8 @@ class AlterMaintenancesTableAddApprovalFields extends Migration
             $table->boolean('is_approved_ips')->after('is_approved_spv');
             $table->unsignedBigInteger('spv_id')->after('user_id');
             $table->unsignedBigInteger('ips_id')->after('spv_id');
-            $table->date('approved_at')->after()
+            $table->date('approved_by_spv_at')->after('raw');
+            $table->date('approved_by_ips_at')->after('approved_by_spv_at');
         });
     }
 
