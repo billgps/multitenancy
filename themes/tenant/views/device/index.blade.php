@@ -45,6 +45,57 @@
                 <a class="mx-2 text-blue-600 hover:text-gray-400" href="{{ route('device.export') }}">
                     <i class="fas fa-download"></i>
                 </a>
+                <a href="#createQueue" rel="modal:open" onclick="createQueue()" class="mx-2 text-yellow-600 hover:text-gray-400">
+                    <i class="fas fa-paper-plane"></i>
+                    <script>
+                        $(document).ajaxStart(function() {
+                            $("#loading").show();
+                        });
+
+                        $( document ).ajaxStop(function() {
+                            $( "#loading" ).hide();
+                        });
+
+                        function createQueue() {
+                            let devices = {!! json_encode($devices) !!}
+                            for (let i = 0; i < devices.length; i++) {
+                                assignDevice(devices[i].id)
+                            }
+                        }
+
+                        function assignDevice(deviceID) {
+                            let resultList = document.getElementById('mapResult')
+                            resultList.innerHTML = ""
+
+                            $.ajax({
+                                url    : "/ajax/aspak/create/" + deviceID,
+                                type   : "get",
+                                success: function(data, textStatus, xhr) {
+                                    let msgColor = ""
+                                    if (xhr.status == 200) {
+                                        msgColor = "text-red-600"
+                                    } else {
+                                        msgColor = "text-gray-600"
+                                    }
+
+                                    resultList.innerHTML += '<li class="py-2 '+msgColor+'">'+data.msg+'</li>'
+                                },
+                                error: function (error) {
+                                    console.log(error.responseJSON.err);
+                                }
+                            })
+                        }
+                    </script>
+                    <div id="createQueue" style="background-color: white; max-width: fit-content;" class="modal text-gray-600 flex items-center justify-center">
+                        <div class="flex justify-between items-center pb-3 text-lg">
+                            Creating Queue for Mapped Inventories
+                        </div>
+                        <div class="flex flex-col justify-center items-center w-full h-full">
+                            <ul id="mapResult" class="w-full h-96 overflow-auto no-scrollbar"></ul>
+                            <img style="display: none;" id="loading" width="24" height="12" src="{{ asset('loading_bar.gif') }}">
+                        </div>
+                    </div>  
+                </a>
                 <div class="ml-auto my-auto flex text-xs">
                     <input class="h-8 rounded-r-none text-xs text-gray-800 w-full px-2 rounded-md focus:ring-0 border-none" id="search_" type="text" placeholder="Search..." name="search" />
                     <button type="button" class="h-8 rounded-l-none w-20 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-gray-100 uppercase tracking-widest hover:text-gray-800 hover:bg-gray-400 active:bg-gray-900 focus:outline-none disabled:opacity-25 transition ease-in-out duration-150">
