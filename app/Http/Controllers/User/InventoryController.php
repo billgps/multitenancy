@@ -85,17 +85,15 @@ class InventoryController extends Controller
             $inventory->barcode = $request->barcode;
             $inventory->serial = $request->serial;
             $inventory->device_id = $request->device_id;
-            // $inventory->brand_id = $request->brand_id;
             $inventory->identity_id = $request->identity_id;
             $inventory->room_id = $request->room_id;
             if ($picture) {
                 $path = ($picture != null) ? Tenant::current()->domain.'/'.'picture_'.($latest_id + 1).'.'.$picture->guessExtension() : 'no_image.jpg';
                 $inventory->picture = '/images/'.$path;
-                // dd($inventory->picture);
                 $picture->move(public_path().'/images/'.Tenant::current()->domain.'/', 'picture_'.($latest_id + 1).'.'.$picture->guessExtension());
             }
             $inventory->save();
-
+    
             if ($request->event_date != null) {
                 $worksheet = $request->file('worksheet');
                 $worksheetName = 'Belum Diupload';

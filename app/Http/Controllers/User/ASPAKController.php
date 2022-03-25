@@ -30,59 +30,39 @@ class ASPAKController extends Controller
         return view('aspak.index', ['devices' => $devices, 'nomenclatures' => $nomenclatures]);
     }
 
-    public function create($id)
+    public function store(Device $device)
     {
-        $invo = Device::with('inventories', 'inventories.brand', 'inventories.identity')->find($id);
-        $nomenclatures = DB::connection('host')->select('SELECT `code`, `name` FROM nomenclatures');
-        
-        return view('aspak.create', ['invo' => $invo, 'nomenclatures' => $nomenclatures]);
-    }
-
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'id' => 'required',
-            'input_parameter' => 'string|required',
-            'code_'  => 'numeric|required'
-        ]);
-
-        if ($validated) {
-            /* commented because the individual inventory mapping is unused
-            if ($request->input_parameter == 'device') {
-                Inventory::where('device_id', $request->id)->update(['aspak_code' => $request->code_]);
-                $inventories = Inventory::where('device_id', $request->id)->get();
-            } else {
-                Inventory::where('id', $request->id)->update(['aspak_code' => $request->code_]);
-                $inventories = Inventory::where('id', $request->id)->get();
-            } */
-
+        if ($device->nomenclature != null) {         
             $oldQueue = array();
-            $inventories = Inventory::where('device_id', $request->id)->get();
-            foreach ($inventories as $inv) {
-                array_push($oldQueue, $inv->queue_id);
+            $inventories = Inventory::where('device_id', $device->id)->where('is_verified', false)->get();
+
+            if (count($inventories) > 0) {
+                foreach ($inventories as $inv) {
+                    array_push($oldQueue, $inv->queue_id);
+                }
+    
+                $oldQueue = array_unique($oldQueue);
+    
+                try {
+                    if (count($oldQueue) > 0) {
+                        Queue::destroy($oldQueue);
+                    }
+        
+                    $this->apiMap($inventories);
+                } catch (\Throwable $th) {
+                    return response(["err" => "Error creating queue : ".$th->getMessage()], 400);
+                }
+    
+                // Inventory::where('device_id', $inv->device_id)->update(['aspak_code' => $inv->device->nomenclature->aspak_code, 'queue_id' => $queue->id]);
+    
+                return response()->json(["msg" => "queues created for device ".$device->standard_name], 201);
+            } else {
+                return response()->json(["msg" => "device ".$device->standard_name." already verified"], 201);
             }
 
-            $oldQueue = array_unique($oldQueue);
-            
-            if (count($oldQueue) > 0) {
-                Queue::destroy($oldQueue);
-            }
-
-            $newQueue = $this->apiMap($inventories);
-
-            Inventory::where('device_id', $request->id)->update(['aspak_code' => $request->code_, 'queue_id' => $newQueue->id]);
-
-            return back()->with('success', 'Kode ASPAK berhasil ditambahkan');
+        } else {
+            return response()->json(["msg" => "no nomenclature set for device ".$device->standard_name." device ID: ".$device->id], 200);
         }
-    }
-
-    public function ajaxMap(Device $device)
-    {
-        // $similar = Nomenclature::where('name', 'like', '%'.$device->standard_name.'%')->get();
-        $query = 'SELECT * FROM nomenclatures WHERE MATCH(`name`) AGAINST ("'.$device->standard_name.'" IN BOOLEAN MODE) > 3';
-        $similar = DB::connection('host')->select($query);
-
-        return response()->json(['data' => $similar], 200);
     }
 
     function apiMap(Collection $inventories)
@@ -145,12 +125,17 @@ class ASPAKController extends Controller
                         'activity_id' => Activity::active()->aspak_id
                     ]);
                 } else {
+                    $queue = null;
                     array_push($payload, json_encode($array));
                     $counter++;
                 }
             }
-        }
 
-        return $queue;
+            if ($queue) {   
+                $inv->update([
+                    'queue_id' => $queue->id
+                ]);
+            }
+        }
     }
 }
