@@ -227,7 +227,7 @@ if (Tenant::current()) {
                 Route::get('/brands', [BrandController::class, 'ajax'])->name('brand.ajax');
                 Route::get('/complaints', [ComplainController::class, 'ajax'])->name('complain.ajax');
                 Route::get('/notifications', [NotificationController::class, 'ajax'])->name('notification.ajax');
-                Route::get('/aspak/create/{device}', [ASPAKController::class, 'store']);
+                Route::get('/aspak/create/', [ASPAKController::class, 'store'])->middleware('active');
                 // Route::get('/aspak-details/{id}', [ASPAKController::class, 'ajaxGetDetails'])->name('aspak.details');
                 // Route::get('/aspak-map/{device}', [ASPAKController::class, 'ajaxMap'])->name('aspak.nomenclature');
                 Route::get('/pie/{parameter}', [DashboardController::class, 'pieChart'])->name('dashboard.pie');
