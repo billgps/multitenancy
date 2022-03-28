@@ -57,33 +57,45 @@
                         });
 
                         function createQueue() {
-                            let devices = {!! json_encode($devices) !!}
-                            for (let i = 0; i < devices.length; i++) {
-                                assignDevice(devices[i].id)
-                            }
-                        }
-
-                        function assignDevice(deviceID) {
-                            let resultList = document.getElementById('mapResult')
-                            resultList.innerHTML = ""
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                                }
+                            });
 
                             $.ajax({
-                                url    : "/ajax/aspak/create/" + deviceID,
+                                url    : "/ajax/aspak/create/",
                                 type   : "get",
                                 success: function(data, textStatus, xhr) {
-                                    let msgColor = ""
-                                    if (xhr.status == 200) {
-                                        msgColor = "text-red-600"
-                                    } else {
-                                        msgColor = "text-gray-600"
+                                    let resultList = document.getElementById('mapResult')
+                                    resultList.innerHTML = ""
+                                    for (let i = 0; i < data.msg.length; i++) {  
+                                        populateList(resultList, data.msg[i])                           
+                                    }
+                                },
+                                error: function (error, textStatus, xhr) {
+                                    console.log(error);
+                                    if (error.status == 404) {
+                                        swal(error.responseJSON.err, {
+                                            icon: "error",
+                                        }).then((success) => {
+                                            $(location).attr('href', "{{route('activity.create')}}");
+                                        })
                                     }
 
-                                    resultList.innerHTML += '<li class="py-2 '+msgColor+'">'+data.msg+'</li>'
-                                },
-                                error: function (error) {
                                     console.log(error.responseJSON.err);
                                 }
                             })
+                        }
+
+                        function populateList(list, msg) {
+                            let msgColor = ""
+                            if (msg.includes("no nomenclature")) {
+                                msgColor = "text-red-600"
+                            } else {
+                                msgColor = "text-gray-600"
+                            }
+                            list.innerHTML += '<li class="py-2 '+msgColor+'">'+msg+'</li>'                
                         }
                     </script>
                     <div id="createQueue" style="background-color: white; max-width: fit-content;" class="modal text-gray-600 flex items-center justify-center">

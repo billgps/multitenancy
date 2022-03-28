@@ -21,7 +21,12 @@ class ActivityCheck
             $active = Activity::where('is_active', '=', 1)->first();
 
             if (!$active) {
-                return redirect()->route('activity.create')->with('error', 'Buat kegiatan kalibrasi terlebih dahulu!');
+                if ($request->ajax()) {
+                    return response()->json(["err" => "Kegiatan kalibrasi aktif tidak ditemukan!", "msg" => ["doofus", "douchebag"]], 404);
+                } else {
+                    return redirect()->route('activity.create')->with('error', 'Buat kegiatan kalibrasi terlebih dahulu!');
+                }
+                
             } else {
                 return $next($request);
             }

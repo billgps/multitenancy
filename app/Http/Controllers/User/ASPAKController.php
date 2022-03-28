@@ -30,39 +30,46 @@ class ASPAKController extends Controller
         return view('aspak.index', ['devices' => $devices, 'nomenclatures' => $nomenclatures]);
     }
 
-    public function store(Device $device)
+    public function store()
     {
-        if ($device->nomenclature != null) {         
-            $oldQueue = array();
-            $inventories = Inventory::where('device_id', $device->id)->where('is_verified', false)->get();
+        $resultMsg = array();
+        $devices = Device::all();
 
-            if (count($inventories) > 0) {
-                foreach ($inventories as $inv) {
-                    array_push($oldQueue, $inv->queue_id);
-                }
+        foreach ($devices as $key => $value) {
+            if ($value->nomenclature != null) {         
+                $oldQueue = array();
+                $inventories = Inventory::where('device_id', $value->id)->where('is_verified', false)->get();
     
-                $oldQueue = array_unique($oldQueue);
-    
-                try {
-                    if (count($oldQueue) > 0) {
-                        Queue::destroy($oldQueue);
+                if (count($inventories) > 0) {
+                    foreach ($inventories as $inv) {
+                        array_push($oldQueue, $inv->queue_id);
                     }
         
-                    $this->apiMap($inventories);
-                } catch (\Throwable $th) {
-                    return response(["err" => "Error creating queue : ".$th->getMessage()], 400);
+                    $oldQueue = array_unique($oldQueue);
+        
+                    try {
+                        if (count($oldQueue) > 0) {
+                            Queue::destroy($oldQueue);
+                        }
+            
+                        $this->apiMap($inventories);
+                    } catch (\Throwable $th) {
+                        return response(["err" => "Error creating queue : ".$th->getMessage(), "msg" => $resultMsg], 500);
+                    }
+        
+                    // Inventory::where('device_id', $inv->device_id)->update(['aspak_code' => $inv->device->nomenclature->aspak_code, 'queue_id' => $queue->id]);
+        
+                    array_push($resultMsg, "queues created for device ".$value->standard_name);
+                } else {
+                    array_push($resultMsg, "device ".$value->standard_name." already verified");
                 }
     
-                // Inventory::where('device_id', $inv->device_id)->update(['aspak_code' => $inv->device->nomenclature->aspak_code, 'queue_id' => $queue->id]);
-    
-                return response()->json(["msg" => "queues created for device ".$device->standard_name], 201);
             } else {
-                return response()->json(["msg" => "device ".$device->standard_name." already verified"], 201);
+                array_push($resultMsg, "no nomenclature set for device ".$value->standard_name." device ID: ".$value->id);
             }
-
-        } else {
-            return response()->json(["msg" => "no nomenclature set for device ".$device->standard_name." device ID: ".$device->id], 200);
         }
+
+        return response(["msg" => $resultMsg], 200);
     }
 
     function apiMap(Collection $inventories)
