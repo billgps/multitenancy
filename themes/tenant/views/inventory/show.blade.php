@@ -333,7 +333,7 @@
             </section>
         @endisset
 
-        @isset($maintenances)
+        {{-- @isset($maintenances)
             <section class="flex flex-col mt-3 break-words bg-white sm:border-1">
                 <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
                     Riwayat Maintenance
@@ -397,7 +397,7 @@
                     </table> 
                 </div>
             </section>
-        @endisset
+        @endisset --}}
     </div>
 </main>
 

@@ -130,6 +130,7 @@ class MaintenanceController extends Controller
 
     public function pdf(Maintenance $maintenance)
     {
+        dd($maintenance);
         $raw = json_decode($maintenance->raw);
         $pdf = PDF::loadView('maintenance.pdf', ['maintenance' => $maintenance, 'raw' => $raw]);
 
