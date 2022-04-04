@@ -118,7 +118,7 @@ if (Tenant::current()) {
                     Route::get('/create/{inventory}', [MaintenanceController::class, 'create'])->name('maintenance.create');
                     Route::post('/store', [MaintenanceController::class, 'store'])->name('maintenance.store');
                     Route::post('/import', [MaintenanceController::class, 'import'])->name('maintenance.import');
-                    // Route::get('/{id}', [MaintenanceController::class, 'show'])->name('maintenance.show');
+                    Route::get('/form/{maintenance}', [MaintenanceController::class, 'pdf'])->name('maintenance.download');
                     Route::get('/edit/{maintenance}', [MaintenanceController::class, 'edit'])->name('maintenance.edit');
                     Route::post('/update/{maintenance}', [MaintenanceController::class, 'update'])->name('maintenance.update');
                     Route::get('/delete/{maintenance}', [MaintenanceController::class, 'destroy'])->name('maintenance.delete');

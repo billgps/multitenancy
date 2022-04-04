@@ -356,7 +356,7 @@
                     </table>
                 </div>
             </div>
-            <div class="col-span-4 flex overflow-y-auto w-full p-4 no-scrollbar bg-white">
+            <div style="height: 437px;" class="col-span-4 flex overflow-y-auto w-full p-4 no-scrollbar bg-white">
                 <div class="w-full justify-center text-gray-600">
                     <div class="text-md">
                         Wajib Kalibrasi
