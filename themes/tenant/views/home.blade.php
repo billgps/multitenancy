@@ -230,6 +230,7 @@
                 </div>
                 <div class='w-full h-full mx-auto bg-white p-4 flex flex-col no-scrollbar overflow-hidden'>
                     <div id="legend" class="h-full overflow-y-auto no-scrollbar"></div>
+                    Total alat : {{ $total }}
                 </div>
             </div>
 
