@@ -108,7 +108,7 @@ class DashboardController extends Controller
             'pending' => $pending,
             'records' => $records,
             'must_calibrates' => $must_calibrates,
-            'total' => $total,
+            'total' => Inventory::all()->count(),
             'scheduled' => $scheduled,
             'calibrated' => $calibrated,
             'expired' => $expired,
