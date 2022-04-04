@@ -12,11 +12,6 @@
 
         <section class="sm:grid sm:grid-cols-6 sm:gap-2 break-words">
             <div class="col-span-6 h-12 flex items-center py-2 px-4 bg-gray-200" x-data="{ dropdownOpen: false }">
-                @if (Auth::user()->role < 2)
-                    <a href="#maintenanceCreate" rel="modal:open" class="mx-2 text-green-600 hover:text-gray-400">
-                        <i class="fas fa-plus"></i>
-                    </a>
-                @endif
                 <div class="ml-auto my-auto flex text-xs">
                     <input class="h-8 rounded-r-none text-xs text-gray-800 w-full px-2 rounded-md focus:ring-0 border-none" id="search_" type="text" placeholder="Search..." name="search" />
                     <button type="button" class="h-8 rounded-l-none w-20 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-gray-100 uppercase tracking-widest hover:text-gray-800 hover:bg-gray-400 active:bg-gray-900 focus:outline-none disabled:opacity-25 transition ease-in-out duration-150">
@@ -25,75 +20,152 @@
                 </div>
             </div>
             <div class="flex flex-col sm:col-span-6 break-words bg-white sm:border-1">
-
                 <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
-                    {{ __('Riwayat Maintenance') }}
+                    {{ __('Riwayat Preventive Maintenance') }}
                 </header>   
                 <div class="w-full px-6 py-3">
-                    <table id="record" class="min-w-max mt-3 w-full table-auto text-center">
+                    <table id="maintenance" class="min-w-max mt-3 w-full table-auto text-center">
                         <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-6">ID Inventory</th>
-                                <th class="py-3 px-6">Barcode</th>
-                                <th class="py-3 px-6">Tanggal Jadwal</th>
-                                <th class="py-3 px-6">Tanggal Selesai</th>
-                                <th class="py-3 px-6">Personel</th>
+                                <th></th>
+                                <th class="py-3 px-6">Nama Alat</th>
+                                <th class="py-3 px-6">No Label</th>
+                                <th class="py-3 px-6">Tanggal Pengerjaan</th>
+                                <th class="py-3 px-6">Petugas</th>
                                 <th class="py-3 px-6">Action</th>
+                                <th>barcode</th>
+                                <th>merk</th>
+                                <th>model</th>
+                                <th>result</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
-                            @foreach ($maintenances as $maintenance)
+                            @foreach ($maintenances as $m)
                                 <tr class="hover:bg-gray-100">
-                                    <td class="py-3 px-6">
-                                        {{ $maintenance->inventory_id }}
+                                    <td class="dt-control"></td>
+                                    <td class="py-3 px-3 text-left flex-nowrap">
+                                        {{ $m->inventory->device->standard_name }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $maintenance->inventory->device->standard_name }}
+                                        {{ $m->inventory->latest_record->label }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $maintenance->scheduled_date }}
+                                        {{ $m->created_at }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $maintenance->done_date }}
-                                    </td>
-                                    <td class="py-3 px-6">
-                                        {{ $maintenance->personnel }}
+                                        {{ $m->user->name }}
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <a href="{{ route('inventory.show', ['id' => $m->inventory_id]) }}">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </div>
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <a href="{{ route('maintenance.download', ['maintenance' => $m->id]) }}">
+                                                    <i class="fas fa-file-alt"></i>
+                                                </a>
+                                            </div>
                                             @if (Auth::user()->role < 2)
                                                 <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                    <a href="{{ route('maintenance.edit', ['maintenance' => $maintenance->id]) }}">
+                                                    <a href="{{ route('maintenance.edit', ['maintenance' => $m->id]) }}">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
                                                 </div>
                                             @endif
                                             @if (Auth::user()->role < 1)
                                                 <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                    <a href="{{ route('maintenance.delete', ['maintenance' => $maintenance->id]) }}">
+                                                    <a href="{{ route('maintenance.delete', ['maintenance' => $m->id]) }}">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </a>
-                                                </div>  
-                                            @endif    
+                                                </div>
+                                            @endif
                                         </div>
+                                    </td>
+                                    <td>
+                                        {{ $m->inventory->barcode }}
+                                    </td>
+                                    <td>
+                                        {{ $m->inventory->identity->brand->brand }}
+                                    </td>
+                                    <td>
+                                        {{ $m->inventory->identity->model }}
+                                    </td>
+                                    <td>
+                                        @if ($m->result == 'Alat Bekerja dengan Baik')
+                                            <div class="rounded w-max bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                {{ $m->result }}
+                                            </div>
+                                        @else
+                                            <div class="rounded w-max bg-red-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                {{ $m->result }}
+                                            </div>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table> 
                     <script>
+                        function format ( d ) {
+                            return '<table class="pl-6 text-sm text-left">'+
+                                '<tr class="p-0">'+
+                                    '<td>Nama Alat :</td>'+
+                                    '<td>'+d[1]+'</td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td>No Label :</td>'+
+                                    '<td>'+d[2]+'</td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td>Barcode :</td>'+
+                                    '<td>'+d[3]+'</td>'+
+                                '</tr>'+
+                                '<tr class="p-0">'+
+                                    '<td>Merk :</td>'+
+                                    '<td>'+d[7]+'</td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td>Model :</td>'+
+                                    '<td>'+d[8]+'</td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td>Hasil :</td>'+
+                                    '<td>'+d[9]+'</td>'+
+                                '</tr>'+
+
+                            '</table>';
+                        }
+
                         $(document).ready(function() {
-                            var table = $('#record').DataTable({
+                            var table = $('#maintenance').DataTable({
                                 "pageLength": 15,
                                 "ordering": true,
                                 "info":     false,
                                 "lengthChange": false,
                                 "searching": true,
                                 "paging":   true,
+                                "order": [[3, 'desc']],
                                 columnDefs: [
-                                    { orderable: false, targets: -1 }
+                                    { orderable: false, targets: 5 },
+                                    { targets: [6, 7, 8, 9], orderable:false, visible: false }
                                 ],
                                 "dom": 'lrtip'
+                            });
+
+                            $('#maintenance tbody').on('click', 'td.dt-control', function () {
+                                let tr = $(this).closest('tr');
+                                let row = table.row( tr );
+                        
+                                if ( row.child.isShown() ) {
+                                    row.child.hide();
+                                    tr.removeClass('shown');
+                                }
+                                else {
+                                    row.child( format(row.data()) ).show();
+                                    tr.addClass('shown');
+                                }
                             });
 
                             drawPaginate()
@@ -104,7 +176,7 @@
             
                             $("#page").append($(".dataTables_paginate"));
             
-                            $('#record').on( 'draw.dt', function () {
+                            $('#maintenance').on( 'draw.dt', function () {
                                 drawPaginate()
                             })
 
@@ -117,7 +189,7 @@
                                 next.classList.add('ml-3', 'cursor-pointer', 'hover:text-purple-500')
                                 next.innerHTML = '<i class="fas fa-chevron-right"></i>'
                 
-                                let page = document.getElementById('record_paginate').getElementsByTagName('span')[0].getElementsByClassName('paginate_button')
+                                let page = document.getElementById('maintenance_paginate').getElementsByTagName('span')[0].getElementsByClassName('paginate_button')
                                 for (let i = 0; i < page.length; i++) {
                                     if (page[i].classList.contains('current')) {
                                         page[i].classList.add('mx-1', 'text-purple-500')                    
@@ -133,54 +205,4 @@
         </section>
     </div>
 </main>
-
-<div id="import-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
-    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-    <div class="modal-container bg-gray-800 text-gray-300 w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
-        <div class="modal-content py-4 text-left px-6">
-            <div class="flex justify-between items-center pb-3 text-lg">
-                Import Excel into Maintenance
-            </div>
-            <form action="{{ route('maintenance.import') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="text-xs">
-                    <div>
-                        <label class="block mb-2 text-sm text-gray-00" for="file">Maintenance</label>
-                        <div class="py-2 text-left">
-                            <input id="file" name="file" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                        </div>
-                    </div>
-                    <div class="flex w-full justify-end pt-2">
-                        <input type="submit" value="{{ __('Import') }}" class="block text-center text-white bg-gray-700 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-24 mx-2">
-                        <button onclick="toggleModal(this, 'import-toggle', 'import-modal')" type="button" class="modal-close import-toggle block text-center text-white bg-red-600 p-3 duration-300 rounded-sm hover:bg-red-700 w-full sm:w-24 mx-2">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<script>    
-    const overlay = document.querySelector('.modal-overlay')
-    overlay.addEventListener('click', toggleModal)
-    
-    var closemodal = document.querySelectorAll('.modal-close')
-    for (var i = 0; i < closemodal.length; i++) {
-        closemodal[i].addEventListener('click', function(event){
-            event.preventDefault()
-            toggleModal(this)
-        })
-    }
-    
-    function toggleModal (button, toggle, modal) {
-        const body = document.querySelector('body')
-        if (button.classList.contains(toggle)) {
-            modal = document.getElementById(modal)
-        } 
-        
-        modal.classList.toggle('opacity-0')
-        modal.classList.toggle('pointer-events-none')
-        body.classList.toggle('modal-active')
-    }
-</script>
 @endsection

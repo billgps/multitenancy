@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Imports\MaintenanceImport;
 use App\Models\Inventory;
 use App\Models\Maintenance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Maatwebsite\Excel\Facades\Excel;
+
+use PDF;
 
 class MaintenanceController extends Controller
 {
@@ -128,10 +128,12 @@ class MaintenanceController extends Controller
         return redirect()->route('maintenance.index')->with('success', 'Entr Deleted');
     }
 
-    public function import()
+    public function pdf(Maintenance $maintenance)
     {
-        Excel::import(new MaintenanceImport, request()->file('file'));
+        $raw = json_decode($maintenance->raw);
+        $pdf = PDF::loadView('maintenance.pdf', ['maintenance' => $maintenance, 'raw' => $raw]);
 
-        return redirect()->route('maintenance.index')->with('success', 'Data Imported!');
+        return $pdf->stream('ipm_form'.strtotime(date('Y-m-d H:i:s')).'.pdf');
+        // return view('maintenance.pdf', ['maintenance' => $maintenance, 'raw' => $raw]);
     }
 }

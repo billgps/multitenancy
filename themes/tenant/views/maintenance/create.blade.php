@@ -115,15 +115,10 @@
                             <input required type="number" name="voltage" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600"> 
                             V
                         </p>
-                        <span class="flex">
-                            <label for="ups" class="flex items-center cursor-pointer">
-                                <span class="relative">
-                                    <span class="block w-10 h-6 bg-gray-400 rounded-full shadow-inner"></span>
-                                    <span class="absolute block w-4 h-4 mt-1 ml-1 bg-white rounded-full shadow inset-y-0 left-0 focus-within:shadow-outline transition-transform duration-300 ease-in-out">
-                                        <input onclick="toggleInput(this)" id="ups" name="is_ups" type="checkbox" class="absolute opacity-0 w-0 h-0" />
-                                    </span>
-                                </span>
-                                <span class="ml-2 text-xs">UPS &nbsp;</span>
+                        <span class="flex items-center form-check">
+                            <input onclick="toggleInput(this)" id="ups" name="is_ups" class="form-check-input appearance-none h-5 w-5 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                                UPS &nbsp;
                             </label>
                             <p id="upsNode" class="hidden items-center ml-auto"> : 
                                 <input required type="number" name="ups" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600"> 
@@ -132,15 +127,10 @@
                         </span>
                     </div>
                     <div class="my-1 grid grid-cols-2 px-2 py-1">
-                        <span class="flex col-start-2">
-                            <label for="stabilizer" class="flex items-center cursor-pointer">
-                                <span class="relative">
-                                    <span class="block w-10 h-6 bg-gray-400 rounded-full shadow-inner"></span>
-                                    <span class="absolute block w-4 h-4 mt-1 ml-1 bg-white rounded-full shadow inset-y-0 left-0 focus-within:shadow-outline transition-transform duration-300 ease-in-out">
-                                        <input onclick="toggleInput(this)" id="stabilizer" name="is_stabilizer" type="checkbox" class="absolute opacity-0 w-0 h-0" />
-                                    </span>
-                                </span>
-                                <span class="ml-2 text-xs">Stabilizer &nbsp;</span>
+                        <span class="flex form-check items-center col-start-2">
+                            <input onclick="toggleInput(this)" id="stabilizer" name="is_stabilizer" class="form-check-input appearance-none h-5 w-5 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                                Stabilizer &nbsp;
                             </label>
                             <p id="stabilizerNode" class="hidden items-center ml-auto"> : 
                                 <input required type="number" name="stabilizer" class="w-16 text-sm rounded shadow border-0 focus:ring-2 focus:ring-blue-400 mx-1 text-gray-600"> 
@@ -432,15 +422,8 @@
                                 <td class="w-64">
                                     <span class="ml-2 text-xs flex items-center">Tahanan hubungan pertanahan</span>
                                 </td>
-                                <td>
-                                    <label for="el1" class="flex items-center cursor-pointer">
-                                        <span class="relative">
-                                            <span class="block w-10 h-6 bg-gray-400 rounded-full shadow-inner"></span>
-                                            <span class="absolute block w-4 h-4 mt-1 ml-1 bg-white rounded-full shadow inset-y-0 left-0 focus-within:shadow-outline transition-transform duration-300 ease-in-out">
-                                                <input onclick="toggleInput(this)" id="el1" name="is_el[]" type="checkbox" class="absolute opacity-0 w-0 h-0" />
-                                            </span>
-                                        </span>
-                                    </label>
+                                <td class="form-check">
+                                    <input onclick="toggleInput(this)" id="el1" name="is_el[]" value="el1" class="form-check-input appearance-none h-5 w-5 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" id="flexCheckDefault">
                                 </td>
                                 <td class="flex justify-start pl-2">
                                     <p id="el1Node" class="hidden items-center col-span-2">
@@ -454,14 +437,7 @@
                                     <span class="ml-2 pr-1 text-xs flex items-center break-normal">Arus bocor Casis dengan Pembumian</span>
                                 </td>
                                 <td>
-                                    <label for="el2" class="flex items-center cursor-pointer">
-                                        <span class="relative">
-                                            <span class="block w-10 h-6 bg-gray-400 rounded-full shadow-inner"></span>
-                                            <span class="absolute block w-4 h-4 mt-1 ml-1 bg-white rounded-full shadow inset-y-0 left-0 focus-within:shadow-outline transition-transform duration-300 ease-in-out">
-                                                <input onclick="toggleInput(this)" id="el2" name="is_el[]" type="checkbox" class="absolute opacity-0 w-0 h-0" />
-                                            </span>
-                                        </span>
-                                    </label>
+                                    <input onclick="toggleInput(this)" id="el2" name="is_el[]" value="el2" class="form-check-input appearance-none h-5 w-5 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" id="flexCheckDefault">
                                 </td>
                                 <td class="flex justify-start pl-2">
                                     <p id="el2Node" class="hidden items-center col-span-2">
@@ -475,14 +451,7 @@
                                     <span class="ml-2 pr-1 text-xs col-span-3 flex items-center break-normal">Arus bocor Casis tanpa Pembumian</span>
                                 </td>
                                 <td>
-                                    <label for="el3" class="flex items-center cursor-pointer">
-                                        <span class="relative">
-                                            <span class="block w-10 h-6 bg-gray-400 rounded-full shadow-inner"></span>
-                                            <span class="absolute block w-4 h-4 mt-1 ml-1 bg-white rounded-full shadow inset-y-0 left-0 focus-within:shadow-outline transition-transform duration-300 ease-in-out">
-                                                <input onclick="toggleInput(this)" id="el3" name="is_el[]" type="checkbox" class="absolute opacity-0 w-0 h-0" />
-                                            </span>
-                                        </span>
-                                    </label>
+                                    <input onclick="toggleInput(this)" id="el3" name="is_el[]" value="el3" class="form-check-input appearance-none h-5 w-5 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" id="flexCheckDefault">
                                 </td>
                                 <td class="flex justify-start pl-2">
                                     <p id="el3Node" class="hidden items-center col-span-2">
@@ -496,14 +465,7 @@
                                     <span class="ml-2 pr-1 text-xs col-span-3 flex items-center break-normal">Arus bocor Casis Polaritas terbalik dengan Pembumian</span>
                                 </td>
                                 <td>
-                                    <label for="el4" class="flex items-center cursor-pointer">
-                                        <span class="relative">
-                                            <span class="block w-10 h-6 bg-gray-400 rounded-full shadow-inner"></span>
-                                            <span class="absolute block w-4 h-4 mt-1 ml-1 bg-white rounded-full shadow inset-y-0 left-0 focus-within:shadow-outline transition-transform duration-300 ease-in-out">
-                                                <input onclick="toggleInput(this)" id="el4" name="is_el[]" type="checkbox" class="absolute opacity-0 w-0 h-0" />
-                                            </span>
-                                        </span>
-                                    </label>
+                                    <input onclick="toggleInput(this)" id="el4" name="is_el[]" value="el4" class="form-check-input appearance-none h-5 w-5 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" id="flexCheckDefault">
                                 </td>
                                 <td class="flex justify-start pl-2">
                                     <p id="el4Node" class="hidden items-center col-span-2">
@@ -517,14 +479,7 @@
                                     <span class="ml-2 pr-1 text-xs col-span-3 flex items-center break-normal">Arus bocor Casis Polaritas terbalik tanpa Pembumian</span>
                                 </td>
                                 <td>
-                                    <label for="el5" class="flex items-center cursor-pointer">
-                                        <span class="relative">
-                                            <span class="block w-10 h-6 bg-gray-400 rounded-full shadow-inner"></span>
-                                            <span class="absolute block w-4 h-4 mt-1 ml-1 bg-white rounded-full shadow inset-y-0 left-0 focus-within:shadow-outline transition-transform duration-300 ease-in-out">
-                                                <input onclick="toggleInput(this)" id="el5" name="is_el[]" type="checkbox" class="absolute opacity-0 w-0 h-0" />
-                                            </span>
-                                        </span>
-                                    </label>
+                                    <input onclick="toggleInput(this)" id="el5" name="is_el[]" value="el5" class="form-check-input appearance-none h-5 w-5 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" id="flexCheckDefault">
                                 </td>
                                 <td class="flex justify-start pl-2">
                                     <p id="el5Node" class="hidden items-center col-span-2">
@@ -1487,13 +1442,11 @@
         }
 
         if (el.parentNode.classList.contains('active')) {
-            el.parentNode.classList.remove('bg-purple-600', 'transform', 'translate-x-full', 'active')
-            el.parentNode.classList.add('bg-white')   
+            el.parentNode.classList.remove('active')
 
             showNode(key, false)
         } else {
-            el.parentNode.classList.remove('bg-white')   
-            el.parentNode.classList.add('bg-purple-600', 'transform', 'translate-x-full', 'active')
+            el.parentNode.classList.add('active')
 
             showNode(key, true)
         }
