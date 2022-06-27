@@ -169,6 +169,7 @@ class InventoryController extends Controller
             // 'brand_id' => 'required|integer',
             'identity_id' => 'required|integer',
             'room_id' => 'required|integer',
+            'resPic' => new RulesImageUpload
         ]);
 
         // dd($request->file());

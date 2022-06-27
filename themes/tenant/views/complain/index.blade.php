@@ -2,8 +2,7 @@
 
 @section('content')
 <main class="sm:container sm:mx-auto sm:mt-6 overflow-y-auto">
-    <div class="w-full sm:px-6">
-
+    <div class="w-full sm:px-6">        
         @if (session('status'))
             <div class="px-3 py-4 mb-4 text-sm text-green-700 bg-green-100 border border-t-8 border-green-600 rounded" role="alert">
                 {{ session('status') }}
@@ -12,9 +11,16 @@
 
         <section class="sm:grid sm:grid-cols-6 sm:gap-2 break-words">
             <div class="col-span-6 h-12 flex items-center py-2 px-4 bg-gray-200">
+                @if (Auth::user()->hasRole('nurse'))
+            
+                @else
                 <a class="mx-2 text-green-600 hover:text-gray-400" href="{{ route('complain.create') }}">
                     <i class="fas fa-plus"></i>
-                </a>   
+                </a>
+                <a class="mx-2 text-green-600 hover:text-gray-400" target="blank" href="/complain/pdf">   
+                    <i class="fa fa-print"></i>
+                </a>
+                @endif
                 <div class="ml-auto my-auto flex text-xs">
                     <input class="h-8 rounded-r-none text-xs text-gray-800 w-full px-2 rounded-md focus:ring-0 border-none" id="search_" type="text" placeholder="Search..." name="search" />
                     <button type="button" class="h-8 rounded-l-none w-20 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-gray-100 uppercase tracking-widest hover:text-gray-800 hover:bg-gray-400 active:bg-gray-900 focus:outline-none disabled:opacity-25 transition ease-in-out duration-150">
@@ -35,6 +41,8 @@
                                 <th class="py-3 px-6">User</th>
                                 <th class="py-3 px-6">Ruangan</th>
                                 <th class="py-3 px-6">Tanggal Tiket</th>
+                                <th class="py-3 px-6">Status</th>
+                                <th class="py-3 px-6">S/N</th>
                                 <th class="py-3 px-6">Status Respon</th>
                                 <th class="py-3 px-6">Action</th>
                             </tr>
@@ -54,6 +62,15 @@
                                     <td class="py-3 px-6">
                                         {{ $complain->date_time }}
                                     </td>
+
+                                    <td class="py-3 px-6">
+                                        {{ $complain->response->status }}
+                                    </td>
+
+                                    <td class="[py-3 px-6">
+                                        {{ $complain->serialnumber}}
+                                    </td>
+
                                     <td class="py-3 px-6 flex">
                                         <div class="py-2 mx-auto w-min">
                                             @if ($complain->response->progress_status == 'Pending')
@@ -79,13 +96,13 @@
                                                 </a>
                                             </div>
                                             <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                @role('staff')
+                                                @if (Auth::user()->hasRole('staff')||Auth::user()->hasRole('nurse'))
                                                     @empty($complain->response->user_id)
                                                         <a href="{{ route('response.create', ['complain' => $complain->id]) }}">
                                                             <i class="fas fa-edit"></i>
                                                         </a>
                                                     @endempty
-                                                @endrole
+                                                @endif
                                             </div>
                                             <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                 @if (Auth::user()->hasRole('admin') || $complain->user_id === Auth::user()->id)

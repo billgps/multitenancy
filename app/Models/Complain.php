@@ -9,7 +9,7 @@ class Complain extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'date_time', 'room_id', 'description', 'replied'];
+    protected $fillable = ['user_id', 'date_time', 'room_id', 'description', 'replied','serialnumber'];
 
     /**
      * Get the response associated with the Complain

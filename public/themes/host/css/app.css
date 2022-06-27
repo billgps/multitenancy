@@ -11684,7 +11684,7 @@ select {
 
 .text-xs {
   font-size: 0.75rem;
-  line-height: 1rem;
+  line-height: 0.5rem;
 }
 
 .text-sm {

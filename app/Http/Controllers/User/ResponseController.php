@@ -10,6 +10,10 @@ use App\Notifications\ResponseUpdate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 
+use App\Rules\ImageUpload as RulesImageUpload;
+use Doctrine\Inflector\Rules\English\Rules;
+use Spatie\Multitenancy\Models\Tenant;
+
 class ResponseController extends Controller
 {
     /**
@@ -46,15 +50,29 @@ class ResponseController extends Controller
             'complain_id' => 'required|integer',
             'user_id' => 'required|integer',
             'progress_status' => 'required',
+            'status' => 'required',
             // 'description' => 'max:255',
+            'resPic' => new RulesImageUpload
         ]);
 
+        $latest_id = Response::max('id');
+
         if ($validated) {
+            $resPic = $request->file('resPic');
+
             $response = new Response();
             $response->complain_id = $request->complain_id;
             $response->user_id = $request->user_id;
             $response->progress_status = $request->progress_status;
+            $response->serialnumber = $request->serialnumber;
+            $response->status = $request->status;
             $response->description = $request->description;
+            if ($resPic) {                
+                $path = ($resPic != null) ? Tenant::current()->domain.'/'.'resPic_'.($latest_id + 1).'.'.$resPic->getClientOriginalExtension() : 'no_image.jpg';
+                $response->resPic = '/images/'.$path;
+                $resPic->move(public_path().'/images/'.Tenant::current()->domain.'/', 'resPic_'.($latest_id + 1).'.'.$resPic->getClientOriginalExtension());
+            }
+        }
             $response->save();
 
             $user = User::find($response->complain->user_id);
@@ -62,7 +80,7 @@ class ResponseController extends Controller
             Notification::send($user, new ResponseUpdate($response));
 
             return redirect()->route('complain.show', ['id' => $request->complain_id])->with('success', 'New Entry Added');
-        }
+        
     }
 
     /**
@@ -100,12 +118,22 @@ class ResponseController extends Controller
             'user_id' => 'required|integer',
             'progress_status' => 'required',
             // 'description' => 'max:255',
+            'resPic' => new RulesImageUpload
+
+
         ]);
 
         if ($validated) {
+            $resPic = $request->file('resPic');
+
             $response->user_id = $request->user_id;
             $response->progress_status = $request->progress_status;
             $response->description = $request->description;
+            if ($resPic) {
+                $path = ($resPic != null) ? Tenant::current()->domain.'/'.'resPic_'.$response->id.'.'.$resPic->getClientOriginalExtension() : 'no_image.jpg';
+                $response->resPic = '/images/'.$path;
+                $resPic->move(public_path().'/images/'.Tenant::current()->domain.'/', 'resPic_'.$response->id.'.'.$resPic->getClientOriginalExtension());
+            }
             $response->update();
 
             $user = User::find($response->complain->user_id);

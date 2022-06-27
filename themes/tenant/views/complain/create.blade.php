@@ -33,7 +33,7 @@
             </header>
 
             <form class="w-3/5 mx-auto pb-6 my-6" method="POST"
-                action="{{ route('complain.store') }}">
+                action="{{ route('complain.store') }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                 <div class="sm:grid sm:grid-cols-2 sm:gap-2 sm:px-6">
@@ -62,19 +62,32 @@
                             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="date_time" name="date_time" type="date" required>
                         </div>
                     </div>
+                    <div class="row-start-2">
+                        <label class="block mb-2 text-sm text-gray-00" for="serialnumber">Serial Number</label>
+                        <div class="py-2 text-left">
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="serialnumber" name="serialnumber" type="text" required>
+                        </div>
+                    </div>
+                        <div class="col-span-2">
+                            <div class="py-2 text-left">
+                                <label class="block mb-2 text-sm text-gray-00" for="picture">Upload Foto</label>
+                                <div class="py-2 text-left">
+                                    <input class="" id="compPic" name="comPic" type="file" accept="image/*">
+                                    <p style="font-size:10px;font-style:italic;color:red;">max size: 2MB</p>
+                                </div>
+                            </div>
+                        </div>
                     <div class="col-span-2">
                         <label class="block mb-2 text-sm text-gray-00" for="description">Deskripsi</label>
                         <div class="py-2 text-left">
                             <textarea rows="4" cols="16" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" name="description" type="number" required></textarea>
                         </div>
                     </div>
-                </div>
-
+                </div>  
                 <div class="flex flex-wrap justify-center mt-12">
                     <input type="submit" value="{{ __('Submit') }}" class="block text-center text-white bg-gray-800 p-3 duration-300 rounded-sm hover:bg-black w-full sm:w-48">
                 </div>        
-            </form>
-
+            </form> 
         </section>
     </div>
 </main>

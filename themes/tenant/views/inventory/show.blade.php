@@ -402,6 +402,6 @@
 </main>
 
 <div id="image" style="width: fit-content; height:fit-content; padding: 0px;" class="modal text-gray-200 flex items-center justify-center">
-    <img class="object-cover object-center" src="{{ asset($inventory->picture) }}" alt="">
+    <img class="object-cover object-center" src="{{ asset($inventory->picture) }}" onerror="this.src = '/images/no_image.jpg';" >
 </div>
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<main class="flex sm:container sm:mx-auto sm:mt-10">
+<main class="flex sm:container sm:mx-auto sm:mt-10 overflow-auto">
     <div class="w-full sm:px-6">
 
         @if (session('status'))
@@ -51,25 +51,41 @@
                         </div>
                     </span>
                 </header>
-    
+                
+                
                 <div class="w-full flex mr-auto pb-6 px-6 my-6">
                     <div class="block w-1/2 sm:px-6">
+                        <div class="w-full text-sm">
+                            <img src="{{ asset($complain->comPic)}}" style="align-content:flex-start;width:300;height:300px;" onerror="this.src = '/images/no_image.jpg';">
+                        </div>
                         <div class="flex flex-wrap mb-3">
-                            <label class="block text-sm text-gray-00" for="alias_name">Keterangan</label>
+                            <label class="block text-sm text-gray-00 font-bold" for="alias_name">Serial Number</label>
+                            <div class="py-2 text-left w-full">
+                                {{ $complain->serialnumber }}
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap mb-3">
+                            <label class="block text-sm text-gray-00 font-bold" for="alias_name">Keterangan</label>
                             <div class="py-2 text-left w-full">
                                 {{ $complain->description }}
                             </div>
                         </div>
                         <div class="flex flex-wrap mb-3">
-                            <label class="block text-sm text-gray-00" for="standard_name">Nama Ruangan</label>
+                            <label class="block text-sm text-gray-00 font-bold" for="alias_name">Unit</label>
                             <div class="py-2 text-left w-full">
-                                <input disabled value="{{ $complain->room->room_name }}" id="standard_name" class="shadow w-56 appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
+                                {{ $complain->room->unit }}
                             </div>
                         </div>
                         <div class="flex flex-wrap mb-3">
-                            <label class="block text-sm text-gray-00" for="alias_name">Tanggal Tiket</label>
+                            <label class="block text-sm text-gray-00 font-bold" for="standard_name">Nama Ruangan</label>
                             <div class="py-2 text-left w-full">
-                                <input disabled value="{{ $complain->date_time }}" id="alias_name" class="shadow w-56 appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
+                                {{ $complain->room->room_name }}
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap mb-3">
+                            <label class="block text-sm text-gray-00 font-bold" for="alias_name">Tanggal Tiket</label>
+                            <div class="py-2 text-left w-full">
+                                {{ $complain->date_time }}
                             </div>
                         </div>
                         <div class="flex flex-wrap mb-3 text-xs">
@@ -78,8 +94,11 @@
                     </div>   
                     @isset($complain->response)
                         <div class="border-l border-gray-700 px-3">
+                            <div class="flex-end w-full text-sm">
+                                <img src="{{ asset($complain->response->resPic)}}" style="height:300px;"onerror="this.src = '/images/no_image.jpg';">
+                            </div>
                             <div class="flex flex-col mb-3">
-                                <label class="block text-sm text-gray-00" for="alias_name">Status Respon</label>
+                                <label class="block text-sm text-gray-00 font-bold" for="alias_name">Status Respon</label>
                                 <div class="py-2 text-left w-min">
                                     @if ($complain->response->progress_status == 'Pending')
                                         <div class="rounded bg-yellow-400 text-gray-800 py-1 px-3 text-xs font-bold">
@@ -96,7 +115,19 @@
                                     @endif
                                 </div>
                                 <div class="flex flex-wrap mb-3">
-                                    <label class="block text-sm text-gray-00" for="alias_name">Keterangan</label>
+                                    <label class="block text-sm text-gray-00 font-bold" for="alias_name">Status</label>
+                                    <div class="py-2 text-left w-full">
+                                        {{ $complain->response->status }}
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap mb-3">
+                                    <label class="block text-sm text-gray-00 font-bold" for="alias_name">Serial Number</label>
+                                    <div class="py-2 text-left w-full">
+                                        {{ $complain->response->serialnumber }}
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap mb-3">
+                                    <label class="block text-sm text-gray-00 font-bold" for="alias_name">Keterangan</label>
                                     <div class="py-2 text-left w-full">
                                         {{ $complain->response->description }}
                                     </div>

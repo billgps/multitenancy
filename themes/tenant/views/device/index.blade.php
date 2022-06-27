@@ -123,7 +123,7 @@
                 <div class="w-full px-6 py-3">
                     <table id="device" class="min-w-max mt-3 w-full table-auto text-center">
                         <thead>
-                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                            <tr class=" bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <th class="py-3 px-6">Nama Alat</th>
                                 <th class="py-3 px-6">Nomenclature</th>
                                 <th class="py-3 px-6">Risk Level</th>
@@ -134,11 +134,11 @@
                         <tbody class="text-gray-600 text-sm font-light">
                             @foreach ($devices as $device)
                                 <tr class="hover:bg-gray-100">
-                                    <td class="py-3 px-6 w-80 text-left break-normal">
+                                        <td class="py-3 px-6">
                                         {{ $device->standard_name }}
-                                    </td>
-                                    @isset($device->nomenclature)                                    
-                                        <td class="py-3 px-6 w-80 break-normal text-left">
+                                        </td>
+                                    @isset                  ($device->nomenclature)                                    
+                                        <td class="py-3 px-6">
                                             {{ $device->nomenclature->standard_name }}
                                         </td>
                                         <td class="py-3 px-6">

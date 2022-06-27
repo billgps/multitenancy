@@ -79,6 +79,7 @@
                                 >
                                     {{-- <option value="0">Admin</option> --}}
                                     <option value="1">Teknisi</option>
+                                    <option value="3">Perawat</option>
                                     <option value="2">Visitor</option>
                                 </select>
                                 <label for="role" class="absolute left-2 transition-all bg-white px-1">

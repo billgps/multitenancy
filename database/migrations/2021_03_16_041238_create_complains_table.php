@@ -17,11 +17,11 @@ class CreateComplainsTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('room_id');
-            $table->dateTime('date_time');
+            $table->date('date_time');
             $table->text('description');
             $table->boolean('replied');
             $table->timestamps();
-        });
+    });
     }
 
     /**

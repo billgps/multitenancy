@@ -65,6 +65,10 @@ class RegisteredUserController extends Controller
         else if ($request->role == 1) {
             $user->assignRole('staff');
         }
+
+        else if ($request->role == 3) {
+            $user->assignRole('nurse');
+        }
         
         else {
             $user->assignRole('visit');

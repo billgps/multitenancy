@@ -311,6 +311,9 @@
                         </span>
                     </a>
                 </div>
+                @if (Auth::user()->hasRole('nurse'))
+            
+                @else
                 <div>
                     <a href="{{ route('activity.index') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
                         <span class="flex items-center">
@@ -319,6 +322,12 @@
                         </span>
                     </a>
                 </div>
+                @endif
+                
+                
+                @if (Auth::user()->hasRole('nurse'))
+            
+                @else
                 <div x-data="{ open: false }">
                     <button @click="open = !open" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
                         <span class="flex items-center">
@@ -403,6 +412,7 @@
                         </a>
                     </div>
                 </div>
+                @endif
                 <div x-data="{ open: false }">
                     <button @click="open = !open" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
                         <span class="flex items-center">
@@ -417,10 +427,10 @@
                             </svg>
                         </span>
                     </button>
-
+                    
                     <div x-show="open" class="bg-gray-900">
                         <a class="py-2 px-16 block text-xs text-gray-100 hover:bg-gray-600 hover:text-white" href="{{ route('complain.index') }}">
-                            @if (Auth::user()->hasRole('staff'))
+                            @if (Auth::user()->hasRole('staff')||Auth::user()->hasRole('nurse'))
                                 Tickets
                             @else
                                 Submit a Ticket
@@ -431,6 +441,9 @@
                         </a> --}}
                     </div>
                 </div>
+                @if (Auth::user()->hasRole('nurse'))
+            
+                @else
                 <div>
                     <a href="{{ route('booklet.index') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
                         <span class="flex items-center">
@@ -439,6 +452,7 @@
                         </span>
                     </a>
                 </div>
+                @endif
                 {{-- <div>
                     <a href="{{ route('aspak.map') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
                         <span class="flex items-center">

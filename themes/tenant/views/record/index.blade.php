@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@if (Auth::user()->hasRole('nurse'))
+            
+@else
 @section('content')
 <main class="sm:container sm:mx-auto sm:mt-6 overflow-y-auto">
     <div class="w-full sm:px-6">
@@ -296,3 +299,4 @@
     </div>
 </main>
 @endsection
+@endif

@@ -9,6 +9,10 @@ use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Rules\ImageUpload as RulesImageUpload;
+use Spatie\Multitenancy\Models\Tenant;
+use PDF;
+
 class ComplainController extends Controller
 {
     /**
@@ -18,7 +22,7 @@ class ComplainController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('staff')) {
+        if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('staff') || Auth::user()->hasRole('nurse')) {
             $complains = Complain::with('response', 'response.user',  'user', 'room')->orderBy('created_at', 'desc')->get();
         } else {
             $complains = Complain::where('user_id', Auth::user()->id)->with('response', 'response.user',  'user', 'room')->orderBy('created_at', 'desc')->get();
@@ -52,14 +56,25 @@ class ComplainController extends Controller
             'user_id' => 'required|integer',
             'date_time' => 'required|date',
             // 'description' => 'max:255',
+            'comPic' => new RulesImageUpload
         ]);
+        
+        $latest_id = Complain::max('id');
+        
+        if ($validated) {           
+            $comPic = $request->file('comPic');
 
-        if ($validated) {
             $complain = new Complain();
             $complain->room_id = $request->room_id;
             $complain->user_id = $request->user_id;
             $complain->date_time = $request->date_time;
             $complain->description = $request->description;
+            $complain->serialnumber = $request->serialnumber;
+            if ($comPic) {
+                $path = ($comPic != null) ? Tenant::current()->domain.'/'.'comPic_'.($latest_id + 1).'.'.$comPic->getClientOriginalExtension() : 'no_image.jpg';
+                $complain->comPic = '/images/'.$path;
+                $comPic->move(public_path().'/images/'.Tenant::current()->domain.'/', 'comPic_'.($latest_id + 1).'.'.$comPic->getClientOriginalExtension());
+            }
             $complain->save();
 
             return redirect()->route('complain.index')->with('success', 'New Entry Added');
@@ -123,7 +138,7 @@ class ComplainController extends Controller
         $length = $request->get('length');
         $search_term = $request->get('search')['value'];
 
-        if (Auth::user()->roles->pluck('name')[0] == 'staff') {
+        if (Auth::user()->roles->pluck('name')[0] == 'staff'||Auth::user()->roles->pluck('name')[0] == 'nurse') {
             $complain = Complain::with('response', 'response.user',  'user', 'room')->whereHas('user', function($query) use ($search_term) {
                 $query->where('name', 'like', '%'.$search_term.'%');
             })
@@ -148,6 +163,7 @@ class ComplainController extends Controller
                 'room' => $com->room->room_name,
                 'date_time' => $com->date_time,
                 'progress_status' => $com->response->progress_status,
+
             ));
         }
 
@@ -159,5 +175,26 @@ class ComplainController extends Controller
         );
 
         return response()->json($array, 200);
+    }
+
+    public function generate($offset)
+        {
+        $complains = Complain::offset($offset * 100)->take(100)->get();
+
+        ini_set('max_execution_time', 300);
+        $pdf = PDF::loadView('complain.pdf', ['complains' => $complains]);
+
+        return $pdf->stream('complain_'.strtotime(date('Y-m-d H:i:s')).'.pdf');
+        }
+
+        public function pdf()
+        {
+        if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('staff') || Auth::user()->hasRole('nurse')) {
+            $complains = Complain::with('response', 'response.user',  'user', 'room')->orderBy('created_at', 'desc')->get();
+        } else {
+            $complains = Complain::where('user_id', Auth::user()->id)->with('response', 'response.user',  'user', 'room')->orderBy('created_at', 'desc')->get();
+        }
+        
+        return view('complain.pdf', ['complains' => $complains]);
     }
 }

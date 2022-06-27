@@ -193,7 +193,7 @@ if (Tenant::current()) {
                 Route::post('/update/{identity}', [IdentityController::class, 'update'])->name('identity.update');
                 Route::get('/delete/{identity}', [IdentityController::class, 'destroy'])->name('identity.delete');
             });
-
+            Route::get('complain/pdf', [ComplainController::class, 'pdf']);
             Route::prefix('complain')->group(function () {
                 Route::get('/', [ComplainController::class, 'index'])->name('complain.index');
                 Route::get('/create', [ComplainController::class, 'create'])->name('complain.create');
@@ -201,6 +201,7 @@ if (Tenant::current()) {
                 Route::get('/{id}', [ComplainController::class, 'show'])->name('complain.show');
                 Route::get('/edit/{complain}', [ComplainController::class, 'edit'])->name('complain.edit');
                 Route::get('/delete/{complain}', [ComplainController::class, 'destroy'])->name('complain.delete');
+                
             });
 
             Route::prefix('response')->group(function () {

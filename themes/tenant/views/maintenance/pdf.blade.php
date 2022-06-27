@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ "Form Preventive Maintenance ID".$kontol->id }}</title>
+    <title>{{ "Form Preventive Maintenance ID".$maintenance->id }}</title>
 </head>
 
 <style>
@@ -48,7 +48,7 @@
                     <td style="text-align: left; font-size: 8pt; display: flex;">
                         Date:
                         <span style="margin-left: auto; text-align: right;">
-                            {{ date('d-m-Y', strtotime($kontol->created_at)) }}
+                            {{ date('d-m-Y', strtotime($maintenance->created_at)) }}
                         </span>
                     </td>
                 </tr>
@@ -70,19 +70,19 @@
                                 <tr>
                                     <td style="width: 206px;">Lokasi</td>
                                     <td style="width: 206px;">
-                                        : {{ $kontol->inventory->room->room_name }}
+                                        : {{ $maintenance->inventory->room->room_name }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="width: 206px;">Merk</td>
                                     <td style="width: 206px;">
-                                        : {{ $kontol->inventory->identity->brand->brand }}
+                                        : {{ $maintenance->inventory->identity->brand->brand }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="width: 206px;">Model</td>
                                     <td style="width: 206px;">
-                                        : {{ $kontol->inventory->identity->model }}
+                                        : {{ $maintenance->inventory->identity->model }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -94,25 +94,25 @@
                                 <tr>
                                     <td style="width: 154px;">Nomor Inventory</td>
                                     <td style="width: 206px;">
-                                        : {{ $kontol->inventory->barcode }}
+                                        : {{ $maintenance->inventory->barcode }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="width: 154px;">S / N</td>
                                     <td style="width: 206px;">
-                                        : {{ $kontol->inventory->identity->serial }}
+                                        : {{ $maintenance->inventory->identity->serial }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="width: 154px;">Nomor Kalibrasi</td>
                                     <td style="width: 206px;">
-                                        : {{ $kontol->inventory->latest_record->label }}
+                                        : {{ $maintenance->inventory->latest_record->label }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="width: 154px;">Tanggal Kalibrasi</td>
                                     <td style="width: 206px;">
-                                        : {{ $kontol->inventory->latest_record->cal_date }}
+                                        : {{ $maintenance->inventory->latest_record->cal_date }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -1149,19 +1149,19 @@
                                     <td style="text-align: center; font-weight: 600;">
                                         <img style="width: 200px; height: 100px;" src="{{ public_path('stamp_submitted.png') }}" alt="">
                                         <div>
-                                            {{ $kontol->user->name }}
+                                            {{ $maintenance->user->name }}
                                         </div>
                                     </td>
                                     <td style="text-align: center; font-weight: 600;">
                                         <img style="width: 200px; height: 100px;" src="{{ asset('stamp_approved.png') }}" alt="">
                                         <div>
-                                            {{ $kontol->user->name }}
+                                            {{ $maintenance->user->name }}
                                         </div>
                                     </td>
                                     <td style="text-align: center; font-weight: 600;">
                                         <img style="width: 200px; height: 100px;" src="{{ asset('stamp_rejected.png') }}" alt="">
                                         <div>
-                                            {{ $kontol->user->name }}
+                                            {{ $maintenance->user->name }}
                                         </div>
                                     </td>
                                 </tr>

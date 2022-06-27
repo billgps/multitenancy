@@ -36,7 +36,7 @@
             </header>
 
             <form class="w-3/5 mx-auto pb-6 my-6" method="POST"
-                action="{{ route('response.store') }}">
+                action="{{ route('response.store') }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                 <input type="hidden" name="complain_id" value="{{ $complain->id }}">
@@ -49,6 +49,31 @@
                                 <option value="Replied">Replied</option>
                                 <option value="Finished">Finished</option>
                             </select>
+                        </div>
+                        <div class="row-start-2">
+                            <label class="block mb-2 text-sm text-gray-00" for="serialnumber">Serial Number</label>
+                            <div class="py-2 text-left">
+                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="serialnumber" name="serialnumber" type="text" required>
+                            </div>
+                        </div>
+                        <div class="row-start-2">
+                            <label class="block mb-2 text-sm text-gray-00" for="status">Status</label>
+                            <div class="py-2 text-left">
+                                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="status" id="status" required>
+                                    <option value="Maintenance">Maintenance</option>
+                                    <option value="Consumable">Consumable</option>
+                                    <option value="Rusak">Rusak</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-2">
+                        <div class="py-2 text-left">
+                            <label class="block mb-2 text-sm text-gray-00" for="resPic">Upload Foto</label>
+                            <div class="py-2 text-left">
+                                <input class="" id="resPic" name="resPic" type="file" accept="image/*">
+                                <p style="font-size:10px;font-style:italic;color:red;">max size: 2MB</p>
+                            </div>
                         </div>
                     </div>
                     <div class="col-span-2">

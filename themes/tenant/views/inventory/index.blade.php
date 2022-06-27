@@ -117,7 +117,7 @@
                                         </a>
                                     </div>
                                     
-                                    <img class="object-cover h-48 w-full" src="{{ asset($inventory->picture) }}" alt="{{ $inventory->barcode }}">
+                                    <img class="object-cover h-48 w-full" src="{{ asset($inventory->picture) }}"onerror="this.src = '/images/no_image.jpg';">
                                 </div>
                                 <div class="text-md flex hover:text-purple-500 mx-2 my-2">
                                     <a href="{{ route('inventory.param', ['parameter' => 'device', 'value' => $inventory->device_id]) }}">
@@ -205,6 +205,10 @@
                                             @endif
                                         </div>
                                     @endisset
+                                    <div class="flex">Tahun Pembelian :</div>
+                                    <div class="flex justify-end text-right">
+                                        {{ $inventory->asset->year_purchased }}
+                                    </div>
                                 </div>
                                 <div class="px-6 py-4 mt-auto">
                                     <div class="flex item-end justify-center">

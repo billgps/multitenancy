@@ -131,7 +131,7 @@ class MaintenanceController extends Controller
     public function pdf(Maintenance $maintenance)
     {
         $raw = json_decode($maintenance->raw);
-        $pdf = PDF::loadView('maintenance.pdf', ['kontol' => $maintenance, 'raw' => $raw]);
+        $pdf = PDF::loadView('maintenance.pdf', ['maintenance' => $maintenance, 'raw' => $raw]);
 
         return $pdf->stream('ipm_form'.strtotime(date('Y-m-d H:i:s')).'.pdf');
         // return view('maintenance.pdf', ['maintenance' => $maintenance, 'raw' => $raw]);

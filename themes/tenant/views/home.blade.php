@@ -116,7 +116,7 @@
                     </div>        
                     <script>
                         let rusak = document.getElementById('rusak_chart')
-                        let laik_chart = new Chart(rusak, {
+                        let rusak_chart = new Chart(rusak, {
                             type: 'doughnut',
                             data: {
                                 labels: ['Laik', 'Tidak Laik', 'Belum Update'],
@@ -139,7 +139,7 @@
                         })
 
                         $('#rusak_chart').click(function(event){
-                            activePoints = laik_chart.getElementsAtEvent(event)
+                            activePoints = rusak_chart.getElementsAtEvent(event)
 
                             if (activePoints[0]) {
                                 let chartData = activePoints[0]['_chart'].config.data;
@@ -166,7 +166,7 @@
                     </div>        
                     <script>
                         let laik = document.getElementById('laik_chart')
-                        let baik_chart = new Chart(laik, {
+                        let laik_chart = new Chart(laik, {
                             type: 'doughnut',
                             data: {
                                 labels: ['Baik', 'Rusak', 'Belum Update'],
@@ -189,7 +189,7 @@
                         })
 
                         $('#laik_chart').click(function(event){
-                            activePoints = baik_chart.getElementsAtEvent(event)
+                            activePoints = laik_chart.getElementsAtEvent(event)
 
                             if (activePoints[0]) {
                                 let chartData = activePoints[0]['_chart'].config.data;
@@ -358,7 +358,7 @@
                 </div>
             </div>
             <div style="height: 437px;" class="col-span-4 flex overflow-y-auto w-full p-4 no-scrollbar bg-white">
-                <div class="w-full justify-center text-gray-600">
+                <div class="overflow-auto w-full justify-center text-gray-600">
                     <div class="text-md">
                         Wajib Kalibrasi
                     </div>
