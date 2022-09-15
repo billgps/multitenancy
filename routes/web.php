@@ -43,12 +43,17 @@ if (Tenant::current()) {
         Route::get('/', function () {
             return redirect()->route('user.dashboard');
         });
+        
         Route::middleware(['auth:user', 'notifications'])->group(function () {
             Route::middleware(['active'])->group(function () {
                 Route::prefix('inventory')->group(function () {
                     Route::middleware('role:admin')->group(function () {
                         Route::get('/booklet', [BookletController::class, 'index'])->name('booklet.index');
                         Route::get('booklet/pdf/{offset}', [BookletController::class, 'generate'])->name('booklet.generate');
+                        Route::get('booklet/pdf/{$text}',[
+                            'uses' => 'BookletController@makeQrCode',
+                            'as'   => 'qrcode'
+                          ]);
                     });
                     
                     Route::middleware(['role:admin|staff'])->group(function () {
@@ -210,7 +215,7 @@ if (Tenant::current()) {
                 Route::post('/store', [ResponseController::class, 'store'])->name('response.store');
                 Route::get('/{response}', [ResponseController::class, 'show'])->name('response.show');
                 Route::get('/edit/{response}', [ResponseController::class, 'edit'])->name('response.edit');
-                Route::post('/update/{response}', [ResponseController::class, 'update'])->name('response.update');
+                Route::post('/update', [ResponseController::class, 'update'])->name('response.update');
                 // Route::get('/delete/{response}', [ResponseController::class, 'destroy'])->name('response.delete');
             }); 
 
@@ -279,5 +284,6 @@ else if (Tenant::current() == null) {
             Route::get('/notifications', [NotificationController::class, 'ajax'])->name('notification.ajax');
             Route::delete('/queue/delete/{queue}', [QueueController::class, 'destroy'])->name('queue.delete');
         });
+        
     });
 }

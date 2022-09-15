@@ -8,6 +8,7 @@ use App\Models\Response;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 use App\Rules\ImageUpload as RulesImageUpload;
 use Spatie\Multitenancy\Models\Tenant;
@@ -76,6 +77,9 @@ class ComplainController extends Controller
                 $comPic->move(public_path().'/images/'.Tenant::current()->domain.'/', 'comPic_'.($latest_id + 1).'.'.$comPic->getClientOriginalExtension());
             }
             $complain->save();
+            DB::table('responses')->insert([
+                'complain_id' => $complain->id
+            ]);
 
             return redirect()->route('complain.index')->with('success', 'New Entry Added');
         }

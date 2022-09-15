@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Notifications\ResponseUpdate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
+use DB;
 
 use App\Rules\ImageUpload as RulesImageUpload;
 use Doctrine\Inflector\Rules\English\Rules;
@@ -125,23 +126,42 @@ class ResponseController extends Controller
 
         if ($validated) {
             $resPic = $request->file('resPic');
-
+            $response->complain_id = $request->complain_id;
             $response->user_id = $request->user_id;
             $response->progress_status = $request->progress_status;
             $response->description = $request->description;
+            $response->serialnumber = $request->serialnumber;
+            $response->status = $request->status;
+            $response->created_at = date('Y-m-d H:i:s');
+            $response->updated_at = date('Y-m-d H:i:s');
+
+            DB::table('responses')->where('complain_id', $response->complain_id)->update([
+                'user_id' => $response->user_id,
+                'progress_status' => $response->progress_status,
+                'description' => $response->description,
+                'serialnumber' => $response->serialnumber,
+                'status' => $response->status,
+                'created_at' => $response->created_at,
+                'updated_at' => $response->updated_at
+            ]);
+            
             if ($resPic) {
                 $path = ($resPic != null) ? Tenant::current()->domain.'/'.'resPic_'.$response->id.'.'.$resPic->getClientOriginalExtension() : 'no_image.jpg';
                 $response->resPic = '/images/'.$path;
                 $resPic->move(public_path().'/images/'.Tenant::current()->domain.'/', 'resPic_'.$response->id.'.'.$resPic->getClientOriginalExtension());
-            }
-            $response->update();
+                
+                DB::table('responses')->where('complain_id', $response->complain_id)->update([
+                    'resPic' => $response->resPic
+                ]);
+            };
 
-            $user = User::find($response->complain->user_id);
+        }
+            $user = User::find($response->user_id);
 
             Notification::send($user, new ResponseUpdate($response));
 
             return redirect()->route('complain.show', ['id' => $request->complain_id])->with('success', 'New Entry Added');
-        }
+        
     }
 
     /**

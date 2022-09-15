@@ -36,7 +36,7 @@
             </header>
 
             <form class="w-3/5 mx-auto pb-6 my-6" method="POST"
-                action="{{ route('response.store') }}" enctype="multipart/form-data">
+                action="{{ route('response.update') }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                 <input type="hidden" name="complain_id" value="{{ $complain->id }}">

@@ -72,7 +72,12 @@ th, td {
                 </header>
                 <tr>
                     <td>      
-                        <img src="{{ url($comp->comPic) }}" onerror="this.src = '/images/no_image.jpg';">   
+                        
+                        {{-- <img src="{{ url($comp->comPic) }}" onerror="this.src = '/images/no_image.jpg';"> --}}
+                        <?php
+                            $imgCom=isset($comp->comPic) ? url($comp->comPic):'/images/no_image.jpg';
+                        ?>
+                        <img src="{{$imgCom}}">  
                     </td>
                 </tr>
                 <tr>
@@ -106,7 +111,11 @@ th, td {
                 <table>
                     <tr>
                         <td>
-                            <img src="{{ url($comp->response->resPic) }}" onerror="this.src = '/images/no_image.jpg';"> 
+                            {{-- <img src="{{ url($comp->response->resPic) }}" onerror="this.src = '/images/no_image.jpg';">  --}}
+                            <?php
+                                $imgRes=isset($comp->response->resPic) ? url($comp->response->resPic):'/images/no_image.jpg';
+                            ?>
+                            <img src="{{$imgRes}}">
                         </td>
                     </tr>
                     <tr>   

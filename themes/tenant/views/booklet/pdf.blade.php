@@ -92,6 +92,21 @@
                     <td style="width: 50px;"></td>
                     <td>Nama Alat : </td>
                     <td colspan="3"> {{ $inv->device->standard_name }}</td>
+                    <td rowspan="6" style="text-align: center;">
+                        <div>
+                            @if (strlen($inv->barcode) < 4)
+                                {{ $inv->barcode }}
+                                @else
+                                @php
+                                $qrcode = QrCode::size(100)
+                                    ->format('svg')
+                                    ->generate('codingdriver.com');
+                                @endphp
+                                <img width="100" src="data:image/png;base64,{{ base64_encode($qrcode) }}">
+                            @endif
+                            </div>
+                    </td>
+                    <td style="width: 50px;"></td>
                 </tr>
                 <tr>
                     <td style="width: 50px;"></td>
@@ -125,14 +140,14 @@
                     <td> {{ $inv->serial }}</td>
                 </tr>
                 <tr>
-                    <td style="width: 50px;"></td>
-                    <td colspan="2">
-                        @if (strlen($inv->barcode) < 4)
-                            {{ $inv->barcode }}
-                        @else
-                            <img style="margin: 0px;" src="data:image/png;base64,{{ base64_encode($generatorPNG->getBarcode(substr($inv->barcode, 3), $generatorPNG::TYPE_CODE_128)) }}">
-                        @endif
-                    </td>
+                    <td rowspan="2"></td>
+                    <td>Tanggal Kalibrasi : </td>
+                    <td>{{ date('d-m-Y', strtotime($inv->latest_record->cal_date)) }}</td>
+                </tr>
+                <tr>
+                    <td rowspan="2"></td>
+                    <td>Tanggal Expired : </td>
+                    <td>{{ date('d-m-Y', strtotime('+1 year',strtotime($inv->latest_record->cal_date))) }}</td>
                 </tr>
             </table>
         @endforeach

@@ -311,9 +311,7 @@
                         </span>
                     </a>
                 </div>
-                @if (Auth::user()->hasRole('nurse'))
-            
-                @else
+                @if (Auth::user()->role != 0)
                 <div>
                     <a href="{{ route('activity.index') }}" class="w-full flex justify-between items-center py-3 px-6 text-gray-100 cursor-pointer hover:bg-gray-700 hover:text-gray-100 focus:outline-none">
                         <span class="flex items-center">

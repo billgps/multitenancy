@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 use PDF;
 
@@ -25,5 +26,6 @@ class BookletController extends Controller
         $pdf = PDF::loadView('booklet.pdf', ['inventories' => $inventories]);
 
         return $pdf->stream('booklet_'.strtotime(date('Y-m-d H:i:s')).'.pdf');
+        // return view('booklet.pdf', ['inventories' => $inventories]);
     }
 }
