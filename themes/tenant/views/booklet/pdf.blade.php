@@ -94,13 +94,16 @@
                     <td colspan="3"> {{ $inv->device->standard_name }}</td>
                     <td rowspan="6" style="text-align: center;">
                         <div>
-                            @if (strlen($inv->barcode) < 4)
-                                {{ $inv->barcode }}
+                            @php
+                            $barcode = trim(str_replace("‘","",$inv->barcode));
+                            @endphp
+                            @if (strlen($barcode) < 4)
+                                {{$barcode}}
                                 @else
                                 @php
                                 $qrcode = QrCode::size(100)
                                     ->format('svg')
-                                    ->generate(substr($inv->barcode, 3, strlen($inv->barcode)));
+                                    ->generate(substr($barcode, 3, strlen($barcode)));
                                 @endphp
                                 <img width="100" src="data:image/png;base64,{{ base64_encode($qrcode) }}">
                             @endif
