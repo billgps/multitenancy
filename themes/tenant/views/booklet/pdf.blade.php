@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="ISO-8859-1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Booklet</title>
 
@@ -100,7 +100,7 @@
                                 @php
                                 $qrcode = QrCode::size(100)
                                     ->format('svg')
-                                    ->generate($inv->barcode);
+                                    ->generate(substr($inv->barcode, 3, strlen($inv->barcode)));
                                 @endphp
                                 <img width="100" src="data:image/png;base64,{{ base64_encode($qrcode) }}">
                             @endif
