@@ -14,9 +14,9 @@ class AddResPicToResponsesTable extends Migration
     public function up()
     {
         Schema::table('responses', function (Blueprint $table) {
-            $table->string('serialnumber')->after('updated_at');
-            $table->string('resPic')->after('serialnumber');
-            $table->string('status')->after('respic');
+            $table->string('serialnumber')->after('updated_at')->nullable();
+            $table->string('resPic')->after('serialnumber')->nullable();
+            $table->string('status')->after('respic')->nullable();
         });
     }
 

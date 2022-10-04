@@ -14,8 +14,8 @@ class AddComPicToComplainTable extends Migration
     public function up()
     {
         Schema::table('complains', function (Blueprint $table) {
-            $table->string('serialnumber')->after('updated_at');
-            $table->string('comPic')->after('serialnumber');
+            $table->string('serialnumber')->after('updated_at')->nullable();
+            $table->string('comPic')->after('serialnumber')->nullable();
         });
     }
 

@@ -70,8 +70,8 @@ class ResponseController extends Controller
             $response->description = $request->description;
             if ($resPic) {                
                 $path = ($resPic != null) ? Tenant::current()->domain.'/'.'resPic_'.($latest_id + 1).'.'.$resPic->getClientOriginalExtension() : 'no_image.jpg';
-                $response->resPic = '/images/'.$path;
-                $resPic->move(public_path().'/images/'.Tenant::current()->domain.'/', 'resPic_'.($latest_id + 1).'.'.$resPic->getClientOriginalExtension());
+                $response->resPic = '/images/resPic'.$path;
+                $resPic->move(public_path().'/images/'.Tenant::current()->domain.'/responses/', 'resPic_'.($latest_id + 1).'.'.$resPic->getClientOriginalExtension());
             }
         }
             $response->save();

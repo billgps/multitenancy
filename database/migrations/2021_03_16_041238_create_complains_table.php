@@ -20,8 +20,6 @@ class CreateComplainsTable extends Migration
             $table->date('date_time');
             $table->text('description');
             $table->boolean('replied');
-            $table->varchar('serialnumber');
-            $table->varchar('comPic');
             $table->timestamps();
     });
     }

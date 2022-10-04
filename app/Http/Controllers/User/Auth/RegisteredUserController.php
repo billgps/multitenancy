@@ -67,6 +67,7 @@ class RegisteredUserController extends Controller
         }
 
         else if ($request->role == 3) {
+            
             $user->assignRole('nurse');
         }
         

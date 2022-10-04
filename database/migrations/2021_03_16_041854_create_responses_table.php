@@ -18,9 +18,7 @@ class CreateResponsesTable extends Migration
             $table->integer('user_id');
             $table->integer('complain_id');
             $table->enum('progress_status', ['Pending', 'Replied', 'Finished']);
-            $table->text('description');
-            $table->varchar('serialnumber');
-            $table->varchar('resPic');
+            $table->text('description');;
             $table->timestamps();
         });
     }
