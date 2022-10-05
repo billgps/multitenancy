@@ -333,7 +333,7 @@
             </section>
         @endisset
 
-        {{-- @isset($maintenances)
+        @isset($maintenances)
             <section class="flex flex-col mt-3 break-words bg-white sm:border-1">
                 <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
                     Riwayat Maintenance
@@ -350,41 +350,60 @@
                     <table id="conditions" class="min-w-max mt-3 w-full table-auto text-center">
                         <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-6">Tanggal Jadwal</th>
-                                <th class="py-3 px-6">Tanggal Selesai</th>
-                                <th class="py-3 px-6">Personel</th>
+                                <th></th>
+                                <th class="py-3 px-6">Nama Alat</th>
+                                <th class="py-3 px-6">Tanggal Pengerjaan</th>
+                                <th class="py-3 px-6">Petugas</th>
+                                <th class="py-3 px-6">Hasil</th>
                                 <th class="py-3 px-6">Action</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
-                            @foreach ($maintenances as $maintenance)
-                                <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                    <td class="py-3 px-6">
-                                        {{ $maintenance->scheduled_date }}
+                            @foreach ($maintenances as $m)
+                                <tr class="hover:bg-gray-100">
+                                    <td class="dt-control"></td>
+                                    <td class="py-3 px-3 text-left flex-nowrap">
+                                        {{ $m->inventory->device->standard_name }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $maintenance->done_date }}
+                                        {{ $m->created_at }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $maintenance->personnel }}
+                                        {{ $m->user->name }}
+                                    </td>
+                                    <td>
+                                        @if ($m->result == 'Alat Bekerja dengan Baik')
+                                            <div class="rounded w-max bg-green-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                {{ $m->result }}
+                                            </div>
+                                        @else
+                                            <div class="rounded w-max bg-red-400 text-gray-800 py-1 px-3 text-xs font-bold">
+                                                {{ $m->result }}
+                                            </div>
+                                        @endif
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">
                                             <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <a href="{{ route('maintenance.show', ['maintenance' => $maintenance->id]) }}">
+                                                <a href="{{ route('inventory.show', ['id' => $m->inventory_id]) }}">
                                                     <i class="fas fa-eye"></i>
+                                                </a>
+                                            </div>
+                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <a href="{{ route('maintenance.download', ['maintenance' => $m->id]) }}">
+                                                    <i class="fas fa-file-alt"></i>
                                                 </a>
                                             </div>
                                             @if (Auth::user()->role < 2)
                                                 <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                    <a href="{{ route('maintenance.edit', ['maintenance' => $maintenance->id]) }}">
+                                                    <a href="{{ route('maintenance.edit', ['maintenance' => $m->id]) }}">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
                                                 </div>
                                             @endif
                                             @if (Auth::user()->role < 1)
                                                 <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                    <a href="{{ route('maintenance.delete', ['maintenance' => $maintenance->id]) }}">
+                                                    <a href="{{ route('maintenance.delete', ['maintenance' => $m->id]) }}">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </a>
                                                 </div>
@@ -397,7 +416,7 @@
                     </table> 
                 </div>
             </section>
-        @endisset --}}
+        @endisset
     </div>
 </main>
 

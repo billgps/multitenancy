@@ -82,6 +82,7 @@ class MaintenanceController extends Controller
      */
     public function edit(Maintenance $maintenance)
     {
+        // dd($maintenance);
         return view('maintenance.edit', [
             'maintenance' => $maintenance, 
             'inventories' => Inventory::all()
