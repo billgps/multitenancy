@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Complain;
+use App\Models\Inventory;
 use App\Models\Response;
 use App\Models\Room;
 use Illuminate\Http\Request;
@@ -40,8 +41,9 @@ class ComplainController extends Controller
     public function create()
     {
         $rooms = Room::all();
+        $invs = Inventory::all();
 
-        return view('complain.create', ['rooms' => $rooms]);
+        return view('complain.create', ['rooms' => $rooms, 'invs' => $invs] );
     }
 
     /**
@@ -70,7 +72,7 @@ class ComplainController extends Controller
             $complain->user_id = $request->user_id;
             $complain->date_time = $request->date_time;
             $complain->description = $request->description;
-            $complain->serialnumber = $request->serialnumber;
+            $complain->barcode = $request->barcode;
             if ($comPic) {
                 $path = ($comPic != null) ? Tenant::current()->domain.'/'.'comPic_'.($latest_id + 1).'.'.$comPic->getClientOriginalExtension() : 'no_image.jpg';
                 $complain->comPic = '/images/'.$path;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Complain;
+use App\Models\Inventory;
 use App\Models\Response;
 use App\Models\User;
 use App\Notifications\ResponseUpdate;
@@ -36,7 +37,8 @@ class ResponseController extends Controller
      */
     public function create(Complain $complain)
     {
-        return view('response.create', ['complain' => $complain]);
+        $invs = Inventory::all();
+        return view('response.create', ['complain' => $complain, 'invs' => $invs]);
     }
 
     /**
@@ -57,7 +59,6 @@ class ResponseController extends Controller
         ]);
 
         $latest_id = Response::max('id');
-
         if ($validated) {
             $resPic = $request->file('resPic');
 
@@ -65,7 +66,7 @@ class ResponseController extends Controller
             $response->complain_id = $request->complain_id;
             $response->user_id = $request->user_id;
             $response->progress_status = $request->progress_status;
-            $response->serialnumber = $request->serialnumber;
+            $response->barcode = $request->barcode;
             $response->status = $request->status;
             $response->description = $request->description;
             if ($resPic) {                

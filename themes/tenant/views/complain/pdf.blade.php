@@ -81,7 +81,7 @@ th, td {
                     </td>
                 </tr>
                 <tr>
-                    <td>Serial Number: {{ $comp->serialnumber}} </td>
+                    <td>Barcode: {{ $comp->Barcode}} </td>
                 </tr>
                 <tr>
                     <td>Keterangan : {{ $comp->description}}</td>
@@ -119,7 +119,7 @@ th, td {
                         </td>
                     </tr>
                     <tr>   
-                        <td>Serial Number: {{$comp->response->serialnumber}}</td>
+                        <td>Barcode: {{$comp->response->barcode}}</td>
                     </tr>
                     <tr> 
                         <td>Keterangan : {{ $comp->response->description}}</td>

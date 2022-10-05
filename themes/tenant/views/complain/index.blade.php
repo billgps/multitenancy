@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+
 <main class="sm:container sm:mx-auto sm:mt-6 overflow-y-auto">
-    <div class="w-full sm:px-6">        
+    <div class="w-full sm:px-2">        
         @if (session('status'))
             <div class="px-3 py-4 mb-4 text-sm text-green-700 bg-green-100 border border-t-8 border-green-600 rounded" role="alert">
                 {{ session('status') }}
@@ -21,19 +22,19 @@
                     <i class="fa fa-print"></i>
                 </a>
                 @endif
-                <div class="ml-auto my-auto flex text-xs">
-                    <input class="h-8 rounded-r-none text-xs text-gray-800 w-full px-2 rounded-md focus:ring-0 border-none" id="search_" type="text" placeholder="Search..." name="search" />
+                <div class="ml-auto my-auto flex text-xs " x-data="{ search: '' }">
+                    <input class="h-8 rounded-r-none text-xs text-gray-800 w-full px-2 rounded-md focus:ring-0 border-none" id="search_" type="search" placeholder="Search..." name="search" x-model="search"/>
                     <button type="button" class="h-8 rounded-l-none w-20 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-gray-100 uppercase tracking-widest hover:text-gray-800 hover:bg-gray-400 active:bg-gray-900 focus:outline-none disabled:opacity-25 transition ease-in-out duration-150">
                         Search
                     </button>
                 </div>
             </div>
-            <div class="flex flex-col sm:col-span-6 break-words bg-white sm:border-1">
+            <div class="flex flex-col sm:col-span-6 break-words bg-white sm:border-1" style="max-width:100%">
 
                 <header class="px-6 py-5 font-semibold text-gray-700 sm:py-6 sm:px-8">
                     {{ __('Daftar Tiket') }}
                 </header>   
-                <div class="w-full px-6 py-3">
+                <div class="w-full px-1 py-3" style="max-width: 100%">
                     <table id="device" class="min-w-max mt-3 w-full table-auto text-center">
                         <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -42,7 +43,7 @@
                                 <th class="py-3 px-6">Ruangan</th>
                                 <th class="py-3 px-6">Tanggal Tiket</th>
                                 <th class="py-3 px-6">Status</th>
-                                <th class="py-3 px-6">S/N</th>
+                                <th class="py-3 px-6">Barcode</th>
                                 <th class="py-3 px-6">Status Respon</th>
                                 <th class="py-3 px-6">Action</th>
                             </tr>
@@ -68,7 +69,7 @@
                                     </td>
 
                                     <td class="[py-3 px-6">
-                                        {{ $complain->serialnumber}}
+                                        {{ explode(' | ',$complain->barcode)[0]}}
                                     </td>
 
                                     <td class="py-3 px-6 flex">
@@ -116,7 +117,26 @@
                                 </tr>
                             @endforeach
                         </tbody>
-                    </table> 
+                    </table>
+                    <script>
+                        $(document).ready( function () {
+                            let table = $('#device').DataTable({
+                                "paging": true,
+                                "lengthChange": false,
+                                "ordering": true,
+                                "info": true,
+                                "autoWidth": true,
+                                "responsive": true,
+                                "pageLength": 4,
+                                });
+
+                            $('#search_').keyup(function(){
+                            table.search($(this).val()).draw() ;
+                            })
+
+                            $('#device_filter').css("display","none")
+                        } );
+                    </script>
                     {{-- <script>
                             var table = $('#example').DataTable({
                                 "pageLength": 30,

@@ -59,9 +59,9 @@
                             <img src="{{ asset($complain->comPic)}}" style="align-content:flex-start;width:300;height:300px;" onerror="this.src = '/images/no_image.jpg';">
                         </div>
                         <div class="flex flex-wrap mb-3">
-                            <label class="block text-sm text-gray-00 font-bold" for="alias_name">Serial Number</label>
+                            <label class="block text-sm text-gray-00 font-bold" for="alias_name">Barcode</label>
                             <div class="py-2 text-left w-full">
-                                {{ $complain->serialnumber }}
+                                {{ $complain->barcode }}
                             </div>
                         </div>
                         <div class="flex flex-wrap mb-3">
@@ -121,9 +121,9 @@
                                     </div>
                                 </div>
                                 <div class="flex flex-wrap mb-3">
-                                    <label class="block text-sm text-gray-00 font-bold" for="alias_name">Serial Number</label>
+                                    <label class="block text-sm text-gray-00 font-bold" for="alias_name">Barcode</label>
                                     <div class="py-2 text-left w-full">
-                                        {{ $complain->response->serialnumber }}
+                                        {{ $complain->response->barcode }}
                                     </div>
                                 </div>
                                 <div class="flex flex-wrap mb-3">

@@ -51,9 +51,22 @@
                             </select>
                         </div>
                         <div class="row-start-2">
-                            <label class="block mb-2 text-sm text-gray-00" for="serialnumber">Serial Number</label>
+                            <label class="block mb-2 text-sm text-gray-00" for="barcode">Barcode</label>
                             <div class="py-2 text-left">
-                                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="serialnumber" name="serialnumber" type="text" required>
+                                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="barcode" name="barcode" type="text" required>
+                                    <option>{{$complain->barcode}} </option>
+                                    @foreach ($invs as $inv)
+                                        <option>{{ $inv->barcode." | ".$inv->device->standard_name}}</option>
+                                    @endforeach
+                                </select>
+                                
+                                <script>
+                                    $(document).ready(function() {
+                                        $('#barcode').select2({
+                                            placeholder: 'Search'
+                                        });
+                                    });
+                                </script>
                             </div>
                         </div>
                         <div class="row-start-2">
