@@ -11,7 +11,7 @@ class Inventory extends Model
 {
     use HasFactory, UsesTenantConnection;
 
-    protected $fillable = ['id', 'barcode', 'device_id', 'identity_id', 'brand_id', 'room_id', 'serial', 'picture', 'supplier'];
+    protected $fillable = ['id', 'barcode', 'device_id', 'identity_id', 'brand_id', 'room_id', 'serial', 'picture', 'supplier', 'price', 'year_purchased', 'penyusutan'];
 
     /**
      * Get the indexable data array for the model.

@@ -175,6 +175,10 @@
                                     <div class="flex justify-end text-right">
                                         {{ $inventory->serial }}
                                     </div>
+                                    <div class="flex">Vendor :</div>
+                                    <div class="flex justify-end text-right">
+                                        {{ $inventory->supplier }}
+                                    </div>
                                     <div class="flex">Ruangan :</div>
                                     <div class="flex justify-end hover:text-purple-500 text-right">
                                         <a href="{{ route('inventory.param', ['parameter' => 'room', 'value' => $inventory->room_id]) }}">
@@ -205,9 +209,17 @@
                                             @endif
                                         </div>
                                     @endisset
-                                    <div class="flex">Tahun Pembelian :</div>
+                                    <div class="flex">Tahun Perolehan Alat :</div>
                                     <div class="flex justify-end text-right">
-                                        {{ $inventory->asset->year_purchased }}
+                                        {{ $inventory->year_purchased }}
+                                    </div>
+                                    <div class="flex">Harga :</div>
+                                    <div class="flex justify-end text-right">
+                                        {{ $inventory->price }}
+                                    </div>
+                                    <div class="flex">Penyusutan :</div>
+                                    <div class="flex justify-end text-right">
+                                        {{ $inventory->penyusutan }}
                                     </div>
                                 </div>
                                 <div class="px-6 py-4 mt-auto">

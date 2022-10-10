@@ -87,6 +87,10 @@ class InventoryController extends Controller
             $inventory->device_id = $request->device_id;
             $inventory->identity_id = $request->identity_id;
             $inventory->room_id = $request->room_id;
+            $inventory->price = $request->price;
+            $inventory->year_purchased = $request->year_purchased;
+            $inventory->supplier = $request->supplier;
+            $inventory->penyusutan = $request->penyusutan;
             if ($picture) {
                 $path = ($picture != null) ? Tenant::current()->domain.'/'.'picture_'.($latest_id + 1).'.'.$picture->guessExtension() : 'no_image.jpg';
                 $inventory->picture = '/images/'.$path;
@@ -133,6 +137,7 @@ class InventoryController extends Controller
             'conditions' => $inventory->conditions,
             'maintenances' => $inventory->maintenances,
             'consumables' => $inventory->consumables,
+            'supplier' => $inventory->supplier,
             'asset' => $inventory->asset
         ]);
     }
@@ -188,6 +193,10 @@ class InventoryController extends Controller
             // $inventory->brand_id = $request->brand_id;
             $inventory->identity_id = $request->identity_id;
             $inventory->room_id = $request->room_id;
+            $inventory->price = $request->price;
+            $inventory->year_purchased = $request->year_purchased;
+            $inventory->supplier = $request->supplier;
+            $inventory->penyusutan = $request->penyusutan;
             if ($picture) {
                 $path = ($picture != null) ? Tenant::current()->domain.'/'.'picture_'.$inventory->id.'.'.$picture->guessExtension() : 'no_image.jpg';
                 $inventory->picture = '/images/'.$path;
@@ -337,7 +346,7 @@ class InventoryController extends Controller
     public function search(Request $request)
     {
         $term = $request->search;
-        $inventory = Inventory::with('device', 'brand', 'identity', 'room', 'latest_condition', 'latest_record')
+        $inventory = Inventory::with('device', 'brand', 'identity', 'room', 'latest_condition', 'latest_record','supplier')
             ->where('barcode', 'LIKE', '%'.$term.'%')
             ->orWhere('serial', 'LIKE', '%'.$term.'%')
             ->orWhereHas('latest_record', function($query) use ($term) {

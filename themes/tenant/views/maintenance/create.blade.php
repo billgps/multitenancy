@@ -38,7 +38,18 @@
                 <div class="border border-gray-300 col-span-3 flex flex-col items-center">
                     <div class="text-xs border-gray-300 border-b w-full flex px-2">Date : <span class="ml-auto">{{ date('d-m-Y', strtotime(now())) }}</span></div>
                     <div class="flex items-center p-2">
+                        <div>
                         <img width="100" height="50" src="{{ asset('gps_logo.png') }}">
+                        </div>
+                        @if (explode('.', $_SERVER['HTTP_HOST'])[0] == 'rsudkoja')  
+                        <div style="padding-left: 5px">
+                            <img width="140" height="50" src="{{ asset('logo Koja.png') }}">
+                        </div>
+                        @elseif ((explode('.', $_SERVER['HTTP_HOST'])[0] == 'rsudkramatjati'))
+                        <div>
+                            <img width="150" height="50" src="{{ asset('logo Kramat Jati.png') }}">
+                        </div>
+                        @endif
                     </div>
                 </div>
 

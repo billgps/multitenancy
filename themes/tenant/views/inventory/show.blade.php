@@ -96,6 +96,12 @@
                                     <input disabled value="{{ $inventory->serial }}" id="standard_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
                                 </div>
                             </div>
+                            <div class="flex flex-wrap mb-3">
+                                <label class="block text-sm text-gray-00" for="standard_name">Penyusutan Alat</label>
+                                <div class="py-2 text-left w-full">
+                                    <input disabled value="{{$inventory->penyusutan }}" id="penyusutan" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
+                                </div>
+                            </div>
                         </div>
                         <div>
                             <div class="flex flex-wrap mb-3">
@@ -105,15 +111,21 @@
                                 </div>
                             </div>
                             <div class="flex flex-wrap mb-3">
-                                <label class="block text-sm text-gray-00" for="standard_name">Tahun Pembelian</label>
+                                <label class="block text-sm text-gray-00" for="standard_name">Tahun Perolehan Alat</label>
                                 <div class="py-2 text-left w-full">
-                                    <input disabled value="{{ $inventory->asset->year_purchased }}" id="standard_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
+                                    <input disabled value="{{ $inventory->year_purchased }}" id="standard_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
+                                </div>
+                                </div>
+                                <div class="flex flex-wrap mb-3">
+                                <label class="block text-sm text-gray-00" for="standard_name">Harga</label>
+                                <div class="py-2 text-left w-full">
+                                    <input disabled value="{{ 'Rp. '.$inventory->price }}" id="standard_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
                                 </div>
                             </div>
                             <div class="flex flex-wrap mb-3">
-                                <label class="block text-sm text-gray-00" for="standard_name">Harga</label>
+                                <label class="block text-sm text-gray-00" for="standard_name">Vendor</label>
                                 <div class="py-2 text-left w-full">
-                                    <input disabled value="{{ 'Rp. '.$inventory->asset->price }}" id="standard_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
+                                    <input disabled value="{{$inventory->supplier}}" id="supplier" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
                                 </div>
                             </div>
                         </div>

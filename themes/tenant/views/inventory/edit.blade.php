@@ -231,6 +231,30 @@
                             </script>
                         </div>
                     </div>
+                    <div class="">
+                        <label class="block mb-2 text-sm text-gray-00" for="vendor">Vendor</label>
+                        <div class="py-2 text-left">
+                            <input value="{{ $inventory->Vendor }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="vendor" name="vendor" type="text">
+                        </div>
+                    </div>
+                    <div class="">
+                        <label class="block mb-2 text-sm text-gray-00" for="price">Harga</label>
+                        <div class="py-2 text-left">
+                            <input value="{{ $inventory->price }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="price" name="price" type="text">
+                        </div>
+                    </div>
+                    <div class="">
+                        <label class="block mb-2 text-sm text-gray-00" for="penyusutan">Penyusutan</label>
+                        <div class="py-2 text-left">
+                            <input value="{{ $inventory->penyusutan}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="penyusutan" name="penyusutan" type="text">
+                        </div>
+                    </div>
+                    <div class="">
+                        <label class="block mb-2 text-sm text-gray-00" for="year_purchased">Tahun Perolehan Alat</label>
+                        <div class="py-2 text-left">
+                            <input value="{{ $inventory->year_purchased }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="year_purchased" name="year_purchased" type="text">
+                        </div>
+                    </div>
                     <div class="flex flex-col col-span-2">
                         <label class="block mb-2 text-sm text-gray-00" for="picture">Foto Alat</label>
                         <div class="py-2 text-left">
