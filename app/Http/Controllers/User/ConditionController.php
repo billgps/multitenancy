@@ -173,7 +173,16 @@ class ConditionController extends Controller
 
     public function worksheetDownload (Condition $condition)
     {
-        
+        $path = public_path().'/worksheets/'.Tenant::current()->domain.'/'.$condition->worksheet;
+        if ($condition->worksheet != null) {
+            if (file_exists($path)) {
+                return response()->download($path, $condition->worksheet);
+            } else {
+                return back()->with('error', 'Something wrong');
+            }
+        } else {
+            return back()->with('error', 'File does not exist');
+        }
     }
 
     public function worksheetUpload (Request $request)
