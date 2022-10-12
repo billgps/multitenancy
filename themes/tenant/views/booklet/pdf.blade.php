@@ -104,7 +104,6 @@
                                 $qrcode = QrCode::size(100)
                                     ->format('svg')
                                     ->generate(substr($barcode, 3, strlen($barcode)));
-                                dd(base64_encode($qrcode));
                                 @endphp
                                 <img width="100" src="data:image/png;base64,{{ base64_encode($qrcode) }}">
                             @endif
