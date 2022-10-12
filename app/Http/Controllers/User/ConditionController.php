@@ -57,7 +57,7 @@ class ConditionController extends Controller
             'inventory_id' => 'required|integer',
         ]);
         
-        $latest = Condition::latest()->first()->id+1;
+        
 
         if ($validated) {
             $worksheet = $request->file('worksheet');
@@ -75,8 +75,8 @@ class ConditionController extends Controller
             $condition->status = $request->status;
             $condition->user_id = $request->user_id;
             if ($worksheet) {
-                $condition->worksheet = ($worksheet != null) ? $latest.'_LK.'.$worksheet->guessExtension() : 'Belum Update';
-                $worksheet->move(public_path().'/worksheets/'.Tenant::current()->domain.'/', $latest.'_LK.'.$worksheet->guessExtension());
+                $condition->worksheet = ($worksheet != null) ? time().'_LK.'.$worksheet->guessExtension() : 'Belum Update';
+                $worksheet->move(public_path().'/worksheets/'.Tenant::current()->domain.'/', time().'_LK.'.$worksheet->guessExtension());
             }
             $condition->inventory_id = $request->inventory_id;
             $condition->save();
@@ -144,8 +144,8 @@ class ConditionController extends Controller
             $condition->status = $request->status;
             $condition->inventory_id = $request->inventory_id;
             if ($worksheet) {
-                $condition->worksheet = $condition->id.'_LK.'.$worksheet->guessExtension();
-                $worksheet->move(public_path().'/worksheets/'.Tenant::current()->domain.'/', $condition->id.'_LK.'.$worksheet->guessExtension());
+                $condition->worksheet = 'updated_'.time().'_'.$condition->id.'_LK.'.$worksheet->guessExtension();
+                $worksheet->move(public_path().'/worksheets/'.Tenant::current()->domain.'/', 'updated_'.time().'_'.$condition->id.'_LK.'.$worksheet->guessExtension());
             } else {
                 $condition->worksheet = 'Belum Update';
             }
