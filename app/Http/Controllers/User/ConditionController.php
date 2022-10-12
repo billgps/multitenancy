@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Rules\ImageUpload as RulesImageUpload;
 use Spatie\Multitenancy\Models\Tenant;
+use Illuminate\Support\Facades\DB;
 
 class ConditionController extends Controller
 {
@@ -55,6 +56,8 @@ class ConditionController extends Controller
             'status' => 'required',
             'inventory_id' => 'required|integer',
         ]);
+        
+        $latest = Condition::latest()->first()->id+1;
 
         if ($validated) {
             $worksheet = $request->file('worksheet');
@@ -66,13 +69,14 @@ class ConditionController extends Controller
             // }
 
             $condition = new Condition();
+
             $condition->event_date = $request->event_date;
             $condition->event = $request->event;
             $condition->status = $request->status;
             $condition->user_id = $request->user_id;
             if ($worksheet) {
-                $condition->worksheet = ($worksheet != null) ? $condition->id.'LK.'.$worksheet->guessExtension() : 'Belum Update';
-                $worksheet->move(public_path().'/worksheets/'.Tenant::current()->domain.'/', $condition->id.'LK.'.$worksheet->guessExtension());
+                $condition->worksheet = ($worksheet != null) ? $latest.'_LK.'.$worksheet->guessExtension() : 'Belum Update';
+                $worksheet->move(public_path().'/worksheets/'.Tenant::current()->domain.'/', $latest.'_LK.'.$worksheet->guessExtension());
             }
             $condition->inventory_id = $request->inventory_id;
             $condition->save();
@@ -125,7 +129,7 @@ class ConditionController extends Controller
             'status' => 'required',
             'inventory_id' => 'required|integer',
         ]);
-
+        
         if ($validated) {
             $worksheet = $request->file('worksheet');
             // $worksheetName = 'Belum Diupload';
@@ -140,8 +144,8 @@ class ConditionController extends Controller
             $condition->status = $request->status;
             $condition->inventory_id = $request->inventory_id;
             if ($worksheet) {
-                $condition->worksheet = $condition->id.'LK.'.$worksheet->guessExtension();
-                $worksheet->move(public_path().'/worksheets/'.Tenant::current()->domain.'/', $condition->id.'LK.'.$worksheet->guessExtension());
+                $condition->worksheet = $condition->id.'_LK.'.$worksheet->guessExtension();
+                $worksheet->move(public_path().'/worksheets/'.Tenant::current()->domain.'/', $condition->id.'_LK.'.$worksheet->guessExtension());
             } else {
                 $condition->worksheet = 'Belum Update';
             }
